@@ -2,7 +2,6 @@ import PageNotExist from 'pages/PageNotExist';
 import AssessmentAccount from 'pages/Assessment/Account';
 import AssessmentInformation from 'pages/Assessment/Information';
 
-
 const pages = [
   {
     isAuthRoute: false,
