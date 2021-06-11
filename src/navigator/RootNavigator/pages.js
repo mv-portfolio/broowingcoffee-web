@@ -3,6 +3,7 @@ import Dashboard from 'pages/Dashboard';
 import PageNotExist from 'pages/PageNotExist';
 import AssessmentAccount from 'pages/Assessment/Account';
 import AssessmentInformation from 'pages/Assessment/Information';
+
 import RouteAuth from 'components/RouteAuth';
 
 const pages = [
