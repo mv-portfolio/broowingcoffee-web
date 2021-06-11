@@ -1,0 +1,41 @@
+.skin {
+  display: flex;
+  height: 40px;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 2px 0 12.5px;
+  border-radius: 7.5px;
+  background-color: #2e2c2d;
+}
+
+.body {
+  width: 82.5%;
+  margin: 0;
+  padding: 0 0 0 2.5px;
+  border: none;
+  color: white;
+  font-family: 'Standard-Font';
+  background-color: transparent;
+}
+
+.body:focus {
+  outline: none;
+}
+
+.body::placeholder {
+  font-family: 'Standard-Font';
+  color: #9e9e9e;
+}
+
+.suffixPane {
+  display: flex;
+  padding: 0px 7.5px 0 7.5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonEncryptText {
+  padding: 0;
+  margin: 0;
+  padding: 7.5px;
+}

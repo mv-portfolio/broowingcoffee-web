@@ -1,0 +1,29 @@
+.skin {
+  height: 40px;
+  padding: 0 10px 0 10px;
+  font-size: 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 7.5px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.title {
+  font-family: 'Standard-Font';
+}
+
+.skin:focus {
+  outline: none;
+}
+
+.skin::placeholder {
+  color: #9e9e9e;
+}
+
+.skin:active {
+  opacity: 0.5;
+}

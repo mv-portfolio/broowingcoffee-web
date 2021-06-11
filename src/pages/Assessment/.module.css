@@ -1,0 +1,115 @@
+.mainPane {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #383637;
+}
+
+.mainPane .bodyPane {
+  width: 1000px;
+  height: 650px;
+  flex-direction: row;
+  border-radius: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.bodyPane .leftBodyPane {
+  flex-grow: 6;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px 0 0 15px;
+  background-color: white;
+}
+.leftBodyPane .logo {
+  width: 150px;
+  height: 150px;
+}
+.leftBodyPane .welcome {
+  text-align: center;
+  font-family: 'Standard-Font2';
+  color: #242223;
+}
+
+.mainPane .centerBodyPane {
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  border-radius: 0 15px 15px 0;
+  background-color: #242223;
+}
+.centerBodyPane .headerPane {
+  width: 270px;
+  justify-content: center;
+}
+.headerPane .title {
+  color: #f7a35b;
+  font-size: 30px;
+  font-weight: bold;
+}
+.headerPane .subtitlePane {
+  font-size: 18px;
+  flex-direction: row;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+}
+
+.centerBodyPane .inputSkin {
+  width: 265px;
+  box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.5);
+}
+.centerBodyPane .buttonSkin {
+  width: 280px;
+  background-color: #f7a35b;
+  box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.5);
+}
+.centerBodyPane .buttonTitle {
+  color: #242223;
+}
+
+@media screen and (max-width: 1000px) {
+  .mainPane .bodyPane {
+    width: 350px;
+    border-radius: 15px;
+  }
+  .bodyPane .leftBodyPane {
+    display: none;
+  }
+  .bodyPane .centerBodyPane {
+    flex-grow: 0;
+    width: 300px;
+    border-radius: 15px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .mainPane .bodyPane {
+    width: 350px;
+    border-radius: 15px;
+  }
+  .bodyPane .leftBodyPane {
+    display: none;
+  }
+  .bodyPane .centerBodyPane {
+    flex-grow: 0;
+    width: 300px;
+    border-radius: 15px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .mainPane .bodyPane {
+    flex-grow: 1;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+    background-color: #242223;
+  }
+
+  .bodyPane .leftBodyPane {
+    display: none;
+  }
+}
