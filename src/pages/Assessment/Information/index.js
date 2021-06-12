@@ -1,5 +1,5 @@
-import useHook from 'hooks';
-import infoAssessReducer from 'hooks/infoAssessReducer';
+import useHook from 'hooks/local';
+import infoAssessReducer from 'hooks/local/reducers/infoAssessReducer';
 import styles from 'pages/Assessment/.module.css';
 
 import {useHistory} from 'react-router-dom';

@@ -1,16 +1,17 @@
 import Icon from 'react-web-vector-icons';
-import useHook from 'hooks';
-import accAssessReducer from 'hooks/accAssessReducer';
+import useHook from 'hooks/local';
+import accAssessReducer from 'hooks/local/reducers/accAssessReducer';
 import styles from 'pages/Assessment/.module.css';
 
+import {useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
+import {CAPITAL_CHAR_REGEX, NUMS_REGEX, SMALL_CHAR_REGEX, SYMBOLS_REGEX} from 'constants/regex';
 import {logo} from 'assets/icons';
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/string';
-import {CAPITAL_CHAR_REGEX, NUMS_REGEX, SMALL_CHAR_REGEX, SYMBOLS_REGEX} from 'constants/regex';
-import {useHistory} from 'react-router-dom';
-import {useEffect} from 'react';
+
 
 export default function SignIn() {
   const history = useHistory();

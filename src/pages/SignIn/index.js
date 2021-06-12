@@ -1,12 +1,12 @@
 import Icon from 'react-web-vector-icons';
-import loginReducer from 'hooks/loginReducer';
-import useHook from 'hooks';
+import useHook from 'hooks/local';
+import loginReducer from 'hooks/local/reducers/loginReducer';
 import styles from './.module.css';
 
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {accentColor} from 'constants/styles';
-import {logo} from 'assets/icons';
 import {SIGNIN_FIELDS} from 'constants/string';
+import {logo} from 'assets/icons';
 
 export default function SignIn() {
   const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);

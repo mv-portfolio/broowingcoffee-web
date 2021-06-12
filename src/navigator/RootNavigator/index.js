@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, Suspense} from 'react';
 import {Switch, Route, BrowserRouter as Router} from 'react-router-dom';
 import {VERSION, BUILD_STATE} from 'config/env';
 import {pages} from './pages';
@@ -17,9 +17,9 @@ export default function Navigator() {
     <Router basename='/'>
       <Switch>
         <RouteAuth
-          path='/'
           exact
-          isAuth={true}
+          path='/'
+          isAuth={false}
           rederAuthComponent={Dashboard}
           renderNonAuthComponent={SignIn}
         />
