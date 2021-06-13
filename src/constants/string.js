@@ -1,3 +1,25 @@
+const ACTION = {
+  //api action
+  PUSH: 'PUSH',
+  POP: 'POP',
+  PEEK: 'PEEK',
+  SET: 'SET',
+  //normal action
+  CREATE: 'CREATE',
+  READ: 'READ',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE',
+};
+
+const USER_FIELDS = {
+  firstname: '',
+  lastname: '',
+  username: '',
+  email: '',
+  primary_auth_token: '',
+  secondary_auth_token: '',
+};
+
 const SIGNIN_FIELDS = {
   username: {
     text: '',
@@ -35,4 +57,10 @@ const ASSESSMENT_ACCOUNT = {
   },
 };
 
-export {SIGNIN_FIELDS, ASSESSMENT_INFORMATION, ASSESSMENT_ACCOUNT};
+export {
+  ACTION,
+  USER_FIELDS,
+  SIGNIN_FIELDS,
+  ASSESSMENT_INFORMATION,
+  ASSESSMENT_ACCOUNT,
+};
