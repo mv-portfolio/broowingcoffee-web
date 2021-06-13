@@ -1,19 +1,27 @@
 import {Route} from 'react-router-dom';
+import Loading from 'pages/Loading';
 
 export default function RouteAuth({
   rederAuthComponent: AuthComponent,
   renderNonAuthComponent: NonAuthComponent,
-  isAuth,
+  authentication,
   ...props
 }) {
+  const isAuthenticated = (authentication, renderProps) => {
+    if (!authentication) return <Loading />;
+    return authentication.status ? (
+      <AuthComponent {...renderProps} />
+    ) : (
+      <NonAuthComponent {...renderProps} />
+    );
+  };
+
   return (
     <Route
       strict
       sensitive
-      render={(renderProps) =>
-        isAuth ? <AuthComponent {...renderProps} /> : <NonAuthComponent {...renderProps} />
-      }
+      render={(renderProps) => isAuthenticated(authentication, renderProps)}
       {...props}
-    ></Route>
+    />
   );
 }

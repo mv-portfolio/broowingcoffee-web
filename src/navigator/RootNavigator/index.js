@@ -1,17 +1,15 @@
-import {useEffect, Suspense} from 'react';
-import {Switch, Route, BrowserRouter as Router} from 'react-router-dom';
-import {VERSION, BUILD_STATE} from 'config/env';
-import {pages} from './pages';
-
 import RouteAuth from 'components/RouteAuth';
 import Dashboard from 'pages/Dashboard';
 import SignIn from 'pages/SignIn';
 
+import {useEffect, useState} from 'react';
+import {Switch, Route, BrowserRouter as Router} from 'react-router-dom';
+import {pages} from './pages';
+
 export default function Navigator() {
-  useEffect(() => {
-    console.log(VERSION);
-    console.log(BUILD_STATE);
-  }, []);
+  const [auth, setAuth] = useState(null);
+
+  useEffect(() => {}, []);
 
   return (
     <Router basename='/'>
@@ -19,7 +17,7 @@ export default function Navigator() {
         <RouteAuth
           exact
           path='/'
-          isAuth={false}
+          authentication={auth}
           rederAuthComponent={Dashboard}
           renderNonAuthComponent={SignIn}
         />

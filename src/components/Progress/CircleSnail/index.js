@@ -1,8 +1,7 @@
 import styles from './.module.css';
-export default function CircleSnail({ skin, size, color, thickness, progress, isRotating }) {
+export default function CircleSnail({skin, size, color, thickness, isRotating}) {
   const SIZE = size || 17.5;
   const COLOR = color || 'orange';
-  const PROGRESS = progress || 25;
   const STROKE_WIDTH = thickness || 2.5;
   const PI = Math.PI;
   const RADIUS = (SIZE - STROKE_WIDTH) / 2;
@@ -29,7 +28,7 @@ export default function CircleSnail({ skin, size, color, thickness, progress, is
         strokeLinecap='round'
         strokeWidth={STROKE_WIDTH}
         strokeDasharray={CIRCUMFERENCE}
-        strokeDashoffset={-onProgress(PROGRESS)}
+        strokeDashoffset={-onProgress(20)}
       />
     </svg>
   );

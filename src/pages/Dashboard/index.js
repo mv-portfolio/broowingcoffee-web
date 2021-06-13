@@ -1,6 +1,4 @@
 import {View, Text, Separator} from 'components';
-import {accentColor} from 'constants/styles';
-import Icon from 'react-web-vector-icons';
 import styles from './.module.css';
 
 export default function PageNotExist() {
