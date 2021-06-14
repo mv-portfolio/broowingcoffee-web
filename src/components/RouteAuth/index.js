@@ -20,7 +20,7 @@ export default function RouteAuth({
     <Route
       strict
       sensitive
-      render={(renderProps) => isAuthenticated(authentication, renderProps)}
+      render={renderProps => isAuthenticated(authentication, renderProps)}
       {...props}
     />
   );

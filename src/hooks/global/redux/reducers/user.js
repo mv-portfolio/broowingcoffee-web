@@ -1,11 +1,8 @@
 import {ACTION} from 'constants/string';
 
-export default function userReducer(state = {}, action) {
+export default function user(state = {}, action) {
   switch (action.type) {
-    case ACTION.PEEK:
-      return state;
-
-    case ACTION.UPDATE:
+    case ACTION('USER').SET:
       return {
         firsname: action.firstname || state.firsname,
         lastname: action.lastname || state.lastname,
@@ -17,7 +14,7 @@ export default function userReducer(state = {}, action) {
           action.secondary_auth_token || state.secondary_auth_token,
       };
 
-    case ACTION.DELETE:
+    case ACTION('USER').CLEAR:
       return {
         firsname: '',
         lastname: '',

@@ -1,7 +1,8 @@
-import {all} from 'redux-saga/effects';
-import rootUserSaga from './userSaga';
-import rootProductSaga from './productSaga';
+import rootUsersSaga from './users';
+import rootProductsSaga from './products';
 
-export default function* rootSaga() {
-  yield all([rootUserSaga(), rootProductSaga()]);
+import {all} from 'redux-saga/effects';
+
+export default function* rootSagas() {
+  yield all([rootUsersSaga(), rootProductsSaga()]);
 }

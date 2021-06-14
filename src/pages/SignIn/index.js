@@ -1,15 +1,18 @@
 import Icon from 'react-web-vector-icons';
 import useHook from 'hooks/local';
-import loginReducer from 'hooks/local/reducers/loginReducer';
 import styles from './.module.css';
 
 import {connect} from 'react-redux';
+import {loginReducer} from 'hooks/local/reducers';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/string';
-import {REQUEST_PEEK_USER} from 'hooks/global/redux/reducers/user/actions';
-import {PEEK_PRODUCT} from 'hooks/global/redux/reducers/products/actions';
 import {logo} from 'assets/icons';
+import {
+  PEEK_PRODUCTS,
+  PEEK_USERS,
+  PUSH_PRODUCT,
+} from 'hooks/global/redux/actions';
 
 function SignIn({user, products, dispatcher}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);
@@ -29,9 +32,14 @@ function SignIn({user, products, dispatcher}) {
   };
   const onClick = component => {
     if (component === 'on-signin') {
-      dispatcher(REQUEST_PEEK_USER());
+      dispatcher(
+        PUSH_PRODUCT({
+          name: 'product-1',
+          price: 250,
+        }),
+      );
     } else if (component === 'on-encrypt-text') {
-      dispatcher(PEEK_PRODUCT());
+      console.log(products);
       // setState({
       //   ...state.password,
       //   type: 'set-password',
@@ -57,7 +65,7 @@ function SignIn({user, products, dispatcher}) {
                 size='20px'
               />
               <Separator horizontal={2} />
-              <Text style={styles.subtitle}>Coffee</Text>
+              <Text style={styles.subtitle}>coffee </Text>
             </View>
           </View>
           <Separator vertical={25} />
@@ -105,8 +113,9 @@ function SignIn({user, products, dispatcher}) {
   );
 }
 
-const states = ({user, products}) => ({
+const stateProps = ({user, users, products}) => ({
   user,
+  users,
   products,
 });
 
@@ -114,4 +123,4 @@ const dispatch = dispatch => ({
   dispatcher: acion => dispatch(acion),
 });
 
-export default connect(states, dispatch)(SignIn);
+export default connect(stateProps, dispatch)(SignIn);

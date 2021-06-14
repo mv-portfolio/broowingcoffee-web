@@ -1,4 +1,4 @@
-export default function loginReducer(state = {}, action) {
+export default function infoAssessReducer(state = {}, action) {
   switch (action.type) {
     case 'set-firstname':
       return {

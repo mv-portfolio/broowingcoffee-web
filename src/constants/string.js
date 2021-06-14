@@ -1,15 +1,14 @@
-const ACTION = {
-  //api action
-  PUSH: 'PUSH',
-  POP: 'POP',
-  PEEK: 'PEEK',
-  SET: 'SET',
-  //normal action
-  CREATE: 'CREATE',
-  READ: 'READ',
-  UPDATE: 'UPDATE',
-  DELETE: 'DELETE',
-};
+const ACTION = type => ({
+  //hooks action
+  PUSH: `PUSH_${type}`,
+  POP: `POP_${type}`,
+  PEEK: `PEEK_${type}`,
+  SET: `SET_${type}`,
+  CLEAR: `CLEAR_${type}`,
+  //action only
+  SIGNIN: `SIGNIN`,
+  SIGNOUT: `SIGNOUT`,
+});
 
 const USER_FIELDS = {
   firstname: '',
