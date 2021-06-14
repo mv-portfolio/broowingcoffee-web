@@ -8,6 +8,26 @@ const REQUEST_SIGNOUT = () => ({
   type: ACTION().SIGNOUT,
 });
 
+const REQUEST_APP_AUTH = () => ({
+  type: ACTION().APP_AUTH,
+});
+const SET_APP_AUTH = data => ({
+  type: ACTION('AUTH').SET,
+  ...data,
+});
+const CLEAR_APP_AUTH = () => ({
+  type: ACTION('AUTH').CLEAR,
+});
+
+//error
+const SET_ERROR = error => ({
+  type: ACTION('ERROR').SET,
+  ...error,
+});
+const CLEAR_ERROR = () => ({
+  type: ACTION('ERROR').CLEAR,
+});
+
 //users hooks
 const PEEK_USERS = () => ({
   type: ACTION('USERS').PEEK,
@@ -49,6 +69,11 @@ const POP_PRODUCT = product => ({
 export {
   REQUEST_SIGNIN,
   REQUEST_SIGNOUT,
+  REQUEST_APP_AUTH,
+  SET_APP_AUTH,
+  CLEAR_APP_AUTH,
+  SET_ERROR,
+  CLEAR_ERROR,
   PEEK_USERS,
   CLEAR_USERS,
   SET_USERS,

@@ -4,7 +4,6 @@ import AssessmentInformation from 'pages/Assessment/Information';
 
 const pages = [
   {
-    isAuthRoute: false,
     path: '*',
     component: PageNotExist,
     exact: true,
@@ -12,7 +11,6 @@ const pages = [
     strict: true,
   },
   {
-    isAuthRoute: false,
     path: '/assessment-information',
     component: AssessmentInformation,
     exact: true,
@@ -20,7 +18,6 @@ const pages = [
     strict: true,
   },
   {
-    isAuthRoute: false,
     path: '/assessment-account',
     component: AssessmentAccount,
     exact: true,

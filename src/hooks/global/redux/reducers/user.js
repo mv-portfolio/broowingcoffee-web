@@ -8,10 +8,6 @@ export default function user(state = {}, action) {
         lastname: action.lastname || state.lastname,
         username: action.username || state.username,
         email: action.email || state.email,
-        primary_auth_token:
-          action.primary_auth_token || state.primary_auth_token,
-        secondary_auth_token:
-          action.secondary_auth_token || state.secondary_auth_token,
       };
 
     case ACTION('USER').CLEAR:
@@ -20,8 +16,6 @@ export default function user(state = {}, action) {
         lastname: '',
         username: '',
         email: '',
-        primary_auth_token: '',
-        secondary_auth_token: '',
       };
 
     default:

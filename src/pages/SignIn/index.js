@@ -8,13 +8,8 @@ import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/string';
 import {logo} from 'assets/icons';
-import {
-  PEEK_PRODUCTS,
-  PEEK_USERS,
-  PUSH_PRODUCT,
-} from 'hooks/global/redux/actions';
 
-function SignIn({user, products, dispatcher}) {
+function SignIn({auth}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);
   const onChangeValue = (component, value) => {
     if (component === 'username') {
@@ -32,19 +27,13 @@ function SignIn({user, products, dispatcher}) {
   };
   const onClick = component => {
     if (component === 'on-signin') {
-      dispatcher(
-        PUSH_PRODUCT({
-          name: 'product-1',
-          price: 250,
-        }),
-      );
+      console.log(auth);
     } else if (component === 'on-encrypt-text') {
-      console.log(products);
-      // setState({
-      //   ...state.password,
-      //   type: 'set-password',
-      //   isEncrypted: !state.password.isEncrypted,
-      // });
+      setState({
+        ...state.password,
+        type: 'set-password',
+        isEncrypted: !state.password.isEncrypted,
+      });
     }
   };
 
@@ -113,10 +102,8 @@ function SignIn({user, products, dispatcher}) {
   );
 }
 
-const stateProps = ({user, users, products}) => ({
-  user,
-  users,
-  products,
+const stateProps = ({auth}) => ({
+  auth,
 });
 
 const dispatch = dispatch => ({

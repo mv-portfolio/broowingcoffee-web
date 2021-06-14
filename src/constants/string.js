@@ -5,9 +5,10 @@ const ACTION = type => ({
   PEEK: `PEEK_${type}`,
   SET: `SET_${type}`,
   CLEAR: `CLEAR_${type}`,
-  //action only
+  //api action only
   SIGNIN: `SIGNIN`,
   SIGNOUT: `SIGNOUT`,
+  APP_AUTH: `APP_AUTHENTICATION`,
 });
 
 const USER_FIELDS = {
@@ -57,7 +58,9 @@ const ASSESSMENT_ACCOUNT = {
 };
 
 export {
+  //function
   ACTION,
+  //plain obj
   USER_FIELDS,
   SIGNIN_FIELDS,
   ASSESSMENT_INFORMATION,
