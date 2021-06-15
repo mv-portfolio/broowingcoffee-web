@@ -6,7 +6,7 @@
   background-color: #383637;
 }
 
-.mainPane {
+.screenPane .mainPane {
   width: 1000px;
   height: 650px;
   flex-direction: row;
@@ -35,10 +35,9 @@
 
 .rightPane .topPane {
   display: flex;
-  flex-grow: 1;
+  flex: 1.75;
   align-items: center;
   justify-content: flex-end;
-  background-color: yellow;
 }
 
 .topPane .headerPane {
@@ -61,10 +60,9 @@
 
 .rightPane .bodyPane {
   display: flex;
-  flex-grow: 1;
+  flex: 1.75;
   align-items: center;
-  justify-content: center;
-  background-color: yellowgreen;
+  justify-content: flex-end;
 }
 .bodyPane .inputSkin {
   width: 265px;
@@ -81,6 +79,64 @@
 
 .rightPane .bottomPane {
   display: flex;
-  flex-grow: 1;
-  background-color: green;
+  flex: 1.5;
+  align-items: center;
+  justify-content: space-between;
+}
+.bottomPane .errorPane {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  padding: 5px 10px 5px 10px;
+  border: 2px #f75b5b solid;
+  border-radius: 7.5px;
+}
+.errorPane .errorTitle {
+  display: inline-block;
+  font-family: 'Standard-Font';
+  font-weight: bold;
+  font-size: 12px;
+  padding: 5px 0 5px 0;
+  text-align: center;
+  color: #f75b5b;
+}
+.bottomPane .bForgotPasswordText {
+  color: #f7a35b;
+}
+
+@media screen and (max-width: 1000px) {
+  .screenPane .mainPane {
+    width: 350px;
+    border-radius: 15px;
+  }
+  .mainPane .leftPane {
+    display: none;
+  }
+  .mainPane .rightPane {
+    flex-grow: 0;
+    width: 300px;
+    border-radius: 15px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .screenPane .mainPane {
+    flex: 1;
+    width: 100vw;
+    justify-content: center;
+    border-radius: 0;
+    background-color: #242223;
+  }
+
+  .rightPane .topPane {
+    flex: 2;
+  }
+  .rightPane .bottomPane {
+    flex: 2;
+  }
+
+  .mainPane .leftPane {
+    display: none;
+  }
 }

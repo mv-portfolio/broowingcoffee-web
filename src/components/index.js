@@ -1,11 +1,26 @@
+import {lazy} from 'react';
 import {wp, hp} from './Responsive';
 
-import Button from './Button';
-import Image from './Image';
 import {Circle, CircleSnail} from './Progress';
-import Separator from './Separator';
-import TextInput from './TextInput';
-import Text from './Text';
-import View from './View';
 
-export {Button, Circle, CircleSnail, hp, wp, Image, Separator, TextInput, Text, View};
+const Button = lazy(() => import('./Button'));
+const Image = lazy(() => import('./Image'));
+const Separator = lazy(() => import('./Separator'));
+const TextInput = lazy(() => import('./TextInput'));
+const Text = lazy(() => import('./Text'));
+const View = lazy(() => import('./View'));
+const RouteAuth = lazy(() => import('./RouteAuth'));
+
+export {
+  Button,
+  Circle,
+  CircleSnail,
+  hp,
+  wp,
+  Image,
+  Separator,
+  TextInput,
+  Text,
+  View,
+  RouteAuth,
+};

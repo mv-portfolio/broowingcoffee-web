@@ -1,11 +1,12 @@
 {
-  "short_name": "Broowing Coffee",
+  "short_name": "BC",
   "name": "Broowing Coffee",
   "icons": [
     {
       "src": "./assets/icons/logo.png",
       "sizes": "512x512 64x64 32x32 24x24 16x16",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
   "orientation": "portrait",

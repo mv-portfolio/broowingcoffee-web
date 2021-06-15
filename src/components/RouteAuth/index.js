@@ -1,6 +1,6 @@
 import {Route} from 'react-router-dom';
 import PageError from 'pages/PageError';
-import Loading from 'pages/Loading';
+// import Loading from 'pages/Loading';
 
 export default function RouteAuth({
   rederAuthComponent: AuthComponent,
@@ -11,7 +11,7 @@ export default function RouteAuth({
 }) {
   const isAuthenticated = (auth, renderProps) => {
     if (error.name) return <PageError title={error.name} />;
-    if (typeof auth.authenticated !== 'boolean') return <Loading />;
+    // if (typeof auth.authenticated !== 'boolean') return <Loading />;
 
     return auth.authenticated ? (
       <AuthComponent {...renderProps} />

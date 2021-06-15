@@ -3,6 +3,7 @@ import users from './users';
 import products from './products';
 import auth from './auth';
 import session from './session';
+import loading from './loading';
 import error from './error';
 
 import {combineReducers} from 'redux';
@@ -16,6 +17,7 @@ export default function rootReducer(history) {
     products,
     session,
     error,
+    loading,
     router: connectRouter(history),
   });
 }

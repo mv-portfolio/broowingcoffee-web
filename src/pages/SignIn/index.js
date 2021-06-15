@@ -3,15 +3,15 @@ import useHook from 'hooks/local';
 import styles from './.module.css';
 
 import {connect} from 'react-redux';
-import {loginReducer} from 'hooks/local/reducers';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
+import {loginReducer} from 'hooks/local/reducers';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/string';
 import {logo} from 'assets/icons';
-import {SET_SESSION} from 'hooks/global/redux/actions';
 import {useEffect} from 'react';
+import {SET_LOADING, SET_SESSION} from 'hooks/global/redux/actions';
 
-function SignIn({error, dispatch}) {
+function SignIn({error, loading, dispatch}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);
   const onChangeValue = (component, value) => {
     if (component === 'username') {
@@ -35,6 +35,11 @@ function SignIn({error, dispatch}) {
           password: state.password.text,
         }),
       );
+      dispatch(
+        SET_LOADING({
+          status: true,
+        }),
+      );
     } else if (component === 'on-encrypt-text') {
       setState({
         ...state.password,
@@ -52,7 +57,7 @@ function SignIn({error, dispatch}) {
     <View style={styles.screenPane}>
       <View style={styles.mainPane}>
         <View style={styles.leftPane}>
-          <Image source={logo} style={styles.logo} />
+          <Image title='mobile-logo' source={logo} style={styles.logo} />
         </View>
         <View style={styles.rightPane}>
           <View style={styles.topPane}>
@@ -82,6 +87,7 @@ function SignIn({error, dispatch}) {
                   size='15px'
                 />
               }
+              disabled={loading.status}
               value={state.username.text}
               onChangeText={value => onChangeValue('username', value)}
             />
@@ -97,6 +103,7 @@ function SignIn({error, dispatch}) {
                   size='15px'
                 />
               }
+              disabled={loading.status}
               isTextEncrypt={!state.password.isEncrypted}
               onEncryptText={() => onClick('on-encrypt-text')}
               value={state.password.text}
@@ -107,19 +114,26 @@ function SignIn({error, dispatch}) {
               skin={styles.buttonSkin}
               title='SignIn'
               titleStyle={styles.buttonTitle}
+              isLoading={loading.status}
+              disabled={loading.status}
               onPress={() => onClick('on-signin')}
             />
           </View>
+          <Separator vertical={10} />
           <View style={styles.bottomPane}>
+            {!error.message && <View />}
             {error.message && (
               <>
-                <Separator vertical={7.5} />
                 <View style={styles.errorPane}>
                   <Text style={styles.errorTitle}>{error.message}</Text>
                 </View>
               </>
             )}
-            <Button title='Forget Password' />
+            <Button
+              title='Forgot Password'
+              titleStyle={styles.bForgotPasswordText}
+              disabled={loading.status}
+            />
           </View>
         </View>
       </View>
@@ -127,8 +141,9 @@ function SignIn({error, dispatch}) {
   );
 }
 
-const stateProps = ({error}) => ({
+const stateProps = ({error, loading}) => ({
   error,
+  loading,
 });
 
 const dispatchProps = dispatch => ({

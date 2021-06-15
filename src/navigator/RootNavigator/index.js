@@ -1,12 +1,12 @@
-import RouteAuth from 'components/RouteAuth';
-import Dashboard from 'pages/Dashboard';
-import SignIn from 'pages/SignIn';
-
-import {useEffect} from 'react';
+import {lazy, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Switch, Route} from 'react-router-dom';
+import {RouteAuth} from 'components';
 import {REQUEST_APP_AUTH} from 'hooks/global/redux/actions';
 import {pages} from './pages';
+
+const Dashboard = lazy(() => import('pages/Dashboard'));
+const SignIn = lazy(() => import('pages/SignIn'));
 
 function RootNavigator({dispatch, auth, error}) {
   useEffect(() => {

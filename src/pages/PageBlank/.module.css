@@ -1,0 +1,5 @@
+.mainPane {
+  display: flex;
+  flex: 1;
+  background-color: #383637;
+}

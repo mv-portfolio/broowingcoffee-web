@@ -25,9 +25,11 @@ export default function TextInput({
 }) {
   const ref = useRef();
 
-  const isEncryptText = (status) => {
+  const isEncryptText = status => {
     if (status) {
-      return <Icon name='eye-off' font='Feather' color={accentColor} size={17.5} />;
+      return (
+        <Icon name='eye-off' font='Feather' color={accentColor} size={17.5} />
+      );
     } else {
       return <Icon name='eye' font='Feather' color={accentColor} size={17.5} />;
     }
@@ -46,7 +48,7 @@ export default function TextInput({
         type={isTextEncrypt ? 'password' : null}
         placeholder={placeholder}
         value={value}
-        onChange={(event) => onChangeText(event.target.value)}
+        onChange={event => onChangeText(event.target.value)}
         className={`${styles.body} ${body}`}
         {...props}
       />

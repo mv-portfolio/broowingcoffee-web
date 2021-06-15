@@ -1,9 +1,12 @@
 import {ACTION} from 'constants/string';
-import {peekLocalStorage, popLocalStorage} from 'hooks/global/storage';
-import {call, put, select, take, takeEvery} from 'redux-saga/effects';
+import {
+  peekLocalStorage,
+  popLocalStorage,
+  pushLocalStorage,
+} from 'hooks/global/storage';
+import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {getRequestServer, postRequestServer} from 'network/service';
-import {SET_ERROR, SET_APP_AUTH} from '../actions';
-import {push} from 'connected-react-router';
+import {SET_ERROR, SET_APP_AUTH, SET_LOADING} from '../actions';
 
 function* serverConfig() {
   const auth = yield select(state => state.auth);
@@ -50,11 +53,12 @@ function* authenticaton() {
     const userAuth = yield call(
       getRequestServer,
       '/signin-authentication-decoder',
-      serverConfig(),
+      yield serverConfig(),
     );
 
     //check if user-auth is failed
     if (!userAuth.data.status) {
+      console.log(auth);
       yield popLocalStorage('sat');
       return yield put(
         SET_APP_AUTH({
@@ -72,7 +76,7 @@ function* authenticaton() {
       }),
     );
   } catch (err) {
-    console.log('auth-error:', err);
+    console.log('ERROR [app-auth]:', err);
     yield put(
       SET_ERROR({
         errorCode: err.code,
@@ -100,6 +104,11 @@ function* signinAuthentication() {
 
     if (!status) {
       console.log('SIGN-IN FAILED');
+      yield put(
+        SET_LOADING({
+          status: false,
+        }),
+      );
       return yield put(
         SET_ERROR({
           message: err,
@@ -107,12 +116,23 @@ function* signinAuthentication() {
       );
     }
 
+    yield pushLocalStorage('sat', res.secondary_auth_token);
     yield put(
       SET_APP_AUTH({
         authenticated: true,
+        secondary_auth_token: res.secondary_auth_token,
       }),
     );
-  } catch (err) {}
+  } catch (err) {
+    console.log('ERROR [user-auth]:', err);
+    yield put(
+      SET_ERROR({
+        errorCode: err.code,
+        name: err.message,
+        message: err,
+      }),
+    );
+  }
 }
 
 export default function* rootAuthSaga() {

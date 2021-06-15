@@ -5,6 +5,15 @@ const REQUEST_APP_AUTH = () => ({
   type: ACTION().APP_AUTH,
 });
 
+//loading
+const SET_LOADING = data => ({
+  type: ACTION('LOADING').SET,
+  ...data,
+});
+const CLEAR_LOADING = () => ({
+  type: ACTION('LOADING').CLEAR,
+});
+
 //session
 const SET_SESSION = data => ({
   type: ACTION('SESSION').SET,
@@ -79,6 +88,9 @@ export {
   PEEK_APP_AUTH,
   SET_APP_AUTH,
   CLEAR_APP_AUTH,
+  //loading
+  SET_LOADING,
+  CLEAR_LOADING,
   //session
   SET_SESSION,
   CLEAR_SESSION,
