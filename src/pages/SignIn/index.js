@@ -8,8 +8,9 @@ import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/string';
 import {logo} from 'assets/icons';
+import {SET_SESSION} from 'hooks/global/redux/actions';
 
-function SignIn({auth}) {
+function SignIn({auth, dispatch}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);
   const onChangeValue = (component, value) => {
     if (component === 'username') {
@@ -27,7 +28,6 @@ function SignIn({auth}) {
   };
   const onClick = component => {
     if (component === 'on-signin') {
-      console.log(auth);
     } else if (component === 'on-encrypt-text') {
       setState({
         ...state.password,
@@ -107,7 +107,7 @@ const stateProps = ({auth}) => ({
 });
 
 const dispatch = dispatch => ({
-  dispatcher: acion => dispatch(acion),
+  dispatch: acion => dispatch(acion),
 });
 
 export default connect(stateProps, dispatch)(SignIn);

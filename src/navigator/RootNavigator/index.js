@@ -20,7 +20,7 @@ function RootNavigator({dispatch, auth, error}) {
           exact
           path='/'
           error={error}
-          authentication={auth}
+          auth={auth}
           rederAuthComponent={Dashboard}
           renderNonAuthComponent={SignIn}
         />

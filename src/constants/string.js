@@ -6,8 +6,6 @@ const ACTION = type => ({
   SET: `SET_${type}`,
   CLEAR: `CLEAR_${type}`,
   //api action only
-  SIGNIN: `SIGNIN`,
-  SIGNOUT: `SIGNOUT`,
   APP_AUTH: `APP_AUTHENTICATION`,
 });
 

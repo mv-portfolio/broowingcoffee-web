@@ -1,15 +1,22 @@
 import {ACTION} from 'constants/string';
 
 //api request
-const REQUEST_SIGNIN = () => ({
-  type: ACTION().SIGNIN,
-});
-const REQUEST_SIGNOUT = () => ({
-  type: ACTION().SIGNOUT,
-});
-
 const REQUEST_APP_AUTH = () => ({
   type: ACTION().APP_AUTH,
+});
+
+//signin
+const SET_SESSION = signin => ({
+  type: ACTION('SESSION').SET,
+  signin: signin,
+});
+//signout
+const CLEAR_SESSION = () => ({
+  type: ACTION('SESSION').CLEAR,
+});
+
+const PEEK_APP_AUTH = () => ({
+  type: ACTION('AUTH').PEEK,
 });
 const SET_APP_AUTH = data => ({
   type: ACTION('AUTH').SET,
@@ -67,18 +74,25 @@ const POP_PRODUCT = product => ({
 });
 
 export {
-  REQUEST_SIGNIN,
-  REQUEST_SIGNOUT,
+  //auth
   REQUEST_APP_AUTH,
+  PEEK_APP_AUTH,
   SET_APP_AUTH,
   CLEAR_APP_AUTH,
+  //session
+  SET_SESSION,
+  CLEAR_SESSION,
+  //error
   SET_ERROR,
   CLEAR_ERROR,
+  //users
   PEEK_USERS,
   CLEAR_USERS,
   SET_USERS,
+  //user
   SET_USER,
   CLEAR_USER,
+  //products
   PEEK_PRODUCTS,
   SET_PRODUCTS,
   PUSH_PRODUCT,

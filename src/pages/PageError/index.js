@@ -4,29 +4,29 @@ import Icon from 'react-web-vector-icons';
 import styles from './.module.css';
 
 export default function PageError({title}) {
+  const getIcon = name => {
+    return <Icon font='Feather' name={name} size='50px' color={accentColor} />;
+  };
   const errorHandler = title => {
     if (title === 'Network Error') {
       return {
         title: 'Connection Error',
         subtitle: 'Please check your internet connection.',
-      };
-    } else if (title === 'OPPSSS!') {
-      return {
-        title: 'OPPSSS!',
-        subtitle: 'Something went wrong, Please try again later',
+        icon: getIcon('x-circle'),
       };
     }
+
+    return {
+      title: 'OPPSSS!',
+      subtitle: 'Something went wrong, Please try again later',
+      icon: getIcon('x'),
+    };
   };
 
   return (
     <View style={styles.mainPane}>
       <View style={styles.bodyPane}>
-        <Icon
-          font='Feather'
-          name='alert-triangle'
-          size='50px'
-          color={accentColor}
-        />
+        {errorHandler(title).icon}
         <Separator vertical={15} />
         <Text style={styles.title}>{errorHandler(title).title}</Text>
         <Separator vertical={5} />

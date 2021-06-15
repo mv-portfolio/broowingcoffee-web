@@ -5,14 +5,15 @@ import Loading from 'pages/Loading';
 export default function RouteAuth({
   rederAuthComponent: AuthComponent,
   renderNonAuthComponent: NonAuthComponent,
-  authentication,
+  auth,
   error,
   ...props
 }) {
-  const isAuthenticated = (authentication, renderProps) => {
+  const isAuthenticated = (auth, renderProps) => {
     if (error.name) return <PageError title={error.name} />;
-    if (!authentication.status) return <Loading />;
-    return authentication.status ? (
+    if (typeof auth.authenticated !== 'boolean') return <Loading />;
+
+    return auth.authenticated ? (
       <AuthComponent {...renderProps} />
     ) : (
       <NonAuthComponent {...renderProps} />
@@ -23,7 +24,7 @@ export default function RouteAuth({
     <Route
       strict
       sensitive
-      render={renderProps => isAuthenticated(authentication, renderProps)}
+      render={renderProps => isAuthenticated(auth, renderProps)}
       {...props}
     />
   );
