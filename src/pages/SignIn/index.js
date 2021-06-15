@@ -9,8 +9,9 @@ import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/string';
 import {logo} from 'assets/icons';
 import {SET_SESSION} from 'hooks/global/redux/actions';
+import {useEffect} from 'react';
 
-function SignIn({auth, dispatch}) {
+function SignIn({error, dispatch}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);
   const onChangeValue = (component, value) => {
     if (component === 'username') {
@@ -28,6 +29,12 @@ function SignIn({auth, dispatch}) {
   };
   const onClick = component => {
     if (component === 'on-signin') {
+      dispatch(
+        SET_SESSION({
+          username: state.username.text,
+          password: state.password.text,
+        }),
+      );
     } else if (component === 'on-encrypt-text') {
       setState({
         ...state.password,
@@ -37,77 +44,95 @@ function SignIn({auth, dispatch}) {
     }
   };
 
+  useEffect(() => {
+    document.title = 'Sign In | BroowingCoffee ';
+  }, []);
+
   return (
-    <View style={styles.mainPane}>
-      <View style={styles.bodyPane}>
-        <View style={styles.leftBodyPane}>
+    <View style={styles.screenPane}>
+      <View style={styles.mainPane}>
+        <View style={styles.leftPane}>
           <Image source={logo} style={styles.logo} />
         </View>
-        <View style={styles.centerBodyPane}>
-          <View style={styles.headerPane}>
-            <Text style={styles.title}>Broowing</Text>
-            <View style={styles.subtitlePane}>
-              <Icon
-                font='AntDesign'
-                name='barschart'
-                color='#fff'
-                size='20px'
-              />
-              <Separator horizontal={2} />
-              <Text style={styles.subtitle}>coffee </Text>
+        <View style={styles.rightPane}>
+          <View style={styles.topPane}>
+            <View style={styles.headerPane}>
+              <Text style={styles.title}>Broowing</Text>
+              <View style={styles.subtitlePane}>
+                <Icon
+                  font='AntDesign'
+                  name='barschart'
+                  color='#fff'
+                  size='20px'
+                />
+                <Separator horizontal={2} />
+                <Text style={styles.subtitle}>coffee</Text>
+              </View>
             </View>
           </View>
-          <Separator vertical={25} />
-          <TextInput
-            placeholder='User'
-            skin={styles.inputSkin}
-            prefixIcon={
-              <Icon
-                name='user'
-                font='Feather'
-                color={accentColor}
-                size='15px'
-              />
-            }
-            value={state.username.text}
-            onChangeText={value => onChangeValue('username', value)}
-          />
-          <Separator vertical={3} />
-          <TextInput
-            placeholder='Password'
-            skin={styles.inputSkin}
-            prefixIcon={
-              <Icon
-                name='lock'
-                font='Feather'
-                color={accentColor}
-                size='15px'
-              />
-            }
-            isTextEncrypt={!state.password.isEncrypted}
-            onEncryptText={() => onClick('on-encrypt-text')}
-            value={state.password.text}
-            onChangeText={value => onChangeValue('password', value)}
-          />
-          <Separator vertical={5} />
-          <Button
-            skin={styles.buttonSkin}
-            title='SignIn'
-            titleStyle={styles.buttonTitle}
-            onPress={() => onClick('on-signin')}
-          />
+          <View style={styles.bodyPane}>
+            <TextInput
+              placeholder='User'
+              skin={styles.inputSkin}
+              prefixIcon={
+                <Icon
+                  name='user'
+                  font='Feather'
+                  color={accentColor}
+                  size='15px'
+                />
+              }
+              value={state.username.text}
+              onChangeText={value => onChangeValue('username', value)}
+            />
+            <Separator vertical={3} />
+            <TextInput
+              placeholder='Password'
+              skin={styles.inputSkin}
+              prefixIcon={
+                <Icon
+                  name='lock'
+                  font='Feather'
+                  color={accentColor}
+                  size='15px'
+                />
+              }
+              isTextEncrypt={!state.password.isEncrypted}
+              onEncryptText={() => onClick('on-encrypt-text')}
+              value={state.password.text}
+              onChangeText={value => onChangeValue('password', value)}
+            />
+            <Separator vertical={5} />
+            <Button
+              skin={styles.buttonSkin}
+              title='SignIn'
+              titleStyle={styles.buttonTitle}
+              onPress={() => onClick('on-signin')}
+            />
+          </View>
+          <View style={styles.bottomPane}>
+            {error.message && (
+              <>
+                <Separator vertical={7.5} />
+                <View style={styles.errorPane}>
+                  <Text style={styles.errorTitle}>{error.message}</Text>
+                </View>
+              </>
+            )}
+            <Button title='Forget Password' />
+          </View>
         </View>
       </View>
     </View>
   );
 }
 
-const stateProps = ({auth}) => ({
-  auth,
+const stateProps = ({error}) => ({
+  error,
 });
 
-const dispatch = dispatch => ({
+const dispatchProps = dispatch => ({
   dispatch: acion => dispatch(acion),
 });
 
-export default connect(stateProps, dispatch)(SignIn);
+export default connect(stateProps, dispatchProps)(SignIn);

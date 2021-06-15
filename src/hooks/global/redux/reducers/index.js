@@ -2,14 +2,20 @@ import user from './user';
 import users from './users';
 import products from './products';
 import auth from './auth';
+import session from './session';
 import error from './error';
 
 import {combineReducers} from 'redux';
+import {connectRouter} from 'connected-react-router';
 
-export default combineReducers({
-  user,
-  auth,
-  users,
-  products,
-  error,
-});
+export default function rootReducer(history) {
+  return combineReducers({
+    user,
+    auth,
+    users,
+    products,
+    session,
+    error,
+    router: connectRouter(history),
+  });
+}

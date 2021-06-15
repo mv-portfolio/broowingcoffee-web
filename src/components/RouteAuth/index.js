@@ -5,8 +5,8 @@ import Loading from 'pages/Loading';
 export default function RouteAuth({
   rederAuthComponent: AuthComponent,
   renderNonAuthComponent: NonAuthComponent,
-  auth,
   error,
+  auth,
   ...props
 }) {
   const isAuthenticated = (auth, renderProps) => {

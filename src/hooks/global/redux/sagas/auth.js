@@ -3,6 +3,17 @@ import {peekLocalStorage, popLocalStorage} from 'hooks/global/storage';
 import {call, put, select, take, takeEvery} from 'redux-saga/effects';
 import {getRequestServer, postRequestServer} from 'network/service';
 import {SET_ERROR, SET_APP_AUTH} from '../actions';
+import {push} from 'connected-react-router';
+
+function* serverConfig() {
+  const auth = yield select(state => state.auth);
+  return {
+    headers: {
+      'primary-auth-token': auth.primary_auth_token,
+      'secondary-auth-token': auth.secondary_auth_token,
+    },
+  };
+}
 
 function* authenticaton() {
   try {
@@ -39,12 +50,7 @@ function* authenticaton() {
     const userAuth = yield call(
       getRequestServer,
       '/signin-authentication-decoder',
-      {
-        headers: {
-          'primary-auth-token': auth.primary_auth_token,
-          'secondary-auth-token': auth.secondary_auth_token,
-        },
-      },
+      serverConfig(),
     );
 
     //check if user-auth is failed
@@ -79,16 +85,37 @@ function* authenticaton() {
 
 function* signinAuthentication() {
   try {
-    const session = select(state => state.session);
-    const signin = call(postRequestServer, '/signin-auth-encoder', {
-      username: '',
-      password: '',
-    });
+    const session = yield select(state => state.session);
+    const {
+      data: {status, res, err},
+    } = yield call(
+      postRequestServer,
+      '/signin-authentication-encoder',
+      {
+        username: session.username,
+        password: session.password,
+      },
+      yield serverConfig(),
+    );
+
+    if (!status) {
+      console.log('SIGN-IN FAILED');
+      return yield put(
+        SET_ERROR({
+          message: err,
+        }),
+      );
+    }
+
+    yield put(
+      SET_APP_AUTH({
+        authenticated: true,
+      }),
+    );
   } catch (err) {}
 }
 
 export default function* rootAuthSaga() {
   yield takeEvery(ACTION().APP_AUTH, authenticaton);
-  yield take(ACTION().SIGNIN);
-  yield call(signinAuthentication);
+  yield takeEvery(ACTION('SESSION').SET, signinAuthentication);
 }

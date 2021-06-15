@@ -4,13 +4,6 @@ import AssessmentInformation from 'pages/Assessment/Information';
 
 const pages = [
   {
-    path: '*',
-    component: PageNotExist,
-    exact: true,
-    sensitive: true,
-    strict: true,
-  },
-  {
     path: '/assessment-information',
     component: AssessmentInformation,
     exact: true,
@@ -20,6 +13,13 @@ const pages = [
   {
     path: '/assessment-account',
     component: AssessmentAccount,
+    exact: true,
+    sensitive: true,
+    strict: true,
+  },
+  {
+    path: '*',
+    component: PageNotExist,
     exact: true,
     sensitive: true,
     strict: true,

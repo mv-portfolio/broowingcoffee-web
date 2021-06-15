@@ -3,12 +3,17 @@ import rootReducer from './reducers';
 import rootSagas from './sagas';
 
 import {createStore, applyMiddleware} from 'redux';
+import {routerMiddleware} from 'connected-react-router';
+import {createBrowserHistory} from 'history';
 
-const configStore = () => {
+export const history = createBrowserHistory();
+
+export default function configStore() {
   const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
+  const store = createStore(
+    rootReducer(history),
+    applyMiddleware(sagaMiddleware, routerMiddleware(history)),
+  );
   sagaMiddleware.run(rootSagas);
   return store;
-};
-
-export default configStore;
+}

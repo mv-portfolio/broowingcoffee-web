@@ -5,16 +5,16 @@ const REQUEST_APP_AUTH = () => ({
   type: ACTION().APP_AUTH,
 });
 
-//signin
-const SET_SESSION = signin => ({
+//session
+const SET_SESSION = data => ({
   type: ACTION('SESSION').SET,
-  signin: signin,
+  ...data,
 });
-//signout
 const CLEAR_SESSION = () => ({
   type: ACTION('SESSION').CLEAR,
 });
 
+//authentication
 const PEEK_APP_AUTH = () => ({
   type: ACTION('AUTH').PEEK,
 });
@@ -27,9 +27,9 @@ const CLEAR_APP_AUTH = () => ({
 });
 
 //error
-const SET_ERROR = error => ({
+const SET_ERROR = data => ({
   type: ACTION('ERROR').SET,
-  ...error,
+  ...data,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION('ERROR').CLEAR,
@@ -39,9 +39,9 @@ const CLEAR_ERROR = () => ({
 const PEEK_USERS = () => ({
   type: ACTION('USERS').PEEK,
 });
-const SET_USERS = users => ({
+const SET_USERS = data => ({
   type: ACTION('USERS').SET,
-  users: users,
+  users: data,
 });
 const CLEAR_USERS = () => ({
   type: ACTION('USERS').CLEAR,
