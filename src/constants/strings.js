@@ -7,6 +7,7 @@ const ACTION = type => ({
   CLEAR: `CLEAR_${type}`,
   //api action only
   APP_AUTH: `APP_AUTHENTICATION`,
+  ASSESS_AUTH: `ASSESS_AUTH`,
 });
 
 const USER_FIELDS = {

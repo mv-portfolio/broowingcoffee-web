@@ -1,4 +1,4 @@
-import {ACTION} from 'constants/string';
+import {ACTION} from 'constants/strings';
 
 export default function error(state = {}, action) {
   switch (action.type) {

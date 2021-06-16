@@ -8,22 +8,22 @@ const AssessmentAccount = lazy(() => import('pages/Assessment/Account'));
 
 const pages = [
   {
-    path: '*',
-    component: PageNotExist,
-    exact: true,
-    sensitive: true,
-    strict: true,
-  },
-  {
-    path: '/assessment-information',
+    path: '/assessment/information',
     component: AssessmentInformation,
     exact: true,
     sensitive: true,
     strict: true,
   },
   {
-    path: '/assessment-account',
+    path: '/assessment/account',
     component: AssessmentAccount,
+    exact: true,
+    sensitive: true,
+    strict: true,
+  },
+  {
+    path: '*',
+    component: PageNotExist,
     exact: true,
     sensitive: true,
     strict: true,

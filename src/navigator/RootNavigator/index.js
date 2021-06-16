@@ -8,7 +8,7 @@ import {pages} from './pages';
 const Dashboard = lazy(() => import('pages/Dashboard'));
 const SignIn = lazy(() => import('pages/SignIn'));
 
-function RootNavigator({dispatch, auth, error}) {
+function RootNavigator({auth, error, dispatch}) {
   useEffect(() => {
     dispatch(REQUEST_APP_AUTH());
   }, [dispatch]);

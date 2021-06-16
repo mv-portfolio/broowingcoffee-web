@@ -1,4 +1,4 @@
-import {ACTION} from 'constants/string';
+import {ACTION} from 'constants/strings';
 
 //api request
 const REQUEST_APP_AUTH = () => ({
@@ -21,6 +21,18 @@ const SET_SESSION = data => ({
 });
 const CLEAR_SESSION = () => ({
   type: ACTION('SESSION').CLEAR,
+});
+
+//assessment
+const ASSESSMENT_REQUEST = () => ({
+  type: ACTION().ASSESS_AUTH,
+});
+const ASSESSMENT_SET = data => ({
+  type: ACTION('ASSESSMENT').SET,
+  ...data,
+});
+const ASSESSMENT_CLEAR = () => ({
+  type: ACTION('ASSESSMENT').CLEAR,
 });
 
 //authentication
@@ -94,6 +106,10 @@ export {
   //session
   SET_SESSION,
   CLEAR_SESSION,
+  //assessnent
+  ASSESSMENT_REQUEST,
+  ASSESSMENT_SET,
+  ASSESSMENT_CLEAR,
   //error
   SET_ERROR,
   CLEAR_ERROR,

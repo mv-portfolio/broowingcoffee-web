@@ -1,4 +1,4 @@
-import {ACTION} from 'constants/string';
+import {ACTION} from 'constants/strings';
 import {
   peekLocalStorage,
   popLocalStorage,
@@ -7,6 +7,7 @@ import {
 import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {getRequestServer, postRequestServer} from 'network/service';
 import {SET_ERROR, SET_APP_AUTH, SET_LOADING} from '../actions';
+import {push} from 'connected-react-router';
 
 function* serverConfig() {
   const auth = yield select(state => state.auth);
@@ -20,9 +21,11 @@ function* serverConfig() {
 
 function* authenticaton() {
   try {
+    console.log('APP-AUTHENTICATION');
     //init app-authentication
     const appAuth = yield call(getRequestServer, '/app-authentication');
     if (!appAuth.data.status) {
+      console.error('Server Failed to connect, Please check your base-URL');
       return console.log('/app-authentication FAILED:', appAuth.data.err);
     }
     yield put(
@@ -56,9 +59,8 @@ function* authenticaton() {
       yield serverConfig(),
     );
 
-    //check if user-auth is failed
+    //check user-auth is failed
     if (!userAuth.data.status) {
-      console.log(auth);
       yield popLocalStorage('sat');
       return yield put(
         SET_APP_AUTH({
@@ -68,13 +70,19 @@ function* authenticaton() {
       );
     }
 
-    //user authenticated
     yield put(
       SET_APP_AUTH({
         authenticated: true,
         secondary_auth_token: auth.secondary_auth_token,
       }),
     );
+
+    //check user is not assessed
+    if (!userAuth.data.res.user._id_config.isAssessed) {
+      return yield put(
+        push(`/assessment/information/${auth.secondary_auth_token}`),
+      );
+    }
   } catch (err) {
     console.log('ERROR [app-auth]:', err);
     yield put(
@@ -89,6 +97,7 @@ function* authenticaton() {
 
 function* signinAuthentication() {
   try {
+    console.log('SIGNIN-AUTHENTICATION');
     const session = yield select(state => state.session);
     const {
       data: {status, res, err},
@@ -102,13 +111,14 @@ function* signinAuthentication() {
       yield serverConfig(),
     );
 
+    yield put(
+      SET_LOADING({
+        status: false,
+      }),
+    );
+
     if (!status) {
       console.log('SIGN-IN FAILED');
-      yield put(
-        SET_LOADING({
-          status: false,
-        }),
-      );
       return yield put(
         SET_ERROR({
           message: err,
@@ -123,8 +133,34 @@ function* signinAuthentication() {
         secondary_auth_token: res.secondary_auth_token,
       }),
     );
+
+    if (!res.user._id_config.isAssessed) {
+      return yield put(
+        push(`/assessment/information/${res.secondary_auth_token}`),
+      );
+    }
   } catch (err) {
     console.log('ERROR [user-auth]:', err);
+    yield put(
+      SET_ERROR({
+        errorCode: err.code,
+        name: err.message,
+        message: err,
+      }),
+    );
+  }
+}
+
+function* assessmentAuthentication() {
+  try {
+    console.log('ASSESSMENT-AUTHENTICATION');
+    // const {
+    //   data: {
+    //     status, res, err
+    //   }
+    // } = yield call()
+  } catch (err) {
+    console.log('ERROR [assessment-auth]:', err);
     yield put(
       SET_ERROR({
         errorCode: err.code,
@@ -138,4 +174,5 @@ function* signinAuthentication() {
 export default function* rootAuthSaga() {
   yield takeEvery(ACTION().APP_AUTH, authenticaton);
   yield takeEvery(ACTION('SESSION').SET, signinAuthentication);
+  yield takeEvery(ACTION().ASSESS_AUTH, assessmentAuthentication);
 }

@@ -1,4 +1,4 @@
-import {ACTION} from 'constants/string';
+import {ACTION} from 'constants/strings';
 import {takeEvery} from 'redux-saga/effects';
 
 function* worker() {

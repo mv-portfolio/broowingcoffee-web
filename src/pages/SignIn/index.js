@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {loginReducer} from 'hooks/local/reducers';
 import {accentColor} from 'constants/styles';
-import {SIGNIN_FIELDS} from 'constants/string';
+import {SIGNIN_FIELDS} from 'constants/strings';
 import {logo} from 'assets/icons';
 import {useEffect} from 'react';
 import {SET_LOADING, SET_SESSION} from 'hooks/global/redux/actions';
