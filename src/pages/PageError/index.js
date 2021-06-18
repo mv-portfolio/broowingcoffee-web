@@ -13,7 +13,7 @@ function PageError({error}) {
       return {
         title: 'Connection Error',
         subtitle: 'Please check your internet connection.',
-        icon: getIcon('x-circle'),
+        icon: getIcon('wifi-off'),
       };
     }
 
@@ -21,6 +21,7 @@ function PageError({error}) {
       return {
         title: error.name,
         subtitle: error.message,
+        icon: getIcon('cloud-off')
       };
     }
 

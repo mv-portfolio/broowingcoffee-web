@@ -5,7 +5,6 @@ const AssessmentInformation = lazy(() =>
   import('pages/Assessment/Information'),
 );
 const AssessmentAccount = lazy(() => import('pages/Assessment/Account'));
-const PageError = lazy(()=>  import('pages/PageError'))
 
 const pages = [
   {
@@ -22,17 +21,9 @@ const pages = [
     sensitive: true,
     strict: true,
   },
-  // {
-  //   path: '/error',
-  //   component: PageError,
-  //   exact: true,
-  //   sensitive: true,
-  //   strict: true,
-  // },
   {
     path: '*',
     component: PageNotExist,
-    exact: true,
     sensitive: true,
     strict: true,
   },

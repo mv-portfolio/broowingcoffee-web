@@ -6,18 +6,19 @@ const REQUEST_APP_AUTH = () => ({
 });
 
 //loading
-const SET_LOADING = data => ({
+const SET_LOADING = ({status}) => ({
   type: ACTION('LOADING').SET,
-  ...data,
+  status,
 });
 const CLEAR_LOADING = () => ({
   type: ACTION('LOADING').CLEAR,
 });
 
 //session
-const SET_SESSION = data => ({
+const SET_SESSION = ({username, password}) => ({
   type: ACTION('SESSION').SET,
-  ...data,
+  username,
+  password,
 });
 const CLEAR_SESSION = () => ({
   type: ACTION('SESSION').CLEAR,
@@ -27,9 +28,10 @@ const CLEAR_SESSION = () => ({
 const ASSESSMENT_REQUEST = () => ({
   type: ACTION().ASSESS_AUTH,
 });
-const ASSESSMENT_SET = data => ({
+const ASSESSMENT_SET = ({isAssessed, token}) => ({
   type: ACTION('ASSESSMENT').SET,
-  ...data,
+  isAssessed,
+  token,
 });
 const ASSESSMENT_CLEAR = () => ({
   type: ACTION('ASSESSMENT').CLEAR,
@@ -39,18 +41,26 @@ const ASSESSMENT_CLEAR = () => ({
 const PEEK_APP_AUTH = () => ({
   type: ACTION('AUTH').PEEK,
 });
-const SET_APP_AUTH = data => ({
+const SET_APP_AUTH = ({
+  authenticated,
+  primary_auth_token,
+  secondary_auth_token,
+}) => ({
   type: ACTION('AUTH').SET,
-  ...data,
+  authenticated,
+  primary_auth_token,
+  secondary_auth_token,
 });
 const CLEAR_APP_AUTH = () => ({
   type: ACTION('AUTH').CLEAR,
 });
 
 //error
-const SET_ERROR = data => ({
+const SET_ERROR = ({errorCode, name, message}) => ({
   type: ACTION('ERROR').SET,
-  ...data,
+  errorCode,
+  name,
+  message,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION('ERROR').CLEAR,
@@ -60,18 +70,21 @@ const CLEAR_ERROR = () => ({
 const PEEK_USERS = () => ({
   type: ACTION('USERS').PEEK,
 });
-const SET_USERS = data => ({
+const SET_USERS = ({user}) => ({
   type: ACTION('USERS').SET,
-  users: data,
+  user,
 });
 const CLEAR_USERS = () => ({
   type: ACTION('USERS').CLEAR,
 });
 
 //user hooks
-const SET_USER = user => ({
+const SET_USER = ({firstname, lastname, username, email}) => ({
   type: ACTION('USER').SET,
-  ...user,
+  firstname,
+  lastname,
+  username,
+  email,
 });
 const CLEAR_USER = () => ({
   type: ACTION('USER').CLEAR,

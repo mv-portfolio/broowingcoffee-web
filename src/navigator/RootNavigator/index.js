@@ -15,10 +15,10 @@ function RootNavigator({auth, error, dispatch}) {
   return (
     <Switch>
       <RouteAuth
-        exact
         path='/'
         auth={auth}
         error={error}
+        exact={true}
         rederAuthComponent={Dashboard}
         renderNonAuthComponent={SignIn}
       />

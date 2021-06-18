@@ -1,14 +1,13 @@
-import {push} from 'connected-react-router';
+import {ACTION} from 'constants/strings';
 import {
   peekLocalStorage,
   popLocalStorage,
   pushLocalStorage,
 } from 'hooks/global/storage';
+import {call, put, select, takeEvery} from 'redux-saga/effects';
 import {getRequestServer, postRequestServer} from 'network/service';
-import {SET_APP_AUTH, SET_ERROR, SET_LOADING} from '../actions';
-
-const {ACTION} = require('constants/strings');
-const {takeEvery, select, call, put, take} = require('redux-saga/effects');
+import {SET_ERROR, SET_APP_AUTH, SET_LOADING} from '../actions';
+import {push} from 'connected-react-router';
 
 function* serverConfig() {
   const auth = yield select(state => state.auth);
@@ -21,9 +20,9 @@ function* serverConfig() {
   };
 }
 
-function* authentication() {
+function* authenticaton() {
   try {
-    //INITIALIZATION OF APP-AUTH
+    //init app-authentication
     const appAuth = yield call(getRequestServer, '/app-authentication');
     if (!appAuth.data.status) {
       console.error('Server Failed to connect');
@@ -31,38 +30,37 @@ function* authentication() {
         SET_ERROR({
           name: 'Server Maintenance',
           message:
-            'Sorry for inconvenient, we temporarily down the server and we will be back soon',
+            'Sorry for inconvenient, we will inform you as soon as possible, Thank you.',
         }),
       );
     }
 
-    //save the PAT from globalState
     yield put(
       SET_APP_AUTH({
         primary_auth_token: appAuth.data.res.primary_auth_token,
       }),
     );
 
-    //check if the SAT is null
+    //check if there sat is empty
     const secondary_auth_token = yield peekLocalStorage('sat');
     if (!secondary_auth_token) {
-      return yield put(
+      yield put(
         SET_APP_AUTH({
           authenticated: false,
+          secondary_auth_token: '',
         }),
       );
-      // return yield put(push('/'));
+      return yield put(push('/'));
     }
 
-    //save existing SAT from globalState
+    // //push sat to auth state
     yield put(
       SET_APP_AUTH({
         secondary_auth_token: secondary_auth_token,
       }),
     );
 
-    //INITIALIZATION OF USER-AUTH
-    //check if the SAT of user is still valid
+    //peek auth state & get requeqst if user is authenticated
     const config = yield serverConfig();
     const userAuth = yield call(
       getRequestServer,
@@ -70,28 +68,33 @@ function* authentication() {
       config,
     );
 
-    //check if the user authentication is invalid
+    //check user-auth is failed
     if (!userAuth.data.status) {
       yield popLocalStorage('sat');
       return yield put(
         SET_APP_AUTH({
           authenticated: false,
-          secondary_auth_token: undefined,
+          secondary_auth_token: '',
         }),
       );
-      // return yield put(push('/'));
     }
 
-    //user SAT is still valid
     yield put(
       SET_APP_AUTH({
         authenticated: true,
         secondary_auth_token: config.auth.secondary_auth_token,
       }),
     );
-    // return yield put(push('/'));
+
+    //check user is not assessed
+    if (!userAuth.data.res.user._id_config.isAssessed) {
+      console.log('Hellyy');
+      return yield put(
+        push(`/assessment/information/${config.auth.secondary_auth_token}`),
+      );
+    }
   } catch (err) {
-    console.log('Error[app-auth]:', err);
+    console.log('ERROR [app-auth]:', err);
     yield put(
       SET_ERROR({
         errorCode: err.code,
@@ -102,11 +105,13 @@ function* authentication() {
   }
 }
 
-function* signInAuthentication() {
+function* signinAuthentication() {
   try {
-    //INITIALIZATION of SESSION-AUTH
+    //init signing authentication
     const session = yield select(state => state.session);
-    const signInAuth = yield call(
+    const {
+      data: {res, err, status},
+    } = yield call(
       postRequestServer,
       '/signin-authentication-encoder',
       {
@@ -116,47 +121,36 @@ function* signInAuthentication() {
       yield serverConfig(),
     );
 
-    //check if there is an error on SignIn Request
-    if (!signInAuth.data.status) {
-      //if the data.err is undefined means the connection from the server is down
-      if (!signInAuth.data.err) {
-        return yield put(
-          SET_ERROR({
-            name: 'Server Maintenance',
-            message:
-              'Sorry for inconvenient, we temporarily down the server and we will be back soon',
-          }),
-        );
-      }
+    yield put(
+      SET_LOADING({
+        status: false,
+      }),
+    );
 
-      //set loading to false and return the error message
-      yield put(SET_LOADING({status: false}));
+    //catch if err is undefined, the problem is in the server
+    if (!status) {
       return yield put(
         SET_ERROR({
-          message: signInAuth.data.err,
+          message: err,
         }),
       );
     }
 
-    //stored the new SAT on localstorage and save from the globalState
-    yield pushLocalStorage('sat', signInAuth.data.res.secondary_auth_token);
+    yield pushLocalStorage('sat', res.secondary_auth_token);
     yield put(
       SET_APP_AUTH({
         authenticated: true,
-        secondary_auth_token: signInAuth.data.res.secondary_auth_token,
+        secondary_auth_token: res.secondary_auth_token,
       }),
     );
 
-    //redirect the user if the user not yet done on assessment
-    if (!signInAuth.data.res.user._id_config.isAssessed) {
+    if (!res.user._id_config.isAssessed) {
       return yield put(
-        push(
-          `/assessment/information/${signInAuth.data.res.secondary_auth_token}`,
-        ),
+        push(`/assessment/information/${res.secondary_auth_token}`),
       );
     }
   } catch (err) {
-    console.log('Error[user-auth]:', err);
+    console.log('ERROR [user-auth]:', err);
     yield put(
       SET_ERROR({
         errorCode: err.code,
@@ -168,12 +162,30 @@ function* signInAuthentication() {
 }
 
 function* assessmentAuthentication() {
-  yield console.log('ASSESSMENT-AUTH');
+  try {
+    //init assessment authentication
+    const config = yield serverConfig();
+    const {
+      data: {status, res, err},
+    } = yield call(getRequestServer, '/signin-authentication-decoder', config);
+
+    if (!status) {
+      return yield put(push('/not-found'));
+    }
+  } catch (err) {
+    console.log('ERROR [assessment-auth]:', err);
+    yield put(
+      SET_ERROR({
+        errorCode: err.code,
+        name: err.message,
+        message: err,
+      }),
+    );
+  }
 }
 
 export default function* rootAuthSaga() {
-  yield takeEvery(ACTION().APP_AUTH, authentication);
-  yield takeEvery(ACTION('SESSION').SET, signInAuthentication);
-  yield take(ACTION().ASSESS_AUTH);
-  yield call(assessmentAuthentication);
+  yield takeEvery(ACTION().APP_AUTH, authenticaton);
+  yield takeEvery(ACTION('SESSION').SET, signinAuthentication);
+  yield takeEvery(ACTION().ASSESS_AUTH, assessmentAuthentication);
 }
