@@ -16,18 +16,25 @@ function* serverConfig() {
       'primary-auth-token': auth.primary_auth_token,
       'secondary-auth-token': auth.secondary_auth_token,
     },
+    auth,
   };
 }
 
 function* authenticaton() {
   try {
-    console.log('APP-AUTHENTICATION');
     //init app-authentication
     const appAuth = yield call(getRequestServer, '/app-authentication');
     if (!appAuth.data.status) {
-      console.error('Server Failed to connect, Please check your base-URL');
-      return console.log('/app-authentication FAILED:', appAuth.data.err);
+      console.error('Server Failed to connect');
+      return yield put(
+        SET_ERROR({
+          name: 'Server Maintenance',
+          message:
+            'Sorry for inconvenient, we will inform you as soon as possible, Thank you.',
+        }),
+      );
     }
+
     yield put(
       SET_APP_AUTH({
         primary_auth_token: appAuth.data.res.primary_auth_token,
@@ -40,11 +47,12 @@ function* authenticaton() {
       return yield put(
         SET_APP_AUTH({
           authenticated: false,
+          secondary_auth_token: '',
         }),
       );
     }
 
-    //push sat to auth state
+    // //push sat to auth state
     yield put(
       SET_APP_AUTH({
         secondary_auth_token: secondary_auth_token,
@@ -52,11 +60,11 @@ function* authenticaton() {
     );
 
     //peek auth state & get requeqst if user is authenticated
-    const auth = yield select(state => state.auth);
+    const config = yield serverConfig();
     const userAuth = yield call(
       getRequestServer,
       '/signin-authentication-decoder',
-      yield serverConfig(),
+      config,
     );
 
     //check user-auth is failed
@@ -73,16 +81,16 @@ function* authenticaton() {
     yield put(
       SET_APP_AUTH({
         authenticated: true,
-        secondary_auth_token: auth.secondary_auth_token,
+        secondary_auth_token: config.auth.secondary_auth_token,
       }),
     );
 
-    //check user is not assessed
-    if (!userAuth.data.res.user._id_config.isAssessed) {
-      return yield put(
-        push(`/assessment/information/${auth.secondary_auth_token}`),
-      );
-    }
+    // //check user is not assessed
+    // if (!userAuth.data.res.user._id_config.isAssessed) {
+    //   return yield put(
+    //     push(`/assessment/information/${auth.secondary_auth_token}`),
+    //   );
+    // }
   } catch (err) {
     console.log('ERROR [app-auth]:', err);
     yield put(
@@ -97,10 +105,10 @@ function* authenticaton() {
 
 function* signinAuthentication() {
   try {
-    console.log('SIGNIN-AUTHENTICATION');
+    //signing authentication
     const session = yield select(state => state.session);
     const {
-      data: {status, res, err},
+      data: {res, err, status},
     } = yield call(
       postRequestServer,
       '/signin-authentication-encoder',
@@ -117,11 +125,22 @@ function* signinAuthentication() {
       }),
     );
 
+    //catch if err is undefined, the problem is in the server
     if (!status) {
-      console.log('SIGN-IN FAILED');
+      if (err) {
+        if (err.includes('malformed')) {
+          return window.location.reload();
+        }
+        return yield put(
+          SET_ERROR({
+            message: err,
+          }),
+        );
+      }
       return yield put(
         SET_ERROR({
-          message: err,
+          message:
+            'Sorry for inconvenient, The Server is under Maintenance, we will inform you as soon as possible, Thank you.',
         }),
       );
     }

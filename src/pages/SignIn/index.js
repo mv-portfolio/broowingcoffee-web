@@ -87,7 +87,6 @@ function SignIn({error, loading, dispatch}) {
                   size='15px'
                 />
               }
-              disabled={loading.status}
               value={state.username.text}
               onChangeText={value => onChangeValue('username', value)}
             />
@@ -103,7 +102,6 @@ function SignIn({error, loading, dispatch}) {
                   size='15px'
                 />
               }
-              disabled={loading.status}
               isTextEncrypt={!state.password.isEncrypted}
               onEncryptText={() => onClick('on-encrypt-text')}
               value={state.password.text}

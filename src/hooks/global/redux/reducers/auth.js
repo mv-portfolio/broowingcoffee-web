@@ -1,6 +1,12 @@
 import {ACTION} from 'constants/strings';
 
-export default function auth(state = {}, action) {
+const initialState = {
+  authenticated: null,
+  primary_auth_token: '',
+  secondary_auth_token: '',
+};
+
+export default function auth(state = initialState, action) {
   switch (action.type) {
     case ACTION('AUTH').PEEK:
       return state;

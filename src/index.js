@@ -11,7 +11,7 @@ import {Provider} from 'react-redux';
 const store = configStore();
 
 ReactDom.render(
-  <Suspense fallback={<Loading />}>
+  <Suspense fallback={<Loading planeBackground />}>
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <RootNavigator />

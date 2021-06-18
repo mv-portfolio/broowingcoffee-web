@@ -15,7 +15,7 @@
       type="image/png"
       href="./assets/icons/logo-2.png"
     />
-    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="manifest" type="" href="./manifest.webmanifest" />
     <title>Broowing Coffee</title>
   </head>
   <body>
@@ -25,8 +25,8 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker
           .register('./service-worker.js')
-          .then(reg => console.log('Success:', reg.scope))
-          .catch(err => console.log('Failed:', err.message));
+          .then(res => console.log('SW-Success:', res.scope))
+          .catch(err => console.log('SW-Failed:', err));
       });
     </script>
   </body>
