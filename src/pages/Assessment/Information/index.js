@@ -1,15 +1,15 @@
 import useHook from 'hooks/local';
-import infoAssessReducer from 'hooks/local/reducers/infoAssessReducer';
-import styles from 'pages/Assessment/.module.css';
+import styles from '../.module.css';
 
-import {useParams} from 'react-router-dom';
-import {Image, Text, Separator, TextInput, View, Button} from 'components';
-import {ASSESSMENT_INFORMATION} from 'constants/strings';
-import {logo} from 'assets/icons';
-import {NAME_REGEX} from 'constants/regex';
-import {push} from 'connected-react-router';
 import {connect} from 'react-redux';
+import {Image, Text, Separator, TextInput, View, Button} from 'components';
+import {logo} from 'assets/icons';
 import {useEffect} from 'react';
+import {push} from 'connected-react-router';
+import {NAME_REGEX} from 'constants/regex';
+import {ASSESSMENT_INFORMATION} from 'constants/strings';
+import {infoAssessReducer} from 'hooks/local/reducers';
+import {useParams} from 'react-router-dom';
 import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
 
 function Information({assessment, dispatch}) {
@@ -36,54 +36,55 @@ function Information({assessment, dispatch}) {
   };
 
   useEffect(() => {
+    document.title = 'Assessment | Broowing Coffee';
     dispatch(ASSESSMENT_REQUEST());
   }, [dispatch]);
 
   return (
-    <View style={styles.mainPane}>
-      <View style={styles.bodyPane}>
-        <View style={styles.leftBodyPane}>
-          <Image title='img-logo' source={logo} style={styles.logo} />
-          <Text style={styles.welcome}>Welcome Newcomers!</Text>
+    <View style={styles.screenPane}>
+      <View style={styles.mainPane}>
+        <View style={styles.leftPane}>
+          <Image title='mobile-logo' source={logo} style={styles.logo} />
         </View>
-        <View style={styles.centerBodyPane}>
-          <View style={styles.headerPane}>
-            <Text style={styles.title}>Information</Text>
-            <Text style={styles.subtitle}>personal identity</Text>
+        <View style={styles.rightPane}>
+          <View style={styles.topPane}>
+            <View style={styles.headerPane}>
+              <Text style={styles.title}>Information</Text>
+              <Text style={styles.subtitle}>personal identity</Text>
+            </View>
           </View>
-          <Separator vertical={25} />
-          <TextInput
-            placeholder='Firstname'
-            skin={styles.inputSkin}
-            value={state.firstname.text}
-            onChangeText={value => onChangeValue('firstname', value)}
-          />
-          <Separator vertical={3} />
-          <TextInput
-            placeholder='Lastname'
-            skin={styles.inputSkin}
-            value={state.lastname.text}
-            onChangeText={value => onChangeValue('lastname', value)}
-          />
-          <Separator vertical={5} />
-          <Button
-            skin={styles.buttonSkin}
-            title='Next'
-            titleStyle={styles.buttonTitle}
-            onPress={() => onClick('on-next')}
-          />
+          <Separator vertical={15} />
+          <View style={styles.bodyPane}>
+            <TextInput
+              placeholder='Firstname'
+              skin={styles.inputSkin}
+              value={state.firstname.text}
+              onChangeText={value => onChangeValue('firstname', value)}
+            />
+            <Separator vertical={3} />
+            <TextInput
+              placeholder='Lastname'
+              skin={styles.inputSkin}
+              value={state.lastname.text}
+              onChangeText={value => onChangeValue('lastname', value)}
+            />
+            <Separator vertical={5} />
+            <Button
+              skin={styles.buttonSkin}
+              title='Next'
+              titleStyle={styles.buttonTitle}
+              onPress={() => onClick('on-next')}
+            />
+          </View>
+          <View style={styles.bottomPane}></View>
         </View>
       </View>
     </View>
   );
 }
 
-const statesProps = ({assessment}) => ({
-  assessment,
-});
-
 const dispatchProps = dispatch => ({
-  dispatch: action => dispatch(action),
+  dispatch: acion => dispatch(acion),
 });
 
-export default connect(statesProps, dispatchProps)(Information);
+export default connect(null, dispatchProps)(Information);

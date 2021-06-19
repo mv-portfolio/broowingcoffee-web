@@ -1,5 +1,5 @@
-import accAccessReducer from './accAssessReducer';
+import accAssessReducer from './accAssessReducer';
 import infoAssessReducer from './infoAssessReducer';
 import loginReducer from './loginReducer';
 
-export {accAccessReducer, infoAssessReducer, loginReducer};
+export {accAssessReducer, infoAssessReducer, loginReducer};

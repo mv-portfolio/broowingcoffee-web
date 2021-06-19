@@ -51,7 +51,6 @@ function* authentication() {
           authenticated: false,
         }),
       );
-      // return yield put(push('/'));
     }
 
     //save existing SAT from globalState
@@ -62,7 +61,7 @@ function* authentication() {
     );
 
     //INITIALIZATION OF USER-AUTH
-    //check if the SAT of user is still valid
+    //check if the SAT of user is still valid or if the user is still authenticated
     const config = yield serverConfig();
     const userAuth = yield call(
       getRequestServer,
@@ -79,17 +78,21 @@ function* authentication() {
           secondary_auth_token: undefined,
         }),
       );
-      // return yield put(push('/'));
     }
 
-    //user SAT is still valid
+    //check if the authenticated user is not assessed yet
+    if (!userAuth.data.res.user._id_config.isAssessed) {
+      yield put(
+        push(`/assessment/information/${config.auth.secondary_auth_token}`),
+      );
+    }
+
     yield put(
       SET_APP_AUTH({
         authenticated: true,
         secondary_auth_token: config.auth.secondary_auth_token,
       }),
     );
-    // return yield put(push('/'));
   } catch (err) {
     console.log('Error[app-auth]:', err);
     yield put(
@@ -142,7 +145,6 @@ function* signInAuthentication() {
     yield pushLocalStorage('sat', signInAuth.data.res.secondary_auth_token);
     yield put(
       SET_APP_AUTH({
-        authenticated: true,
         secondary_auth_token: signInAuth.data.res.secondary_auth_token,
       }),
     );
@@ -155,6 +157,9 @@ function* signInAuthentication() {
         ),
       );
     }
+
+    yield put(push('/'));
+    yield put(SET_APP_AUTH({authenticated: true}));
   } catch (err) {
     console.log('Error[user-auth]:', err);
     yield put(
@@ -168,7 +173,38 @@ function* signInAuthentication() {
 }
 
 function* assessmentAuthentication() {
-  yield console.log('ASSESSMENT-AUTH');
+  try {
+    /*
+      if user start directly in /assessment/ config is become to null
+      because /app-auth is not yet initialize to set config thus it
+    */
+    const config = yield serverConfig();
+    const userAuth = yield call(
+      getRequestServer,
+      '/signin-authentication-decoder',
+      config,
+    );
+
+    if (!userAuth.data.status) {
+      yield put(
+        SET_ERROR({
+          name: 'Page Not Found',
+          message:
+            'We are having in trouble, Please be sure the link is exist.',
+        }),
+      );
+      return yield put(push('/'));
+    }
+  } catch (err) {
+    console.log('Error[assess-auth]:', err);
+    yield put(
+      SET_ERROR({
+        errorCode: err.code,
+        name: err.message,
+        message: err,
+      }),
+    );
+  }
 }
 
 export default function* rootAuthSaga() {

@@ -1,23 +1,25 @@
 import Icon from 'react-web-vector-icons';
 import useHook from 'hooks/local';
-import accAssessReducer from 'hooks/local/reducers/accAssessReducer';
-import styles from 'pages/Assessment/.module.css';
+import styles from '../.module.css';
 
 import {useEffect} from 'react';
+import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
+import {accAssessReducer} from 'hooks/local/reducers';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
+import {logo} from 'assets/icons';
+import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
 import {
   CAPITAL_CHAR_REGEX,
   NUMS_REGEX,
   SMALL_CHAR_REGEX,
   SYMBOLS_REGEX,
 } from 'constants/regex';
-import {logo} from 'assets/icons';
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
 
-export default function SignIn() {
+function Account({dispatch}) {
   const {token} = useParams();
   const [state, setState] = useHook(ASSESSMENT_ACCOUNT, accAssessReducer);
 
@@ -103,101 +105,102 @@ export default function SignIn() {
   };
 
   useEffect(() => {
-    // const onBackPress = (event) => {
-    //   if (window.confirm('Are you sure?')) {
-    //     history.push('/');
-    //   } else {
-    //     console.log('Cancel');
-    //     history.go(1);
-    //   }
-    //   event.preventDefault();
-    // };
-    // window.addEventListener('popstate', onBackPress);
-    // return () => {
-    //   window.removeEventListener('popstate', onBackPress);
-    // };
-  }, []);
+    document.title = 'Assessment | Broowing Coffee';
+    dispatch(ASSESSMENT_REQUEST());
+  }, [dispatch]);
 
   return (
-    <View style={styles.mainPane}>
-      <View style={styles.bodyPane}>
-        <View style={styles.leftBodyPane}>
-          <Image source={logo} style={styles.logo} />
-          <Text style={styles.welcome}>Welcome Newcomers!</Text>
+    <View style={styles.screenPane}>
+      <View style={styles.mainPane}>
+        <View style={styles.leftPane}>
+          <Image title='mobile-logo' source={logo} style={styles.logo} />
         </View>
-        <View style={styles.centerBodyPane}>
-          <View style={styles.headerPane}>
-            <Text style={styles.title}>Account</Text>
-            <Text style={styles.subtitle}>personal identity</Text>
+        <View style={styles.rightPane}>
+          <View style={styles.topPane}>
+            <View style={styles.headerPane}>
+              <Text style={styles.title}>Account</Text>
+              <Text style={styles.subtitle}>personal identity</Text>
+            </View>
           </View>
-          <Separator vertical={25} />
-          <TextInput
-            placeholder='Username'
-            skin={styles.inputSkin}
-            value={state.username.text}
-            onChangeText={value => onChangeValue('username', value)}
-            prefixIcon={
-              <Icon
-                font='Feather'
-                size={ICON_SIZE}
-                name='user'
-                color={accentColor}
-              />
-            }
-          />
-          <Separator vertical={3} />
-          <TextInput
-            placeholder='Email'
-            skin={styles.inputSkin}
-            value={state.email.text}
-            onChangeText={value => onChangeValue('email', value)}
-            prefixIcon={
-              <Icon
-                font='Feather'
-                size={ICON_SIZE}
-                name='mail'
-                color={accentColor}
-              />
-            }
-          />
-          <Separator vertical={3} />
-          <TextInput
-            placeholder='Password'
-            skin={styles.inputSkin}
-            value={state.password.text}
-            onChangeText={value => onChangeValue('password', value)}
-            prefixIcon={
-              <Icon
-                font='Feather'
-                size={ICON_SIZE}
-                name='lock'
-                color={accentColor}
-              />
-            }
-            indicatorColor={accentColor}
-            indicatorProgress={state.password.strength}
-            indicatorSize={18}
-            isTextEncrypt={!state.confirmPassword.isEncrypted}
-          />
-          <Separator vertical={3} />
-          <TextInput
-            placeholder='Confirm-Password'
-            skin={styles.inputSkin}
-            value={state.confirmPassword.text}
-            onChangeText={value => onChangeValue('confirm-password', value)}
-            prefixIcon={onPasswordMatchedIcon(state.confirmPassword.isMatched)}
-            isTextEncrypt={!state.confirmPassword.isEncrypted}
-            onEncryptText={() => onClick('on-encrypt-text')}
-          />
-          <Separator vertical={5} />
-          <Button
-            skin={styles.buttonSkin}
-            title='Done'
-            titleStyle={styles.buttonTitle}
-            onPress={() => onClick('on-done')}
-          />
+          <Separator vertical={15} />
+          <View style={styles.bodyPane}>
+            <TextInput
+              placeholder='Username'
+              skin={styles.inputSkin}
+              value={state.username.text}
+              onChangeText={value => onChangeValue('username', value)}
+              prefixIcon={
+                <Icon
+                  font='Feather'
+                  size={ICON_SIZE}
+                  name='user'
+                  color={accentColor}
+                />
+              }
+            />
+            <Separator vertical={3} />
+            <TextInput
+              placeholder='Email'
+              skin={styles.inputSkin}
+              value={state.email.text}
+              onChangeText={value => onChangeValue('email', value)}
+              prefixIcon={
+                <Icon
+                  font='Feather'
+                  size={ICON_SIZE}
+                  name='mail'
+                  color={accentColor}
+                />
+              }
+            />
+            <Separator vertical={3} />
+            <TextInput
+              placeholder='Password'
+              skin={styles.inputSkin}
+              value={state.password.text}
+              onChangeText={value => onChangeValue('password', value)}
+              prefixIcon={
+                <Icon
+                  font='Feather'
+                  size={ICON_SIZE}
+                  name='lock'
+                  color={accentColor}
+                />
+              }
+              indicatorColor={accentColor}
+              indicatorProgress={state.password.strength}
+              indicatorSize={18}
+              isTextEncrypt={!state.confirmPassword.isEncrypted}
+            />
+            <Separator vertical={3} />
+            <TextInput
+              placeholder='Confirm-Password'
+              skin={styles.inputSkin}
+              value={state.confirmPassword.text}
+              onChangeText={value => onChangeValue('confirm-password', value)}
+              prefixIcon={onPasswordMatchedIcon(
+                state.confirmPassword.isMatched,
+              )}
+              isTextEncrypt={!state.confirmPassword.isEncrypted}
+              onEncryptText={() => onClick('on-encrypt-text')}
+            />
+            <Separator vertical={5} />
+            <Button
+              skin={styles.buttonSkin}
+              title='Done'
+              titleStyle={styles.buttonTitle}
+              onPress={() => onClick('on-done')}
+            />
+          </View>
+          <View style={styles.bottomPane}></View>
         </View>
       </View>
     </View>
   );
 }
+
+const dispatchProps = dispatch => ({
+  dispatch: acion => dispatch(acion),
+});
+
+export default connect(null, dispatchProps)(Account);

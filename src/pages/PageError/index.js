@@ -4,24 +4,27 @@ import {connect} from 'react-redux';
 import Icon from 'react-web-vector-icons';
 import styles from './.module.css';
 function PageError({error}) {
-  const getIcon = name => {
-    return <Icon font='Feather' name={name} size='50px' color={accentColor} />;
+  const getIcon = (type, name) => {
+    return <Icon font={type} name={name} size='50px' color={accentColor} />;
   };
   const errorHandler = error => {
-    console.log(error);
     if (error.name === 'Network Error') {
       return {
         title: 'Connection Error',
         subtitle: 'Please check your internet connection.',
-        icon: getIcon('wifi-off'),
+        icon: getIcon('Feather', 'wifi-off'),
       };
-    }
-
-    if (error.name === 'Server Maintenance') {
+    } else if (error.name === 'Server Maintenance') {
       return {
         title: error.name,
         subtitle: error.message,
-        icon: getIcon('cloud-off')
+        icon: getIcon('AntDesign', 'tool'),
+      };
+    } else if (error.name === 'Page Not Found') {
+      return {
+        title: error.name,
+        subtitle: error.message,
+        icon: getIcon('AntDesign', 'disconnect'),
       };
     }
 
