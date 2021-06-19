@@ -6,9 +6,7 @@ import {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {accAssessReducer} from 'hooks/local/reducers';
-import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {logo} from 'assets/icons';
-import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
 import {
   CAPITAL_CHAR_REGEX,
   NUMS_REGEX,
@@ -18,6 +16,8 @@ import {
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
+import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
+import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
 function Account({dispatch}) {
   const {token} = useParams();

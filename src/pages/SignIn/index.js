@@ -10,6 +10,7 @@ import {SIGNIN_FIELDS} from 'constants/strings';
 import {loginReducer} from 'hooks/local/reducers';
 import {SET_LOADING, SET_SESSION} from 'hooks/global/redux/actions';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
+import {push} from 'connected-react-router';
 
 function SignIn({error, loading, dispatch}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);
@@ -46,6 +47,8 @@ function SignIn({error, loading, dispatch}) {
         type: 'set-password',
         isEncrypted: !state.password.isEncrypted,
       });
+    } else if (component === 'on-forgot-password') {
+      dispatch(push('/forgot-password'));
     }
   };
 
