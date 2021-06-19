@@ -1,0 +1,145 @@
+.screenPane {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #383637;
+}
+
+.screenPane .mainPane {
+  width: 1000px;
+  height: 650px;
+  flex-direction: row;
+  border-radius: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.mainPane .leftPane {
+  flex-grow: 6;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px 0 0 15px;
+  background-color: white;
+}
+.leftPane .logo {
+  width: 150px;
+  height: 150px;
+}
+
+.mainPane .rightPane {
+  flex-grow: 1;
+  padding: 25px;
+  align-items: center;
+  border-radius: 0 15px 15px 0;
+  background-color: #242223;
+}
+
+.rightPane .topPane {
+  display: flex;
+  flex: 1.75;
+  width: 280px;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.topPane .headerPane {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.headerPane .title {
+  color: #f7a35b;
+  font-size: 17.5px;
+  font-weight: bold;
+}
+.headerPane .subtitlePane {
+  flex-direction: row;
+  align-self: flex-end;
+  align-items: center;
+  justify-content: center;
+}
+.headerPane .subtitle {
+  font-size: 15px;
+}
+
+.rightPane .bodyPane {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.bodyPane .inputSkin {
+  width: 265px;
+  box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.5);
+}
+.bodyPane .buttonSkin {
+  width: 280px;
+  background-color: #f7a35b;
+  box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.5);
+}
+.bodyPane .buttonTitle {
+  color: #242223;
+}
+
+.rightPane .bottomPane {
+  display: flex;
+  flex: 1.5;
+  align-items: center;
+  justify-content: space-between;
+}
+.bottomPane .errorPane {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  padding: 5px 10px 5px 10px;
+  border: 2px #f75b5b solid;
+  border-radius: 7.5px;
+}
+.errorPane .errorTitle {
+  display: inline-block;
+  font-family: 'Standard-Font';
+  font-weight: bold;
+  font-size: 12px;
+  padding: 5px 0 5px 0;
+  text-align: center;
+  color: #f75b5b;
+}
+.bottomPane .bForgotPasswordText {
+  color: #f7a35b;
+}
+
+@media screen and (max-width: 1000px) {
+  .screenPane .mainPane {
+    width: 350px;
+    border-radius: 15px;
+  }
+  .mainPane .leftPane {
+    display: none;
+  }
+  .mainPane .rightPane {
+    flex-grow: 0;
+    width: 300px;
+    border-radius: 15px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .screenPane .mainPane {
+    flex: 1;
+    width: 100vw;
+    justify-content: center;
+    border-radius: 0;
+    background-color: #242223;
+  }
+
+  .rightPane .topPane {
+    flex: 2;
+  }
+  .rightPane .bottomPane {
+    flex: 2;
+  }
+
+  .mainPane .leftPane {
+    display: none;
+  }
+}

@@ -2,14 +2,14 @@ import Icon from 'react-web-vector-icons';
 import useHook from 'hooks/local';
 import styles from './.module.css';
 
+import {useEffect} from 'react';
+import {logo} from 'assets/icons';
 import {connect} from 'react-redux';
-import {Image, Text, Separator, TextInput, View, Button} from 'components';
-import {loginReducer} from 'hooks/local/reducers';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/strings';
-import {logo} from 'assets/icons';
-import {useEffect} from 'react';
+import {loginReducer} from 'hooks/local/reducers';
 import {SET_LOADING, SET_SESSION} from 'hooks/global/redux/actions';
+import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
 function SignIn({error, loading, dispatch}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);
@@ -131,6 +131,7 @@ function SignIn({error, loading, dispatch}) {
               title='Forgot Password'
               titleStyle={styles.bForgotPasswordText}
               disabled={loading.status}
+              onPress={() => onClick('on-forgot-password')}
             />
           </View>
         </View>

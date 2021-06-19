@@ -5,6 +5,7 @@ const AssessmentInformation = lazy(() =>
   import('pages/Assessment/Information'),
 );
 const AssessmentAccount = lazy(() => import('pages/Assessment/Account'));
+const ForgotPassword = lazy(()=> import('pages/ForgotPassword'))
 
 const pages = [
   {
@@ -17,6 +18,13 @@ const pages = [
   {
     path: '/assessment/account/:token',
     component: AssessmentAccount,
+    exact: true,
+    sensitive: true,
+    strict: true,
+  },
+  {
+    path: '/forgot-password',
+    component: ForgotPassword,
     exact: true,
     sensitive: true,
     strict: true,
