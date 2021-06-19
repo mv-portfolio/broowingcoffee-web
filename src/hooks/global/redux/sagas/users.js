@@ -1,4 +1,4 @@
-import {ACTION} from 'constants/strings';
+import {ACTION_TYPE} from 'constants/strings';
 import {takeEvery} from 'redux-saga/effects';
 
 function* worker() {
@@ -7,7 +7,7 @@ function* worker() {
 
 //change action based from the reducer type
 function* rootUsersSaga() {
-  yield takeEvery(ACTION('USERS').PEEK, worker);
+  yield takeEvery(ACTION_TYPE('USERS').PEEK, worker);
 }
 
 export default rootUsersSaga;

@@ -1,14 +1,14 @@
-import {ACTION} from 'constants/strings';
+import {ACTION_TYPE} from 'constants/strings';
 
 export default function users(state = [], action) {
   switch (action.type) {
-    case ACTION('USERS').PEEK:
+    case ACTION_TYPE('USERS').PEEK:
       return state;
 
-    case ACTION('USERS').SET:
+    case ACTION_TYPE('USERS').SET:
       return action.user;
 
-    case ACTION('USERS').CLEAR:
+    case ACTION_TYPE('USERS').CLEAR:
       return [];
 
     default:

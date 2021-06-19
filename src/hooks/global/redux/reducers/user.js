@@ -1,8 +1,8 @@
-import {ACTION} from 'constants/strings';
+import {ACTION_TYPE} from 'constants/strings';
 
 export default function user(state = {}, action) {
   switch (action.type) {
-    case ACTION('USER').SET:
+    case ACTION_TYPE('USER').SET:
       return {
         firsname: action.firstname || state.firsname,
         lastname: action.lastname || state.lastname,
@@ -10,7 +10,7 @@ export default function user(state = {}, action) {
         email: action.email || state.email,
       };
 
-    case ACTION('USER').CLEAR:
+    case ACTION_TYPE('USER').CLEAR:
       return {
         firsname: '',
         lastname: '',

@@ -1,4 +1,4 @@
-const ACTION = type => ({
+const ACTION_TYPE = type => ({
   //hooks action
   PUSH: `PUSH_${type}`,
   POP: `POP_${type}`,
@@ -58,7 +58,7 @@ const ASSESSMENT_ACCOUNT = {
 
 export {
   //function
-  ACTION,
+  ACTION_TYPE,
   //plain obj
   USER_FIELDS,
   SIGNIN_FIELDS,

@@ -6,13 +6,14 @@ import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {logo} from 'assets/icons';
 import {useEffect} from 'react';
 import {push} from 'connected-react-router';
-import {infoAssessReducer} from 'hooks/local/reducers';
 import {useParams} from 'react-router-dom';
+import {infoAssessReducer} from 'hooks/local/reducers';
 import {NAME_REGEX} from 'constants/regex';
 import {ASSESSMENT_INFORMATION} from 'constants/strings';
-import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
+import {ASSESSMENT_REQUEST, SET_APP_AUTH} from 'hooks/global/redux/actions';
+import {popLocalStorage} from 'hooks/global/storage';
 
-function Information({assessment, dispatch}) {
+function Information({dispatch}) {
   const {token} = useParams();
   const [state, setState] = useHook(ASSESSMENT_INFORMATION, infoAssessReducer);
 
@@ -37,7 +38,27 @@ function Information({assessment, dispatch}) {
 
   useEffect(() => {
     document.title = 'Assessment | Broowing Coffee';
+
     dispatch(ASSESSMENT_REQUEST());
+
+    const popStateEventListener = event => {
+      if (window.confirm('Are you sure?')) {
+        popLocalStorage('sat');
+        dispatch(push('/'));
+        dispatch(
+          SET_APP_AUTH({
+            authenticated: false,
+            secondary_auth_token: '',
+          }),
+        );
+      }
+      return true;
+    };
+
+    window.addEventListener('popstate', popStateEventListener);
+    return () => {
+      window.removeEventListener('popstate', popStateEventListener);
+    };
   }, [dispatch]);
 
   return (

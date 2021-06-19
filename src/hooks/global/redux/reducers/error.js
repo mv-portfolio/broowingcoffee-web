@@ -1,15 +1,15 @@
-import {ACTION} from 'constants/strings';
+import {ACTION_TYPE} from 'constants/strings';
 
 export default function error(state = {}, action) {
   switch (action.type) {
-    case ACTION('ERROR').SET:
+    case ACTION_TYPE('ERROR').SET:
       return {
         errorCode: action.errorCode,
         name: action.name,
         message: action.message,
       };
 
-    case ACTION('ERROR').CLEAR:
+    case ACTION_TYPE('ERROR').CLEAR:
       return {};
 
     default:

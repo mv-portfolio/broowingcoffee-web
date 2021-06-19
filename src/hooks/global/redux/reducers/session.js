@@ -1,14 +1,14 @@
-import {ACTION} from 'constants/strings';
+import {ACTION_TYPE} from 'constants/strings';
 
 export default function session(state = {}, action) {
   switch (action.type) {
-    case ACTION('SESSION').SET:
+    case ACTION_TYPE('SESSION').SET:
       return {
         username: action.username || state.username,
         password: action.password || state.password,
       };
 
-    case ACTION('SESSION').CLEAR:
+    case ACTION_TYPE('SESSION').CLEAR:
       return {};
 
     default:

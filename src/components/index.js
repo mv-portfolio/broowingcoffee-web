@@ -10,6 +10,7 @@ const TextInput = lazy(() => import('./TextInput'));
 const Text = lazy(() => import('./Text'));
 const View = lazy(() => import('./View'));
 const RouteAuth = lazy(() => import('./RouteAuth'));
+const RoutePrivate = lazy(() => import('./RoutePrivate'));
 
 export {
   Button,
@@ -23,4 +24,5 @@ export {
   Text,
   View,
   RouteAuth,
+  RoutePrivate,
 };

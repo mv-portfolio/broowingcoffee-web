@@ -1,4 +1,4 @@
-import {ACTION} from 'constants/strings';
+import {ACTION_TYPE} from 'constants/strings';
 import {takeEvery} from 'redux-saga/effects';
 
 function* worker() {
@@ -6,7 +6,7 @@ function* worker() {
 }
 
 function* rootProductsSaga() {
-  yield takeEvery(ACTION('PRODUCTS').PEEK, worker);
+  yield takeEvery(ACTION_TYPE('PRODUCTS').PEEK, worker);
 }
 
 export default rootProductsSaga;

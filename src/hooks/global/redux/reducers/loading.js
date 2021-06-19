@@ -1,4 +1,4 @@
-import {ACTION} from 'constants/strings';
+import {ACTION_TYPE} from 'constants/strings';
 
 const initState = {
   status: false,
@@ -6,12 +6,12 @@ const initState = {
 
 export default function loading(state = initState, action) {
   switch (action.type) {
-    case ACTION('LOADING').SET:
+    case ACTION_TYPE('LOADING').SET:
       return {
         status: action.status,
       };
 
-    case ACTION('LOADING').CLEAR:
+    case ACTION_TYPE('LOADING').CLEAR:
       return {};
 
     default:

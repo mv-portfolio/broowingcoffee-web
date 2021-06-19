@@ -1,3 +1,5 @@
+import serverConfig from './serverConfig';
+
 import {push} from 'connected-react-router';
 import {
   peekLocalStorage,
@@ -5,21 +7,15 @@ import {
   pushLocalStorage,
 } from 'hooks/global/storage';
 import {getRequestServer, postRequestServer} from 'network/service';
-import {SET_APP_AUTH, SET_ERROR, SET_LOADING} from '../actions';
-
-const {ACTION} = require('constants/strings');
+import {
+  CLEAR_SESSION,
+  SET_APP_AUTH,
+  SET_ERROR,
+  SET_LOADING,
+  SET_SESSION,
+} from '../actions';
+const {ACTION_TYPE} = require('constants/strings');
 const {takeEvery, select, call, put, take} = require('redux-saga/effects');
-
-function* serverConfig() {
-  const auth = yield select(state => state.auth);
-  return {
-    headers: {
-      'primary-auth-token': auth.primary_auth_token,
-      'secondary-auth-token': auth.secondary_auth_token,
-    },
-    auth,
-  };
-}
 
 function* authentication() {
   try {
@@ -27,13 +23,8 @@ function* authentication() {
     const appAuth = yield call(getRequestServer, '/app-authentication');
     if (!appAuth.data.status) {
       console.error('Server Failed to connect');
-      return yield put(
-        SET_ERROR({
-          name: 'Server Maintenance',
-          message:
-            'Sorry for inconvenient, we temporarily down the server and we will be back soon',
-        }),
-      );
+      return yield put(SET_ERROR({name: 'Server Maintenance'}));
+      // return yield put(push('/'));
     }
 
     //save the PAT from globalState
@@ -46,11 +37,7 @@ function* authentication() {
     //check if the SAT is null
     const secondary_auth_token = yield peekLocalStorage('sat');
     if (!secondary_auth_token) {
-      return yield put(
-        SET_APP_AUTH({
-          authenticated: false,
-        }),
-      );
+      return yield put(SET_APP_AUTH({authenticated: false}));
     }
 
     //save existing SAT from globalState
@@ -75,15 +62,8 @@ function* authentication() {
       return yield put(
         SET_APP_AUTH({
           authenticated: false,
-          secondary_auth_token: undefined,
+          secondary_auth_token: '',
         }),
-      );
-    }
-
-    //check if the authenticated user is not assessed yet
-    if (!userAuth.data.res.user._id_config.isAssessed) {
-      yield put(
-        push(`/assessment/information/${config.auth.secondary_auth_token}`),
       );
     }
 
@@ -93,15 +73,18 @@ function* authentication() {
         secondary_auth_token: config.auth.secondary_auth_token,
       }),
     );
+    //check if the authenticated user is not assessed yet
+    if (!userAuth.data.res.user._id_config.isAssessed) {
+      return yield put(
+        push(`/assessment/information/${config.auth.secondary_auth_token}`),
+      );
+    }
+
+    // yield put(push('/'));
   } catch (err) {
     console.log('Error[app-auth]:', err);
-    yield put(
-      SET_ERROR({
-        errorCode: err.code,
-        name: err.message,
-        message: err,
-      }),
-    );
+    yield put(SET_ERROR({name: err.message}));
+    yield put(push('/'));
   }
 }
 
@@ -123,31 +106,24 @@ function* signInAuthentication() {
     if (!signInAuth.data.status) {
       //if the data.err is undefined means the connection from the server is down
       if (!signInAuth.data.err) {
-        return yield put(
-          SET_ERROR({
-            name: 'Server Maintenance',
-            message:
-              'Sorry for inconvenient, we temporarily down the server and we will be back soon',
-          }),
-        );
+        return yield put(SET_ERROR({name: 'Server Maintenance'}));
       }
 
       //set loading to false and return the error message
       yield put(SET_LOADING({status: false}));
-      return yield put(
-        SET_ERROR({
-          message: signInAuth.data.err,
-        }),
-      );
+      return yield put(SET_ERROR({message: signInAuth.data.err}));
     }
 
     //stored the new SAT on localstorage and save from the globalState
     yield pushLocalStorage('sat', signInAuth.data.res.secondary_auth_token);
     yield put(
       SET_APP_AUTH({
+        authenticated: true,
         secondary_auth_token: signInAuth.data.res.secondary_auth_token,
       }),
     );
+    yield put(SET_LOADING({status: false}));
+    yield put(CLEAR_SESSION());
 
     //redirect the user if the user not yet done on assessment
     if (!signInAuth.data.res.user._id_config.isAssessed) {
@@ -159,16 +135,10 @@ function* signInAuthentication() {
     }
 
     yield put(push('/'));
-    yield put(SET_APP_AUTH({authenticated: true}));
   } catch (err) {
     console.log('Error[user-auth]:', err);
-    yield put(
-      SET_ERROR({
-        errorCode: err.code,
-        name: err.message,
-        message: err,
-      }),
-    );
+    yield put(SET_ERROR({name: err.message}));
+    yield put(push('/'));
   }
 }
 
@@ -186,30 +156,25 @@ function* assessmentAuthentication() {
     );
 
     if (!userAuth.data.status) {
-      yield put(
-        SET_ERROR({
-          name: 'Page Not Found',
-          message:
-            'We are having in trouble, Please be sure the link is exist.',
-        }),
-      );
+      if (!userAuth.data.err) {
+        yield put(SET_ERROR({name: 'Server Maintenance'}));
+        return yield put(push('/'));
+      }
+
+      yield put(SET_ERROR({name: 'Page Not Found'}));
       return yield put(push('/'));
     }
+
+    console.log('ASSESS-MENT');
   } catch (err) {
     console.log('Error[assess-auth]:', err);
-    yield put(
-      SET_ERROR({
-        errorCode: err.code,
-        name: err.message,
-        message: err,
-      }),
-    );
+    yield put(SET_ERROR({name: err.message}));
+    yield put(push('/'));
   }
 }
 
 export default function* rootAuthSaga() {
-  yield takeEvery(ACTION().APP_AUTH, authentication);
-  yield takeEvery(ACTION('SESSION').SET, signInAuthentication);
-  yield take(ACTION().ASSESS_AUTH);
-  yield call(assessmentAuthentication);
+  yield takeEvery(ACTION_TYPE().APP_AUTH, authentication);
+  yield takeEvery(ACTION_TYPE('SESSION').SET, signInAuthentication);
+  yield takeEvery(ACTION_TYPE().ASSESS_AUTH, assessmentAuthentication);
 }

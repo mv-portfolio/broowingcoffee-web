@@ -1,17 +1,17 @@
-import {ACTION} from 'constants/strings';
+import {ACTION_TYPE} from 'constants/strings';
 
 export default function assessment(state = {}, action) {
   switch (action.type) {
-    case ACTION().ASSESS_AUTH:
+    case ACTION_TYPE().ASSESS_AUTH:
       return state;
 
-    case ACTION('ASSESSMENT').SET:
+    case ACTION_TYPE('ASSESSMENT').SET:
       return {
         isAssessed: action.isAssessed,
         token: action.token,
       };
 
-    case ACTION('ASSESSMENT').CLEAR:
+    case ACTION_TYPE('ASSESSMENT').CLEAR:
       return {};
 
     default:

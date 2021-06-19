@@ -16,22 +16,17 @@ function PageError({error}) {
       };
     } else if (error.name === 'Server Maintenance') {
       return {
-        title: error.name,
-        subtitle: error.message,
+        title: 'Server Maintenance',
+        subtitle:
+          'Sorry for inconvenient, we temporarily down the server and we will be back soon',
         icon: getIcon('AntDesign', 'tool'),
       };
-    } else if (error.name === 'Page Not Found') {
-      return {
-        title: error.name,
-        subtitle: error.message,
-        icon: getIcon('AntDesign', 'disconnect'),
-      };
     }
-
     return {
-      title: 'OPPSSS!',
-      subtitle: 'Something went wrong, Please try again later',
-      icon: getIcon('x'),
+      title: 'Page Not Found',
+      subtitle:
+        'The link you provide is broken, Please be sure the link is correct',
+      icon: getIcon('AntDesign', 'disconnect'),
     };
   };
 

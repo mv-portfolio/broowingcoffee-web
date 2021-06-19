@@ -5,11 +5,12 @@ import styles from './.module.css';
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {accAssessReducer} from 'hooks/local/reducers';
-import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {logo} from 'assets/icons';
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
+import {SET_FORGOTPASSWOROD} from 'hooks/global/redux/actions';
+import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
 function Account({dispatch}) {
   const [state, setState] = useHook(ASSESSMENT_ACCOUNT, accAssessReducer);
@@ -22,16 +23,15 @@ function Account({dispatch}) {
       });
     }
   };
-
   const onClick = component => {
-    if (component === 'on-done') {
-      console.log('Send');
+    if (component === 'on-send') {
+      dispatch(SET_FORGOTPASSWOROD({email: 'HELLO'}));
     }
   };
 
   useEffect(() => {
     document.title = 'Forgot Password | Broowing Coffee';
-  }, [dispatch]);
+  }, []);
 
   return (
     <View style={styles.screenPane}>
@@ -69,7 +69,7 @@ function Account({dispatch}) {
               skin={styles.buttonSkin}
               title='Send'
               titleStyle={styles.buttonTitle}
-              onPress={() => onClick('on-done')}
+              onPress={() => onClick('on-send')}
             />
           </View>
           <View style={styles.bottomPane}></View>
@@ -80,7 +80,7 @@ function Account({dispatch}) {
 }
 
 const dispatchProps = dispatch => ({
-  dispatch: acion => dispatch(acion),
+  dispatch: action => dispatch(action),
 });
 
 export default connect(null, dispatchProps)(Account);

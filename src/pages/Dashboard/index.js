@@ -1,7 +1,7 @@
 import {View, Text, Separator} from 'components';
 import styles from './.module.css';
 
-export default function PageNotExist() {
+export default function Dashboard() {
   return (
     <View style={styles.mainPane}>
       <View style={styles.bodyPane}>

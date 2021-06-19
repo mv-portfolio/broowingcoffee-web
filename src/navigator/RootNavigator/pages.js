@@ -5,7 +5,7 @@ const AssessmentInformation = lazy(() =>
   import('pages/Assessment/Information'),
 );
 const AssessmentAccount = lazy(() => import('pages/Assessment/Account'));
-const ForgotPassword = lazy(()=> import('pages/ForgotPassword'))
+const ForgotPassword = lazy(() => import('pages/ForgotPassword'));
 
 const pages = [
   {

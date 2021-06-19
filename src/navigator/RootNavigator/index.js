@@ -1,7 +1,7 @@
 import {lazy, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Switch, Route} from 'react-router-dom';
-import {RouteAuth} from 'components';
+import {RouteAuth, RoutePrivate} from 'components';
 import {REQUEST_APP_AUTH} from 'hooks/global/redux/actions';
 import {pages} from './pages';
 
@@ -23,15 +23,14 @@ function RootNavigator({auth, error, dispatch}) {
         renderNonAuthComponent={SignIn}
       />
       {pages.map((page, index) => (
-        <Route key={index} {...page} />
+        <RoutePrivate key={index} {...page} />
       ))}
     </Switch>
   );
 }
 
-const stateProps = ({auth, products, error}) => ({
+const stateProps = ({auth, error}) => ({
   auth,
-  products,
   error,
 });
 

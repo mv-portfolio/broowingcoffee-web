@@ -9,16 +9,16 @@ function PageNotExist({dispatch}) {
     <View style={styles.mainPane}>
       <View style={styles.bodyPane}>
         <Icon
-          font='Feather'
-          name='alert-triangle'
+          font='AntDesign'
+          name='disconnect'
           size='50px'
           color={accentColor}
         />
         <Separator vertical={15} />
-        <Text style={styles.title}>This Page Does Not Exist!</Text>
+        <Text style={styles.title}>Page Not Found</Text>
         <Separator vertical={5} />
         <Text style={styles.subtitle}>
-          The link provided is invalid or mismatched.
+          The link you provide is broken, Please be sure the link is correct
         </Text>
       </View>
     </View>
