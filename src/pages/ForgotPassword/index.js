@@ -9,10 +9,15 @@ import {logo} from 'assets/icons';
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
-import {SET_FORGOTPASSWOROD} from 'hooks/global/redux/actions';
+import {
+  SET_ERROR,
+  CLEAR_ERROR,
+  SET_FORGOTPASSWOROD,
+  SET_LOADING,
+} from 'hooks/global/redux/actions';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
-function Account({dispatch}) {
+function Account({loading, error, dispatch}) {
   const [state, setState] = useHook(ASSESSMENT_ACCOUNT, accAssessReducer);
 
   const onChangeValue = (component, value) => {
@@ -25,13 +30,26 @@ function Account({dispatch}) {
   };
   const onClick = component => {
     if (component === 'on-send') {
-      dispatch(SET_FORGOTPASSWOROD({email: 'HELLO'}));
+      if (state.email.text.length !== 0) {
+        dispatch(SET_LOADING({status: true}));
+        dispatch(SET_FORGOTPASSWOROD({email: state.email.text}));
+      } else {
+        dispatch(
+          SET_ERROR({
+            message: 'Please provide your email address.',
+          }),
+        );
+      }
     }
   };
 
   useEffect(() => {
     document.title = 'Forgot Password | Broowing Coffee';
-  }, []);
+
+    return () => {
+      dispatch(CLEAR_ERROR());
+    };
+  }, [dispatch]);
 
   return (
     <View style={styles.screenPane}>
@@ -69,18 +87,43 @@ function Account({dispatch}) {
               skin={styles.buttonSkin}
               title='Send'
               titleStyle={styles.buttonTitle}
+              isLoading={loading.status}
               onPress={() => onClick('on-send')}
             />
           </View>
-          <View style={styles.bottomPane}></View>
+          <Separator vertical={10} />
+          <View style={styles.bottomPane}>
+            {(error.message || loading.message) && (
+              <>
+                {loading.message ? (
+                  <>
+                    <View style={styles.infoPane}>
+                      <Text style={styles.infoTitle}>{loading.message}</Text>
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <View style={styles.errorPane}>
+                      <Text style={styles.errorTitle}>{error.message}</Text>
+                    </View>
+                  </>
+                )}
+              </>
+            )}
+          </View>
         </View>
       </View>
     </View>
   );
 }
 
+const stateProps = ({loading, error}) => ({
+  error,
+  loading,
+});
+
 const dispatchProps = dispatch => ({
   dispatch: action => dispatch(action),
 });
 
-export default connect(null, dispatchProps)(Account);
+export default connect(stateProps, dispatchProps)(Account);

@@ -5,7 +5,6 @@ import configStore, {history} from 'hooks/global/redux';
 import Loading from 'pages/Loading';
 import './.module.css';
 
-import {ConnectedRouter} from 'connected-react-router';
 import {Provider} from 'react-redux';
 
 const store = configStore();
@@ -13,9 +12,7 @@ const store = configStore();
 ReactDom.render(
   <Suspense fallback={<Loading planeBackground />}>
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <RootNavigator />
-      </ConnectedRouter>
+      <RootNavigator history={history} />
     </Provider>
   </Suspense>,
   document.getElementById('root'),

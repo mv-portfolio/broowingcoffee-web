@@ -4,7 +4,6 @@ import styles from '../.module.css';
 
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {useParams} from 'react-router-dom';
 import {accAssessReducer} from 'hooks/local/reducers';
 import {logo} from 'assets/icons';
 import {
@@ -19,8 +18,7 @@ import {ASSESSMENT_ACCOUNT} from 'constants/strings';
 import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
-function Account({dispatch}) {
-  const {token} = useParams();
+function Account({router: {location}, dispatch}) {
   const [state, setState] = useHook(ASSESSMENT_ACCOUNT, accAssessReducer);
 
   const onPasswordMatchedIcon = status => {
@@ -100,7 +98,7 @@ function Account({dispatch}) {
         isEncrypted: !state.confirmPassword.isEncrypted,
       });
     } else if (component === 'on-done') {
-      console.log(token);
+      console.log(location);
     }
   };
 
@@ -198,9 +196,12 @@ function Account({dispatch}) {
     </View>
   );
 }
+const stateProps = ({router}) => ({
+  router,
+});
 
 const dispatchProps = dispatch => ({
   dispatch: acion => dispatch(acion),
 });
 
-export default connect(null, dispatchProps)(Account);
+export default connect(stateProps, dispatchProps)(Account);

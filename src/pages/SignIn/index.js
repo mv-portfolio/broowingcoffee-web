@@ -8,7 +8,12 @@ import {connect} from 'react-redux';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/strings';
 import {loginReducer} from 'hooks/local/reducers';
-import {SET_LOADING, SET_SESSION} from 'hooks/global/redux/actions';
+import {
+  CLEAR_ERROR,
+  CLEAR_SIGNIN,
+  SET_LOADING,
+  SET_SIGNIN,
+} from 'hooks/global/redux/actions';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {push} from 'connected-react-router';
 
@@ -31,7 +36,7 @@ function SignIn({error, loading, dispatch}) {
   const onClick = component => {
     if (component === 'on-signin') {
       dispatch(
-        SET_SESSION({
+        SET_SIGNIN({
           username: state.username.text,
           password: state.password.text,
         }),
@@ -54,7 +59,12 @@ function SignIn({error, loading, dispatch}) {
 
   useEffect(() => {
     document.title = 'Sign In | BroowingCoffee ';
-  }, []);
+
+    return () => {
+      dispatch(CLEAR_ERROR());
+      dispatch(CLEAR_SIGNIN());
+    };
+  }, [dispatch]);
 
   return (
     <View style={styles.screenPane}>

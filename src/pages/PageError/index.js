@@ -8,7 +8,7 @@ function PageError({error}) {
     return <Icon font={type} name={name} size='50px' color={accentColor} />;
   };
   const errorHandler = error => {
-    if (error.name === 'Network Error') {
+    if (error.name === 'Network Error' || error.name === 'timeout of 5000ms exceeded') {
       return {
         title: 'Connection Error',
         subtitle: 'Please check your internet connection.',

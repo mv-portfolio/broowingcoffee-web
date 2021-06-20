@@ -86,6 +86,25 @@
   align-items: center;
   justify-content: space-between;
 }
+.bottomPane .infoPane {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  padding: 5px 10px 5px 10px;
+  border: 2px #7af75b solid;
+  border-radius: 7.5px;
+}
+.infoPane .infoTitle {
+  display: inline-block;
+  font-family: 'Standard-Font';
+  font-weight: bold;
+  font-size: 12px;
+  padding: 5px 0 5px 0;
+  text-align: center;
+  color: #7af75b;
+}
+
 .bottomPane .errorPane {
   display: flex;
   align-items: center;
@@ -104,6 +123,7 @@
   text-align: center;
   color: #f75b5b;
 }
+
 .bottomPane .bForgotPasswordText {
   color: #f7a35b;
 }

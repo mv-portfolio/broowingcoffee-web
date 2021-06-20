@@ -6,22 +6,23 @@ const REQUEST_APP_AUTH = () => ({
 });
 
 //loading
-const SET_LOADING = ({status}) => ({
+const SET_LOADING = ({status, message}) => ({
   type: ACTION_TYPE('LOADING').SET,
   status,
+  message,
 });
 const CLEAR_LOADING = () => ({
   type: ACTION_TYPE('LOADING').CLEAR,
 });
 
-//session
-const SET_SESSION = ({username, password}) => ({
-  type: ACTION_TYPE('SESSION').SET,
+//sigin
+const SET_SIGNIN = ({username, password}) => ({
+  type: ACTION_TYPE('SIGNIN').SET,
   username,
   password,
 });
-const CLEAR_SESSION = () => ({
-  type: ACTION_TYPE('SESSION').CLEAR,
+const CLEAR_SIGNIN = () => ({
+  type: ACTION_TYPE('SIGNIN').CLEAR,
 });
 
 //assessment
@@ -124,9 +125,9 @@ export {
   //loading
   SET_LOADING,
   CLEAR_LOADING,
-  //session
-  SET_SESSION,
-  CLEAR_SESSION,
+  //sigin
+  SET_SIGNIN,
+  CLEAR_SIGNIN,
   //assessnent
   ASSESSMENT_REQUEST,
   ASSESSMENT_SET,

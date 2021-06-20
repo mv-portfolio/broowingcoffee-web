@@ -1,21 +1,15 @@
 import serverConfig from './serverConfig';
 
-import {push} from 'connected-react-router';
+import {push, replace} from 'connected-react-router';
 import {
   peekLocalStorage,
   popLocalStorage,
   pushLocalStorage,
 } from 'hooks/global/storage';
 import {getRequestServer, postRequestServer} from 'network/service';
-import {
-  CLEAR_SESSION,
-  SET_APP_AUTH,
-  SET_ERROR,
-  SET_LOADING,
-  SET_SESSION,
-} from '../actions';
+import {CLEAR_LOADING, SET_APP_AUTH, SET_ERROR} from '../actions';
 const {ACTION_TYPE} = require('constants/strings');
-const {takeEvery, select, call, put, take} = require('redux-saga/effects');
+const {takeEvery, select, call, put} = require('redux-saga/effects');
 
 function* authentication() {
   try {
@@ -23,8 +17,8 @@ function* authentication() {
     const appAuth = yield call(getRequestServer, '/app-authentication');
     if (!appAuth.data.status) {
       console.error('Server Failed to connect');
-      return yield put(SET_ERROR({name: 'Server Maintenance'}));
-      // return yield put(push('/'));
+      yield put(SET_ERROR({name: 'Server Maintenance'}));
+      return yield put(push('/'));
     }
 
     //save the PAT from globalState
@@ -37,7 +31,8 @@ function* authentication() {
     //check if the SAT is null
     const secondary_auth_token = yield peekLocalStorage('sat');
     if (!secondary_auth_token) {
-      return yield put(SET_APP_AUTH({authenticated: false}));
+      yield put(SET_APP_AUTH({authenticated: false}));
+      return yield put(push('/'));
     }
 
     //save existing SAT from globalState
@@ -61,7 +56,6 @@ function* authentication() {
       yield popLocalStorage('sat');
       return yield put(
         SET_APP_AUTH({
-          authenticated: false,
           secondary_auth_token: '',
         }),
       );
@@ -73,16 +67,19 @@ function* authentication() {
         secondary_auth_token: config.auth.secondary_auth_token,
       }),
     );
+    yield put(push('/'));
+
     //check if the authenticated user is not assessed yet
     if (!userAuth.data.res.user._id_config.isAssessed) {
       return yield put(
-        push(`/assessment/information/${config.auth.secondary_auth_token}`),
+        replace({
+          pathname: `/assessment/information`,
+          search: `?sat=${config.auth.secondary_auth_token}`,
+        }),
       );
     }
-
-    // yield put(push('/'));
   } catch (err) {
-    console.log('Error[app-auth]:', err);
+    console.log('Error[app-auth]:', err.message);
     yield put(SET_ERROR({name: err.message}));
     yield put(push('/'));
   }
@@ -110,11 +107,12 @@ function* signInAuthentication() {
       }
 
       //set loading to false and return the error message
-      yield put(SET_LOADING({status: false}));
+      yield put(CLEAR_LOADING());
       return yield put(SET_ERROR({message: signInAuth.data.err}));
     }
 
     //stored the new SAT on localstorage and save from the globalState
+    yield put(CLEAR_LOADING());
     yield pushLocalStorage('sat', signInAuth.data.res.secondary_auth_token);
     yield put(
       SET_APP_AUTH({
@@ -122,19 +120,16 @@ function* signInAuthentication() {
         secondary_auth_token: signInAuth.data.res.secondary_auth_token,
       }),
     );
-    yield put(SET_LOADING({status: false}));
-    yield put(CLEAR_SESSION());
 
     //redirect the user if the user not yet done on assessment
     if (!signInAuth.data.res.user._id_config.isAssessed) {
       return yield put(
-        push(
-          `/assessment/information/${signInAuth.data.res.secondary_auth_token}`,
-        ),
+        replace({
+          pathname: `/assessment/information`,
+          search: `?sat=${signInAuth.data.res.secondary_auth_token}`,
+        }),
       );
     }
-
-    yield put(push('/'));
   } catch (err) {
     console.log('Error[user-auth]:', err);
     yield put(SET_ERROR({name: err.message}));
@@ -164,8 +159,6 @@ function* assessmentAuthentication() {
       yield put(SET_ERROR({name: 'Page Not Found'}));
       return yield put(push('/'));
     }
-
-    console.log('ASSESS-MENT');
   } catch (err) {
     console.log('Error[assess-auth]:', err);
     yield put(SET_ERROR({name: err.message}));
@@ -175,6 +168,6 @@ function* assessmentAuthentication() {
 
 export default function* rootAuthSaga() {
   yield takeEvery(ACTION_TYPE().APP_AUTH, authentication);
-  yield takeEvery(ACTION_TYPE('SESSION').SET, signInAuthentication);
+  yield takeEvery(ACTION_TYPE('SIGNIN').SET, signInAuthentication);
   yield takeEvery(ACTION_TYPE().ASSESS_AUTH, assessmentAuthentication);
 }

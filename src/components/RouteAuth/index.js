@@ -7,6 +7,7 @@ export default function RouteAuth({
   error,
   rederAuthComponent: AuthComponent,
   renderNonAuthComponent: NonAuthComponent,
+  ...props
 }) {
   const isAuthenticated = (auth, routeProps) => {
     if (error.name) return <PageError />;
@@ -19,5 +20,10 @@ export default function RouteAuth({
     );
   };
 
-  return <Route render={routeProps => isAuthenticated(auth, routeProps)} />;
+  return (
+    <Route
+      {...props}
+      render={routeProps => isAuthenticated(auth, routeProps)}
+    />
+  );
 }

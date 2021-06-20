@@ -2,6 +2,7 @@ import {ACTION_TYPE} from 'constants/strings';
 
 const initState = {
   status: false,
+  message: '',
 };
 
 export default function loading(state = initState, action) {
@@ -9,10 +10,11 @@ export default function loading(state = initState, action) {
     case ACTION_TYPE('LOADING').SET:
       return {
         status: action.status,
+        message: action.message,
       };
 
     case ACTION_TYPE('LOADING').CLEAR:
-      return {};
+      return initState;
 
     default:
       return state;

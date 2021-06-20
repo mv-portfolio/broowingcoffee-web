@@ -6,20 +6,16 @@ import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {logo} from 'assets/icons';
 import {useEffect} from 'react';
 import {push} from 'connected-react-router';
-import {useParams} from 'react-router-dom';
 import {infoAssessReducer} from 'hooks/local/reducers';
 import {NAME_REGEX} from 'constants/regex';
 import {ASSESSMENT_INFORMATION} from 'constants/strings';
-import {ASSESSMENT_REQUEST, SET_APP_AUTH} from 'hooks/global/redux/actions';
-import {popLocalStorage} from 'hooks/global/storage';
+import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
 
-function Information({dispatch}) {
-  const {token} = useParams();
+function Information({router: {location}, dispatch}) {
   const [state, setState] = useHook(ASSESSMENT_INFORMATION, infoAssessReducer);
-
   const onClick = component => {
     if (component === 'on-next') {
-      dispatch(push(`/assessment/account/${token}`));
+      dispatch(push(`/assessment/account?sat=${location.query.sat}`));
     }
   };
   const onChangeValue = (component, value) => {
@@ -38,27 +34,7 @@ function Information({dispatch}) {
 
   useEffect(() => {
     document.title = 'Assessment | Broowing Coffee';
-
     dispatch(ASSESSMENT_REQUEST());
-
-    const popStateEventListener = event => {
-      if (window.confirm('Are you sure?')) {
-        popLocalStorage('sat');
-        dispatch(push('/'));
-        dispatch(
-          SET_APP_AUTH({
-            authenticated: false,
-            secondary_auth_token: '',
-          }),
-        );
-      }
-      return true;
-    };
-
-    window.addEventListener('popstate', popStateEventListener);
-    return () => {
-      window.removeEventListener('popstate', popStateEventListener);
-    };
   }, [dispatch]);
 
   return (
@@ -104,8 +80,12 @@ function Information({dispatch}) {
   );
 }
 
+const stateProps = ({router}) => ({
+  router,
+});
+
 const dispatchProps = dispatch => ({
   dispatch: acion => dispatch(acion),
 });
 
-export default connect(null, dispatchProps)(Information);
+export default connect(stateProps, dispatchProps)(Information);

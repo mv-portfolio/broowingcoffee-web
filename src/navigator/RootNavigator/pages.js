@@ -9,14 +9,14 @@ const ForgotPassword = lazy(() => import('pages/ForgotPassword'));
 
 const pages = [
   {
-    path: '/assessment/information/:token',
+    path: '/assessment/information',
     component: AssessmentInformation,
     exact: true,
     sensitive: true,
     strict: true,
   },
   {
-    path: '/assessment/account/:token',
+    path: '/assessment/account',
     component: AssessmentAccount,
     exact: true,
     sensitive: true,
