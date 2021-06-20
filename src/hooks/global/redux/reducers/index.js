@@ -2,7 +2,7 @@ import user from './user';
 import users from './users';
 import products from './products';
 import auth from './auth';
-import session from './session';
+import signin from './signin';
 import loading from './loading';
 import error from './error';
 import assessment from './assessment';
@@ -17,7 +17,7 @@ export default function rootReducer(history) {
     auth,
     users,
     products,
-    session,
+    signin,
     error,
     loading,
     assessment,

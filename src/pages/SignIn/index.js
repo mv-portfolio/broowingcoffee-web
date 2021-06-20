@@ -7,9 +7,9 @@ import {logo} from 'assets/icons';
 import {connect} from 'react-redux';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/strings';
-import {loginReducer} from 'hooks/local/reducers';
+import {login} from 'hooks/local/reducers';
 import {
-  CLEAR_ERROR,
+  SET_ERROR,
   CLEAR_SIGNIN,
   SET_LOADING,
   SET_SIGNIN,
@@ -18,7 +18,7 @@ import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {push} from 'connected-react-router';
 
 function SignIn({error, loading, dispatch}) {
-  const [state, setState] = useHook(SIGNIN_FIELDS, loginReducer);
+  const [state, setState] = useHook(SIGNIN_FIELDS, login);
   const onChangeValue = (component, value) => {
     if (component === 'username') {
       setState({
@@ -61,7 +61,6 @@ function SignIn({error, loading, dispatch}) {
     document.title = 'Sign In | BroowingCoffee ';
 
     return () => {
-      dispatch(CLEAR_ERROR());
       dispatch(CLEAR_SIGNIN());
     };
   }, [dispatch]);

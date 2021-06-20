@@ -1,6 +1,6 @@
 import {ACTION_TYPE} from 'constants/strings';
 
-export default function session(state = {}, action) {
+export default function signin(state = {}, action) {
   switch (action.type) {
     case ACTION_TYPE('SIGNIN').SET:
       return {

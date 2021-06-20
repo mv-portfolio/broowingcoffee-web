@@ -1,4 +1,4 @@
-export default function accAssessReducer(state = {}, action) {
+export default function assessAcc(state = {}, action) {
   switch (action.type) {
     case 'set-username':
       return {

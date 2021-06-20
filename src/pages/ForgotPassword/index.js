@@ -4,7 +4,7 @@ import styles from './.module.css';
 
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {accAssessReducer} from 'hooks/local/reducers';
+import {assessAcc} from 'hooks/local/reducers';
 import {logo} from 'assets/icons';
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
@@ -18,7 +18,7 @@ import {
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
 function Account({loading, error, dispatch}) {
-  const [state, setState] = useHook(ASSESSMENT_ACCOUNT, accAssessReducer);
+  const [state, setState] = useHook(ASSESSMENT_ACCOUNT, assessAcc);
 
   const onChangeValue = (component, value) => {
     if (component === 'email') {
@@ -46,9 +46,7 @@ function Account({loading, error, dispatch}) {
   useEffect(() => {
     document.title = 'Forgot Password | Broowing Coffee';
 
-    return () => {
-      dispatch(CLEAR_ERROR());
-    };
+    return () => {};
   }, [dispatch]);
 
   return (

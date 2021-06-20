@@ -1,5 +1,5 @@
-import accAssessReducer from './accAssessReducer';
-import infoAssessReducer from './infoAssessReducer';
-import loginReducer from './loginReducer';
+import assessAcc from './assessAcc';
+import assessInfo from './assessInfo';
+import login from './login';
 
-export {accAssessReducer, infoAssessReducer, loginReducer};
+export {assessAcc, assessInfo, login};

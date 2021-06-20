@@ -4,7 +4,7 @@ import styles from '../.module.css';
 
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {accAssessReducer} from 'hooks/local/reducers';
+import {assessAcc} from 'hooks/local/reducers';
 import {logo} from 'assets/icons';
 import {
   CAPITAL_CHAR_REGEX,
@@ -19,7 +19,7 @@ import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
 function Account({router: {location}, dispatch}) {
-  const [state, setState] = useHook(ASSESSMENT_ACCOUNT, accAssessReducer);
+  const [state, setState] = useHook(ASSESSMENT_ACCOUNT, assessAcc);
 
   const onPasswordMatchedIcon = status => {
     if (status) {

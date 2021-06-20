@@ -1,4 +1,4 @@
-export default function loginReducer(state = {}, action) {
+export default function login(state = {}, action) {
   switch (action.type) {
     case 'set-username':
       return {

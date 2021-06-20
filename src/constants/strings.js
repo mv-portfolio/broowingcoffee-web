@@ -19,6 +19,11 @@ const USER_FIELDS = {
   secondary_auth_token: '',
 };
 
+const ERROR_FIELDS = {
+  name: '',
+  message: '',
+}
+
 const SIGNIN_FIELDS = {
   username: {
     text: '',
@@ -64,4 +69,5 @@ export {
   SIGNIN_FIELDS,
   ASSESSMENT_INFORMATION,
   ASSESSMENT_ACCOUNT,
+  ERROR_FIELDS
 };

@@ -7,13 +7,14 @@ import {
   pushLocalStorage,
 } from 'hooks/global/storage';
 import {getRequestServer, postRequestServer} from 'network/service';
-import {CLEAR_LOADING, SET_APP_AUTH, SET_ERROR} from '../actions';
+import {CLEAR_LOADING, SET_APP_AUTH, SET_ERROR, SET_LOADING} from '../actions';
 const {ACTION_TYPE} = require('constants/strings');
 const {takeEvery, select, call, put} = require('redux-saga/effects');
 
 function* authentication() {
   try {
     //INITIALIZATION OF APP-AUTH
+    console.log('INITIALIZATION: APP-AUTH');
     const appAuth = yield call(getRequestServer, '/app-authentication');
     if (!appAuth.data.status) {
       console.error('Server Failed to connect');
@@ -88,16 +89,18 @@ function* authentication() {
 function* signInAuthentication() {
   try {
     //INITIALIZATION of SESSION-AUTH
-    const session = yield select(state => state.session);
+    const signin = yield select(state => state.signin);
     const signInAuth = yield call(
       postRequestServer,
       '/signin-authentication-encoder',
       {
-        username: session.username,
-        password: session.password,
+        username: signin.username,
+        password: signin.password,
       },
       yield serverConfig(),
     );
+
+    yield put(CLEAR_LOADING());
 
     //check if there is an error on SignIn Request
     if (!signInAuth.data.status) {
@@ -105,14 +108,11 @@ function* signInAuthentication() {
       if (!signInAuth.data.err) {
         return yield put(SET_ERROR({name: 'Server Maintenance'}));
       }
-
       //set loading to false and return the error message
-      yield put(CLEAR_LOADING());
       return yield put(SET_ERROR({message: signInAuth.data.err}));
     }
 
     //stored the new SAT on localstorage and save from the globalState
-    yield put(CLEAR_LOADING());
     yield pushLocalStorage('sat', signInAuth.data.res.secondary_auth_token);
     yield put(
       SET_APP_AUTH({

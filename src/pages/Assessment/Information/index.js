@@ -6,13 +6,13 @@ import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {logo} from 'assets/icons';
 import {useEffect} from 'react';
 import {push} from 'connected-react-router';
-import {infoAssessReducer} from 'hooks/local/reducers';
+import {assessInfo} from 'hooks/local/reducers';
 import {NAME_REGEX} from 'constants/regex';
 import {ASSESSMENT_INFORMATION} from 'constants/strings';
 import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
 
 function Information({router: {location}, dispatch}) {
-  const [state, setState] = useHook(ASSESSMENT_INFORMATION, infoAssessReducer);
+  const [state, setState] = useHook(ASSESSMENT_INFORMATION, assessInfo);
   const onClick = component => {
     if (component === 'on-next') {
       dispatch(push(`/assessment/account?sat=${location.query.sat}`));

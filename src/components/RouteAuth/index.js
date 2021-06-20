@@ -22,8 +22,8 @@ export default function RouteAuth({
 
   return (
     <Route
-      {...props}
       render={routeProps => isAuthenticated(auth, routeProps)}
+      {...props}
     />
   );
 }

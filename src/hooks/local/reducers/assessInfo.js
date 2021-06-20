@@ -1,4 +1,4 @@
-export default function infoAssessReducer(state = {}, action) {
+export default function assessInfo(state = {}, action) {
   switch (action.type) {
     case 'set-firstname':
       return {
