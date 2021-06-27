@@ -18,8 +18,7 @@ function* authentication() {
     const appAuth = yield call(getRequestServer, '/app-authentication');
     if (!appAuth.data.status) {
       console.error('Server Failed to connect');
-      yield put(SET_ERROR({name: 'Server Maintenance'}));
-      return yield put(push('/'));
+      return yield put(SET_ERROR({name: 'Server Maintenance'}));
     }
 
     //save the PAT from globalState
@@ -32,8 +31,7 @@ function* authentication() {
     //check if the SAT is null
     const secondary_auth_token = yield peekLocalStorage('sat');
     if (!secondary_auth_token) {
-      yield put(SET_APP_AUTH({authenticated: false}));
-      return yield put(push('/'));
+      return yield put(SET_APP_AUTH({authenticated: false}));
     }
 
     //save existing SAT from globalState

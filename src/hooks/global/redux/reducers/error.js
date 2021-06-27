@@ -1,12 +1,20 @@
 import {ACTION_TYPE} from 'constants/strings';
 
-export default function error(state = {}, action) {
+const initState = {
+  errorRequest: '',
+  errorAuth: '',
+  errorSignin: '',
+  errorForgotPassword: '',
+};
+
+export default function error(state = initState, action) {
   switch (action.type) {
     case ACTION_TYPE('ERROR').SET:
       return {
-        errorCode: action.errorCode,
-        name: action.name,
-        message: action.message,
+        errorRequest: action.errorRequest || state.errorRequest,
+        errorAuth: action.errorAppAuth || state.errorAppAuth,
+        errorSignin: action.errorSignin || state.errorSignin,
+        errorForgotPassword: action.errorForgotPassword || state.errorForgotPassword,
       };
 
     case ACTION_TYPE('ERROR').CLEAR:

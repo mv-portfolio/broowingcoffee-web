@@ -42,11 +42,7 @@ const ASSESSMENT_CLEAR = () => ({
 const PEEK_APP_AUTH = () => ({
   type: ACTION_TYPE('AUTH').PEEK,
 });
-const SET_APP_AUTH = ({
-  authenticated,
-  primary_auth_token,
-  secondary_auth_token,
-}) => ({
+const SET_APP_AUTH = ({authenticated, primary_auth_token, secondary_auth_token}) => ({
   type: ACTION_TYPE('AUTH').SET,
   authenticated,
   primary_auth_token,
@@ -65,11 +61,12 @@ const CLEAR_FORGOTPASSWORD = () => ({
 });
 
 //error
-const SET_ERROR = ({errorCode, name, message}) => ({
+const SET_ERROR = ({errorRequest, errorAuth, errorSignin, errorForgotPassword}) => ({
   type: ACTION_TYPE('ERROR').SET,
-  errorCode,
-  name,
-  message,
+  errorRequest,
+  errorAuth,
+  errorSignin,
+  errorForgotPassword,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION_TYPE('ERROR').CLEAR,
