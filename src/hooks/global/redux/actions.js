@@ -11,9 +11,6 @@ const SET_LOADING = ({status, message}) => ({
   status,
   message,
 });
-const CLEAR_LOADING = () => ({
-  type: ACTION_TYPE('LOADING').CLEAR,
-});
 
 //sigin
 const SET_SIGNIN = ({username, password}) => ({
@@ -61,12 +58,14 @@ const CLEAR_FORGOTPASSWORD = () => ({
 });
 
 //error
-const SET_ERROR = ({errorRequest, errorAuth, errorSignin, errorForgotPassword}) => ({
+const SET_ERROR = ({page, auth, signin, server, request, forgotPassword}) => ({
   type: ACTION_TYPE('ERROR').SET,
-  errorRequest,
-  errorAuth,
-  errorSignin,
-  errorForgotPassword,
+  page,
+  auth,
+  signin,
+  server,
+  request,
+  forgotPassword,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION_TYPE('ERROR').CLEAR,
@@ -121,7 +120,6 @@ export {
   CLEAR_APP_AUTH,
   //loading
   SET_LOADING,
-  CLEAR_LOADING,
   //sigin
   SET_SIGNIN,
   CLEAR_SIGNIN,

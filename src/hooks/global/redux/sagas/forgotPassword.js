@@ -5,12 +5,11 @@ import {push} from 'connected-react-router';
 import {ACTION_TYPE} from 'constants/strings';
 import {postRequestServer} from 'network/service';
 import {call, put, select, takeEvery} from 'redux-saga/effects';
-import {CLEAR_LOADING, SET_ERROR, SET_LOADING} from '../actions';
+import {SET_ERROR, SET_LOADING} from '../actions';
 
 function* requestResetPassword() {
   try {
     console.log('FORGOT-PASSWORD');
-
     const forgotPassword = yield select(state => state.forgotPassword);
     const requestForgotPassword = yield call(
       postRequestServer,
@@ -25,7 +24,7 @@ function* requestResetPassword() {
       yield put(SET_LOADING({status: false}));
       return yield put(
         SET_ERROR({
-          message: 'Please provide a valid Email Address.',
+          forgotPassword: 'Please provide a valid Email Address.',
         }),
       );
     }
@@ -38,7 +37,7 @@ function* requestResetPassword() {
     );
 
     yield call(Time.set, 3000);
-    yield put(CLEAR_LOADING());
+    yield put(SET_LOADING({status: false}));
     yield put(push('/'));
   } catch (err) {
     yield SET_ERROR({

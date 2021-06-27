@@ -13,9 +13,6 @@ export default function loading(state = initState, action) {
         message: action.message,
       };
 
-    case ACTION_TYPE('LOADING').CLEAR:
-      return initState;
-
     default:
       return state;
   }

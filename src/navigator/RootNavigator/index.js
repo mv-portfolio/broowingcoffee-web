@@ -25,7 +25,7 @@ function RootNavigator({auth, history, error, dispatch}) {
           renderNonAuthComponent={SignIn}
         />
         {pages.map((page, index) => (
-          <RoutePrivate key={index} {...page} />
+          <RoutePrivate key={index} auth={auth} error={error} {...page} />
         ))}
       </Switch>
     </ConnectedRouter>

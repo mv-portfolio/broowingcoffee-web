@@ -8,12 +8,7 @@ import {connect} from 'react-redux';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/strings';
 import {login} from 'hooks/local/reducers';
-import {
-  SET_ERROR,
-  CLEAR_SIGNIN,
-  SET_LOADING,
-  SET_SIGNIN,
-} from 'hooks/global/redux/actions';
+import {SET_ERROR, CLEAR_SIGNIN, SET_LOADING, SET_SIGNIN} from 'hooks/global/redux/actions';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 import {push} from 'connected-react-router';
 
@@ -59,9 +54,9 @@ function SignIn({error, loading, dispatch}) {
 
   useEffect(() => {
     document.title = 'Sign In | BroowingCoffee ';
-
     return () => {
       dispatch(CLEAR_SIGNIN());
+      dispatch(SET_ERROR({signin: ''}));
     };
   }, [dispatch]);
 
@@ -76,12 +71,7 @@ function SignIn({error, loading, dispatch}) {
             <View style={styles.headerPane}>
               <Text style={styles.title}>Broowing</Text>
               <View style={styles.subtitlePane}>
-                <Icon
-                  font='AntDesign'
-                  name='barschart'
-                  color='#fff'
-                  size='20px'
-                />
+                <Icon font='AntDesign' name='barschart' color='#fff' size='20px' />
                 <Separator horizontal={2} />
                 <Text style={styles.subtitle}>coffee</Text>
               </View>
@@ -91,14 +81,7 @@ function SignIn({error, loading, dispatch}) {
             <TextInput
               placeholder='User'
               skin={styles.inputSkin}
-              prefixIcon={
-                <Icon
-                  name='user'
-                  font='Feather'
-                  color={accentColor}
-                  size='15px'
-                />
-              }
+              prefixIcon={<Icon name='user' font='Feather' color={accentColor} size='15px' />}
               value={state.username.text}
               onChangeText={value => onChangeValue('username', value)}
             />
@@ -106,14 +89,7 @@ function SignIn({error, loading, dispatch}) {
             <TextInput
               placeholder='Password'
               skin={styles.inputSkin}
-              prefixIcon={
-                <Icon
-                  name='lock'
-                  font='Feather'
-                  color={accentColor}
-                  size='15px'
-                />
-              }
+              prefixIcon={<Icon name='lock' font='Feather' color={accentColor} size='15px' />}
               isTextEncrypt={!state.password.isEncrypted}
               onEncryptText={() => onClick('on-encrypt-text')}
               value={state.password.text}
@@ -131,11 +107,11 @@ function SignIn({error, loading, dispatch}) {
           </View>
           <Separator vertical={10} />
           <View style={styles.bottomPane}>
-            {!error.message && <View />}
-            {error.message && (
+            {!error.signin && <View />}
+            {error.signin && (
               <>
                 <View style={styles.errorPane}>
-                  <Text style={styles.errorTitle}>{error.message}</Text>
+                  <Text style={styles.errorTitle}>{error.signin}</Text>
                 </View>
               </>
             )}

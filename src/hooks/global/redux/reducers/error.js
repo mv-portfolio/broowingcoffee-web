@@ -1,20 +1,25 @@
 import {ACTION_TYPE} from 'constants/strings';
 
 const initState = {
-  errorRequest: '',
-  errorAuth: '',
-  errorSignin: '',
-  errorForgotPassword: '',
+  page: '',
+  auth: '',
+  server: '',
+  signin: '',
+  request: '',
+  forgotPassword: '',
 };
 
 export default function error(state = initState, action) {
   switch (action.type) {
     case ACTION_TYPE('ERROR').SET:
       return {
-        errorRequest: action.errorRequest || state.errorRequest,
-        errorAuth: action.errorAppAuth || state.errorAppAuth,
-        errorSignin: action.errorSignin || state.errorSignin,
-        errorForgotPassword: action.errorForgotPassword || state.errorForgotPassword,
+        page: action.page || state.page,
+        auth: action.auth || state.auth,
+        server: action.server || state.server,
+        request: action.request || state.request,
+        //dont have save state
+        signin: typeof action.signin === 'string' ? action.signin : state.signin,
+        forgotPassword: typeof action.forgotPassword === 'string' ? action.forgotPassword : state.forgotPassword,
       };
 
     case ACTION_TYPE('ERROR').CLEAR:

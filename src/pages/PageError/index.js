@@ -8,27 +8,24 @@ function PageError({error}) {
     return <Icon font={type} name={name} size='50px' color={accentColor} />;
   };
   const errorHandler = error => {
-    if (
-      error.name === 'Network Error' ||
-      error.name === 'timeout of 5000ms exceeded'
-    ) {
+    let errorName = '';
+    Object.values(error).map(error => (error ? (errorName = error) : null));
+    if (errorName === 'Network Error' || errorName === 'timeout of 5000ms exceeded') {
       return {
         title: 'Connection Error',
         subtitle: 'Please check your internet connection.',
         icon: getIcon('Feather', 'wifi-off'),
       };
-    } else if (error.name === 'Server Maintenance') {
+    } else if (errorName === 'Server Maintenance') {
       return {
         title: 'Server Maintenance',
-        subtitle:
-          'Sorry for inconvenient, we temporarily down the server and we will be back soon',
+        subtitle: 'Sorry for inconvenient, we temporarily down the server and we will be back soon',
         icon: getIcon('AntDesign', 'tool'),
       };
     }
     return {
       title: 'Page Not Found',
-      subtitle:
-        'The link you provide is broken, Please be sure the link is correct',
+      subtitle: 'The link you provide is broken, Please be sure the link is correct',
       icon: getIcon('AntDesign', 'disconnect'),
     };
   };

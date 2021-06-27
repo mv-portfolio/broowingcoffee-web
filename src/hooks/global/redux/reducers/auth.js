@@ -13,14 +13,9 @@ export default function auth(state = initState, action) {
 
     case ACTION_TYPE('AUTH').SET:
       return {
-        authenticated:
-          String(action.authenticated).length !== 0
-            ? action.authenticated
-            : state.authenticated,
-        primary_auth_token:
-          action.primary_auth_token || state.primary_auth_token,
-        secondary_auth_token:
-          action.secondary_auth_token || state.secondary_auth_token,
+        authenticated: typeof action.authenticated == 'boolean' ? action.authenticated : state.authenticated,
+        primary_auth_token: action.primary_auth_token || state.primary_auth_token,
+        secondary_auth_token: action.secondary_auth_token || state.secondary_auth_token,
       };
 
     case ACTION_TYPE('AUTH').CLEAR:

@@ -9,12 +9,7 @@ import {logo} from 'assets/icons';
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
-import {
-  SET_ERROR,
-  CLEAR_ERROR,
-  SET_FORGOTPASSWOROD,
-  SET_LOADING,
-} from 'hooks/global/redux/actions';
+import {SET_ERROR, SET_FORGOTPASSWOROD, SET_LOADING} from 'hooks/global/redux/actions';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
 function Account({loading, error, dispatch}) {
@@ -36,7 +31,7 @@ function Account({loading, error, dispatch}) {
       } else {
         dispatch(
           SET_ERROR({
-            message: 'Please provide your email address.',
+            forgotPassword: 'Please provide your email address.',
           }),
         );
       }
@@ -45,8 +40,9 @@ function Account({loading, error, dispatch}) {
 
   useEffect(() => {
     document.title = 'Forgot Password | Broowing Coffee';
-
-    return () => {};
+    return () => {
+      dispatch(SET_ERROR({forgotPassword: ''}));
+    };
   }, [dispatch]);
 
   return (
@@ -59,9 +55,7 @@ function Account({loading, error, dispatch}) {
           <View style={styles.topPane}>
             <View style={styles.headerPane}>
               <Text style={styles.title}>Forgot Password</Text>
-              <Text style={styles.subtitle}>
-                Please enter the email you used
-              </Text>
+              <Text style={styles.subtitle}>Please enter the email you used</Text>
             </View>
           </View>
           <Separator vertical={15} />
@@ -71,14 +65,7 @@ function Account({loading, error, dispatch}) {
               skin={styles.inputSkin}
               value={state.email.text}
               onChangeText={value => onChangeValue('email', value)}
-              prefixIcon={
-                <Icon
-                  font='Feather'
-                  size={ICON_SIZE}
-                  name='mail'
-                  color={accentColor}
-                />
-              }
+              prefixIcon={<Icon font='Feather' size={ICON_SIZE} name='mail' color={accentColor} />}
             />
             <Separator vertical={5} />
             <Button
@@ -91,7 +78,7 @@ function Account({loading, error, dispatch}) {
           </View>
           <Separator vertical={10} />
           <View style={styles.bottomPane}>
-            {(error.message || loading.message) && (
+            {(error.forgotPassword || loading.message) && (
               <>
                 {loading.message ? (
                   <>
@@ -102,7 +89,7 @@ function Account({loading, error, dispatch}) {
                 ) : (
                   <>
                     <View style={styles.errorPane}>
-                      <Text style={styles.errorTitle}>{error.message}</Text>
+                      <Text style={styles.errorTitle}>{error.forgotPassword}</Text>
                     </View>
                   </>
                 )}

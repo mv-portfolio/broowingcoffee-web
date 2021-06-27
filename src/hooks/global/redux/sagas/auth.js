@@ -1,13 +1,9 @@
 import serverConfig from './serverConfig';
 
 import {push, replace} from 'connected-react-router';
-import {
-  peekLocalStorage,
-  popLocalStorage,
-  pushLocalStorage,
-} from 'hooks/global/storage';
+import {peekLocalStorage, popLocalStorage, pushLocalStorage} from 'hooks/global/storage';
 import {getRequestServer, postRequestServer} from 'network/service';
-import {CLEAR_LOADING, SET_APP_AUTH, SET_ERROR, SET_LOADING} from '../actions';
+import {SET_APP_AUTH, SET_ERROR, SET_LOADING} from '../actions';
 const {ACTION_TYPE} = require('constants/strings');
 const {takeEvery, select, call, put} = require('redux-saga/effects');
 
@@ -18,7 +14,8 @@ function* authentication() {
     const appAuth = yield call(getRequestServer, '/app-authentication');
     if (!appAuth.data.status) {
       console.error('Server Failed to connect');
-      return yield put(SET_ERROR({name: 'Server Maintenance'}));
+      yield put(SET_ERROR({server: 'Server Maintenance'}));
+      return put(push('/'));
     }
 
     //save the PAT from globalState
@@ -44,11 +41,7 @@ function* authentication() {
     //INITIALIZATION OF USER-AUTH
     //check if the SAT of user is still valid or if the user is still authenticated
     const config = yield serverConfig();
-    const userAuth = yield call(
-      getRequestServer,
-      '/signin-authentication-decoder',
-      config,
-    );
+    const userAuth = yield call(getRequestServer, '/signin-authentication-decoder', config);
 
     //check if the user authentication is invalid
     if (!userAuth.data.status) {
@@ -79,7 +72,7 @@ function* authentication() {
     }
   } catch (err) {
     console.log('Error[app-auth]:', err.message);
-    yield put(SET_ERROR({name: err.message}));
+    yield put(SET_ERROR({request: err.message}));
     yield put(push('/'));
   }
 }
@@ -98,16 +91,17 @@ function* signInAuthentication() {
       yield serverConfig(),
     );
 
-    yield put(CLEAR_LOADING());
+    yield put(SET_LOADING({status: false}));
 
     //check if there is an error on SignIn Request
     if (!signInAuth.data.status) {
       //if the data.err is undefined means the connection from the server is down
       if (!signInAuth.data.err) {
-        return yield put(SET_ERROR({name: 'Server Maintenance'}));
+        return yield put(SET_ERROR({server: 'Server Maintenance'}));
       }
       //set loading to false and return the error message
-      return yield put(SET_ERROR({message: signInAuth.data.err}));
+      // yield put(SET_LOADING)
+      return yield put(SET_ERROR({signin: signInAuth.data.err}));
     }
 
     //stored the new SAT on localstorage and save from the globalState
@@ -130,7 +124,7 @@ function* signInAuthentication() {
     }
   } catch (err) {
     console.log('Error[user-auth]:', err);
-    yield put(SET_ERROR({name: err.message}));
+    yield put(SET_ERROR({request: err.message}));
     yield put(push('/'));
   }
 }
@@ -142,24 +136,20 @@ function* assessmentAuthentication() {
       because /app-auth is not yet initialize to set config thus it
     */
     const config = yield serverConfig();
-    const userAuth = yield call(
-      getRequestServer,
-      '/signin-authentication-decoder',
-      config,
-    );
+    const userAuth = yield call(getRequestServer, '/signin-authentication-decoder', config);
 
     if (!userAuth.data.status) {
       if (!userAuth.data.err) {
-        yield put(SET_ERROR({name: 'Server Maintenance'}));
+        yield put(SET_ERROR({server: 'Server Maintenance'}));
         return yield put(push('/'));
       }
 
-      yield put(SET_ERROR({name: 'Page Not Found'}));
+      yield put(SET_ERROR({page: 'Page Not Found'}));
       return yield put(push('/'));
     }
   } catch (err) {
     console.log('Error[assess-auth]:', err);
-    yield put(SET_ERROR({name: err.message}));
+    yield put(SET_ERROR({request: err.message}));
     yield put(push('/'));
   }
 }
