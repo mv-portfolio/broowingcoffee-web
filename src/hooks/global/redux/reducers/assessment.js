@@ -7,8 +7,7 @@ export default function assessment(state = {}, action) {
 
     case ACTION_TYPE('ASSESSMENT').SET:
       return {
-        isAssessed: action.isAssessed,
-        token: action.token,
+        data: action.data,
       };
 
     case ACTION_TYPE('ASSESSMENT').CLEAR:

@@ -13,7 +13,7 @@ import {SET_ERROR, SET_FORGOTPASSWOROD, SET_LOADING} from 'hooks/global/redux/ac
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
 function Account({loading, error, dispatch}) {
-  const [state, setState] = useHook(ASSESSMENT_ACCOUNT, assessAcc);
+  const [state, setState] = useHook(ASSESSMENT_ACCOUNT({}), assessAcc);
 
   const onChangeValue = (component, value) => {
     if (component === 'email') {

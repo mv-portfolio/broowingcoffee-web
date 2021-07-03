@@ -9,12 +9,29 @@ import {push} from 'connected-react-router';
 import {assessInfo} from 'hooks/local/reducers';
 import {NAME_REGEX} from 'constants/regex';
 import {ASSESSMENT_INFORMATION} from 'constants/strings';
-import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
+import {ASSESSMENT_REQUEST, SET_ERROR, SET_USER} from 'hooks/global/redux/actions';
 
-function Information({router: {location}, dispatch}) {
-  const [state, setState] = useHook(ASSESSMENT_INFORMATION, assessInfo);
+function Information({router: {location}, error, user, dispatch}) {
+  const [state, setState] = useHook(
+    ASSESSMENT_INFORMATION({
+      firstname: user.firstname,
+      lastname: user.lastname,
+    }),
+    assessInfo,
+  );
   const onClick = component => {
     if (component === 'on-next') {
+      dispatch(
+        SET_USER({
+          firstname: state.firstname.text,
+          lastname: state.lastname.text,
+        }),
+      );
+      dispatch(
+        SET_ERROR({
+          assessment: '',
+        }),
+      );
       dispatch(push(`/assessment/account?sat=${location.query.sat}`));
     }
   };
@@ -73,15 +90,26 @@ function Information({router: {location}, dispatch}) {
               onPress={() => onClick('on-next')}
             />
           </View>
-          <View style={styles.bottomPane}></View>
+          <Separator vertical={10} />
+          <View style={styles.bottomPane}>
+            {error.assessment && (
+              <>
+                <View style={styles.errorPane}>
+                  <Text style={styles.errorTitle}>{error.assessment}</Text>
+                </View>
+              </>
+            )}
+          </View>
         </View>
       </View>
     </View>
   );
 }
 
-const stateProps = ({router}) => ({
+const stateProps = ({router, error, user}) => ({
   router,
+  error,
+  user,
 });
 
 const dispatchProps = dispatch => ({

@@ -26,12 +26,11 @@ const CLEAR_SIGNIN = () => ({
 const ASSESSMENT_REQUEST = () => ({
   type: ACTION_TYPE().ASSESS_AUTH,
 });
-const ASSESSMENT_SET = ({isAssessed, token}) => ({
+const SET_ASSESSMENT = ({data}) => ({
   type: ACTION_TYPE('ASSESSMENT').SET,
-  isAssessed,
-  token,
+  data,
 });
-const ASSESSMENT_CLEAR = () => ({
+const CLEAR_ASSESSMENT = () => ({
   type: ACTION_TYPE('ASSESSMENT').CLEAR,
 });
 
@@ -58,7 +57,7 @@ const CLEAR_FORGOTPASSWORD = () => ({
 });
 
 //error
-const SET_ERROR = ({page, auth, signin, server, request, forgotPassword}) => ({
+const SET_ERROR = ({page, auth, signin, server, request, forgotPassword, assessment}) => ({
   type: ACTION_TYPE('ERROR').SET,
   page,
   auth,
@@ -66,6 +65,7 @@ const SET_ERROR = ({page, auth, signin, server, request, forgotPassword}) => ({
   server,
   request,
   forgotPassword,
+  assessment,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION_TYPE('ERROR').CLEAR,
@@ -84,8 +84,9 @@ const CLEAR_USERS = () => ({
 });
 
 //user hooks
-const SET_USER = ({firstname, lastname, username, email}) => ({
+const SET_USER = ({_id, firstname, lastname, username, email}) => ({
   type: ACTION_TYPE('USER').SET,
+  _id,
   firstname,
   lastname,
   username,
@@ -125,8 +126,8 @@ export {
   CLEAR_SIGNIN,
   //assessnent
   ASSESSMENT_REQUEST,
-  ASSESSMENT_SET,
-  ASSESSMENT_CLEAR,
+  SET_ASSESSMENT,
+  CLEAR_ASSESSMENT,
   //forgot-password,
   SET_FORGOTPASSWOROD,
   CLEAR_FORGOTPASSWORD,

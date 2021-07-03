@@ -22,7 +22,7 @@ const USER_FIELDS = {
 const ERROR_FIELDS = {
   name: '',
   message: '',
-}
+};
 
 const SIGNIN_FIELDS = {
   username: {
@@ -34,32 +34,32 @@ const SIGNIN_FIELDS = {
   },
 };
 
-const ASSESSMENT_INFORMATION = {
+const ASSESSMENT_INFORMATION = ({firstname, lastname}) => ({
   firstname: {
-    text: '',
+    text: firstname || '',
   },
   lastname: {
-    text: '',
+    text: lastname || '',
   },
-};
+});
 
-const ASSESSMENT_ACCOUNT = {
+const ASSESSMENT_ACCOUNT = ({username, email, password, confirmPassword}) => ({
   username: {
-    text: '',
+    text: username || '',
   },
   email: {
-    text: '',
+    text: email || '',
   },
   password: {
-    text: '',
+    text: password || '',
     strength: 0,
   },
   confirmPassword: {
-    text: '',
+    text: confirmPassword || '',
     isMatched: false,
     isEncrypted: false,
   },
-};
+});
 
 export {
   //function
@@ -69,5 +69,5 @@ export {
   SIGNIN_FIELDS,
   ASSESSMENT_INFORMATION,
   ASSESSMENT_ACCOUNT,
-  ERROR_FIELDS
+  ERROR_FIELDS,
 };

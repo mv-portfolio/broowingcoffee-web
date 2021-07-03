@@ -6,35 +6,27 @@ import {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {assessAcc} from 'hooks/local/reducers';
 import {logo} from 'assets/icons';
-import {
-  CAPITAL_CHAR_REGEX,
-  NUMS_REGEX,
-  SMALL_CHAR_REGEX,
-  SYMBOLS_REGEX,
-} from 'constants/regex';
+import {CAPITAL_CHAR_REGEX, NUMS_REGEX, SMALL_CHAR_REGEX, SYMBOLS_REGEX} from 'constants/regex';
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
-import {ASSESSMENT_REQUEST} from 'hooks/global/redux/actions';
+import {ASSESSMENT_REQUEST, SET_ASSESSMENT, SET_ERROR, SET_USER} from 'hooks/global/redux/actions';
 import {Image, Text, Separator, TextInput, View, Button} from 'components';
 
-function Account({router: {location}, dispatch}) {
-  const [state, setState] = useHook(ASSESSMENT_ACCOUNT, assessAcc);
+function Account({user, error, dispatch}) {
+  const [state, setState] = useHook(
+    ASSESSMENT_ACCOUNT({
+      username: user.username,
+      email: user.email,
+    }),
+    assessAcc,
+  );
 
   const onPasswordMatchedIcon = status => {
     if (status) {
-      return (
-        <Icon
-          font='Feather'
-          name='check'
-          size={ICON_SIZE}
-          color={accentColor}
-        />
-      );
+      return <Icon font='Feather' name='check' size={ICON_SIZE} color={accentColor} />;
     } else {
-      return (
-        <Icon font='Feather' name='x' size={ICON_SIZE} color={accentColor} />
-      );
+      return <Icon font='Feather' name='x' size={ICON_SIZE} color={accentColor} />;
     }
   };
   const onPasswordMatched = (prevState, newState) => {
@@ -98,7 +90,28 @@ function Account({router: {location}, dispatch}) {
         isEncrypted: !state.confirmPassword.isEncrypted,
       });
     } else if (component === 'on-done') {
-      console.log(location);
+      if (state.confirmPassword.isMatched) {
+        const userPayload = {
+          _id: user._id,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          username: state.username.text,
+          email: state.email.text,
+        };
+        dispatch(
+          SET_ERROR({
+            assessment: '',
+          }),
+        );
+        dispatch(SET_ASSESSMENT({data: {...userPayload, password: state.password.text}}));
+        dispatch(SET_USER({...userPayload}));
+      } else {
+        dispatch(
+          SET_ERROR({
+            assessment: 'Password does not matched',
+          }),
+        );
+      }
     }
   };
 
@@ -127,14 +140,7 @@ function Account({router: {location}, dispatch}) {
               skin={styles.inputSkin}
               value={state.username.text}
               onChangeText={value => onChangeValue('username', value)}
-              prefixIcon={
-                <Icon
-                  font='Feather'
-                  size={ICON_SIZE}
-                  name='user'
-                  color={accentColor}
-                />
-              }
+              prefixIcon={<Icon font='Feather' size={ICON_SIZE} name='user' color={accentColor} />}
             />
             <Separator vertical={3} />
             <TextInput
@@ -142,14 +148,7 @@ function Account({router: {location}, dispatch}) {
               skin={styles.inputSkin}
               value={state.email.text}
               onChangeText={value => onChangeValue('email', value)}
-              prefixIcon={
-                <Icon
-                  font='Feather'
-                  size={ICON_SIZE}
-                  name='mail'
-                  color={accentColor}
-                />
-              }
+              prefixIcon={<Icon font='Feather' size={ICON_SIZE} name='mail' color={accentColor} />}
             />
             <Separator vertical={3} />
             <TextInput
@@ -157,14 +156,7 @@ function Account({router: {location}, dispatch}) {
               skin={styles.inputSkin}
               value={state.password.text}
               onChangeText={value => onChangeValue('password', value)}
-              prefixIcon={
-                <Icon
-                  font='Feather'
-                  size={ICON_SIZE}
-                  name='lock'
-                  color={accentColor}
-                />
-              }
+              prefixIcon={<Icon font='Feather' size={ICON_SIZE} name='lock' color={accentColor} />}
               indicatorColor={accentColor}
               indicatorProgress={state.password.strength}
               indicatorSize={18}
@@ -176,9 +168,7 @@ function Account({router: {location}, dispatch}) {
               skin={styles.inputSkin}
               value={state.confirmPassword.text}
               onChangeText={value => onChangeValue('confirm-password', value)}
-              prefixIcon={onPasswordMatchedIcon(
-                state.confirmPassword.isMatched,
-              )}
+              prefixIcon={onPasswordMatchedIcon(state.confirmPassword.isMatched)}
               isTextEncrypt={!state.confirmPassword.isEncrypted}
               onEncryptText={() => onClick('on-encrypt-text')}
             />
@@ -190,14 +180,24 @@ function Account({router: {location}, dispatch}) {
               onPress={() => onClick('on-done')}
             />
           </View>
-          <View style={styles.bottomPane}></View>
+          <Separator vertical={10} />
+          <View style={styles.bottomPane}>
+            {error.assessment && (
+              <>
+                <View style={styles.errorPane}>
+                  <Text style={styles.errorTitle}>{error.assessment}</Text>
+                </View>
+              </>
+            )}
+          </View>
         </View>
       </View>
     </View>
   );
 }
-const stateProps = ({router}) => ({
-  router,
+const stateProps = ({user, error}) => ({
+  user,
+  error,
 });
 
 const dispatchProps = dispatch => ({

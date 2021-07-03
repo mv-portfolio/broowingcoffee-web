@@ -1,15 +1,17 @@
 import {ACTION_TYPE} from 'constants/strings';
+import isType from 'utils/isType';
 
-const initState = {
+const errorInitState = {
   page: '',
   auth: '',
   server: '',
   signin: '',
   request: '',
   forgotPassword: '',
+  assessment: '',
 };
 
-export default function error(state = initState, action) {
+export default function error(state = errorInitState, action) {
   switch (action.type) {
     case ACTION_TYPE('ERROR').SET:
       return {
@@ -18,12 +20,14 @@ export default function error(state = initState, action) {
         server: action.server || state.server,
         request: action.request || state.request,
         //dont have save state
-        signin: typeof action.signin === 'string' ? action.signin : state.signin,
-        forgotPassword: typeof action.forgotPassword === 'string' ? action.forgotPassword : state.forgotPassword,
+        signin: isType('string', action.signin, state.signin),
+        forgotPassword: isType('string', action.forgotPassword, state.forgotPassword),
+        //unsave state
+        assessment: isType('string', action.assessment, state.assessment),
       };
 
     case ACTION_TYPE('ERROR').CLEAR:
-      return {};
+      return errorInitState;
 
     default:
       return state;

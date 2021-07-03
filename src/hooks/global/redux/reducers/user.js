@@ -1,22 +1,21 @@
 import {ACTION_TYPE} from 'constants/strings';
+import isType from 'utils/isType';
 
-export default function user(state = {}, action) {
+export const userInitState = {_id: '', firstname: '', lastname: '', username: '', email: ''};
+
+export default function user(state = userInitState, action) {
   switch (action.type) {
     case ACTION_TYPE('USER').SET:
       return {
-        firsname: action.firstname || state.firsname,
-        lastname: action.lastname || state.lastname,
-        username: action.username || state.username,
-        email: action.email || state.email,
+        _id: action._id || state._id,
+        firstname: isType('string', action.firstname, state.firstname),
+        lastname: isType('string', action.lastname, state.firstname),
+        username: isType('string', action.username, state.username),
+        email: isType('string', action.email, state.email),
       };
 
     case ACTION_TYPE('USER').CLEAR:
-      return {
-        firsname: '',
-        lastname: '',
-        username: '',
-        email: '',
-      };
+      return userInitState;
 
     default:
       return state;
