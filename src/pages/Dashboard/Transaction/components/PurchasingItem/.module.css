@@ -1,0 +1,7 @@
+.mainPane {
+  height: 5vh !important;
+  padding: 1.5vh !important;
+  border-radius: 1vh !important;
+  box-shadow: rgba(0, 0, 0, 0.25) 0.25vh 0.25vh 0.5vh;
+  background-color: #2e2c2d !important;
+}

@@ -1,0 +1,54 @@
+.mainPane {
+  height: 10vh;
+  flex-direction: row !important;
+  padding: 0 2vh 0 2vh !important;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mainPane .leftPane {
+  flex: 3;
+  flex-direction: row;
+  align-items: center;
+}
+
+.leftPane .title {
+  font-size: 2.25vh;
+  font-weight: bold;
+}
+
+.mainPane .rightPane {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.rightPane .profileIcon {
+  width: 5vh;
+  height: 5vh;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0 1.5vh 0 0;
+  border-radius: 50vh;
+  border: #fff solid 0.3vh;
+}
+
+.menuListPane {
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 2vh;
+  background-color: #282627;
+}
+
+.menuListPane .button {
+  width: 90vw;
+  height: 5vh;
+  justify-content: flex-start;
+}
+
+.menuListPane .buttonText {
+  font-size: 1.75vh;
+  color: #fff;
+}

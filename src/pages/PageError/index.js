@@ -1,25 +1,19 @@
-import {View, Text, Separator} from 'components';
+import {View, Text, Icon, Separator} from 'components';
 import {accentColor} from 'constants/styles';
 import {connect} from 'react-redux';
-import Icon from 'react-web-vector-icons';
 import styles from './.module.css';
 function PageError({error}) {
   const getIcon = (type, name) => {
-    return <Icon font={type} name={name} size='50px' color={accentColor} />;
+    return <Icon font={type} name={name} size='7.5vh' color={accentColor} />;
   };
   const errorHandler = error => {
     let errorName = '';
     Object.values(error).map(error => (error ? (errorName = error) : null));
     if (errorName === 'Network Error' || errorName === 'timeout of 5000ms exceeded') {
       return {
-        title: 'Connection Error',
-        subtitle: 'Please check your internet connection.',
-        icon: getIcon('Feather', 'wifi-off'),
-      };
-    } else if (errorName === 'Server Maintenance') {
-      return {
         title: 'Server Maintenance',
-        subtitle: 'Sorry for inconvenient, we temporarily down the server and we will be back soon',
+        subtitle:
+          'Sorry for inconvenient, we temporarily down the server and we will be back soon',
         icon: getIcon('AntDesign', 'tool'),
       };
     }
@@ -34,9 +28,9 @@ function PageError({error}) {
     <View style={styles.mainPane}>
       <View style={styles.bodyPane}>
         {errorHandler(error).icon}
-        <Separator vertical={15} />
+        <Separator vertical={1} />
         <Text style={styles.title}>{errorHandler(error).title}</Text>
-        <Separator vertical={5} />
+        <Separator vertical={0.5} />
         <Text style={styles.subtitle}>{errorHandler(error).subtitle}</Text>
       </View>
     </View>

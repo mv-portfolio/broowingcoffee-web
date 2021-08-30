@@ -1,16 +1,15 @@
 import Icon from 'react-web-vector-icons';
-import useHook from 'hooks/local';
+import useHook, {login} from 'hooks';
 import styles from './.module.css';
 
 import {useEffect} from 'react';
-import {logo} from 'assets/icons';
 import {connect} from 'react-redux';
 import {accentColor} from 'constants/styles';
 import {SIGNIN_FIELDS} from 'constants/strings';
-import {login} from 'hooks/local/reducers';
-import {SET_ERROR, CLEAR_SIGNIN, SET_LOADING, SET_SIGNIN} from 'hooks/global/redux/actions';
-import {Image, Text, Separator, TextInput, View, Button} from 'components';
+import {SET_ERROR, CLEAR_SIGNIN, SET_LOADING, SET_SIGNIN} from 'modules/actions';
+import {Text, Separator, TextInput, View, Button} from 'components';
 import {push} from 'connected-react-router';
+import {ICON_SIZE} from 'constants/sizes';
 
 function SignIn({error, loading, dispatch}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, login);
@@ -61,68 +60,63 @@ function SignIn({error, loading, dispatch}) {
   }, [dispatch]);
 
   return (
-    <View style={styles.screenPane}>
-      <View style={styles.mainPane}>
-        <View style={styles.leftPane}>
-          <Image title='mobile-logo' source={logo} style={styles.logo} />
+    <View style={styles.mainPane}>
+      <View style={styles.topPane}>
+        <View style={styles.headerPane}>
+          <Text style={styles.title}>Broowing</Text>
+          <View style={styles.subtitlePane}>
+            <Icon font='AntDesign' name='barschart' color={accentColor} size='3vh' />
+            <Separator horizontal={0.4} />
+            <Text style={styles.subtitle}>Coffee</Text>
+          </View>
         </View>
-        <View style={styles.rightPane}>
-          <View style={styles.topPane}>
-            <View style={styles.headerPane}>
-              <Text style={styles.title}>Broowing</Text>
-              <View style={styles.subtitlePane}>
-                <Icon font='AntDesign' name='barschart' color='#fff' size='20px' />
-                <Separator horizontal={2} />
-                <Text style={styles.subtitle}>coffee</Text>
-              </View>
+      </View>
+      <View style={styles.bodyPane}>
+        <TextInput
+          placeholder='Username'
+          skin={styles.inputSkin}
+          prefixIcon={
+            <Icon name='user' font='Feather' color={accentColor} size={ICON_SIZE} />
+          }
+          value={state.username.text}
+          onChangeText={value => onChangeValue('username', value)}
+        />
+        <Separator vertical={0.5} />
+        <TextInput
+          placeholder='Password'
+          skin={styles.inputSkin}
+          prefixIcon={
+            <Icon name='lock' font='Feather' color={accentColor} size={ICON_SIZE} />
+          }
+          isTextEncrypt={!state.password.isEncrypted}
+          onEncryptText={() => onClick('on-encrypt-text')}
+          value={state.password.text}
+          onChangeText={value => onChangeValue('password', value)}
+        />
+        <Separator vertical={1} />
+        <Button
+          skin={styles.buttonSkin}
+          title='Sign In'
+          titleStyle={styles.buttonTitle}
+          isLoading={loading.status}
+          onPress={() => onClick('on-signin')}
+        />
+      </View>
+      <View style={styles.bottomPane}>
+        {!error.signin && <View />}
+        {error.signin && (
+          <>
+            <View style={styles.errorPane}>
+              <Text style={styles.errorTitle}>{error.signin}</Text>
             </View>
-          </View>
-          <View style={styles.bodyPane}>
-            <TextInput
-              placeholder='User'
-              skin={styles.inputSkin}
-              prefixIcon={<Icon name='user' font='Feather' color={accentColor} size='15px' />}
-              value={state.username.text}
-              onChangeText={value => onChangeValue('username', value)}
-            />
-            <Separator vertical={3} />
-            <TextInput
-              placeholder='Password'
-              skin={styles.inputSkin}
-              prefixIcon={<Icon name='lock' font='Feather' color={accentColor} size='15px' />}
-              isTextEncrypt={!state.password.isEncrypted}
-              onEncryptText={() => onClick('on-encrypt-text')}
-              value={state.password.text}
-              onChangeText={value => onChangeValue('password', value)}
-            />
-            <Separator vertical={5} />
-            <Button
-              skin={styles.buttonSkin}
-              title='SignIn'
-              titleStyle={styles.buttonTitle}
-              isLoading={loading.status}
-              disabled={loading.status}
-              onPress={() => onClick('on-signin')}
-            />
-          </View>
-          <Separator vertical={10} />
-          <View style={styles.bottomPane}>
-            {!error.signin && <View />}
-            {error.signin && (
-              <>
-                <View style={styles.errorPane}>
-                  <Text style={styles.errorTitle}>{error.signin}</Text>
-                </View>
-              </>
-            )}
-            <Button
-              title='Forgot Password'
-              titleStyle={styles.bForgotPasswordText}
-              disabled={loading.status}
-              onPress={() => onClick('on-forgot-password')}
-            />
-          </View>
-        </View>
+          </>
+        )}
+        <Button
+          title='Forgot Password'
+          titleStyle={styles.bForgotPasswordText}
+          disabled={loading.status}
+          onPress={() => onClick('on-forgot-password')}
+        />
       </View>
     </View>
   );

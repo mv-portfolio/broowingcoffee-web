@@ -1,5 +1,4 @@
 import {lazy} from 'react';
-import {wp, hp} from './Responsive';
 
 import {Circle, CircleSnail} from './Progress';
 
@@ -11,13 +10,13 @@ const Text = lazy(() => import('./Text'));
 const View = lazy(() => import('./View'));
 const RouteAuth = lazy(() => import('./RouteAuth'));
 const RoutePrivate = lazy(() => import('./RoutePrivate'));
+const PrimaryDialog = lazy(() => import('./PrimaryDialog'));
+const Icon = lazy(() => import('./Icon'));
 
 export {
   Button,
   Circle,
   CircleSnail,
-  hp,
-  wp,
   Image,
   Separator,
   TextInput,
@@ -25,4 +24,6 @@ export {
   View,
   RouteAuth,
   RoutePrivate,
+  PrimaryDialog,
+  Icon,
 };

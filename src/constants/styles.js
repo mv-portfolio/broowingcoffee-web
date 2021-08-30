@@ -15,4 +15,6 @@ module.exports = {
   secondaryColor: '#f75b5b',
   grayScaleColor: '#e8e8e8',
   accentColorDisabled: '#473d32',
+  WHITE: '#fff',
+  LIGHT_RED: '#f75b5b',
 };

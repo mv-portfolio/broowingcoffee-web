@@ -1,11 +1,3 @@
-import {Server} from '../api';
+import * as server from './server';
 
-async function getRequestServer(route, config) {
-  return await Server.get(route, config);
-}
-
-async function postRequestServer(route, body, config) {
-  return await Server.post(route, body, config);
-}
-
-export {getRequestServer, postRequestServer};
+export {server};

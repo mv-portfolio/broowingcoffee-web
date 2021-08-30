@@ -1,0 +1,5 @@
+.mainPane {
+  flex: 1;
+  padding: 1vh;
+  overflow-y: auto;
+}

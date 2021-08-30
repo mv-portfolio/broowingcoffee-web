@@ -2,10 +2,10 @@ export default class ObjectCleaner {
   static #redundantFields = [];
   static #object = {};
 
-  static getFilteredFields(objectsProps = [], payload = {}) {
+  static getFilteredFields(objectsProps, payload = {}) {
     const ObjectValues = Object.values(payload);
     const propsRedundantcies = this.#hasRedundantProps(payload);
-    objectsProps.forEach(field => {
+    Object.keys(objectsProps).forEach(field => {
       Object.getOwnPropertyNames(payload).forEach((payloadField, payloadFieldIdx) => {
         if (field === payloadField) {
           this.#object[payloadField] = ObjectValues[payloadFieldIdx];
@@ -15,20 +15,23 @@ export default class ObjectCleaner {
         if (typeof ObjectValues[payloadFieldIdx] === 'object') {
           const payloadObjectFields = ObjectValues[payloadFieldIdx];
           const payloadObjectValues = Object.values(payloadObjectFields);
-          Object.getOwnPropertyNames(payloadObjectFields).forEach((payloadObjectField, payloadObjectFieldIdx) => {
-            if (field === payloadObjectField) {
-              let isRedundantProp = false;
-              propsRedundantcies.forEach(redundancyProp => {
-                if (redundancyProp === payloadObjectField) {
-                  return (isRedundantProp = true);
-                }
-              });
+          Object.getOwnPropertyNames(payloadObjectFields).forEach(
+            (payloadObjectField, payloadObjectFieldIdx) => {
+              if (field === payloadObjectField) {
+                let isRedundantProp = false;
+                propsRedundantcies.forEach(redundancyProp => {
+                  if (redundancyProp === payloadObjectField) {
+                    return (isRedundantProp = true);
+                  }
+                });
 
-              if (!isRedundantProp) {
-                this.#object[payloadObjectField] = payloadObjectValues[payloadObjectFieldIdx];
+                if (!isRedundantProp) {
+                  this.#object[payloadObjectField] =
+                    payloadObjectValues[payloadObjectFieldIdx];
+                }
               }
-            }
-          });
+            },
+          );
         }
       });
     });

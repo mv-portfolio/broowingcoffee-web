@@ -1,0 +1,26 @@
+.mainPane {
+  width: 12.5vh !important;
+  height: 12.5vh !important;
+  padding: 1vh;
+  border-radius: 2vh !important ;
+  box-shadow: rgba(0, 0, 0, 0.25) 0.25vh 0.25vh 0.5vh;
+  background-color: #2e2c2d !important;
+}
+
+.mainPane .bodyPane {
+  flex-direction: column !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainPane .image {
+  width: 4vh;
+  height: 4vh;
+  object-fit: contain;
+}
+
+.mainPane .title {
+  font-weight: bold;
+  font-size: 1.5vh;
+  text-align: center;
+}

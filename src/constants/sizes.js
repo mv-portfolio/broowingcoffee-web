@@ -1,7 +1,3 @@
+const ICON_SIZE = '2.25vh';
 
-const ICON_SIZE = '18px';
-
-
-export {
-    ICON_SIZE
-}
+export {ICON_SIZE};

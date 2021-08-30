@@ -1,0 +1,49 @@
+.mainPane {
+  height: 90vh;
+  padding-left: 2vh;
+  padding-right: 2vh;
+}
+
+.mainPane .topPane {
+  flex: 1;
+}
+
+.topPane .title {
+  color: #f7a35b;
+  font-weight: bold;
+  font-size: 2vh;
+}
+
+.topPane .productList {
+  flex-direction: row;
+  padding: 1vh;
+  overflow-y: scroll;
+}
+
+.mainPane .bodyPane {
+  flex: 4;
+}
+
+.bodyPane .title {
+  color: #f7a35b;
+  font-weight: bold;
+  font-size: 2vh;
+}
+
+.bodyPane .subtitle {
+  font-size: max(12px, 1.2vw);
+}
+
+.mainPane .bottomPane {
+  flex: 1;
+}
+
+.bottomPane .button {
+  height: 5.5vh;
+  background-color: #f7a35b;
+}
+
+.button .buttonText {
+  font-size: 1.75vh;
+  font-weight: bold;
+}

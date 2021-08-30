@@ -1,0 +1,58 @@
+.mainPane {
+  height: 90vh;
+}
+
+.mainPane .topPane {
+  flex: 1.25;
+  align-items: center;
+  justify-content: center;
+}
+
+.topPane .picturePane {
+  width: 20vh;
+  height: 20vh;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25vh;
+  border: #f7a35b solid 1vh;
+  background-color: #282627;
+}
+
+.topPane .title {
+  font-family: 'Standard-Font2';
+  font-size: 3vh;
+}
+.topPane .subtitle {
+  font-family: 'Standard-Font';
+  font-size: 2vh;
+}
+
+.mainPane .bodyPane {
+  flex: 1;
+  padding: 0 4vh 0 4vh;
+}
+
+.bodyPane .button {
+  height: 5vh;
+  justify-content: flex-start;
+}
+
+.button .buttonText {
+  font-size: 1.75vh;
+  color: white;
+}
+.button .buttonTextSpecial {
+  font-size: 1.75vh;
+  color: #f75b5b;
+}
+
+.mainPane .bottomPane {
+  flex: 0.2;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottomPane .configText {
+  font-weight: bold;
+  font-size: 1.5vh;
+}

@@ -7,6 +7,7 @@ import * as Progress from 'components/Progress';
 import Icon from 'react-web-vector-icons';
 import {accentColor} from 'constants/styles';
 import {useRef} from 'react';
+import {ICON_SIZE} from 'constants/sizes';
 
 export default function TextInput({
   skin,
@@ -27,11 +28,9 @@ export default function TextInput({
 
   const isEncryptText = status => {
     if (status) {
-      return (
-        <Icon name='eye-off' font='Feather' color={accentColor} size={17.5} />
-      );
+      return <Icon name='eye-off' font='Feather' color={accentColor} size={ICON_SIZE} />;
     } else {
-      return <Icon name='eye' font='Feather' color={accentColor} size={17.5} />;
+      return <Icon name='eye' font='Feather' color={accentColor} size={ICON_SIZE} />;
     }
   };
 
@@ -40,7 +39,7 @@ export default function TextInput({
       {prefixIcon && (
         <>
           {prefixIcon}
-          <Separator horizontal={5} />
+          <Separator horizontal={1} />
         </>
       )}
       <input

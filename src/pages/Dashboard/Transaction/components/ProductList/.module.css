@@ -1,0 +1,14 @@
+.mainPane {
+  flex-direction: row;
+  padding: 1vh;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.mainPane::-webkit-scrollbar {
+  display: none;
+}
+
+.mainPane .productPane {
+  flex-direction: row;
+}

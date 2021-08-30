@@ -1,15 +1,13 @@
-import useHook from 'hooks/local';
+import useHook, {assessInfo} from 'hooks';
 import styles from '../.module.css';
 
-import {connect} from 'react-redux';
-import {Image, Text, Separator, TextInput, View, Button} from 'components';
-import {logo} from 'assets/icons';
 import {useEffect} from 'react';
-import {push} from 'connected-react-router';
-import {assessInfo} from 'hooks/local/reducers';
+import {connect} from 'react-redux';
+import {replace} from 'connected-react-router';
+import {Text, Separator, TextInput, View, Button} from 'components';
+import {ASSESSMENT_AUTH, SET_ERROR, SET_USER} from 'modules/actions';
 import {NAME_REGEX} from 'constants/regex';
 import {ASSESSMENT_INFORMATION} from 'constants/strings';
-import {ASSESSMENT_REQUEST, SET_ERROR, SET_USER} from 'hooks/global/redux/actions';
 
 function Information({router: {location}, error, user, dispatch}) {
   const [state, setState] = useHook(
@@ -19,22 +17,6 @@ function Information({router: {location}, error, user, dispatch}) {
     }),
     assessInfo,
   );
-  const onClick = component => {
-    if (component === 'on-next') {
-      dispatch(
-        SET_USER({
-          firstname: state.firstname.text,
-          lastname: state.lastname.text,
-        }),
-      );
-      dispatch(
-        SET_ERROR({
-          assessment: '',
-        }),
-      );
-      dispatch(push(`/assessment/account?sat=${location.query.sat}`));
-    }
-  };
   const onChangeValue = (component, value) => {
     if (component === 'firstname') {
       setState({
@@ -48,59 +30,68 @@ function Information({router: {location}, error, user, dispatch}) {
       });
     }
   };
+  const onClick = component => {
+    if (component === 'on-next') {
+      dispatch(
+        SET_USER({
+          firstname: state.firstname.text,
+          lastname: state.lastname.text,
+        }),
+      );
+      dispatch(
+        SET_ERROR({
+          assessment: '',
+        }),
+      );
+      dispatch(replace(`/assessment/account?sat=${location.query.sat}`));
+    }
+  };
 
   useEffect(() => {
     document.title = 'Assessment | Broowing Coffee';
-    dispatch(ASSESSMENT_REQUEST());
+    dispatch(ASSESSMENT_AUTH());
   }, [dispatch]);
 
   return (
-    <View style={styles.screenPane}>
-      <View style={styles.mainPane}>
-        <View style={styles.leftPane}>
-          <Image title='mobile-logo' source={logo} style={styles.logo} />
+    <View style={styles.mainPane}>
+      <View style={styles.topPane}>
+        <View style={styles.headerPane}>
+          <Text style={styles.title}>Information</Text>
+          <Text style={styles.subtitle}>personal identity</Text>
         </View>
-        <View style={styles.rightPane}>
-          <View style={styles.topPane}>
-            <View style={styles.headerPane}>
-              <Text style={styles.title}>Information</Text>
-              <Text style={styles.subtitle}>personal identity</Text>
+      </View>
+      <Separator vertical={2} />
+      <View style={styles.bodyPane}>
+        <TextInput
+          placeholder='Firstname'
+          skin={styles.inputSkin}
+          value={state.firstname.text}
+          onChangeText={value => onChangeValue('firstname', value)}
+        />
+        <Separator vertical={0.5} />
+        <TextInput
+          placeholder='Lastname'
+          skin={styles.inputSkin}
+          value={state.lastname.text}
+          onChangeText={value => onChangeValue('lastname', value)}
+        />
+        <Separator vertical={1} />
+        <Button
+          skin={styles.buttonSkin}
+          title='Next'
+          titleStyle={styles.buttonTitle}
+          onPress={() => onClick('on-next')}
+        />
+      </View>
+      <View style={styles.bottomPane}>
+        {error.assessment && (
+          <>
+            <Separator vertical={1} />
+            <View style={styles.errorPane}>
+              <Text style={styles.errorTitle}>{error.assessment}</Text>
             </View>
-          </View>
-          <Separator vertical={15} />
-          <View style={styles.bodyPane}>
-            <TextInput
-              placeholder='Firstname'
-              skin={styles.inputSkin}
-              value={state.firstname.text}
-              onChangeText={value => onChangeValue('firstname', value)}
-            />
-            <Separator vertical={3} />
-            <TextInput
-              placeholder='Lastname'
-              skin={styles.inputSkin}
-              value={state.lastname.text}
-              onChangeText={value => onChangeValue('lastname', value)}
-            />
-            <Separator vertical={5} />
-            <Button
-              skin={styles.buttonSkin}
-              title='Next'
-              titleStyle={styles.buttonTitle}
-              onPress={() => onClick('on-next')}
-            />
-          </View>
-          <Separator vertical={10} />
-          <View style={styles.bottomPane}>
-            {error.assessment && (
-              <>
-                <View style={styles.errorPane}>
-                  <Text style={styles.errorTitle}>{error.assessment}</Text>
-                </View>
-              </>
-            )}
-          </View>
-        </View>
+          </>
+        )}
       </View>
     </View>
   );

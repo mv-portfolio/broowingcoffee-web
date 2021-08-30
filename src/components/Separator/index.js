@@ -1,12 +1,15 @@
 import View from 'components/View';
-export default function Separator({ vertical, horizontal }) {
+export default function Separator({vertical, horizontal, borderWidth, borderColor}) {
   return (
     <View
       defaultStyle={{
-        paddingTop: `${vertical}px`,
-        paddingBottom: `${vertical}px`,
-        paddingLeft: `${horizontal}px`,
-        paddingRight: `${horizontal}px`,
+        paddingTop: `${vertical || 0}vh`,
+        paddingBottom: `${vertical || 0}vh`,
+        paddingLeft: `${horizontal || 0}vh`,
+        paddingRight: `${horizontal || 0}vh`,
+        borderBottom: borderWidth
+          ? `solid ${borderColor || '#fff'} ${borderWidth}`
+          : null,
       }}
     />
   );

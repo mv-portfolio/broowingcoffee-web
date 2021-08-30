@@ -1,18 +1,24 @@
 .skin {
-  height: 40px;
+  display: flex;
   padding: 0 10px 0 10px;
   font-size: 12px;
   cursor: pointer;
   border: none;
-  border-radius: 7.5px;
-  font-weight: bold;
-  display: flex;
+  border-radius: 1vh;
   align-items: center;
   justify-content: center;
   background-color: transparent;
 }
 
-.title {
+.skin .childrenPane {
+  flex-direction: row;
+  align-items: center;
+  height: 37.5px;
+}
+
+.childrenPane .title {
+  font-size: 1.75vh;
+  font-weight: bold;
   font-family: 'Standard-Font';
 }
 
