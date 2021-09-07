@@ -38,6 +38,21 @@ export default class ObjectCleaner {
     return this.#object;
   }
 
+  static getProperties(obj) {
+    const array = [];
+    Object.getOwnPropertyNames(obj).map((property, propertyIdx) => {
+      Object.values(obj).map((value, valueIdx) => {
+        if (propertyIdx === valueIdx) {
+          array.push({
+            property: property,
+            value: value,
+          });
+        }
+      });
+    });
+    return array;
+  }
+
   static #hasRedundantProps(payload) {
     const fields = Object.getOwnPropertyNames(payload);
     Object.values(payload).forEach(payload => {

@@ -1,7 +1,27 @@
 import {useState} from 'react';
-import {assessAcc, assessInfo, login, menu, initStateMenu, primaryDialog, primaryDialogInitState} from './reducers';
+import {
+  assessAcc,
+  assessInfo,
+  login,
+  menu,
+  initStateMenu,
+  primaryDialog,
+  primaryDialogInitState,
+  purchasingProduct,
+  purchasingProductInitState,
+} from './reducers';
 
-export {assessAcc, assessInfo, login, menu, initStateMenu, primaryDialog, primaryDialogInitState};
+export {
+  assessAcc,
+  assessInfo,
+  login,
+  menu,
+  initStateMenu,
+  primaryDialog,
+  primaryDialogInitState,
+  purchasingProduct,
+  purchasingProductInitState,
+};
 
 export default function useHook(init, reducer) {
   const [state, setState] = useState(init);

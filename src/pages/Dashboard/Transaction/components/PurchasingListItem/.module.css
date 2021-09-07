@@ -1,5 +1,7 @@
 .mainPane {
-  flex: 1;
+  height: 30vh;
   padding: 1vh;
+  border-radius: 1vh;
   overflow-y: auto;
+  background-color: #242223;
 }

@@ -2,9 +2,10 @@ import {Text, Image, Button} from 'components';
 
 import * as IMAGES from 'assets/images';
 import styles from './.module.css';
+import Formatter from 'utils/Formatter';
 
-export default function Product({data}) {
-  const {based, name} = data;
+export default function Product({productInfo, onPress}) {
+  const {based, name} = productInfo;
 
   const getImage = type => {
     if (type === 'coffee') {
@@ -14,9 +15,9 @@ export default function Product({data}) {
   };
 
   return (
-    <Button skin={styles.mainPane} body={styles.bodyPane}>
+    <Button skin={styles.mainPane} body={styles.bodyPane} onPress={onPress}>
       <Image style={styles.image} source={getImage(based)} />
-      <Text style={styles.title}>{name || 'Product 1'}</Text>
+      <Text style={styles.title}>{Formatter.toName(name) || 'Product 1'}</Text>
     </Button>
   );
 }

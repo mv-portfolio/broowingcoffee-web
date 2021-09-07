@@ -1,3 +1,5 @@
+import {NUMBER_REGEX} from 'constants/regex';
+
 const isString = value => {
   return typeof value === 'string';
 };
@@ -8,6 +10,10 @@ const isDefined = value => {
 
 const isNumber = value => {
   return typeof value === 'number';
+};
+
+const isOnlyNumber = value => {
+  return NUMBER_REGEX.test(value);
 };
 
 const isBoolean = value => {
@@ -34,6 +40,10 @@ const isComponent = (component, component2) => {
   return typeof component === 'object' ? component : component2;
 };
 
+const isArray = value => {
+  return Array.isArray(value);
+};
+
 const isObject = value => {
   return typeof value === 'object';
 };
@@ -52,14 +62,15 @@ const isJsonString = value => {
   return true;
 };
 
-const isExistInArray = (data = [], callBack) => {
-  return data.filter(callBack).length !== 0;
+const isExistInArray = (data = [], callback) => {
+  return data.filter(callback).length !== 0;
 };
 
 export {
   isString,
   isDefined,
   isNumber,
+  isOnlyNumber,
   isBoolean,
   isTextChange,
   isTextEncrypt,
@@ -68,6 +79,7 @@ export {
   isTextNumber,
   isComponent,
   isJsonString,
+  isArray,
   isObject,
   isExistInArray,
 };

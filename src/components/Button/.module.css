@@ -13,7 +13,6 @@
 .skin .childrenPane {
   flex-direction: row;
   align-items: center;
-  height: 37.5px;
 }
 
 .childrenPane .title {
@@ -32,4 +31,5 @@
 
 .skin:active {
   opacity: 0.5;
+  -webkit-tap-highlight-color: transparent;
 }

@@ -1,4 +1,4 @@
-import {push, replace} from 'connected-react-router';
+import {replace} from 'connected-react-router';
 import {ACTION_TYPE} from 'constants/strings';
 import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from 'modules/actions';
 import {userInitState} from 'modules/reducers/user';

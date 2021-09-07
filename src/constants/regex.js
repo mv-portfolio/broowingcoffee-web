@@ -1,5 +1,6 @@
 module.exports = {
   NAME_REGEX: /^[a-zA-Z ]*$/,
+  NUMBER_REGEX: /^[0-9]*$/,
   SMALL_CHAR_REGEX: /(?=.*[a-z])/,
   CAPITAL_CHAR_REGEX: /(?=.*[A-Z])/,
   NUMS_REGEX: /(?=.*[0-9])/,

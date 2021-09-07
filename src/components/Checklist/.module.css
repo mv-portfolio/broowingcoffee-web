@@ -1,0 +1,30 @@
+.mainPane {
+  height: 15vh;
+  overflow-y: auto;
+}
+
+.mainPane .itemSkin {
+  margin: 0 1vh 0 1vh;
+}
+
+.mainPane .itemBody {
+  flex: 1;
+  height: 5vh;
+  justify-content: space-between;
+}
+
+.itemBody .leftPane {
+  flex-direction: row;
+  align-items: center;
+}
+
+.itemBody .itemText {
+  color: #fff;
+  margin-left: 1vh;
+  font-size: 1.75vh;
+}
+
+.itemBody .suffixText {
+  font-size: 1.75vh;
+  color: #f7a35b;
+}

@@ -1,17 +1,18 @@
 import Icon from 'react-web-vector-icons';
 import styles from './.module.css';
 
-import {lazy} from 'react';
+import {lazy, useEffect} from 'react';
 import {Switch, Route} from 'react-router-dom';
 import {Button, View} from 'components';
 import {pages} from './pages';
 import {WHITE} from 'constants/styles';
 import {connect} from 'react-redux';
 import useHook, {menu, initStateMenu} from 'hooks';
+import {PEEK_PRODUCTS} from 'modules/actions';
 
 const HeaderBar = lazy(() => import('components/HeaderBar'));
 
-function DashBoardNavigator({user}) {
+function DashBoardNavigator({dispatch, user}) {
   const [menuState, setMenuState] = useHook(initStateMenu, menu);
 
   const onClick = (componentType, value) => {
@@ -23,6 +24,10 @@ function DashBoardNavigator({user}) {
       setMenuState({type: 'set-show', isShow: false});
     }
   };
+
+  useEffect(() => {
+    dispatch(PEEK_PRODUCTS());
+  }, [dispatch]);
 
   return (
     <View style={styles.mainPane}>

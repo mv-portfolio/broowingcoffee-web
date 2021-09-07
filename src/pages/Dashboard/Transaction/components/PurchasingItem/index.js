@@ -1,11 +1,101 @@
-import {Button, Text} from 'components';
+import {Button, View, Text, Separator, Icon} from 'components';
+import {ICON_SIZE} from 'constants/sizes';
+import {accentColor, WHITE} from 'constants/styles';
+import {isArray} from 'utils/checker';
+import Formatter from 'utils/Formatter';
+import {sumOfPrice} from 'utils/helper';
+import ObjectCleaner from 'utils/ObjectCleaner';
 
 import styles from './.module.css';
 
-export default function PurchasingItem() {
+export default function PurchasingItem({
+  suffixName,
+  purchasingProduct,
+  onClick,
+  onEdit,
+  isOpen,
+}) {
+  const {name} = purchasingProduct;
+
+  const content = ObjectCleaner.getProperties(purchasingProduct)
+    .filter(obj => obj.property !== 'id')
+    .filter(obj => obj.property !== 'name')
+    .filter(obj => obj.property !== 'hot_price')
+    .filter(obj => obj.property !== 'cold_price');
+
+  const onCompute = purchasingProductInfo => {
+    let finalPrice = 0;
+    const {discount, price, addons} = purchasingProductInfo;
+    const addonsTotalPrice = sumOfPrice(addons);
+    finalPrice += addonsTotalPrice + price;
+    if (discount) {
+      finalPrice -= (discount / 100) * finalPrice;
+    }
+    return finalPrice.toFixed(2);
+  };
+  const onFormat = (property, value) => {
+    let val = value;
+    if (property === 'price') {
+      val = `₱${parseFloat(value).toFixed(2)}`;
+    }
+    if (property === 'discount') {
+      val = `${value}%`;
+    }
+    return val;
+  };
+
   return (
-    <Button skin={styles.mainPane} body={styles.bodyPane}>
-      <Text>Hello World</Text>
-    </Button>
+    <View style={styles.mainPane} role='button' onClick={onClick}>
+      <View style={styles.headerPane}>
+        <Text style={styles.title}>{`${Formatter.toName(name)}${suffixName}`}</Text>
+        {isOpen ? (
+          <Button
+            skin={styles.buttonEdit}
+            onPress={evt => {
+              evt.stopPropagation();
+              onEdit();
+            }}>
+            <Icon font='Feather' name='edit' size={ICON_SIZE} color={accentColor} />
+          </Button>
+        ) : (
+          <Text style={styles.price}>₱{onCompute(purchasingProduct)}</Text>
+        )}
+      </View>
+      {isOpen && (
+        <>
+          <Separator vertical={0.5} />
+          <View style={styles.content}>
+            {content.map(({property, value}, index) => (
+              <View key={index} style={styles.contentPane}>
+                {isArray(value) ? (
+                  <View style={styles.content}>
+                    <Separator vertical={0.4} />
+                    <Text style={styles.propertyName}>{property}</Text>
+                    <Separator vertical={0.2} />
+                    {value.map(({name, price}, index) => (
+                      <View style={styles.addons} key={index}>
+                        <View style={styles.addonsPane}>
+                          <Text style={styles.addonsName}>{name}</Text>
+                          <Text style={styles.addonsValue}>
+                            ₱{parseFloat(price).toFixed(2)}
+                          </Text>
+                        </View>
+                        {index + 1 !== value.length ? <Separator vertical={0.2} /> : null}
+                      </View>
+                    ))}
+                  </View>
+                ) : (
+                  <View style={styles.propertyPane}>
+                    <Text style={styles.propertyName}>{property}</Text>
+                    <Text style={styles.propertyValue}>{onFormat(property, value)}</Text>
+                  </View>
+                )}
+                {index + 1 !== content.length ? <Separator vertical={0.2} /> : null}
+              </View>
+            ))}
+          </View>
+        </>
+      )}
+    </View>
   );
 }

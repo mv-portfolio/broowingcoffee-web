@@ -1,8 +1,11 @@
 .mainPane {
+  height: 12.5vh;
   flex-direction: row;
   padding: 1vh;
   overflow-x: auto;
   overflow-y: hidden;
+  border-radius: 1vh;
+  background-color: #242223;
 }
 
 .mainPane::-webkit-scrollbar {

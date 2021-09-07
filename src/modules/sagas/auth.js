@@ -2,7 +2,7 @@ import {replace} from 'connected-react-router';
 import {userInitState} from 'modules/reducers/user';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
-import {peekLocalStorage, pushLocalStorage} from 'storage';
+import {peekLocalStorage} from 'storage';
 import ObjectCleaner from 'utils/ObjectCleaner';
 import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from '../actions';
 const {ACTION_TYPE} = require('constants/strings');

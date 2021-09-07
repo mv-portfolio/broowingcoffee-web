@@ -3,7 +3,9 @@ import {lazy} from 'react';
 import {Circle, CircleSnail} from './Progress';
 
 const Button = lazy(() => import('./Button'));
+const Checklist = lazy(() => import('./Checklist'));
 const Image = lazy(() => import('./Image'));
+const Picker = lazy(() => import('./Picker'));
 const Separator = lazy(() => import('./Separator'));
 const TextInput = lazy(() => import('./TextInput'));
 const Text = lazy(() => import('./Text'));
@@ -15,9 +17,11 @@ const Icon = lazy(() => import('./Icon'));
 
 export {
   Button,
+  Checklist,
   Circle,
   CircleSnail,
   Image,
+  Picker,
   Separator,
   TextInput,
   Text,

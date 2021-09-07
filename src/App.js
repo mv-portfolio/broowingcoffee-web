@@ -1,31 +1,12 @@
 import {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import configStore, {history} from 'modules';
-import {PrimaryDialog as PrimaryDialogContext} from 'context';
 import RootNavigator from 'navigator/Root';
-import useHook, {primaryDialog, primaryDialogInitState} from 'hooks';
-import PrimaryDialog from 'components/PrimaryDialog';
 import {ConfigInterceptor} from 'network/api/server';
-export default function App() {
-  const [dialog, setDialog] = useHook(primaryDialogInitState, primaryDialog);
 
+export default function App() {
   const store = configStore();
   ConfigInterceptor(store);
-
-  const onShow = component => {
-    setDialog({
-      type: 'set',
-      visible: true,
-      children: component,
-    });
-  };
-
-  const onHide = () => {
-    setDialog({
-      type: 'set',
-      visible: false,
-    });
-  };
 
   const otherListeners = () => {
     const viewHeight = window.innerHeight;
@@ -51,10 +32,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <PrimaryDialogContext.Provider value={{onShow, onHide}}>
-        <RootNavigator history={history} />
-        <PrimaryDialog onTouchOutside={onHide} {...dialog} />
-      </PrimaryDialogContext.Provider>
+      <RootNavigator history={history} />
     </Provider>
   );
 }

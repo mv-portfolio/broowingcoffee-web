@@ -20,8 +20,7 @@ function* assessmentAuthWorker() {
 function* assessmentUpdateWorker({data}) {
   try {
     const config = yield serverConfig();
-    const {res} = yield call(server.post, '/users/set', data, config);
-    console.log(data);
+    yield call(server.post, '/users/set', data, config);
     yield put(SET_USER({...data, isAssessed: true}));
     yield put(replace('/'));
   } catch (err) {

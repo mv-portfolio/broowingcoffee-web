@@ -110,9 +110,10 @@ const CLEAR_USER = () => ({
 const PEEK_PRODUCTS = () => ({
   type: ACTION_TYPE('PRODUCTS').PEEK,
 });
-const SET_PRODUCTS = products => ({
+const SET_PRODUCTS = ({main, addons}) => ({
   type: ACTION_TYPE('PRODUCTS').SET,
-  products: products,
+  main,
+  addons,
 });
 const PUSH_PRODUCT = product => ({
   type: ACTION_TYPE('PRODUCT').PUSH,
