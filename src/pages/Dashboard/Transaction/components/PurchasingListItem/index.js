@@ -17,7 +17,7 @@ export default function PurchasingListItem({
 
   let temp_purchasingProducts = [];
 
-  const onSelect = (value, index) => {
+  const onSelect = index => {
     setFocus(prev => {
       let isShow = prev.isShow;
       if (prev.index !== index) {
@@ -68,7 +68,7 @@ export default function PurchasingListItem({
               suffixName={getSuffixName(temp_purchasingProducts, purchasingProduct.name)}
               isOpen={focus.index === index && focus.isShow}
               purchasingProduct={purchasingProduct}
-              onClick={() => onSelect(purchasingProduct, index)}
+              onClick={() => onSelect(index)}
               onEdit={() => onEditSelectedPurchasingProduct(purchasingProduct)}
             />
             {index + 1 !== purchasingProducts.length ? (
