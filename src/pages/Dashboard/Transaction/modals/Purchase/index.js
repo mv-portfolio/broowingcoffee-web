@@ -1,9 +1,11 @@
+import {useContext} from 'react';
 import {View, Text, Separator, TextInput, Picker, Button} from 'components';
 import useHook, {purchasingProduct, purchasingProductInitState} from 'hooks';
 import Checklist from 'components/Checklist';
 import {isOnlyNumber} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import Generator from 'utils/Generator';
+import {Toast} from 'context';
 
 import styles from './.module.css';
 
@@ -28,6 +30,7 @@ export default function Purchase({
     addons: init_addons,
   } = productInfo;
 
+  const {onShow: onShowToast, onHide: onHideToast} = useContext(Toast);
   const [state, setState] = useHook(
     purchasingProductInitState({
       addons: init_addons,
@@ -83,8 +86,12 @@ export default function Purchase({
     }
     if (actionType === 'on-click-add') {
       const product = getProduct(state);
-      onAdd(product);
-      onCancel();
+      if (product.type.length !== 0) {
+        onAdd(product);
+        onCancel();
+        return;
+      }
+      onShowToast('Please enter all field');
       return;
     }
     if (actionType === 'on-click-update') {
@@ -99,6 +106,7 @@ export default function Purchase({
       return;
     }
     if (actionType === 'on-click-cancel') {
+      onHideToast();
       onCancel();
       return;
     }

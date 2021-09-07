@@ -2,7 +2,7 @@ import {isArray, isTextChange, isTextNumber} from 'utils/checker';
 
 export const purchasingProductInitState = ({discount, tempType, price, addons}) => ({
   discount: isTextNumber(discount, ''),
-  tempType: isTextChange(tempType, 'hot'),
+  tempType: isTextChange(tempType, ''),
   price: isTextNumber(price, ''),
   addons: isArray(addons) ? addons : undefined,
 });

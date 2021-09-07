@@ -1,26 +1,22 @@
 import {View, Text, Separator, Button} from 'components';
-import {useContext, useState} from 'react';
+import {useContext} from 'react';
 import {connect} from 'react-redux';
 
-import {PrimaryDialog} from 'context';
+import {PrimaryDialog, Toast} from 'context';
 import ProductList from './components/ProductList';
 import PurchasingListItem from './components/PurchasingListItem';
 import Purchase from './modals/Purchase';
 import styles from './.module.css';
+import {
+  POP_PURCHASING_PRODUCT,
+  PUSH_PURCHASING_PRODUCT,
+  SET_INDEX_PURCHASING_PRODUCT,
+} from 'modules/actions';
 
-function Transaction({products, user}) {
-  const {onShow, onHide} = useContext(PrimaryDialog);
-  const [purchasingProducts, setPurchasingProducts] = useState([]);
-
-  const getNumExisting = productName => {
-    let num = 0;
-    purchasingProducts.map(purchasingProduct => {
-      if (productName === purchasingProduct.name) {
-        num += 1;
-      }
-    });
-    return num ? ` (${num + 1})` : '';
-  };
+function Transaction({purchasingProducts, products, dispatch}) {
+  const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
+    useContext(PrimaryDialog);
+  const {onHide: onHideToast} = useContext(Toast);
 
   const onClick = (actionType, value) => {
     //INIT DIALOG
@@ -44,33 +40,21 @@ function Transaction({products, user}) {
     }
     //CRUD DIALOG
     if (actionType === 'on-click-added-purchasing-product') {
-      setPurchasingProducts(prev => [...prev, value]);
+      dispatch(PUSH_PURCHASING_PRODUCT({purchasingProduct: value}));
       return;
     }
     if (actionType === 'on-click-update-purchasing-product') {
-      setPurchasingProducts(prev => {
-        let temp_purchasingProducts = [];
-        prev.map(purchasingProduct => {
-          if (purchasingProduct.id === value.id) {
-            temp_purchasingProducts.push(value);
-            return;
-          }
-          temp_purchasingProducts.push(purchasingProduct);
-        });
-        return temp_purchasingProducts;
-      });
+      dispatch(SET_INDEX_PURCHASING_PRODUCT({purchasingProduct: value}));
       return;
     }
     if (actionType === 'on-click-delete-purchasing-product') {
-      setPurchasingProducts(prev =>
-        prev.filter(purchasingProduct => purchasingProduct.id !== value),
-      );
+      dispatch(POP_PURCHASING_PRODUCT({purchasingProductId: value}));
       return;
     }
   };
 
   const showDialog = ({type, productInfo, onAdd, onUpdate, onDelete}) => {
-    onShow(
+    onShowPrimaryDialog(
       <Purchase
         type={type}
         addons={products.addons}
@@ -78,10 +62,14 @@ function Transaction({products, user}) {
         onAdd={onAdd}
         onUpdate={onUpdate}
         onDelete={onDelete}
-        onCancel={onHide}
+        onCancel={() => {
+          onHidePrimaryDialog();
+          onHideToast();
+        }}
       />,
     );
   };
+
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
@@ -122,9 +110,10 @@ function Transaction({products, user}) {
   );
 }
 
-const stateProps = ({user, products}) => ({
+const stateProps = ({user, products, purchasingProducts}) => ({
   user,
   products,
+  purchasingProducts,
 });
 
 const dispatchProps = dispatch => ({

@@ -1,12 +1,13 @@
 import user from './user';
 import users from './users';
-import products from './products';
 import auth from './auth';
 import signin from './signin';
 import loading from './loading';
 import error from './error';
 import assessment from './assessment';
 import forgotPassword from './forgotPassword';
+import products from './products';
+import purchasingProducts from './purchasingProducts';
 
 import {combineReducers} from 'redux';
 import {connectRouter} from 'connected-react-router';
@@ -22,6 +23,7 @@ export default function rootReducer(history) {
     loading,
     assessment,
     forgotPassword,
+    purchasingProducts,
     router: connectRouter(history),
   });
 }

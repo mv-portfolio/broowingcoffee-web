@@ -9,6 +9,8 @@ import {
   primaryDialogInitState,
   purchasingProduct,
   purchasingProductInitState,
+  toast,
+  toastInitState,
 } from './reducers';
 
 export {
@@ -21,6 +23,8 @@ export {
   primaryDialogInitState,
   purchasingProduct,
   purchasingProductInitState,
+  toast,
+  toastInitState,
 };
 
 export default function useHook(init, reducer) {

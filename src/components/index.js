@@ -14,6 +14,7 @@ const RouteAuth = lazy(() => import('./RouteAuth'));
 const RoutePrivate = lazy(() => import('./RoutePrivate'));
 const PrimaryDialog = lazy(() => import('./PrimaryDialog'));
 const Icon = lazy(() => import('./Icon'));
+const Toast = lazy(() => import('./Toast'));
 
 export {
   Button,
@@ -30,4 +31,5 @@ export {
   RoutePrivate,
   PrimaryDialog,
   Icon,
+  Toast,
 };

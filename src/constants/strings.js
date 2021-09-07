@@ -1,15 +1,15 @@
 //function obj
 const ACTION_TYPE = type => ({
-  //hooks action
+  //hooks action (obj)
+  PEEK: `PEEK_${type}`,
   PUSH: `PUSH_${type}`,
   POP: `POP_${type}`,
-  PEEK: `PEEK_${type}`,
   SET: `SET_${type}`,
   CLEAR: `CLEAR_${type}`,
+  //hooksaction (array)
+  SET_INDEX: `SET_INDEX_${type}`,
   //api action only
   AUTH: `${type}-AUTHENTICATION`,
-  // APP_AUTH: `APP_AUTHENTICATION`,
-  // ASSESS_AUTH: `ASSESS_AUTH`,
 });
 
 const ASSESSMENT_INFORMATION = ({firstname, lastname}) => ({

@@ -1,3 +1,4 @@
 import PrimaryDialog from './PrimaryDialog';
+import Toast from './Toast';
 
-export {PrimaryDialog};
+export {Toast, PrimaryDialog};

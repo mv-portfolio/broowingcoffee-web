@@ -4,6 +4,7 @@ import login from './login';
 import menu, {initStateMenu} from './menu';
 import primaryDialog, {primaryDialogInitState} from './primaryDialog';
 import purchasingProduct, {purchasingProductInitState} from './purchasingProduct';
+import toast, {toastInitState} from './toast';
 
 export {
   assessAcc,
@@ -15,4 +16,6 @@ export {
   primaryDialogInitState,
   purchasingProduct,
   purchasingProductInitState,
+  toastInitState,
+  toast,
 };
