@@ -86,12 +86,12 @@ export default function Purchase({
     }
     if (actionType === 'on-click-add') {
       const product = getProduct(state);
-      if (product.type.length !== 0) {
-        onAdd(product);
-        onCancel();
+      if (product.type.length === 0) {
+        onShowToast('Please fill up all fields');
         return;
       }
-      onShowToast('Please enter all field');
+      onAdd(product);
+      onCancel();
       return;
     }
     if (actionType === 'on-click-update') {
@@ -131,7 +131,7 @@ export default function Purchase({
         <Separator vertical={0.25} />
         <TextInput
           skin={styles.input}
-          placeholder='0%'
+          placeholder='0'
           value={state.discount}
           onChangeText={text => onChange('on-change-discount', text)}
         />
@@ -149,9 +149,11 @@ export default function Purchase({
         <TextInput
           disabled={true}
           placeholder='0.00'
-          value={state.tempType === 'hot' ? hot_price : cold_price}
+          value={
+            state.tempType ? (state.tempType === 'hot' ? hot_price : cold_price) : ''
+          }
         />
-        <Separator vertical={0.75} />
+        <Separator vertical={1} />
         <Text style={styles.titleField}>Add-ons</Text>
         <Separator vertical={0.25} />
         <Checklist

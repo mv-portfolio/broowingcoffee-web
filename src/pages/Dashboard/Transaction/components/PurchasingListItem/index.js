@@ -1,6 +1,6 @@
 import {Separator, View} from 'components';
 import {useState} from 'react';
-import {isExistInArray} from 'utils/checker';
+import {arrayFind} from 'utils/checker';
 import {ASC_NAME} from 'utils/helper';
 import PurchasingItem from '../PurchasingItem';
 
@@ -41,7 +41,7 @@ export default function PurchasingListItem({
   return (
     <View style={styles.mainPane}>
       {purchasingProducts.sort(ASC_NAME).map((purchasingProduct, index) => {
-        const isExisting = isExistInArray(
+        const isExisting = arrayFind(
           temp_purchasingProducts,
           temp_purchasingProduct =>
             temp_purchasingProduct.name === purchasingProduct.name,

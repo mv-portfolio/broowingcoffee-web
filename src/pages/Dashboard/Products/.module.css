@@ -1,41 +1,36 @@
 .mainPane {
-  
   height: 90vh;
-  align-items: center;
-  justify-content: center;
+  padding-left: 2vh;
+  padding-right: 2vh;
+}
+
+.mainPane .topPane {
+  height: 45vh;
+  justify-content: flex-start;
 }
 
 .mainPane .bodyPane {
-  align-items: center;
-  justify-content: center;
+  height: 32.5vh;
 }
 
-.bodyPane .title {
+.mainPane .headerPane {
+  padding: 0.5vh;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.headerPane .label {
   color: #f7a35b;
-  padding: 0;
-  margin: 0;
-  font-size: max(20px, 2.5vw);
-  font-family: 'Standard-Font2';
+  font-size: 2vh;
+  font-weight: bold;
 }
 
-.bodyPane .subtitle {
-  font-size: max(12px, 1.2vw);
+.headerPane .actionPane {
+  flex-direction: row;
 }
 
-@media screen and (max-width: 400px) {
-  .backgroundPane .mainPane {
-    
-    flex: 1;
-    width: 100vw;
-  }
-
-  .bodyPane .title {
-    font-size: 2.25vh;
-  }
-
-  .bodyPane .subtitle {
-    font-size: 1.75vh;
-    width: 250px;
-    text-align: center;
-  }
+.actionPane .headerButtons {
+  width: 3.5vh;
+  height: 3.5vh;
 }

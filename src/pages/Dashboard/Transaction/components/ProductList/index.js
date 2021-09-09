@@ -1,7 +1,7 @@
 import {Separator, View} from 'components';
 import {ASC_NAME} from 'utils/helper';
 
-import Product from '../Product';
+import Product from '../ProductItem';
 import styles from './.module.css';
 
 export default function ProductList({products = [], onSelectProduct}) {

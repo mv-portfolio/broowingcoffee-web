@@ -4,7 +4,7 @@ import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
 import {call, put, takeEvery} from 'redux-saga/effects';
 
-function* worker() {
+function* peekWorker() {
   try {
     const config = yield serverConfig();
     const main = yield call(server.get, '/products/main', config);
@@ -17,10 +17,19 @@ function* worker() {
       }),
     );
   } catch (err) {
-    console.log('PRODUCTS-REJECT:', err);
+    console.log('PEEK-PRODUCTS-REJECT:', err);
+  }
+}
+
+function* pushWorker(payload) {
+  try {
+    console.log('PUSH-PRODUCTS-WORKER', payload);
+  } catch (err) {
+    console.log('PUSH-PRODUCTS-REJECT:', err);
   }
 }
 
 export default function* rootProductsSaga() {
-  yield takeEvery(ACTION_TYPE('PRODUCTS').PEEK, worker);
+  yield takeEvery(ACTION_TYPE('PRODUCTS').PEEK, peekWorker);
+  yield takeEvery(ACTION_TYPE('PRODUCTS').PUSH, pushWorker);
 }

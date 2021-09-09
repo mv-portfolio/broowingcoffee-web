@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {Button, Icon, Text, View} from 'components';
 import {WHITE} from 'constants/styles';
 import {ASC_NAME, hp} from 'utils/helper';
-import {isExistInArray} from 'utils/checker';
+import {arrayFind} from 'utils/checker';
 import styles from './.module.css';
 
 export default function Checklist({
@@ -15,7 +15,7 @@ export default function Checklist({
   });
 
   const isChecked = filter => {
-    const isExist = isExistInArray(state.selectedItems, item => item.name === filter);
+    const isExist = arrayFind(state.selectedItems, item => item.name === filter);
     if (isExist) {
       return <Icon font='Feather' name='check-square' size='2vh' color={WHITE} />;
     }
@@ -24,7 +24,7 @@ export default function Checklist({
 
   const onClick = (actionType, value) => {
     if (actionType === 'on-select') {
-      const isExist = isExistInArray(
+      const isExist = arrayFind(
         state.selectedItems,
         selectedItem => selectedItem.name === value.name,
       );

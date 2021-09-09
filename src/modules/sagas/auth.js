@@ -11,28 +11,18 @@ const {takeEvery, put, call} = require('redux-saga/effects');
 function* authWorker() {
   try {
     const {res} = yield call(server.get, '/app-authentication');
-    yield put(
-      SET_AUTH({
-        primary_auth_token: res.primary_auth_token,
-      }),
-    );
+    yield put(SET_AUTH({primary_auth_token: res.primary_auth_token}));
 
     //check if the sat local-storage is empty
     const sat = yield peekLocalStorage('sat');
     if (!sat) {
-      yield put(
-        SET_AUTH({
-          authenticated: false,
-        }),
-      );
+      yield put(SET_AUTH({authenticated: false}));
+      //force user to go in default page if sat is null
+      yield put(replace({pathname: '/'}));
       return;
     }
 
-    yield put(
-      SET_AUTH({
-        secondary_auth_token: sat,
-      }),
-    );
+    yield put(SET_AUTH({secondary_auth_token: sat}));
 
     // check the sat from local-storage
     const config = yield serverConfig();
@@ -40,11 +30,7 @@ function* authWorker() {
       res: {user},
     } = yield call(server.get, '/signin-authentication-decoder', config);
 
-    yield put(
-      SET_AUTH({
-        authenticated: true,
-      }),
-    );
+    yield put(SET_AUTH({authenticated: true}));
 
     const {isAssessed} = ObjectCleaner.getFilteredFields(userInitState, user);
     if (!isAssessed) {

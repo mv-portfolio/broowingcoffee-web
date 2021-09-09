@@ -11,6 +11,10 @@ import {
   purchasingProductInitState,
   toast,
   toastInitState,
+  productAddons,
+  productAddonsInitState,
+  productMain,
+  productMainInitState,
 } from './reducers';
 
 export {
@@ -25,6 +29,10 @@ export {
   purchasingProductInitState,
   toast,
   toastInitState,
+  productAddons,
+  productAddonsInitState,
+  productMain,
+  productMainInitState,
 };
 
 export default function useHook(init, reducer) {

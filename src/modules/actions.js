@@ -115,13 +115,19 @@ const SET_PRODUCTS = ({main, addons}) => ({
   main,
   addons,
 });
-const PUSH_PRODUCT = ({mainProduct, addon}) => ({
-  type: ACTION_TYPE('PRODUCT').PUSH,
+const PUSH_PRODUCT = ({mainProduct, addonProduct}) => ({
+  type: ACTION_TYPE('PRODUCTS').PUSH,
   mainProduct,
-  addon,
+  addonProduct,
+});
+const SET_INDEX_PRODUCTS = ({mainId, addonId, payload}) => ({
+  type: ACTION_TYPE('PRODUCTS').SET_INDEX,
+  mainId,
+  addonId,
+  payload,
 });
 const POP_PRODUCT = ({mainId, addonId}) => ({
-  type: ACTION_TYPE('PRODUCT').POP,
+  type: ACTION_TYPE('PRODUCTS').POP,
   mainId,
   addonId,
 });
@@ -176,6 +182,7 @@ export {
   //products
   PEEK_PRODUCTS,
   SET_PRODUCTS,
+  SET_INDEX_PRODUCTS,
   PUSH_PRODUCT,
   POP_PRODUCT,
   //purchasing-products

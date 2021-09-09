@@ -5,17 +5,23 @@ import menu, {initStateMenu} from './menu';
 import primaryDialog, {primaryDialogInitState} from './primaryDialog';
 import purchasingProduct, {purchasingProductInitState} from './purchasingProduct';
 import toast, {toastInitState} from './toast';
+import productMain, {productMainInitState} from './productMain';
+import productAddons, {productAddonsInitState} from './productAddons';
 
 export {
   assessAcc,
   assessInfo,
   login,
-  menu,
   initStateMenu,
-  primaryDialog,
+  menu,
   primaryDialogInitState,
-  purchasingProduct,
+  primaryDialog,
   purchasingProductInitState,
+  purchasingProduct,
   toastInitState,
   toast,
+  productMainInitState,
+  productMain,
+  productAddonsInitState,
+  productAddons,
 };

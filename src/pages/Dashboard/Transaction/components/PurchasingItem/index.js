@@ -31,12 +31,12 @@ export default function PurchasingItem({
     if (discount) {
       finalPrice -= (discount / 100) * finalPrice;
     }
-    return finalPrice.toFixed(2);
+    return Formatter.toMoney(finalPrice);
   };
   const onFormat = (property, value) => {
     let val = value;
     if (property === 'price') {
-      val = `₱${parseFloat(value).toFixed(2)}`;
+      val = `₱${Formatter.toMoney(value)}`;
     }
     if (property === 'discount') {
       val = `${value}%`;
@@ -68,16 +68,16 @@ export default function PurchasingItem({
             {content.map(({property, value}, index) => (
               <View key={index} style={styles.contentPane}>
                 {isArray(value) ? (
-                  <View style={styles.content}>
+                  <View style={styles.addonsContent}>
                     <Separator vertical={0.4} />
-                    <Text style={styles.propertyName}>{property}</Text>
+                    <Text style={styles.propertyName}>{Formatter.toName(property)}</Text>
                     <Separator vertical={0.2} />
                     {value.map(({name, price}, index) => (
                       <View style={styles.addons} key={index}>
                         <View style={styles.addonsPane}>
                           <Text style={styles.addonsName}>{name}</Text>
                           <Text style={styles.addonsValue}>
-                            ₱{parseFloat(price).toFixed(2)}
+                            ₱{Formatter.toMoney(price)}
                           </Text>
                         </View>
                         {index + 1 !== value.length ? <Separator vertical={0.2} /> : null}

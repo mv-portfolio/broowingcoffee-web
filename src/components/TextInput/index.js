@@ -10,6 +10,7 @@ import {useRef} from 'react';
 import {ICON_SIZE} from 'constants/sizes';
 
 export default function TextInput({
+  defaultStyle,
   skin,
   body,
   value,
@@ -35,7 +36,7 @@ export default function TextInput({
   };
 
   return (
-    <View style={`${styles.skin} ${skin}`}>
+    <View style={`${styles.skin} ${skin}`} defaultStyle={defaultStyle}>
       {prefixIcon && (
         <>
           {prefixIcon}

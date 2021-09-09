@@ -1,32 +1,22 @@
 .mainPane {
   width: 40vh;
-  min-height: 65vh;
+  min-height: 50vh;
   border-radius: 2vh;
   padding: 4vh 3vh 4vh 3vh;
   background-color: #282627;
   z-index: 1;
 }
 
-.mainPane .topPane {
-  flex: 1.15;
-}
-
-.topPane .title {
-  color: #f7a35b;
-  font-weight: bold;
+.mainPane .title {
+  font-family: 'Standard-Font2';
   font-size: 3vh;
 }
 
-.topPane .subtitle {
-  font-size: 2.25vh;
-}
-
 .mainPane .bodyPane {
-  flex: 6;
 }
 
 .bodyPane .titleField {
-  font-size: 1.65vh;
+  font-size: 1.75vh;
 }
 
 .bodyPane .input {
@@ -34,19 +24,13 @@
 }
 
 .mainPane .bottomPane {
-  flex: 1;
   flex-direction: row;
-  align-items: center;
 }
-
 .bottomPane .button {
   flex: 1;
-  height: 6vh;
   background-color: #f7a35b;
 }
-
 .bottomPane .buttonDelete {
   flex: 1;
-  height: 6vh;
   background-color: #f75b5b;
 }

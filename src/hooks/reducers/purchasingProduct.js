@@ -6,7 +6,10 @@ export const purchasingProductInitState = ({discount, tempType, price, addons}) 
   price: isTextNumber(price, ''),
   addons: isArray(addons) ? addons : undefined,
 });
-export default function purchasingProduct(state = purchasingProductInitState, action) {
+export default function purchasingProduct(
+  state = purchasingProductInitState({}),
+  action,
+) {
   switch (action.type) {
     case 'set':
       return {

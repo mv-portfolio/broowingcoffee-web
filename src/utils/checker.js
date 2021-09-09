@@ -1,7 +1,12 @@
-import {NUMBER_REGEX} from 'constants/regex';
+import {NAME_REGEX, NUMBER_REGEX} from 'constants/regex';
+import ObjectCleaner from './ObjectCleaner';
 
 const isString = value => {
   return typeof value === 'string';
+};
+
+const hasLength = value => {
+  return value.length !== 0;
 };
 
 const isDefined = value => {
@@ -14,6 +19,10 @@ const isNumber = value => {
 
 const isOnlyNumber = value => {
   return NUMBER_REGEX.test(value);
+};
+
+const isOnlyAlphabet = value => {
+  return NAME_REGEX.test(value);
 };
 
 const isBoolean = value => {
@@ -62,15 +71,57 @@ const isJsonString = value => {
   return true;
 };
 
-const isExistInArray = (data = [], callback) => {
+const arrayFind = (data = [], callback) => {
   return data.filter(callback).length !== 0;
+};
+
+const arrayFilter = (data = [], filter) => {
+  let temp_data = [];
+  const {property: filterKey, value: filterValue} =
+    ObjectCleaner.getProperties(filter)[0];
+
+  temp_data = data.filter(item => {
+    let keyValue = '';
+    ObjectCleaner.getProperties(item).forEach(({property, value}) => {
+      if (property === filterKey) {
+        keyValue = value;
+        return;
+      }
+    });
+    if (keyValue !== filterValue) {
+      return item;
+    }
+  });
+  return temp_data;
+};
+
+const arrayUpdate = (data = [], filter, payload = {}) => {
+  let temp_data = [];
+  const {property: filterKey, value: filterValue} =
+    ObjectCleaner.getProperties(filter)[0];
+
+  temp_data = data.map(item => {
+    let keyValue = '';
+    ObjectCleaner.getProperties(item).map(({property, value}) => {
+      if (property === filterKey) {
+        keyValue = value;
+      }
+    });
+    if (keyValue === filterValue) {
+      return payload;
+    }
+    return item;
+  });
+  return temp_data;
 };
 
 export {
   isString,
+  hasLength,
   isDefined,
   isNumber,
   isOnlyNumber,
+  isOnlyAlphabet,
   isBoolean,
   isTextChange,
   isTextEncrypt,
@@ -81,5 +132,7 @@ export {
   isJsonString,
   isArray,
   isObject,
-  isExistInArray,
+  arrayFind,
+  arrayFilter,
+  arrayUpdate,
 };
