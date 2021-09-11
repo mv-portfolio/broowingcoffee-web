@@ -15,6 +15,8 @@ import {
   productAddonsInitState,
   productMain,
   productMainInitState,
+  products,
+  productsInitState,
 } from './reducers';
 
 export {
@@ -33,6 +35,8 @@ export {
   productAddonsInitState,
   productMain,
   productMainInitState,
+  products,
+  productsInitState,
 };
 
 export default function useHook(init, reducer) {

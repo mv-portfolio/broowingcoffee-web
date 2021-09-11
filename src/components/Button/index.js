@@ -3,11 +3,13 @@ import * as Progress from 'components/Progress';
 import {backgroundColor} from 'constants/styles';
 import {Separator, View} from 'components';
 import {hp} from 'utils/helper';
+
 export default function Button({
   children,
   prefixComponent,
   title,
   titleStyle,
+  defaultStyle,
   skin,
   body,
   onPress,
@@ -16,6 +18,7 @@ export default function Button({
 }) {
   return (
     <button
+      style={defaultStyle}
       className={`${styles.skin} ${skin}`}
       disabled={isLoading}
       onClick={onPress}

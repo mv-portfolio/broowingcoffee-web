@@ -1,4 +1,4 @@
-import {WHITE, LIGHT_RED} from 'constants/styles';
+import {WHITE, accentColor2} from 'constants/styles';
 
 const modules = [
   {
@@ -27,7 +27,7 @@ const modules = [
   },
   {
     title: 'Sign out',
-    theme: LIGHT_RED,
+    theme: accentColor2,
     icon: {
       font: 'AntDesign',
       name: 'logout',

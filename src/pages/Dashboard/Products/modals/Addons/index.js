@@ -1,10 +1,11 @@
 import {Button, Separator, Text, TextInput, View} from 'components';
+import {accentColor, accentColorDisabled} from 'constants/styles';
 import {Toast} from 'context';
 import useHook, {
   productAddonsInitState,
   productAddons as productAddonsReducer,
 } from 'hooks';
-import {useContext} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {isOnlyAlphabet, isOnlyNumber} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
@@ -28,6 +29,7 @@ export default function Addons({
     }),
     productAddonsReducer,
   );
+  const [isChange, setIsChange] = useState(false);
 
   const onClick = (actionType, value) => {
     if (actionType === 'on-click-add') {
@@ -52,7 +54,6 @@ export default function Addons({
     }
     if (actionType === 'on-click-delete') {
       onDelete(value);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-cancel') {
@@ -93,6 +94,16 @@ export default function Addons({
       info,
     };
   };
+
+  const changeListener = () => {
+    if (name !== state.name || (price ? String(price) : '') !== state.price) {
+      setIsChange(true);
+      return;
+    }
+    setIsChange(false);
+  };
+
+  useEffect(changeListener, [state]);
 
   return (
     <View style={styles.mainPane}>
@@ -136,6 +147,10 @@ export default function Addons({
             <Button
               title='Update'
               skin={styles.button}
+              disabled={!isChange}
+              defaultStyle={{
+                backgroundColor: isChange ? accentColor : accentColorDisabled,
+              }}
               onPress={() => onClick('on-click-update')}
             />
             <Separator horizontal={1} />

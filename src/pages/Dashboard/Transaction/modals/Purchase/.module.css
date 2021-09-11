@@ -1,6 +1,6 @@
 .mainPane {
   width: 40vh;
-  min-height: 65vh;
+  min-height: 67.5vh;
   border-radius: 2vh;
   padding: 4vh 3vh 4vh 3vh;
   background-color: #282627;
@@ -8,11 +8,11 @@
 }
 
 .mainPane .topPane {
-  flex: 1.15;
+  flex: 1.5;
 }
 
 .topPane .title {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-weight: bold;
   font-size: 3vh;
 }
@@ -34,19 +34,19 @@
 }
 
 .mainPane .bottomPane {
-  flex: 1;
+  flex: 1.5;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .bottomPane .button {
   flex: 1;
   height: 6vh;
-  background-color: #f7a35b;
+  background-color: var(--ACCENT-COLOR);
 }
 
 .bottomPane .buttonDelete {
   flex: 1;
   height: 6vh;
-  background-color: #f75b5b;
+  background-color: var(--ACCENT-COLOR2);
 }

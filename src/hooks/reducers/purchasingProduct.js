@@ -1,11 +1,12 @@
-import {isArray, isTextChange, isTextNumber} from 'utils/checker';
+import {isArray, isTextChange} from 'utils/checker';
 
-export const purchasingProductInitState = ({discount, tempType, price, addons}) => ({
-  discount: isTextNumber(discount, ''),
-  tempType: isTextChange(tempType, ''),
-  price: isTextNumber(price, ''),
-  addons: isArray(addons) ? addons : undefined,
+export const purchasingProductInitState = ({discount, tempType, price, addons = []}) => ({
+  discount: discount ? `${discount}` : '',
+  tempType: tempType ? `${tempType}` : '',
+  price: price ? `${price}` : '',
+  addons: [...addons],
 });
+
 export default function purchasingProduct(
   state = purchasingProductInitState({}),
   action,
@@ -20,7 +21,7 @@ export default function purchasingProduct(
       };
 
     case 'clear':
-      return purchasingProductInitState;
+      return purchasingProductInitState({});
 
     default:
       return state;

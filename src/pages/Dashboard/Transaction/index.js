@@ -12,6 +12,7 @@ import {
   PUSH_PURCHASING_PRODUCT,
   SET_INDEX_PURCHASING_PRODUCT,
 } from 'modules/actions';
+import Details from './modals/Details';
 
 function Transaction({purchasingProducts, products, dispatch}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
@@ -51,13 +52,27 @@ function Transaction({purchasingProducts, products, dispatch}) {
       dispatch(POP_PURCHASING_PRODUCT({purchasingProductId: value}));
       return;
     }
+    if (actionType === 'on-click-purchase') {
+      if (purchasingProducts.length) {
+        onShowPrimaryDialog(
+          <Details
+            purchasingProducts={purchasingProducts}
+            onEditSelectedPurchasingProduct={productInfo =>
+              onClick('on-click-edit-purchasing-product', productInfo)
+            }
+            onPurchase={products => console.log('data', products)}
+            onCancel={onHidePrimaryDialog}
+          />,
+        );
+      }
+    }
   };
 
   const showDialog = ({type, productInfo, onAdd, onUpdate, onDelete}) => {
     onShowPrimaryDialog(
       <Purchase
         type={type}
-        addons={products.addons}
+        initAddons={products.addons}
         productInfo={productInfo}
         onAdd={onAdd}
         onUpdate={onUpdate}
@@ -104,7 +119,12 @@ function Transaction({purchasingProducts, products, dispatch}) {
       </View>
       <Separator vertical={2} />
       <View style={styles.bottomPane}>
-        <Button title='PURCHASE' titleStyle={styles.buttonText} skin={styles.button} />
+        <Button
+          title='PURCHASE'
+          titleStyle={styles.buttonText}
+          skin={styles.button}
+          onPress={() => onClick('on-click-purchase')}
+        />
       </View>
     </View>
   );

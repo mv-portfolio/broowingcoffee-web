@@ -1,18 +1,20 @@
 import Icon from 'react-web-vector-icons';
 import styles from './.module.css';
 
-import {lazy, useEffect} from 'react';
+import {lazy, useContext, useEffect} from 'react';
 import {Switch, Route} from 'react-router-dom';
-import {Button, View} from 'components';
+import {Button, Dialog, View} from 'components';
 import {pages} from './pages';
 import {WHITE} from 'constants/styles';
 import {connect} from 'react-redux';
 import useHook, {menu, initStateMenu} from 'hooks';
-import {PEEK_PRODUCTS} from 'modules/actions';
+import {CLEAR_ERROR, PEEK_PRODUCTS} from 'modules/actions';
+import {PrimaryDialog} from 'context';
 
 const HeaderBar = lazy(() => import('components/HeaderBar'));
 
-function DashBoardNavigator({dispatch, user}) {
+function DashBoardNavigator({dispatch, user, error}) {
+  const {onShow: onShowPrimaryDialog} = useContext(PrimaryDialog);
   const [menuState, setMenuState] = useHook(initStateMenu, menu);
 
   const onClick = (componentType, value) => {
@@ -25,9 +27,28 @@ function DashBoardNavigator({dispatch, user}) {
     }
   };
 
-  useEffect(() => {
+  const initListener = () => {
     dispatch(PEEK_PRODUCTS());
-  }, [dispatch]);
+  };
+
+  const errorListener = () => {
+    //error.auth === 'jwt must be provided' ||
+    if (error.auth === 'jwt expired') {
+      onShowPrimaryDialog(
+        <Dialog
+          title='Session Expired'
+          content='We need to redirect you from login'
+          onPositive={() => {
+            dispatch(CLEAR_ERROR());
+            window.location.reload();
+          }}
+        />,
+      );
+    }
+  };
+
+  useEffect(initListener, [dispatch]);
+  useEffect(errorListener, [error]);
 
   return (
     <View style={styles.mainPane}>
@@ -61,7 +82,7 @@ function DashBoardNavigator({dispatch, user}) {
   );
 }
 
-const stateProps = ({user}) => ({user});
+const stateProps = ({user, error}) => ({user, error});
 const dispatchProps = dispatch => ({
   dispatch: action => dispatch(action),
 });

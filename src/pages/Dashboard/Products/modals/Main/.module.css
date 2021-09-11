@@ -28,9 +28,9 @@
 }
 .bottomPane .button {
   flex: 1;
-  background-color: #f7a35b;
+  background-color: var(--ACCENT-COLOR);
 }
 .bottomPane .buttonDelete {
   flex: 1;
-  background-color: #f75b5b;
+  background-color: var(--ACCENT-COLOR2);
 }

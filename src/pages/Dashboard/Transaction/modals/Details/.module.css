@@ -1,0 +1,58 @@
+.mainPane {
+  width: 40vh;
+  min-height: 70vh;
+  border-radius: 2vh;
+  padding: 4vh 3vh 4vh 3vh;
+  background-color: #282627;
+  z-index: 1;
+}
+.mainPane .topPane {
+  flex: 2;
+}
+
+.topPane .purchasingListItem {
+  height: 47.5vh;
+}
+
+.mainPane .bodyPane {
+  flex: 0.4;
+  justify-content: center;
+  padding: 2vh 2vh 2vh 2vh;
+}
+
+.bodyPane .fieldPane {
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: solid 0.05vh rgba(0, 0, 0, 0.2);
+}
+
+.fieldPane .fieldTitle {
+  font-size: 1.75vh;
+}
+
+.fieldPane .skinInput {
+  width: 20vh;
+  min-height: 2vh;
+}
+
+.skinInput .bodyInput {
+  text-align: end;
+}
+
+.fieldPane .fieldValue {
+  font-size: 2.5vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
+}
+
+.mainPane .bottomPane {
+  flex: 0.3;
+  align-items: flex-end;
+  flex-direction: row;
+}
+
+.bottomPane .button {
+  flex: 1;
+  background-color: var(--ACCENT-COLOR);
+}

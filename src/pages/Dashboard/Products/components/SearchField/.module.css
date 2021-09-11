@@ -1,0 +1,33 @@
+.mainPane {
+  align-items: center;
+  flex-direction: row;
+}
+
+.mainPane .input {
+  flex: 1;
+  width: 17.5vh;
+  height: 3.75vh;
+  font-size: 1.75vh;
+  color: var(--WHITE);
+  border: none;
+  padding-left: 1vh;
+  border-radius: 0.5vh;
+  background-color: var(--BACKGROUND-COLOR2);
+}
+
+.mainPane .input:focus {
+  outline: none;
+}
+
+.mainPane .input::placeholder {
+  font-family: 'Standard-Font';
+}
+
+.mainPane .icon {
+  width: 3.25vh;
+  height: 3.25vh;
+  align-items: center;
+  justify-content: center;
+  margin-left: 14.5vh;
+  position: absolute;
+}

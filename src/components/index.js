@@ -4,6 +4,7 @@ import {Circle, CircleSnail} from './Progress';
 
 const Button = lazy(() => import('./Button'));
 const Checklist = lazy(() => import('./Checklist'));
+const Dialog = lazy(() => import('./Dialog'));
 const Image = lazy(() => import('./Image'));
 const Picker = lazy(() => import('./Picker'));
 const Separator = lazy(() => import('./Separator'));
@@ -21,6 +22,7 @@ export {
   Checklist,
   Circle,
   CircleSnail,
+  Dialog,
   Image,
   Picker,
   Separator,

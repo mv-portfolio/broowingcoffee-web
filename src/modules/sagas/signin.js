@@ -12,7 +12,7 @@ function* signInWorker(payload) {
   try {
     const config = yield serverConfig();
     const {res} = yield call(
-      server.post,
+      server.push,
       '/signin-authentication-encoder',
       payload,
       config,

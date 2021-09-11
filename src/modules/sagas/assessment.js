@@ -8,7 +8,7 @@ import {call, put, takeEvery} from 'redux-saga/effects';
 function* assessmentAuthWorker() {
   try {
     const config = yield serverConfig();
-    const {res} = yield call(server.get, '/signin-authentication-decoder', config);
+    const {res} = yield call(server.peek, '/signin-authentication-decoder', config);
     yield put(SET_USER({_id: res.user._id}));
   } catch (err) {
     console.log('ASSESSMENT-AUTH-REJECT:', err);
@@ -20,7 +20,7 @@ function* assessmentAuthWorker() {
 function* assessmentUpdateWorker({data}) {
   try {
     const config = yield serverConfig();
-    yield call(server.post, '/users/set', data, config);
+    yield call(server.set, '/users/set', data, config);
     yield put(SET_USER({...data, isAssessed: true}));
     yield put(replace('/'));
   } catch (err) {

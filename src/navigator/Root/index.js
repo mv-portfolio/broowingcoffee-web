@@ -81,7 +81,7 @@ function RootNavigator({auth, history, error, dispatch}) {
               <RoutePrivate key={index} auth={auth} error={error} {...page} />
             ))}
           </Switch>
-          <PrimaryDialog onTouchOutside={onHidePrimaryDialog} {...primaryDialog} />
+          <PrimaryDialog {...primaryDialog} />
           <Toast {...toast} />
         </ConnectedRouter>
       </ToastContext.Provider>

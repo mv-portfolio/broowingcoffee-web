@@ -1,8 +1,8 @@
 import {isTextChange} from 'utils/checker';
 
 export const productAddonsInitState = ({name, price}) => ({
-  name: name || '',
-  price: price || '',
+  name: name ? `${name}` : '',
+  price: price ? `${price}` : '',
 });
 
 export default function productAddons(state = productAddonsInitState({}), action) {

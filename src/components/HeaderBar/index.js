@@ -2,7 +2,7 @@ import menuList from './menuList';
 import styles from './.module.css';
 
 import {Button, Separator, Text, View, Icon} from 'components';
-import {push} from 'connected-react-router';
+import {push, replace} from 'connected-react-router';
 import {connect} from 'react-redux';
 import {WHITE} from 'constants/styles';
 
@@ -17,10 +17,10 @@ function HeaderBar({
 }) {
   const onPress = (component, value) => {
     if (component === 'on-navigate') {
-      dispatch(push(`/${value === 'Transaction' ? '' : value.toLowerCase()}`));
+      dispatch(replace(`/${value === 'Transaction' ? '' : value.toLowerCase()}`));
       onSwitchRoute(value);
     } else if (component === 'on-navigate-profile') {
-      dispatch(push(`/profile`));
+      dispatch(replace(`/profile`));
       onSwitchRoute('Profile');
     }
   };

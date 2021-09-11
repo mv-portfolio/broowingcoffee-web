@@ -19,7 +19,7 @@
   font-family: 'Standard-Font2';
 }
 .headerPane .subtitle {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-weight: bold;
   font-size: 2vh;
 }
@@ -36,7 +36,7 @@
 .bodyPane .buttonSkin {
   height: 6vh;
   width: 40vh;
-  background-color: #f7a35b;
+  background-color: var(--ACCENT-COLOR);
   box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.5);
 }
 .bodyPane .buttonTitle {
@@ -54,7 +54,7 @@
   justify-content: center;
   width: 37.5vh;
   padding: 1vh;
-  border: 0.25vh #f75b5b solid;
+  border: 0.25vh var(--ACCENT-COLOR2) solid;
   border-radius: 7.5px;
 }
 .errorPane .errorTitle {
@@ -64,8 +64,8 @@
   font-size: 1.5vh;
   padding: 0.5vh 0 0.5vh 0;
   text-align: center;
-  color: #f75b5b;
+  color: var(--ACCENT-COLOR2);
 }
 .bottomPane .bForgotPasswordText {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
 }

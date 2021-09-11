@@ -27,7 +27,7 @@
 }
 
 .headerPane .price {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-size: 1.8vh;
   font-weight: bold;
 }
@@ -50,7 +50,7 @@
 }
 
 .propertyPane .propertyValue {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-size: 1.6vh;
   font-weight: bold;
 }
@@ -71,7 +71,7 @@
 }
 
 .addonsPane .addonsValue {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-size: 1.6vh;
   font-weight: bold;
 }

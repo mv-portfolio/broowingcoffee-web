@@ -10,7 +10,7 @@ const {takeEvery, put, call} = require('redux-saga/effects');
 
 function* authWorker() {
   try {
-    const {res} = yield call(server.get, '/app-authentication');
+    const {res} = yield call(server.peek, '/app-authentication');
     yield put(SET_AUTH({primary_auth_token: res.primary_auth_token}));
 
     //check if the sat local-storage is empty
@@ -28,7 +28,7 @@ function* authWorker() {
     const config = yield serverConfig();
     const {
       res: {user},
-    } = yield call(server.get, '/signin-authentication-decoder', config);
+    } = yield call(server.peek, '/signin-authentication-decoder', config);
 
     yield put(SET_AUTH({authenticated: true}));
 

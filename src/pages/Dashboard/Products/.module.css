@@ -5,7 +5,7 @@
 }
 
 .mainPane .topPane {
-  height: 45vh;
+  height: 42.5vh;
   justify-content: flex-start;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .headerPane .label {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-size: 2vh;
   font-weight: bold;
 }

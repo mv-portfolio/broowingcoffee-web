@@ -10,7 +10,7 @@
 }
 
 .bodyPane .title {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   padding: 0;
   margin: 0;
   font-size: max(20px, 2.5vw);

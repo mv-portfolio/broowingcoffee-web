@@ -40,8 +40,8 @@ export default class ObjectCleaner {
 
   static getProperties(obj) {
     const array = [];
-    Object.getOwnPropertyNames(obj).map((property, propertyIdx) => {
-      Object.values(obj).map((value, valueIdx) => {
+    Object.getOwnPropertyNames(obj).forEach((property, propertyIdx) => {
+      Object.values(obj).forEach((value, valueIdx) => {
         if (propertyIdx === valueIdx) {
           array.push({
             property: property,

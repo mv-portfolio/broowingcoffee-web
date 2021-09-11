@@ -1,13 +1,14 @@
-import {useContext} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {View, Text, Separator, TextInput, Picker, Button} from 'components';
-import useHook, {purchasingProduct, purchasingProductInitState} from 'hooks';
+import useHook, {products, purchasingProduct, purchasingProductInitState} from 'hooks';
 import Checklist from 'components/Checklist';
-import {isOnlyNumber} from 'utils/checker';
+import {arrayFind, isOnlyNumber} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import Generator from 'utils/Generator';
 import {Toast} from 'context';
 
 import styles from './.module.css';
+import {accentColor, accentColorDisabled} from 'constants/styles';
 
 export default function Purchase({
   type,
@@ -16,30 +17,27 @@ export default function Purchase({
   onDelete,
   onCancel,
   productInfo,
-  addons = [],
+  initAddons = [],
 }) {
   const {
+    _id,
     id,
     name,
     based,
     hot_price,
     cold_price,
-    discount: init_discount,
-    price: init_price,
-    type: init_tempType,
-    addons: init_addons,
+    discount,
+    price,
+    type: tempType,
+    addons,
   } = productInfo;
 
-  const {onShow: onShowToast, onHide: onHideToast} = useContext(Toast);
+  const {onShow: onShowToast} = useContext(Toast);
   const [state, setState] = useHook(
-    purchasingProductInitState({
-      addons: init_addons,
-      discount: init_discount,
-      price: init_price,
-      tempType: init_tempType,
-    }),
+    purchasingProductInitState({discount, price, tempType, addons}),
     purchasingProduct,
   );
+  const [isChange, setIsChange] = useState(false);
 
   const getPickerItems = (hot_price, cold_price) => {
     let items = ['hot', 'cold'];
@@ -54,10 +52,11 @@ export default function Purchase({
   };
   const getProduct = state => {
     let productInfo = {
+      _id,
       id: id || Generator.getInvoiceId(),
       name,
-      price: hot_price,
-      discount: parseInt(state.discount) || 0,
+      price: hot_price ? parseFloat(hot_price) : 0,
+      discount: state.discount ? parseInt(state.discount) : 0,
       based,
       type: state.tempType,
       addons: state.addons || [],
@@ -71,17 +70,11 @@ export default function Purchase({
   };
   const onClick = (actionType, value) => {
     if (actionType === 'on-select-type') {
-      setState({
-        type: 'set',
-        tempType: value,
-      });
+      setState({type: 'set', tempType: value});
       return;
     }
     if (actionType === 'on-select-addons') {
-      setState({
-        type: 'set',
-        addons: value,
-      });
+      setState({type: 'set', addons: [...value]});
       return;
     }
     if (actionType === 'on-click-add') {
@@ -106,7 +99,6 @@ export default function Purchase({
       return;
     }
     if (actionType === 'on-click-cancel') {
-      onHideToast();
       onCancel();
       return;
     }
@@ -119,6 +111,35 @@ export default function Purchase({
       }
     }
   };
+
+  const isAddonsChange = (prevArr = [], currentArr = []) => {
+    let isChange = false;
+    if (prevArr.length !== currentArr.length) {
+      return true;
+    }
+    prevArr.forEach(prev => {
+      if (!arrayFind(currentArr, cur => cur.name === prev.name)) {
+        isChange = true;
+      }
+    });
+    return isChange;
+  };
+
+  const changeListener = () => {
+    if (type === 'edit') {
+      if (
+        (discount ? String(discount) : '') !== state.discount ||
+        tempType !== state.tempType ||
+        isAddonsChange(addons, state.addons)
+      ) {
+        setIsChange(true);
+        return;
+      }
+      setIsChange(false);
+    }
+  };
+
+  useEffect(changeListener, [state]);
 
   return (
     <View style={styles.mainPane}>
@@ -157,7 +178,7 @@ export default function Purchase({
         <Text style={styles.titleField}>Add-ons</Text>
         <Separator vertical={0.25} />
         <Checklist
-          items={addons}
+          items={initAddons}
           currentSelectedItems={state.addons}
           onSelectedItems={selectedItems => onClick('on-select-addons', selectedItems)}
         />
@@ -174,6 +195,10 @@ export default function Purchase({
           <>
             <Button
               skin={styles.button}
+              disabled={!isChange}
+              defaultStyle={{
+                backgroundColor: isChange ? accentColor : accentColorDisabled,
+              }}
               title='Update'
               onPress={() => onClick('on-click-update')}
             />

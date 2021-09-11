@@ -26,6 +26,6 @@
 
 .itemBody .suffixText {
   font-size: 1.75vh;
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-weight: bold;
 }

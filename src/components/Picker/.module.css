@@ -7,7 +7,7 @@
   justify-content: space-between;
   padding: 0 3vh 0 2vh;
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
-  background-color: #f7a35b;
+  background-color: var(--ACCENT-COLOR);
 }
 
 .mainPane .title {
@@ -36,5 +36,5 @@
 }
 .pickerItem .pickerItemTitle {
   padding-left: 1vh;
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
 }

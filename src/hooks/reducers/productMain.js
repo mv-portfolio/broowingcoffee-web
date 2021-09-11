@@ -1,10 +1,10 @@
 import {isTextChange} from 'utils/checker';
 
 export const productMainInitState = ({name, based, hot_price, cold_price}) => ({
-  name: name || '',
-  based: based || '',
-  hot_price: hot_price || '',
-  cold_price: cold_price || '',
+  name: name ? `${name}` : '',
+  based: based ? `${based}` : '',
+  hot_price: hot_price ? `${hot_price}` : '',
+  cold_price: cold_price ? `${cold_price}` : '',
 });
 
 export default function productMain(state = productMainInitState({}), action) {

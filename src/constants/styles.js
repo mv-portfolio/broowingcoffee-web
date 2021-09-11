@@ -1,7 +1,7 @@
 module.exports = {
   fontColor: '#ffffff',
   accentColor: '#f7a35b',
-  accentColor2: '#c9854b',
+  accentColor2: '#f75b5b',
   backgroundColor: '#282627',
   backgroundColor2: '#2e2c2d',
   backgroundColor3: '#383637',
@@ -12,9 +12,6 @@ module.exports = {
   fontFamily: 'RockoFLF',
   fontFamily2: 'KingthingsRegular',
   fontFamily3: 'VanillaExtractRegular',
-  secondaryColor: '#f75b5b',
-  grayScaleColor: '#e8e8e8',
   accentColorDisabled: '#473d32',
   WHITE: '#fff',
-  LIGHT_RED: '#f75b5b',
 };

@@ -11,7 +11,7 @@
 }
 
 .bodyPane .title {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-size: 3vh;
   font-family: 'Standard-Font2';
 }

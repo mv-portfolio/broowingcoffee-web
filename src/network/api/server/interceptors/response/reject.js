@@ -1,6 +1,7 @@
 import {popLocalStorage} from 'storage';
 import {ASSESSMENT_BAD_REQUEST, NOT_FOUND, UNAUTHORIZED} from 'constants/network';
 import {replace} from 'connected-react-router';
+import {SET_ERROR} from 'modules/actions';
 
 export default function responseReject({dispatch, getState}) {
   const {auth} = getState();
@@ -12,12 +13,12 @@ export default function responseReject({dispatch, getState}) {
 
     const {status, data} = error.response;
 
-    if (status === NOT_FOUND || status === UNAUTHORIZED) {
+    if (status === UNAUTHORIZED) {
       popLocalStorage('sat');
+      dispatch(SET_ERROR({auth: data.err}));
     }
 
     if (status === ASSESSMENT_BAD_REQUEST) {
-      console.log('INTERCEPTOR', error.response);
       if (data.err.includes('Last Name') || data.err.includes('First Name')) {
         dispatch(
           replace({

@@ -1,0 +1,42 @@
+.mainPane {
+  width: 40vh;
+  height: 22.5vh;
+  border-radius: 1vh;
+  padding: 0 2vh 0 2vh;
+  background-color: var(--BACKGROUND-COLOR);
+  z-index: 1;
+}
+
+.mainPane .topPane {
+  flex: 1.5;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0 2.5vh 0 2.5vh;
+}
+
+.topPane .title {
+  font-size: 3vh;
+  font-weight: bold;
+  color: var(--WHITE);
+}
+
+.topPane .content {
+  font-size: 1.8vh;
+  color: var(--WHITE);
+}
+
+.mainPane .bodyPane {
+  flex: 0.5;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 1vh 0 2.5vh 0;
+}
+
+.bodyPane .button {
+  width: 10vh;
+  background-color: var(--ACCENT-COLOR);
+}
+
+.bodyPane .buttonText {
+  color: var(--BACKGROUND-COLOR);
+}

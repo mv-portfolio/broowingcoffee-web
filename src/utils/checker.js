@@ -91,6 +91,7 @@ const arrayFilter = (data = [], filter) => {
     if (keyValue !== filterValue) {
       return item;
     }
+    return null;
   });
   return temp_data;
 };
@@ -102,7 +103,7 @@ const arrayUpdate = (data = [], filter, payload = {}) => {
 
   temp_data = data.map(item => {
     let keyValue = '';
-    ObjectCleaner.getProperties(item).map(({property, value}) => {
+    ObjectCleaner.getProperties(item).forEach(({property, value}) => {
       if (property === filterKey) {
         keyValue = value;
       }

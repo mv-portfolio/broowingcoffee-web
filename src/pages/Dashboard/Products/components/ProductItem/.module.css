@@ -38,7 +38,7 @@
 }
 
 .propertyPane .propertyValue {
-  color: #f7a35b;
+  color: var(--ACCENT-COLOR);
   font-size: 1.6vh;
   font-weight: bold;
 }

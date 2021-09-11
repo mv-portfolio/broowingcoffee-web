@@ -1,4 +1,4 @@
-import {Separator, Text, View} from 'components';
+import {Separator, View} from 'components';
 import {useState} from 'react';
 import ProductItem from '../ProductItem';
 import styles from './.module.css';

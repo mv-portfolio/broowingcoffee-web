@@ -1,10 +1,11 @@
-import {useContext} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {Button, Picker, Separator, Text, TextInput, View} from 'components';
 import {Toast} from 'context';
 import Formatter from 'utils/Formatter';
 import useHook, {productMain as productMainReducer, productMainInitState} from 'hooks';
-import {hasLength, isNumber, isOnlyAlphabet, isOnlyNumber} from 'utils/checker';
+import {hasLength, isOnlyAlphabet, isOnlyNumber} from 'utils/checker';
 import styles from './.module.css';
+import {accentColor, accentColorDisabled} from 'constants/styles';
 
 export default function Main({
   productInfo = {},
@@ -27,6 +28,7 @@ export default function Main({
     }),
     productMainReducer,
   );
+  const [isChange, setIsChange] = useState(false);
 
   const onClick = (actionType, value) => {
     if (actionType === 'on-select-based') {
@@ -55,7 +57,6 @@ export default function Main({
     }
     if (actionType === 'on-click-delete') {
       onDelete(value);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-cancel') {
@@ -63,6 +64,28 @@ export default function Main({
       return;
     }
   };
+  const onClean = state => {
+    if (state.name.length === 0) {
+      return {isClean: false};
+    }
+    if (state.based.length === 0) {
+      return {isClean: false};
+    }
+    if (state.hot_price.length === 0 && state.cold_price.length === 0) {
+      return {isClean: false};
+    }
+
+    let info = state;
+    info.date_modified = new Date().getTime();
+    info.hot_price = hasLength(state.hot_price) ? parseFloat(state.hot_price) : null;
+    info.cold_price = hasLength(state.cold_price) ? parseFloat(state.cold_price) : null;
+
+    return {
+      isClean: true,
+      info,
+    };
+  };
+
   const onChange = (actionType, value) => {
     if (actionType === 'on-change-product-name') {
       if (isOnlyAlphabet(value) || value.length === 0) {
@@ -85,27 +108,19 @@ export default function Main({
     }
   };
 
-  const onClean = state => {
-    if (state.name.length === 0) {
-      return {isClean: false};
+  const changeListener = () => {
+    if (
+      name !== state.name ||
+      based !== state.based ||
+      (hot_price ? String(hot_price) : '') !== state.hot_price ||
+      (cold_price ? String(cold_price) : '') !== state.cold_price
+    ) {
+      setIsChange(true);
+      return;
     }
-    if (state.based.length === 0) {
-      return {isClean: false};
-    }
-    if (state.hot_price.length === 0 && state.cold_price.length === 0) {
-      return {isClean: false};
-    }
-
-    let info = state;
-    info.date_modified = new Date().getTime();
-    info.hot_price = hasLength(state.hot_price) ? parseFloat(state.hot_price) : null;
-    info.cold_price = hasLength(state.cold_price) ? parseFloat(state.cold_price) : null;
-
-    return {
-      isClean: true,
-      info,
-    };
+    setIsChange(false);
   };
+  useEffect(changeListener, [state]);
 
   return (
     <View style={styles.mainPane}>
@@ -166,6 +181,10 @@ export default function Main({
             <Button
               title='Update'
               skin={styles.button}
+              disabled={!isChange}
+              defaultStyle={{
+                backgroundColor: isChange ? accentColor : accentColorDisabled,
+              }}
               onPress={() => onClick('on-click-update')}
             />
             <Separator horizontal={1} />

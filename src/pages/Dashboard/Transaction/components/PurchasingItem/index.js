@@ -1,6 +1,6 @@
 import {Button, View, Text, Separator, Icon} from 'components';
 import {ICON_SIZE} from 'constants/sizes';
-import {accentColor, WHITE} from 'constants/styles';
+import {accentColor} from 'constants/styles';
 import {isArray} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import {sumOfPrice} from 'utils/helper';
@@ -9,6 +9,7 @@ import ObjectCleaner from 'utils/ObjectCleaner';
 import styles from './.module.css';
 
 export default function PurchasingItem({
+  isEditable = true,
   suffixName,
   purchasingProduct,
   onClick,
@@ -18,6 +19,7 @@ export default function PurchasingItem({
   const {name} = purchasingProduct;
 
   const content = ObjectCleaner.getProperties(purchasingProduct)
+    .filter(obj => obj.property !== '_id')
     .filter(obj => obj.property !== 'id')
     .filter(obj => obj.property !== 'name')
     .filter(obj => obj.property !== 'hot_price')
@@ -49,14 +51,18 @@ export default function PurchasingItem({
       <View style={styles.headerPane}>
         <Text style={styles.title}>{`${Formatter.toName(name)}${suffixName}`}</Text>
         {isOpen ? (
-          <Button
-            skin={styles.buttonEdit}
-            onPress={evt => {
-              evt.stopPropagation();
-              onEdit();
-            }}>
-            <Icon font='Feather' name='edit' size={ICON_SIZE} color={accentColor} />
-          </Button>
+          !isEditable ? (
+            <></>
+          ) : (
+            <Button
+              skin={styles.buttonEdit}
+              onPress={evt => {
+                evt.stopPropagation();
+                onEdit();
+              }}>
+              <Icon font='Feather' name='edit' size={ICON_SIZE} color={accentColor} />
+            </Button>
+          )
         ) : (
           <Text style={styles.price}>₱{onCompute(purchasingProduct)}</Text>
         )}

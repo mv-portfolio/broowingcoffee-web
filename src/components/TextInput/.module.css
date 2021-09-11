@@ -4,7 +4,7 @@
   align-items: center;
   padding: 0 0.5vh 0 2vh;
   border-radius: 1vh;
-  background-color: #2e2c2d;
+  background-color: var(--BACKGROUND-COLOR2);
 }
 
 .body {

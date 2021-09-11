@@ -7,6 +7,8 @@ import PurchasingItem from '../PurchasingItem';
 import styles from './.module.css';
 
 export default function PurchasingListItem({
+  style,
+  isEditable,
   purchasingProducts = [],
   onEditSelectedPurchasingProduct,
 }) {
@@ -30,7 +32,7 @@ export default function PurchasingListItem({
   };
   const getSuffixName = (temp_purchasingProducts = [], filter) => {
     let redundancy = 0;
-    temp_purchasingProducts.map(temp_purchasingProduct => {
+    temp_purchasingProducts.forEach(temp_purchasingProduct => {
       if (temp_purchasingProduct.name === filter) {
         redundancy = temp_purchasingProduct.redundancy;
       }
@@ -39,7 +41,7 @@ export default function PurchasingListItem({
   };
 
   return (
-    <View style={styles.mainPane}>
+    <View style={`${styles.mainPane} ${style}`}>
       {purchasingProducts.sort(ASC_NAME).map((purchasingProduct, index) => {
         const isExisting = arrayFind(
           temp_purchasingProducts,
@@ -65,6 +67,7 @@ export default function PurchasingListItem({
         return (
           <View key={index}>
             <PurchasingItem
+              isEditable={isEditable}
               suffixName={getSuffixName(temp_purchasingProducts, purchasingProduct.name)}
               isOpen={focus.index === index && focus.isShow}
               purchasingProduct={purchasingProduct}
