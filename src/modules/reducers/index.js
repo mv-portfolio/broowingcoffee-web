@@ -8,6 +8,8 @@ import assessment from './assessment';
 import forgotPassword from './forgotPassword';
 import products from './products';
 import purchasingProducts from './purchasingProducts';
+import transactions from './transactions';
+import inventory from './inventory';
 
 import {combineReducers} from 'redux';
 import {connectRouter} from 'connected-react-router';
@@ -24,6 +26,8 @@ export default function rootReducer(history) {
     assessment,
     forgotPassword,
     purchasingProducts,
+    transactions,
+    inventory,
     router: connectRouter(history),
   });
 }

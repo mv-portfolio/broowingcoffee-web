@@ -103,7 +103,7 @@ export default function Addons({
     setIsChange(false);
   };
 
-  useEffect(changeListener, [state]);
+  useEffect(changeListener, [name, price, state]);
 
   return (
     <View style={styles.mainPane}>

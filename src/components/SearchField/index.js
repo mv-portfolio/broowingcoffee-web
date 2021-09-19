@@ -1,4 +1,4 @@
-import {Button, Icon, Separator, TextInput, View} from 'components';
+import {Icon, Separator, View} from 'components';
 import {accentColor} from 'constants/styles';
 
 import styles from './.module.css';

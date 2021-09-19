@@ -1,5 +1,5 @@
 import {popLocalStorage} from 'storage';
-import {ASSESSMENT_BAD_REQUEST, NOT_FOUND, UNAUTHORIZED} from 'constants/network';
+import {ASSESSMENT_BAD_REQUEST, UNAUTHORIZED} from 'constants/network';
 import {replace} from 'connected-react-router';
 import {SET_ERROR} from 'modules/actions';
 

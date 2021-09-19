@@ -8,6 +8,7 @@ import toast, {toastInitState} from './toast';
 import productMain, {productMainInitState} from './productMain';
 import productAddons, {productAddonsInitState} from './productAddons';
 import products, {productsInitState} from './products';
+import item, {itemInitState} from './item';
 export {
   assessAcc,
   assessInfo,
@@ -26,4 +27,6 @@ export {
   productAddons,
   products,
   productsInitState,
+  item,
+  itemInitState,
 };

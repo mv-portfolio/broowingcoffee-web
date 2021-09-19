@@ -2,7 +2,7 @@ import menuList from './menuList';
 import styles from './.module.css';
 
 import {Button, Separator, Text, View, Icon} from 'components';
-import {push, replace} from 'connected-react-router';
+import {replace} from 'connected-react-router';
 import {connect} from 'react-redux';
 import {WHITE} from 'constants/styles';
 

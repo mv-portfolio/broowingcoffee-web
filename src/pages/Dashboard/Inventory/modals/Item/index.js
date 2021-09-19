@@ -1,108 +1,109 @@
 import {useContext, useEffect, useState} from 'react';
-import {Button, Picker, Separator, Text, TextInput, View} from 'components';
-import {Toast} from 'context';
-import Formatter from 'utils/Formatter';
-import useHook, {productMain as productMainReducer, productMainInitState} from 'hooks';
-import {hasLength, isOnlyAlphabet, isOnlyNumber} from 'utils/checker';
-import styles from './.module.css';
-import {accentColor, accentColorDisabled} from 'constants/styles';
+// import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
-export default function Main({
-  productInfo = {},
+import {Button, Picker, Separator, Text, TextInput, View} from 'components';
+import {accentColor, accentColorDisabled} from 'constants/styles';
+import {Toast} from 'context';
+import useHook, {itemInitState, item as itemReducer} from 'hooks';
+import {isOnlyAlphabet, isOnlyNumber} from 'utils/checker';
+import Formatter from 'utils/Formatter';
+import styles from './.module.css';
+
+export default function Item({
   type,
+  productInfo = {},
   onAdd,
   onUpdate,
   onDelete,
   onCancel,
 }) {
-  const {name, based, hot_price, cold_price} = productInfo;
-
+  const {name, cost, type: itemType, quantity, date_expired} = productInfo;
   const {onShow: onShowToast} = useContext(Toast);
 
   const [state, setState] = useHook(
-    productMainInitState({
-      name,
-      based,
-      hot_price,
-      cold_price,
-    }),
-    productMainReducer,
+    itemInitState({name, cost, itemType, quantity, date_expired}),
+    itemReducer,
   );
+  // const [startDate, setStartDate] = useState(new Date());
   const [isChange, setIsChange] = useState(false);
 
-  const onClick = (actionType, value) => {
-    if (actionType === 'on-select-based') {
-      setState({type: 'set', based: value});
-      return;
-    }
-    if (actionType === 'on-click-add') {
-      const product = onClean(state);
-      if (!product.isClean) {
-        onShowToast('Please fill up all fields');
-        return;
-      }
-      onAdd(product.info);
-      onCancel();
-      return;
-    }
-    if (actionType === 'on-click-update') {
-      const product = onClean(state);
-      if (!product.isClean) {
-        onShowToast('Please fill up all fields');
-        return;
-      }
-      onUpdate(product.info);
-      onCancel();
-      return;
-    }
-    if (actionType === 'on-click-delete') {
-      onDelete(value);
-      return;
-    }
-    if (actionType === 'on-click-cancel') {
-      onCancel();
-      return;
-    }
-  };
   const onClean = state => {
     if (state.name.length === 0) {
       return {isClean: false};
     }
-    if (state.based.length === 0) {
+    if (state.itemType.length === 0) {
       return {isClean: false};
     }
-    if (state.hot_price.length === 0 && state.cold_price.length === 0) {
+    if (state.cost.length === 0) {
+      return {isClean: false};
+    }
+    if (state.quantity.length <= 0) {
       return {isClean: false};
     }
 
     let info = state;
+    info.cost = parseFloat(info.cost);
+    info.quantity = parseInt(info.quantity);
+    info.date_expired = null;
     info.date_modified = new Date().getTime();
-    info.hot_price = hasLength(state.hot_price) ? parseFloat(state.hot_price) : null;
-    info.cold_price = hasLength(state.cold_price) ? parseFloat(state.cold_price) : null;
 
     return {
       isClean: true,
       info,
     };
   };
-
+  const onClick = (actionType, value) => {
+    if (actionType === 'on-click-add') {
+      const item = onClean(state);
+      if (!item.isClean) {
+        onShowToast('Please fill up all fields');
+        return;
+      }
+      onAdd(item.info);
+      onCancel();
+      return;
+    }
+    if (actionType === 'on-click-update') {
+      const item = onClean(state);
+      if (!item.isClean) {
+        onShowToast('Please fill up all fields');
+        return;
+      }
+      onUpdate(item.info);
+      onCancel();
+      return;
+    }
+    if (actionType === 'on-click-delete') {
+      onDelete(value);
+      onCancel();
+      return;
+    }
+    if (actionType === 'on-click-cancel') {
+      onCancel();
+      return;
+    }
+    if (actionType === 'on-select-item-type') {
+      setState({type: 'set', itemType: value});
+      return;
+    }
+  };
   const onChange = (actionType, value) => {
-    if (actionType === 'on-change-product-name') {
+    if (actionType === 'on-change-name') {
       if (isOnlyAlphabet(value) || value.length === 0) {
         setState({type: 'set', name: value});
       }
       return;
     }
-    if (actionType === 'on-change-hot-price') {
+    if (actionType === 'on-change-quantity') {
       if (isOnlyNumber(value) || value.length === 0) {
-        setState({type: 'set', hot_price: value});
+        setState({type: 'set', quantity: value});
       }
       return;
     }
-
-    if (actionType === 'on-change-cold-price') {
+    if (actionType === 'on-change-cost') {
       if (isOnlyNumber(value) || value.length === 0) {
-        setState({type: 'set', cold_price: value});
+        setState({type: 'set', cost: value});
       }
       return;
     }
@@ -111,61 +112,64 @@ export default function Main({
   const changeListener = () => {
     if (
       name !== state.name ||
-      based !== state.based ||
-      (hot_price ? String(hot_price) : '') !== state.hot_price ||
-      (cold_price ? String(cold_price) : '') !== state.cold_price
+      itemType !== state.itemType ||
+      String(quantity) !== state.quantity ||
+      String(cost) !== state.cost ||
+      date_expired !== state.date_expired
     ) {
       setIsChange(true);
       return;
     }
     setIsChange(false);
   };
-  useEffect(changeListener, [name, based, hot_price, cold_price, state]);
+  useEffect(changeListener, [name, itemType, quantity, cost, date_expired, state]);
 
   return (
     <View style={styles.mainPane}>
-      <Text style={styles.title}>{`${Formatter.toName(type)} Product`}</Text>
+      <Text style={styles.title}>{`${Formatter.toName(type)} Item`}</Text>
       <Separator vertical={1.5} />
       <View style={styles.bodyPane}>
-        <Text style={styles.titleField}>Product</Text>
+        <Text style={styles.titleField}>Item</Text>
         <Separator vertical={0.25} />
         <TextInput
           skin={styles.input}
           placeholder='Name'
-          value={state.name}
           disabled={type !== 'add'}
           defaultStyle={{
             boxShadow:
               type === 'add' ? '0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25)' : 'none',
           }}
-          onChangeText={text => onChange('on-change-product-name', text)}
+          value={state.name}
+          onChangeText={text => onChange('on-change-name', text)}
         />
         <Separator vertical={1} />
-        <Text style={styles.titleField}>Based</Text>
+        <Text style={styles.titleField}>Type</Text>
         <Separator vertical={0.25} />
         <Picker
-          items={['coffee', 'non-coffee']}
-          selected={state.based}
-          onSelected={item => onClick('on-select-based', item)}
+          items={['material']} // ['material', 'ingredient']
+          selected={state.itemType}
+          onSelected={item => onClick('on-select-item-type', item)}
         />
         <Separator vertical={1} />
-        <Text style={styles.titleField}>Hot Price</Text>
+        <Text style={styles.titleField}>Quantity</Text>
+        <Separator vertical={0.25} />
+        <TextInput
+          skin={styles.input}
+          placeholder='0 pcs'
+          value={state.quantity}
+          onChangeText={text => onChange('on-change-quantity', text)}
+        />
+        <Separator vertical={1} />
+        <Text style={styles.titleField}>Cost</Text>
         <Separator vertical={0.25} />
         <TextInput
           skin={styles.input}
           placeholder='0.00'
-          value={state.hot_price}
-          onChangeText={text => onChange('on-change-hot-price', text)}
+          value={state.cost}
+          onChangeText={text => onChange('on-change-cost', text)}
         />
-        <Separator vertical={1} />
-        <Text style={styles.titleField}>Cold Price</Text>
-        <Separator vertical={0.25} />
-        <TextInput
-          skin={styles.input}
-          placeholder='0.00'
-          value={state.cold_price}
-          onChangeText={text => onChange('on-change-cold-price', text)}
-        />
+        {/* <Separator vertical={1} />
+        <DatePicker da className={styles.datePicker} selected={startDate} onChange={date => setStartDate(date)} /> */}
       </View>
       <Separator vertical={2} />
       <View style={styles.bottomPane}>
@@ -173,7 +177,7 @@ export default function Main({
           <Button
             title='Add'
             skin={styles.button}
-            onPress={() => onClick('on-click-add', state)}
+            onPress={() => onClick('on-click-add')}
           />
         )}
         {type !== 'add' && (

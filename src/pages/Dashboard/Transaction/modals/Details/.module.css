@@ -46,6 +46,16 @@
   color: var(--ACCENT-COLOR);
 }
 
+.fieldPane .receipt {
+  color: var(--WHITE);
+  font-weight: normal;
+  font-size: 1.75vh;
+  width: 25vh;
+}
+.fieldPane .receipt::placeholder {
+  font-size: 1.75vh;
+}
+
 .mainPane .bottomPane {
   flex: 0.3;
   align-items: flex-end;

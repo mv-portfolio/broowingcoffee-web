@@ -1,0 +1,51 @@
+.mainPane {
+  width: 40vh;
+  min-height: 30vh;
+  border-radius: 2vh;
+  padding: 4vh 3vh 4vh 3vh;
+  background-color: #282627;
+  z-index: 1;
+}
+
+.mainPane .title {
+  font-family: 'Standard-Font2';
+  font-size: 3vh;
+}
+
+.mainPane .bodyPane {
+}
+
+.bodyPane .titleField {
+  font-size: 1.75vh;
+}
+
+.bodyPane .input {
+  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+}
+
+.bodyPane .datePicker {
+  width: 100%;
+  height: 5vh;
+  font-size: 1.75vh;
+  color: white;
+  border-radius: 2vh;
+  background-color: var(--BACKGROUND-COLOR2);
+  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+  border: none;
+}
+
+.bodyPane .datePicker:focus {
+  outline: none;
+}
+
+.mainPane .bottomPane {
+  flex-direction: row;
+}
+.bottomPane .button {
+  flex: 1;
+  background-color: var(--ACCENT-COLOR);
+}
+.bottomPane .buttonDelete {
+  flex: 1;
+  background-color: var(--ACCENT-COLOR2);
+}

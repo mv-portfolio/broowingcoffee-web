@@ -1,15 +1,16 @@
-import {View, Text, Separator, Button} from 'components';
 import {useContext} from 'react';
 import {connect} from 'react-redux';
-
+import {View, Text, Separator, Button} from 'components';
 import {PrimaryDialog, Toast} from 'context';
 import ProductList from './components/ProductList';
 import PurchasingListItem from './components/PurchasingListItem';
 import Purchase from './modals/Purchase';
 import styles from './.module.css';
 import {
+  CLEAR_PURCHASING_PRODUCTS,
   POP_PURCHASING_PRODUCT,
   PUSH_PURCHASING_PRODUCT,
+  PUSH_TRANSACTIONS,
   SET_INDEX_PURCHASING_PRODUCT,
 } from 'modules/actions';
 import Details from './modals/Details';
@@ -52,6 +53,9 @@ function Transaction({purchasingProducts, products, dispatch}) {
       dispatch(POP_PURCHASING_PRODUCT({purchasingProductId: value}));
       return;
     }
+    if (actionType === 'on-click-clear-purchasing-products') {
+      dispatch(CLEAR_PURCHASING_PRODUCTS());
+    }
     if (actionType === 'on-click-purchase') {
       if (purchasingProducts.length) {
         onShowPrimaryDialog(
@@ -60,11 +64,16 @@ function Transaction({purchasingProducts, products, dispatch}) {
             onEditSelectedPurchasingProduct={productInfo =>
               onClick('on-click-edit-purchasing-product', productInfo)
             }
-            onPurchase={products => console.log('data', products)}
+            onPurchase={products => onClick('on-click-purchased', products)}
             onCancel={onHidePrimaryDialog}
           />,
         );
+        return;
       }
+    }
+    if (actionType === 'on-click-purchased') {
+      dispatch(PUSH_TRANSACTIONS({transaction: {...value}}));
+      onHidePrimaryDialog();
     }
   };
 
@@ -108,7 +117,15 @@ function Transaction({purchasingProducts, products, dispatch}) {
       </View>
       <Separator vertical={1.5} />
       <View style={styles.bodyPane}>
-        <Text style={styles.title}>Invoice</Text>
+        <View style={styles.headerBodyPane}>
+          <Text style={styles.title}>Invoice</Text>
+          <Button
+            title='CLEAR'
+            titleStyle={styles.buttonClearText}
+            skin={styles.buttonClear}
+            onPress={() => onClick('on-click-clear-purchasing-products')}
+          />
+        </View>
         <Separator vertical={0.5} />
         <PurchasingListItem
           purchasingProducts={purchasingProducts}

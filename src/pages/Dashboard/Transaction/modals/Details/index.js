@@ -1,6 +1,7 @@
 import {Button, Separator, Text, View} from 'components';
 import {NUMBER_REGEX} from 'constants/regex';
 import {useState} from 'react';
+import Formatter from 'utils/Formatter';
 import {sumOfPrice} from 'utils/helper';
 import PurchasingListItem from '../../components/PurchasingListItem';
 
@@ -14,25 +15,31 @@ export default function Details({
   onEditSelectedPurchasingProduct,
 }) {
   const [totalDiscount, setTotalDiscount] = useState('');
+  const [reciptient, setRecipient] = useState('');
 
   const getPurchasingProduct = (products = []) => {
     let temp_products = {
       date_created: new Date().getTime(),
-      discount: parseInt(totalDiscount),
+      discount: parseInt(totalDiscount || 0) || 0,
+      receiptTo: reciptient,
       products: [],
     };
 
     temp_products.products = products.map(item => {
+      let addons_price = 0;
+      item.addons.forEach(addon => {
+        addons_price += addon.price;
+      });
       return {
         _id_product: item._id,
         type: item.type,
         discount: parseInt(item.discount),
+        price: addons_price + item.price,
       };
     });
 
     return temp_products;
   };
-
   const onSumAllProducts = (products = [], totalDiscount = 0) => {
     let totalPrice = 0;
     let temp_totalDiscount = 0;
@@ -45,7 +52,6 @@ export default function Details({
     temp_totalDiscount = (parseInt(totalDiscount || 0) / 100) * totalPrice;
     return totalPrice - temp_totalDiscount;
   };
-
   const onClick = actionType => {
     if (actionType === 'on-click-purchase') {
       const products = getPurchasingProduct(purchasingProducts);
@@ -61,6 +67,11 @@ export default function Details({
       ) {
         setTotalDiscount(value);
       }
+      return;
+    }
+    if (actionType === 'on-change-receipt') {
+      setRecipient(value);
+      return;
     }
   };
 
@@ -78,6 +89,15 @@ export default function Details({
       </View>
       <View style={styles.bodyPane}>
         <View style={styles.fieldPane}>
+          <Text style={styles.fieldTitle}>receipt to</Text>
+          <TextInput
+            skin={styles.receipt}
+            placeholder='@gmail.com'
+            value={reciptient}
+            onChangeText={text => onChange('on-change-receipt', text)}
+          />
+        </View>
+        <View style={styles.fieldPane}>
           <Text style={styles.fieldTitle}>discount</Text>
           <TextInput
             placeholder='0'
@@ -89,7 +109,7 @@ export default function Details({
         <View style={styles.fieldPane}>
           <Text style={styles.fieldTitle}>total price</Text>
           <Text style={styles.fieldValue}>
-            ₱{onSumAllProducts(purchasingProducts, totalDiscount)}
+            ₱{Formatter.toMoney(onSumAllProducts(purchasingProducts, totalDiscount))}
           </Text>
         </View>
       </View>

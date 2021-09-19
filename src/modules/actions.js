@@ -132,22 +132,55 @@ const POP_PRODUCT = ({mainId, addonId}) => ({
   addonId,
 });
 
+//inventory items
+const PEEK_INVENTORY = () => ({
+  type: ACTION_TYPE('INVENTORY').PEEK,
+});
+const PUSH_INVENTORY = ({item}) => ({
+  type: ACTION_TYPE('INVENTORY').PUSH,
+  item,
+});
+const POP_INVENTORY = ({itemId}) => ({
+  type: ACTION_TYPE('INVENTORY').POP,
+  itemId,
+});
+const SET_INVENTORY = ({items}) => ({
+  type: ACTION_TYPE('INVENTORY').SET,
+  items,
+});
+const SET_INDEX_INVENTORY = ({itemId, payload}) => ({
+  type: ACTION_TYPE('INVENTORY').SET_INDEX,
+  itemId,
+  payload,
+});
+
 //purchasing products
 const SET_PURCHASING_PRODUCTS = ({purchasingProducts}) => ({
   type: ACTION_TYPE('PURCHASING-PRODUCTS').SET,
   purchasingProducts,
 });
 const SET_INDEX_PURCHASING_PRODUCT = ({purchasingProduct}) => ({
-  type: ACTION_TYPE('PURCHASING-PRODUCT').SET_INDEX,
+  type: ACTION_TYPE('PURCHASING-PRODUCTS').SET_INDEX,
   purchasingProduct,
 });
 const PUSH_PURCHASING_PRODUCT = ({purchasingProduct}) => ({
-  type: ACTION_TYPE('PURCHASING-PRODUCT').PUSH,
+  type: ACTION_TYPE('PURCHASING-PRODUCTS').PUSH,
   purchasingProduct,
 });
 const POP_PURCHASING_PRODUCT = ({purchasingProductId}) => ({
-  type: ACTION_TYPE('PURCHASING-PRODUCT').POP,
+  type: ACTION_TYPE('PURCHASING-PRODUCTS').POP,
   purchasingProductId,
+});
+const CLEAR_PURCHASING_PRODUCTS = () => ({
+  type: ACTION_TYPE('PURCHASING-PRODUCTS').CLEAR,
+});
+
+const PEEK_TRANSACTIONS = () => ({
+  type: ACTION_TYPE('TRANSACTIONS').PEEK,
+});
+const PUSH_TRANSACTIONS = ({transaction}) => ({
+  type: ACTION_TYPE('TRANSACTIONS').PUSH,
+  transaction,
 });
 
 export {
@@ -185,9 +218,19 @@ export {
   SET_INDEX_PRODUCTS,
   PUSH_PRODUCT,
   POP_PRODUCT,
+  //inventory items
+  PEEK_INVENTORY,
+  PUSH_INVENTORY,
+  SET_INVENTORY,
+  SET_INDEX_INVENTORY,
+  POP_INVENTORY,
   //purchasing-products
   SET_PURCHASING_PRODUCTS,
   SET_INDEX_PURCHASING_PRODUCT,
   PUSH_PURCHASING_PRODUCT,
   POP_PURCHASING_PRODUCT,
+  CLEAR_PURCHASING_PRODUCTS,
+  //transactions
+  PEEK_TRANSACTIONS,
+  PUSH_TRANSACTIONS,
 };

@@ -1,4 +1,4 @@
-import {Button, Dialog, Icon, Separator, Text, View} from 'components';
+import {Button, Dialog, Icon, Separator, Text, View, SearchField} from 'components';
 import {accentColor, accentColor2} from 'constants/styles';
 import {PrimaryDialog} from 'context';
 import {useContext, useEffect, useState} from 'react';
@@ -10,7 +10,6 @@ import ProductMain from './modals/Main';
 import ProductAddons from './modals/Addons';
 import {POP_PRODUCT, PUSH_PRODUCT, SET_INDEX_PRODUCTS} from 'modules/actions';
 import Formatter from 'utils/Formatter';
-import SearchField from './components/SearchField';
 import useHook, {productsInitState, products as productsReducer} from 'hooks';
 
 function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch}) {
@@ -67,9 +66,11 @@ function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch
     //CRUD actions
     if (actionType === 'on-click-added-product-main') {
       dispatch(PUSH_PRODUCT({mainProduct: value}));
+      return;
     }
     if (actionType === 'on-click-update-product-main') {
       dispatch(SET_INDEX_PRODUCTS({mainId: value.name, payload: value}));
+      return;
     }
     if (actionType === 'on-click-delete-product-main') {
       onShowConditionalDeleteDialog({
@@ -77,12 +78,15 @@ function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch
         content: `you want to delete ${Formatter.toName(value)}?`,
         value: {type: 'main', filter: value},
       });
+      return;
     }
     if (actionType === 'on-click-added-product-addons') {
       dispatch(PUSH_PRODUCT({addonProduct: value}));
+      return;
     }
     if (actionType === 'on-click-update-product-addons') {
       dispatch(SET_INDEX_PRODUCTS({addonId: value.name, payload: value}));
+      return;
     }
     if (actionType === 'on-click-delete-product-addons') {
       onShowConditionalDeleteDialog({
@@ -90,6 +94,7 @@ function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch
         content: `you want to delete ${Formatter.toName(value)}?`,
         value: {type: 'add-ons', filter: value},
       });
+      return;
     }
     //DIALOG
     if (actionType === 'on-click-delete-dialog-positive') {
@@ -101,6 +106,7 @@ function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch
         dispatch(POP_PRODUCT({mainId: filter}));
       }
       onHidePrimaryDialog();
+      return;
     }
   };
   const onChange = (actionType, value) => {

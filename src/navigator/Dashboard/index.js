@@ -8,7 +8,7 @@ import {pages} from './pages';
 import {WHITE} from 'constants/styles';
 import {connect} from 'react-redux';
 import useHook, {menu, initStateMenu} from 'hooks';
-import {CLEAR_ERROR, PEEK_PRODUCTS} from 'modules/actions';
+import {CLEAR_ERROR, PEEK_INVENTORY, PEEK_PRODUCTS} from 'modules/actions';
 import {PrimaryDialog} from 'context';
 
 const HeaderBar = lazy(() => import('components/HeaderBar'));
@@ -29,6 +29,7 @@ function DashBoardNavigator({dispatch, user, error}) {
 
   const initListener = () => {
     dispatch(PEEK_PRODUCTS());
+    dispatch(PEEK_INVENTORY());
   };
 
   const errorListener = () => {
@@ -48,7 +49,7 @@ function DashBoardNavigator({dispatch, user, error}) {
   };
 
   useEffect(initListener, [dispatch]);
-  useEffect(errorListener, [error]);
+  useEffect(errorListener, [error, dispatch, onShowPrimaryDialog]);
 
   return (
     <View style={styles.mainPane}>

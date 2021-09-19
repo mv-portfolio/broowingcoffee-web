@@ -1,5 +1,5 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {SET_ERROR, SET_PRODUCTS} from 'modules/actions';
+import {SET_PRODUCTS} from 'modules/actions';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
 import {call, put, takeEvery} from 'redux-saga/effects';
@@ -29,7 +29,7 @@ function* pushWorker(state) {
       yield call(server.push, '/products/addons/push', state.addonProduct, config);
     }
 
-    yield console.log('PUSH-PRODUCTS-WORKER', state);
+    yield console.log('PUSH-PRODUCTS-RESOLVE', state);
   } catch (err) {
     yield console.log('PUSH-PRODUCTS-REJECT:', err);
   }
@@ -43,8 +43,7 @@ function* setWorker(state) {
     } else {
       yield call(server.set, '/products/addons/set', state.payload, config);
     }
-
-    yield console.log('SET-PRODUCTS-WORKER', state);
+    yield console.log('SET-PRODUCTS-RESOLVE', state);
   } catch (err) {
     yield console.log('PUSH-PRODUCTS-REJECT:', err);
   }
@@ -59,7 +58,7 @@ function* popWorker(state) {
       yield call(server.pop, '/products/addons/pop', {name: state.addonId}, config);
     }
 
-    yield console.log('POP-PRODUCTS-WORKER', state);
+    yield console.log('POP-PRODUCTS-RESOLVE', state);
   } catch (err) {
     yield console.log('POP-PRODUCTS-REJECT', err);
   }

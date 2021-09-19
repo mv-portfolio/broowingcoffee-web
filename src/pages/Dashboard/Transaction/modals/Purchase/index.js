@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 import {View, Text, Separator, TextInput, Picker, Button} from 'components';
-import useHook, {products, purchasingProduct, purchasingProductInitState} from 'hooks';
+import useHook, {purchasingProduct, purchasingProductInitState} from 'hooks';
 import Checklist from 'components/Checklist';
 import {arrayFind, isOnlyNumber} from 'utils/checker';
 import Formatter from 'utils/Formatter';
@@ -139,7 +139,7 @@ export default function Purchase({
     }
   };
 
-  useEffect(changeListener, [state]);
+  useEffect(changeListener, [type, addons, discount, tempType, state]);
 
   return (
     <View style={styles.mainPane}>
