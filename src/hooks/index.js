@@ -19,6 +19,8 @@ import {
   productsInitState,
   item,
   itemInitState,
+  secondaryDialog,
+  secondaryDialogInitState,
 } from './reducers';
 
 export {
@@ -41,6 +43,8 @@ export {
   productsInitState,
   item,
   itemInitState,
+  secondaryDialog,
+  secondaryDialogInitState,
 };
 
 export default function useHook(init, reducer) {

@@ -1,6 +1,6 @@
 import {Button, Dialog, Icon, Separator, Text, View, SearchField} from 'components';
 import {accentColor, accentColor2} from 'constants/styles';
-import {PrimaryDialog} from 'context';
+import {PrimaryDialog, SecondaryDialog} from 'context';
 import {useContext, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {ASC_NAME} from 'utils/helper';
@@ -11,8 +11,13 @@ import ProductAddons from './modals/Addons';
 import {POP_PRODUCT, PUSH_PRODUCT, SET_INDEX_PRODUCTS} from 'modules/actions';
 import Formatter from 'utils/Formatter';
 import useHook, {productsInitState, products as productsReducer} from 'hooks';
+import Item from './modals/Item';
 
-function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch}) {
+function Transaction({
+  products: reduxProducts = {main: [], addons: []},
+  inventory: {items: inventoryitems},
+  dispatch,
+}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
 
@@ -143,6 +148,8 @@ function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch
     typeProduct,
     productInfo,
     onAdd,
+    onAddConsumables,
+    onDeleteConsumables,
     onUpdate,
     onDelete,
   }) => {
@@ -151,7 +158,10 @@ function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch
         <ProductMain
           type={type}
           productInfo={productInfo}
+          inventory={inventoryitems}
           onAdd={onAdd}
+          onAddConsumables={onAddConsumables}
+          onDeleteConsumables={onDeleteConsumables}
           onUpdate={onUpdate}
           onDelete={onDelete}
           onCancel={onHidePrimaryDialog}
@@ -194,7 +204,7 @@ function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
         <View style={styles.headerPane}>
-          <Text style={styles.label}>Product</Text>
+          <Text style={styles.label}>Main</Text>
           <View style={styles.actionPane}>
             <SearchField
               value={state.main}
@@ -241,9 +251,10 @@ function Transaction({products: reduxProducts = {main: [], addons: []}, dispatch
   );
 }
 
-const stateProps = ({user, products}) => ({
+const stateProps = ({user, products, inventory}) => ({
   user,
   products,
+  inventory,
 });
 
 const dispatchProps = dispatch => ({

@@ -23,6 +23,22 @@
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }
 
+.bodyPane .inventoryPane {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inventoryPane .subtitle {
+  font-family: 'Standard-Font2';
+  font-size: 1.75vh;
+}
+
+.inventoryPane .buttonAdd {
+  width: 4vh;
+  height: 4vh;
+}
+
 .mainPane .bottomPane {
   flex-direction: row;
 }

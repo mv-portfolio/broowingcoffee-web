@@ -1,10 +1,17 @@
-import {isTextChange} from 'utils/checker';
+import {arrayFilter, arrayFind, isArray, isTextChange} from 'utils/checker';
 
-export const productMainInitState = ({name, based, hot_price, cold_price}) => ({
+export const productMainInitState = ({
+  name,
+  based,
+  hot_price,
+  cold_price,
+  consumables,
+}) => ({
   name: name ? `${name}` : '',
   based: based ? `${based}` : '',
   hot_price: hot_price ? `${hot_price}` : '',
   cold_price: cold_price ? `${cold_price}` : '',
+  consumables: [...consumables],
 });
 
 export default function productMain(state = productMainInitState({}), action) {
@@ -15,6 +22,41 @@ export default function productMain(state = productMainInitState({}), action) {
         based: isTextChange(action.based, state.based),
         hot_price: isTextChange(action.hot_price, state.hot_price),
         cold_price: isTextChange(action.cold_price, state.cold_price),
+        consumables: isArray(action.consumables) ? action.consumables : state.consumables,
+      };
+
+    case 'push-consumable':
+      const isExist = arrayFind(
+        state.consumables,
+        consumable => consumable._id_item.name === action.consumable._id_item.name,
+      );
+      if (isExist) {
+        const newConsumables = state.consumables.map(consumable => {
+          if (consumable._id_item.name === action.consumable._id_item.name) {
+            return action.consumable;
+          }
+          return consumable;
+        });
+
+        return {
+          ...state,
+          consumables: newConsumables,
+        };
+      }
+
+      return {
+        ...state,
+        consumables: [...state.consumables, action.consumable],
+      };
+
+    case 'pop-consumable':
+      const newConsumables = state.consumables.filter(
+        consumble => consumble._id_item.name !== action.consumableName,
+      );
+
+      return {
+        ...state,
+        consumables: newConsumables,
       };
 
     default:

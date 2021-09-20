@@ -9,6 +9,8 @@ import productMain, {productMainInitState} from './productMain';
 import productAddons, {productAddonsInitState} from './productAddons';
 import products, {productsInitState} from './products';
 import item, {itemInitState} from './item';
+import secondaryDialog, {secondaryDialogInitState} from './secondaryDialog';
+
 export {
   assessAcc,
   assessInfo,
@@ -29,4 +31,6 @@ export {
   productsInitState,
   item,
   itemInitState,
+  secondaryDialog,
+  secondaryDialogInitState,
 };

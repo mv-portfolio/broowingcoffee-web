@@ -1,0 +1,24 @@
+.mainPane {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1vh;
+  border-radius: 1vh;
+}
+
+.mainPane .leftPane {
+  flex-direction: row;
+  align-items: center;
+}
+.leftPane .name {
+  font-size: 1.75vh;
+}
+.leftPane .consume {
+  font-size: 1.75vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
+}
+
+.mainPane .buttonDelete {
+  width: 1vh;
+}

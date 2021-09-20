@@ -26,6 +26,15 @@
 .mainPane .contentPane {
 }
 
+.contentPane .consumablesPane {
+
+}
+
+.consumablesPane .consumableTitle {
+  font-size: 1.5vh;
+  font-weight: bold;
+}
+
 .contentPane .propertyPane {
   flex-direction: row;
   align-items: center;

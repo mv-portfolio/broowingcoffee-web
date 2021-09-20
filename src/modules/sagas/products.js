@@ -16,6 +16,7 @@ function* peekWorker() {
         addons: addons.res,
       }),
     );
+    yield console.log('PEEK-PRODUCTS-RESOLVE', main);
   } catch (err) {
     yield console.log('PEEK-PRODUCTS-REJECT:', err);
   }

@@ -2,17 +2,22 @@ import {lazy, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Switch} from 'react-router-dom';
 import {ConnectedRouter} from 'connected-react-router';
-import {RouteAuth, RoutePrivate, Toast} from 'components';
+import {RouteAuth, RoutePrivate, Toast, PrimaryDialog, SecondaryDialog} from 'components';
 import {APP_AUTH} from 'modules/actions';
 import {pages} from './pages';
-import {PrimaryDialog as PrimaryDialogContext, Toast as ToastContext} from 'context';
+import {
+  PrimaryDialog as PrimaryDialogContext,
+  SecondaryDialog as SecondaryDialogContext,
+  Toast as ToastContext,
+} from 'context';
 import useHook, {
   primaryDialog as primaryDialogReducer,
   primaryDialogInitState,
+  secondaryDialog as secondaryDialogReducer,
+  secondaryDialogInitState,
   toast as toastReducer,
   toastInitState,
 } from 'hooks';
-import PrimaryDialog from 'components/PrimaryDialog';
 import {useRef} from 'react';
 
 const DashboardNavigator = lazy(() => import('navigator/Dashboard'));
@@ -23,6 +28,10 @@ function RootNavigator({auth, history, error, dispatch}) {
   const [primaryDialog, setPrimaryDialog] = useHook(
     primaryDialogInitState,
     primaryDialogReducer,
+  );
+  const [secondaryDialog, setSecondaryDialog] = useHook(
+    secondaryDialogInitState,
+    secondaryDialogReducer,
   );
   const [toast, setToast] = useHook(toastInitState, toastReducer);
 
@@ -45,6 +54,20 @@ function RootNavigator({auth, history, error, dispatch}) {
     clearInterval(toastInterval.current);
   };
 
+  const onShowSecondaryDialog = component => {
+    setSecondaryDialog({
+      type: 'set',
+      visible: true,
+      children: component,
+    });
+  };
+  const onHideSecondaryDialog = () => {
+    setSecondaryDialog({
+      type: 'set',
+      visible: false,
+    });
+  };
+
   const onShowPrimaryDialog = component => {
     setPrimaryDialog({
       type: 'set',
@@ -64,28 +87,32 @@ function RootNavigator({auth, history, error, dispatch}) {
   }, [dispatch]);
 
   return (
-    <PrimaryDialogContext.Provider
-      value={{onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog}}>
-      <ToastContext.Provider value={{onShow: onShowToast, onHide: onHideToast}}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <RouteAuth
-              path='/'
-              auth={auth}
-              error={error}
-              exact={auth.authenticated ? false : true}
-              rederAuthComponent={DashboardNavigator}
-              renderNonAuthComponent={SignIn}
-            />
-            {pages.map((page, index) => (
-              <RoutePrivate key={index} auth={auth} error={error} {...page} />
-            ))}
-          </Switch>
-          <PrimaryDialog {...primaryDialog} />
-          <Toast {...toast} />
-        </ConnectedRouter>
-      </ToastContext.Provider>
-    </PrimaryDialogContext.Provider>
+    <SecondaryDialogContext.Provider
+      value={{onShow: onShowSecondaryDialog, onHide: onHideSecondaryDialog}}>
+      <PrimaryDialogContext.Provider
+        value={{onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog}}>
+        <ToastContext.Provider value={{onShow: onShowToast, onHide: onHideToast}}>
+          <ConnectedRouter history={history}>
+            <Switch>
+              <RouteAuth
+                path='/'
+                auth={auth}
+                error={error}
+                exact={auth.authenticated ? false : true}
+                rederAuthComponent={DashboardNavigator}
+                renderNonAuthComponent={SignIn}
+              />
+              {pages.map((page, index) => (
+                <RoutePrivate key={index} auth={auth} error={error} {...page} />
+              ))}
+            </Switch>
+            <SecondaryDialog {...secondaryDialog} />
+            <PrimaryDialog {...primaryDialog} />
+            <Toast {...toast} />
+          </ConnectedRouter>
+        </ToastContext.Provider>
+      </PrimaryDialogContext.Provider>
+    </SecondaryDialogContext.Provider>
   );
 }
 

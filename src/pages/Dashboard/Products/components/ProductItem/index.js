@@ -1,5 +1,6 @@
 import {Button, Icon, Separator, Text, View} from 'components';
 import {accentColor} from 'constants/styles';
+import {isArray} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import ObjectCleaner from 'utils/ObjectCleaner';
 
@@ -24,6 +25,13 @@ export default function ProductItem({product, isOpen, onPress, onEdit}) {
     return value;
   };
 
+  const getUnit = value => {
+    if (value > 1) {
+      return 'pcs';
+    }
+    return 'pc';
+  };
+
   return (
     <View style={styles.mainPane} role='button' onClick={onPress}>
       <View style={styles.headerPane}>
@@ -45,11 +53,35 @@ export default function ProductItem({product, isOpen, onPress, onEdit}) {
           <View style={styles.content}>
             {contents.map(({property, value}, index) => (
               <View key={index} style={styles.contentPane}>
-                <View style={styles.propertyPane}>
-                  <Text style={styles.propertyName}>{property}</Text>
-                  <Text style={styles.propertyValue}>{onFormat(property, value)}</Text>
-                </View>
-                {index + 1 !== contents.length ? <Separator vertical={0.25} /> : null}
+                {isArray(value) ? (
+                  <>
+                    <Separator vertical={1} />
+                    <View style={styles.consumablesPane}>
+                      <Text style={styles.consumableTitle}>
+                        {Formatter.toName(property)}
+                      </Text>
+                      <Separator vertical={0.25} />
+                      {value.map(({_id_item, consumed}, index) => (
+                        <View style={styles.propertyPane} key={index}>
+                          <Text style={styles.propertyName}>{_id_item.name}</Text>
+                          <Text style={styles.propertyValue}>
+                            {consumed} {getUnit(consumed)}
+                          </Text>
+                        </View>
+                      ))}
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <View style={styles.propertyPane}>
+                      <Text style={styles.propertyName}>{property}</Text>
+                      <Text style={styles.propertyValue}>
+                        {onFormat(property, value)}
+                      </Text>
+                    </View>
+                    {index + 1 !== contents.length ? <Separator vertical={0.25} /> : null}
+                  </>
+                )}
               </View>
             ))}
           </View>
