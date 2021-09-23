@@ -21,20 +21,23 @@ export default function Details({
     let temp_products = {
       date_created: new Date().getTime(),
       discount: parseInt(totalDiscount || 0) || 0,
-      receiptTo: reciptient,
+      receiptTo: reciptient || null,
       products: [],
     };
 
     temp_products.products = products.map(item => {
       let addons_price = 0;
+      let addons = [];
       item.addons.forEach(addon => {
         addons_price += addon.price;
+        addons.push(addon._id);
       });
       return {
         _id_product: item._id,
         type: item.type,
         discount: parseInt(item.discount),
         price: addons_price + item.price,
+        addons,
       };
     });
 

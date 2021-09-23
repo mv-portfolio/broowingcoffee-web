@@ -109,7 +109,10 @@ const arrayUpdate = (data = [], filter, payload = {}) => {
       }
     });
     if (keyValue === filterValue) {
-      return payload;
+      return {
+        ...item,
+        ...payload
+      };
     }
     return item;
   });

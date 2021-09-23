@@ -72,6 +72,7 @@ function Transaction({purchasingProducts, products, dispatch}) {
       }
     }
     if (actionType === 'on-click-purchased') {
+      console.log(value);
       dispatch(PUSH_TRANSACTIONS({transaction: {...value}}));
       onHidePrimaryDialog();
     }
