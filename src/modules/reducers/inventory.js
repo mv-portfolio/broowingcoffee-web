@@ -1,5 +1,6 @@
 import {ACTION_TYPE} from 'constants/strings';
 import {arrayFilter, arrayUpdate} from 'utils/checker';
+import {arrayFind} from 'utils/helper';
 
 export const itemsInitState = {
   items: [],
@@ -11,13 +12,11 @@ export default function inventory(state = itemsInitState, action) {
       return state;
 
     case ACTION_TYPE('INVENTORY').PUSH:
+      const item = arrayFind(state.items, {name: action.item.name});
+      if (item) return state;
+
       return {
         items: [...state.items, action.item],
-      };
-
-    case ACTION_TYPE('INVENTORY').POP:
-      return {
-        items: arrayFilter(state.items, {name: action.itemId}),
       };
 
     case ACTION_TYPE('INVENTORY').SET:
@@ -28,6 +27,11 @@ export default function inventory(state = itemsInitState, action) {
     case ACTION_TYPE('INVENTORY').SET_INDEX:
       return {
         items: arrayUpdate(state.items, {name: action.itemId}, action.payload),
+      };
+
+    case ACTION_TYPE('INVENTORY').POP:
+      return {
+        items: arrayFilter(state.items, {name: action.itemId}),
       };
 
     default:

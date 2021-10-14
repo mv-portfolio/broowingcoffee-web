@@ -1,5 +1,5 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {isTextBoolean, isTextChange} from 'utils/checker';
+import {isTypeof} from 'utils/checker';
 
 const initState = {
   authenticated: undefined,
@@ -11,12 +11,14 @@ export default function auth(state = initState, action) {
   switch (action.type) {
     case ACTION_TYPE('AUTH').SET:
       return {
-        authenticated: isTextBoolean(action.authenticated, state.authenticated),
-        primary_auth_token: isTextChange(
+        authenticated: isTypeof('boolean', action.authenticated, state.authenticated),
+        primary_auth_token: isTypeof(
+          'string',
           action.primary_auth_token,
           state.primary_auth_token,
         ),
-        secondary_auth_token: isTextChange(
+        secondary_auth_token: isTypeof(
+          'string',
           action.secondary_auth_token,
           state.secondary_auth_token,
         ),

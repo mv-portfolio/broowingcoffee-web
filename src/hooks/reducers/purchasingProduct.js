@@ -1,4 +1,4 @@
-import {isArray, isTextChange} from 'utils/checker';
+import {isTypeof} from 'utils/checker';
 
 export const purchasingProductInitState = ({discount, tempType, price, addons = []}) => ({
   discount: discount ? `${discount}` : '',
@@ -14,10 +14,10 @@ export default function purchasingProduct(
   switch (action.type) {
     case 'set':
       return {
-        discount: isTextChange(action.discount, state.discount),
-        tempType: isTextChange(action.tempType, state.tempType),
-        price: isTextChange(action.price, state.price),
-        addons: isArray(action.addons) ? action.addons : state.addons,
+        discount: isTypeof('string', action.discount, state.discount),
+        tempType: isTypeof('string', action.tempType, state.tempType),
+        price: isTypeof('string', action.price, state.price),
+        addons: isTypeof('array', action.addons, state.addons),
       };
 
     case 'clear':

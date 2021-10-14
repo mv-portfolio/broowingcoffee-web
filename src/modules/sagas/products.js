@@ -1,5 +1,10 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {SET_PRODUCTS} from 'modules/actions';
+import {
+  CLEAR_PURCHASING_PRODUCTS,
+  POP_PURCHASING_PRODUCT,
+  SET_ERROR,
+  SET_PRODUCTS,
+} from 'modules/actions';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
 import {call, put, takeEvery} from 'redux-saga/effects';
@@ -16,9 +21,9 @@ function* peekWorker() {
         addons: addons.res,
       }),
     );
-    yield console.log('PEEK-PRODUCTS-RESOLVE', main);
+    yield console.log('PEEK-PRODUCTS-RESOLVE');
   } catch (err) {
-    yield console.log('PEEK-PRODUCTS-REJECT:', err);
+    yield console.log('PEEK-PRODUCTS-REJECT:');
   }
 }
 function* pushWorker(state) {
@@ -29,10 +34,11 @@ function* pushWorker(state) {
     } else {
       yield call(server.push, '/products/addons/push', state.addonProduct, config);
     }
-
-    yield console.log('PUSH-PRODUCTS-RESOLVE', state);
+    yield peekWorker();
+    yield console.log('PUSH-PRODUCTS-RESOLVE');
   } catch (err) {
-    yield console.log('PUSH-PRODUCTS-REJECT:', err);
+    yield console.log('PUSH-PRODUCTS-REJECT');
+    yield put(SET_ERROR({product: err}));
   }
 }
 
@@ -41,12 +47,13 @@ function* setWorker(state) {
     const config = yield serverConfig();
     if (state.mainId) {
       yield call(server.set, '/products/main/set', state.payload, config);
-    } else {
-      yield call(server.set, '/products/addons/set', state.payload, config);
+      return;
     }
-    yield console.log('SET-PRODUCTS-RESOLVE', state);
+    yield call(server.set, '/products/addons/set', state.payload, config);
+    yield put(CLEAR_PURCHASING_PRODUCTS());
+    yield console.log('SET-PRODUCTS-RESOLVE');
   } catch (err) {
-    yield console.log('PUSH-PRODUCTS-REJECT:', err);
+    yield console.log('PUSH-PRODUCTS-REJECT:');
   }
 }
 
@@ -55,13 +62,12 @@ function* popWorker(state) {
     const config = yield serverConfig();
     if (state.mainId) {
       yield call(server.pop, '/products/main/pop', {name: state.mainId}, config);
-    } else {
-      yield call(server.pop, '/products/addons/pop', {name: state.addonId}, config);
     }
-
-    yield console.log('POP-PRODUCTS-RESOLVE', state);
+    yield call(server.pop, '/products/addons/pop', {name: state.addonId}, config);
+    yield put(CLEAR_PURCHASING_PRODUCTS());
+    yield console.log('POP-PRODUCTS-RESOLVE');
   } catch (err) {
-    yield console.log('POP-PRODUCTS-REJECT', err);
+    yield console.log('POP-PRODUCTS-REJECT');
   }
 }
 

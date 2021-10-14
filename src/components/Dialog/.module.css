@@ -1,8 +1,8 @@
 .mainPane {
   width: 40vh;
-  height: 22.5vh;
+  min-height:20vh;
   border-radius: 1vh;
-  padding: 0 2vh 0 2vh;
+  padding: 3vh 2vh 0 2vh;
   background-color: var(--BACKGROUND-COLOR);
   z-index: 1;
 }
@@ -29,7 +29,7 @@
   flex: 0.5;
   flex-direction: row;
   justify-content: flex-end;
-  padding: 1vh 0 2.5vh 0;
+  padding: 2vh 0 2.5vh 0;
 }
 
 .bodyPane .button {

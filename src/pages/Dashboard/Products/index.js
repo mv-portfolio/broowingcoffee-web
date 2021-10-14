@@ -1,25 +1,32 @@
+import {useContext, useEffect, useState} from 'react';
 import {Button, Dialog, Icon, Separator, Text, View, SearchField} from 'components';
 import {accentColor, accentColor2} from 'constants/styles';
-import {PrimaryDialog, SecondaryDialog} from 'context';
-import {useContext, useEffect, useState} from 'react';
+import {PrimaryDialog, Toast} from 'context';
+import useHook, {productsInitState, products as productsReducer} from 'hooks';
 import {connect} from 'react-redux';
 import {ASC_NAME} from 'utils/helper';
 import styles from './.module.css';
 import ProductList from './components/ProductList';
 import ProductMain from './modals/Main';
 import ProductAddons from './modals/Addons';
-import {POP_PRODUCT, PUSH_PRODUCT, SET_INDEX_PRODUCTS} from 'modules/actions';
+import {
+  POP_PRODUCT,
+  CLEAR_ERROR,
+  PUSH_PRODUCT,
+  SET_INDEX_PRODUCTS,
+} from 'modules/actions';
 import Formatter from 'utils/Formatter';
-import useHook, {productsInitState, products as productsReducer} from 'hooks';
-import Item from './modals/Item';
 
 function Transaction({
   products: reduxProducts = {main: [], addons: []},
   inventory: {items: inventoryitems},
+  purchasingProducts,
   dispatch,
+  error,
 }) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
+  const {onShow: onShowToast} = useContext(Toast);
 
   const [products, setProducts] = useState(reduxProducts || {main: [], addons: []});
   const [state, setState] = useHook(productsInitState, productsReducer);
@@ -78,9 +85,13 @@ function Transaction({
       return;
     }
     if (actionType === 'on-click-delete-product-main') {
+      let warnMessage = `you want to delete ${Formatter.toName(value)}?`;
+      if (purchasingProducts.length !== 0) {
+        warnMessage = `Invoice is not empty, once you performed this action, all current purchasing product(s) will clear, do you want to proceed?`;
+      }
       onShowConditionalDeleteDialog({
         title: 'Product',
-        content: `you want to delete ${Formatter.toName(value)}?`,
+        content: warnMessage,
         value: {type: 'main', filter: value},
       });
       return;
@@ -94,9 +105,13 @@ function Transaction({
       return;
     }
     if (actionType === 'on-click-delete-product-addons') {
+      let warnMessage = `you want to delete ${Formatter.toName(value)}?`;
+      if (purchasingProducts.length !== 0) {
+        warnMessage = `Invoice is not empty, once you performed this action, all current purchasing product(s) will clear, do you want to proceed?`;
+      }
       onShowConditionalDeleteDialog({
         title: 'Addons',
-        content: `you want to delete ${Formatter.toName(value)}?`,
+        content: warnMessage,
         value: {type: 'add-ons', filter: value},
       });
       return;
@@ -126,7 +141,6 @@ function Transaction({
       return;
     }
   };
-
   const onSearch = (type, value) => {
     let filtered = [];
     let currentProducts = type === 'main' ? reduxProducts.main : reduxProducts.addons;
@@ -188,9 +202,9 @@ function Transaction({
         content={content}
         positiveText='Delete'
         positiveButtonStyle={{backgroundColor: accentColor2}}
-        onPositive={() => onClick('on-click-delete-dialog-positive', value)}
+        onClickPositive={() => onClick('on-click-delete-dialog-positive', value)}
         negativeText='No'
-        onNegative={onHidePrimaryDialog}
+        onClickNegative={onHidePrimaryDialog}
       />,
     );
   };
@@ -198,7 +212,15 @@ function Transaction({
   const initListener = () => {
     setProducts(reduxProducts);
   };
+  const errorListener = () => {
+    if (error.product) {
+      onShowToast(error.product, undefined, () => {
+        dispatch(CLEAR_ERROR());
+      });
+    }
+  };
   useEffect(initListener, [reduxProducts]);
+  useEffect(errorListener, [error]);
 
   return (
     <View style={styles.mainPane}>
@@ -251,10 +273,12 @@ function Transaction({
   );
 }
 
-const stateProps = ({user, products, inventory}) => ({
+const stateProps = ({user, products, inventory, purchasingProducts, error}) => ({
   user,
   products,
   inventory,
+  purchasingProducts,
+  error,
 });
 
 const dispatchProps = dispatch => ({

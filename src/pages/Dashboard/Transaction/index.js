@@ -1,12 +1,9 @@
-import {useContext} from 'react';
+import {useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {View, Text, Separator, Button} from 'components';
 import {PrimaryDialog, Toast} from 'context';
-import ProductList from './components/ProductList';
-import PurchasingListItem from './components/PurchasingListItem';
-import Purchase from './modals/Purchase';
-import styles from './.module.css';
 import {
+  CLEAR_ERROR,
   CLEAR_PURCHASING_PRODUCTS,
   POP_PURCHASING_PRODUCT,
   PUSH_PURCHASING_PRODUCT,
@@ -14,11 +11,15 @@ import {
   SET_INDEX_PURCHASING_PRODUCT,
 } from 'modules/actions';
 import Details from './modals/Details';
+import ProductList from './components/ProductList';
+import PurchasingListItem from './components/PurchasingListItem';
+import Purchase from './modals/Purchase';
+import styles from './.module.css';
 
-function Transaction({purchasingProducts, products, dispatch}) {
+function Transaction({purchasingProducts, products, error, dispatch}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
-  const {onHide: onHideToast} = useContext(Toast);
+  const {onShow: onShowToast, onHide: onHideToast} = useContext(Toast);
 
   const onClick = (actionType, value) => {
     //INIT DIALOG
@@ -77,7 +78,6 @@ function Transaction({purchasingProducts, products, dispatch}) {
       onHidePrimaryDialog();
     }
   };
-
   const showDialog = ({type, productInfo, onAdd, onUpdate, onDelete}) => {
     onShowPrimaryDialog(
       <Purchase
@@ -94,6 +94,15 @@ function Transaction({purchasingProducts, products, dispatch}) {
       />,
     );
   };
+
+  const errorListener = () => {
+    if (error.transaction) {
+      onShowToast(error.transaction, undefined, () => {
+        dispatch(CLEAR_ERROR());
+      });
+    }
+  };
+  useEffect(errorListener, [error]);
 
   return (
     <View style={styles.mainPane}>
@@ -148,10 +157,11 @@ function Transaction({purchasingProducts, products, dispatch}) {
   );
 }
 
-const stateProps = ({user, products, purchasingProducts}) => ({
+const stateProps = ({user, products, purchasingProducts, error}) => ({
   user,
   products,
   purchasingProducts,
+  error,
 });
 
 const dispatchProps = dispatch => ({

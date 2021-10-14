@@ -1,4 +1,4 @@
-import {isTextChange} from 'utils/checker';
+import {isTypeof} from 'utils/checker';
 
 export const productAddonsInitState = ({name, price}) => ({
   name: name ? `${name}` : '',
@@ -9,8 +9,8 @@ export default function productAddons(state = productAddonsInitState({}), action
   switch (action.type) {
     case 'set':
       return {
-        name: isTextChange(action.name, state.name),
-        price: isTextChange(action.price, state.price),
+        name: isTypeof('string', action.name, state.name),
+        price: isTypeof('string', action.price, state.price),
       };
 
     default:

@@ -1,5 +1,13 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {arrayFilter, arrayUpdate, isArray, isObject, isString} from 'utils/checker';
+import {
+  arrayFilter,
+  arrayUpdate,
+  isArray,
+  isObject,
+  isString,
+  isTypeof,
+} from 'utils/checker';
+import {arrayFind} from 'utils/helper';
 
 export const productsInitState = {
   main: [],
@@ -10,15 +18,26 @@ export default function products(state = productsInitState, action) {
   switch (action.type) {
     case ACTION_TYPE('PRODUCTS').SET:
       return {
-        main: isArray(action.main) ? action.main : state.main,
-        addons: isArray(action.addons) ? action.addons : state.addons,
+        main: isTypeof('array', action.main, state.main),
+        addons: isTypeof('array', action.addons, state.addons),
       };
 
     case ACTION_TYPE('PRODUCTS').PUSH:
+      if (action.mainProduct) {
+        const mainProduct = arrayFind(state.main, {name: action.mainProduct.name});
+        if (mainProduct) return state;
+        return {
+          ...state,
+          main: isObject(action.mainProduct)
+            ? [...state.main, action.mainProduct]
+            : state.main,
+        };
+      }
+
+      const addon = arrayFind(state.addons, {name: action.addonProduct.name});
+      if (addon) return state;
       return {
-        main: isObject(action.mainProduct)
-          ? [...state.main, action.mainProduct]
-          : state.main,
+        ...state,
         addons: isObject(action.addonProduct)
           ? [...state.addons, action.addonProduct]
           : state.addons,

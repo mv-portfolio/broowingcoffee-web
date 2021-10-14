@@ -39,7 +39,7 @@ function DashBoardNavigator({dispatch, user, error}) {
         <Dialog
           title='Session Expired'
           content='We need to redirect you from login'
-          onPositive={() => {
+          onClickPositive={() => {
             dispatch(CLEAR_ERROR());
             window.location.reload();
           }}

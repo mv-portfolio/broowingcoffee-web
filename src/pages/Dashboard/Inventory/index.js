@@ -2,15 +2,22 @@ import {useContext, useEffect, useState} from 'react';
 import {View, Button, Icon, SearchField} from 'components';
 import {accentColor} from 'constants/styles';
 import {connect} from 'react-redux';
-import {PrimaryDialog} from 'context';
+import {PrimaryDialog, Toast} from 'context';
 import ItemList from './components/ItemList';
 import styles from './.module.css';
 import Item from './modals/Item';
-import {POP_INVENTORY, PUSH_INVENTORY, SET_INDEX_INVENTORY} from 'modules/actions';
+import {
+  CLEAR_ERROR,
+  POP_INVENTORY,
+  POP_INVENTORY_REQ,
+  PUSH_INVENTORY,
+  SET_INDEX_INVENTORY,
+} from 'modules/actions';
 
-function Inventory({inventory: reduxInventory, dispatch}) {
+function Inventory({inventory: reduxInventory, error, dispatch}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
+  const {onShow: onShowToast} = useContext(Toast);
 
   const [inventory, setInventory] = useState(reduxInventory.items || []);
   const [search, setSearch] = useState('');
@@ -63,7 +70,7 @@ function Inventory({inventory: reduxInventory, dispatch}) {
       return;
     }
     if (actionType === 'on-click-delete-item') {
-      dispatch(POP_INVENTORY({itemId: value}));
+      dispatch(POP_INVENTORY_REQ({itemId: value}));
     }
   };
   const onChange = (actionType, value) => {
@@ -72,11 +79,19 @@ function Inventory({inventory: reduxInventory, dispatch}) {
       onSearch(value);
     }
   };
-  
+
   const initListener = () => {
     setInventory(reduxInventory.items);
   };
+  const errorListener = () => {
+    if (error.inventory) {
+      onShowToast(error.inventory, undefined, () => {
+        dispatch(CLEAR_ERROR());
+      });
+    }
+  };
   useEffect(initListener, [reduxInventory]);
+  useEffect(errorListener, [error]);
 
   return (
     <View style={styles.mainPane}>
@@ -99,8 +114,9 @@ function Inventory({inventory: reduxInventory, dispatch}) {
   );
 }
 
-const stateProps = ({inventory}) => ({
+const stateProps = ({inventory, error}) => ({
   inventory,
+  error,
 });
 
 const dispatchProps = dispatch => ({

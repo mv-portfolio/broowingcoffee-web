@@ -1,4 +1,4 @@
-import {arrayFilter, arrayFind, isArray, isTextChange} from 'utils/checker';
+import {arrayFind, isTypeof} from 'utils/checker';
 
 export const productMainInitState = ({
   name,
@@ -18,11 +18,11 @@ export default function productMain(state = productMainInitState({}), action) {
   switch (action.type) {
     case 'set':
       return {
-        name: isTextChange(action.name, state.name),
-        based: isTextChange(action.based, state.based),
-        hot_price: isTextChange(action.hot_price, state.hot_price),
-        cold_price: isTextChange(action.cold_price, state.cold_price),
-        consumables: isArray(action.consumables) ? action.consumables : state.consumables,
+        name: isTypeof('string', action.name, state.name),
+        based: isTypeof('string', action.based, state.based),
+        hot_price: isTypeof('string', action.hot_price, state.hot_price),
+        cold_price: isTypeof('string', action.cold_price, state.cold_price),
+        consumables: isTypeof('array', action.consumables, state.consumables),
       };
 
     case 'push-consumable':

@@ -1,4 +1,4 @@
-import {isTextChange} from 'utils/checker';
+import {isTypeof} from 'utils/checker';
 
 export const productsInitState = {
   main: '',
@@ -9,8 +9,8 @@ export default function Products(state = productsInitState, action) {
   switch (action.type) {
     case 'set':
       return {
-        main: isTextChange(action.main, state.main),
-        addon: isTextChange(action.addon, state.addon),
+        main: isTypeof('string', action.main, state.main),
+        addon: isTypeof('string', action.addon, state.addon),
       };
 
     default:

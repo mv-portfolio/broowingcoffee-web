@@ -8,9 +8,9 @@ export default function Dialog({
   content,
   positiveButtonStyle,
   positiveText,
-  onPositive,
+  onClickPositive,
   negativeText,
-  onNegative,
+  onClickNegative,
 }) {
   return (
     <View style={styles.mainPane}>
@@ -24,7 +24,7 @@ export default function Dialog({
           titleStyle={styles.buttonText}
           defaultStyle={positiveButtonStyle}
           skin={styles.button}
-          onPress={onPositive}
+          onPress={onClickPositive}
         />
         {type === 'conditional' && (
           <>
@@ -33,7 +33,7 @@ export default function Dialog({
               title={negativeText || 'Cancel'}
               titleStyle={styles.buttonText}
               skin={styles.button}
-              onPress={onNegative}
+              onPress={onClickNegative}
             />
           </>
         )}

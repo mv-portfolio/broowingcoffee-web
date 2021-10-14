@@ -66,6 +66,9 @@ const SET_ERROR = ({
   request,
   forgotPassword,
   assessment,
+  transaction,
+  product,
+  inventory,
 }) => ({
   type: ACTION_TYPE('ERROR').SET,
   page,
@@ -75,6 +78,9 @@ const SET_ERROR = ({
   request,
   forgotPassword,
   assessment,
+  transaction,
+  product,
+  inventory,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION_TYPE('ERROR').CLEAR,
@@ -140,10 +146,6 @@ const PUSH_INVENTORY = ({item}) => ({
   type: ACTION_TYPE('INVENTORY').PUSH,
   item,
 });
-const POP_INVENTORY = ({itemId}) => ({
-  type: ACTION_TYPE('INVENTORY').POP,
-  itemId,
-});
 const SET_INVENTORY = ({items}) => ({
   type: ACTION_TYPE('INVENTORY').SET,
   items,
@@ -152,6 +154,14 @@ const SET_INDEX_INVENTORY = ({itemId, payload}) => ({
   type: ACTION_TYPE('INVENTORY').SET_INDEX,
   itemId,
   payload,
+});
+const POP_INVENTORY = ({itemId}) => ({
+  type: ACTION_TYPE('INVENTORY').POP,
+  itemId,
+});
+const POP_INVENTORY_REQ = ({itemId}) => ({
+  type: ACTION_TYPE('INVENTORY-REQ').POP,
+  itemId,
 });
 
 //purchasing products
@@ -224,6 +234,7 @@ export {
   SET_INVENTORY,
   SET_INDEX_INVENTORY,
   POP_INVENTORY,
+  POP_INVENTORY_REQ,
   //purchasing-products
   SET_PURCHASING_PRODUCTS,
   SET_INDEX_PURCHASING_PRODUCT,

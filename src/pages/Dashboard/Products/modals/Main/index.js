@@ -80,7 +80,6 @@ export default function Main({
     }
     if (actionType === 'on-click-add') {
       const product = onClean(state);
-      console.log('ARRANGEMENT', product);
       if (!product.isClean) {
         onShowToast('Please fill up all fields');
         return;

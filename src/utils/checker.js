@@ -1,52 +1,22 @@
 import {NAME_REGEX, NUMBER_REGEX} from 'constants/regex';
 import ObjectCleaner from './ObjectCleaner';
 
+const isTypeof = (type, value1, value2) => {
+  if (type === 'array') {
+    return Array.isArray(value1) ? value1 : value2;
+  }
+  return typeof value1 === type ? value1 : value2;
+};
+
 const isString = value => {
   return typeof value === 'string';
-};
-
-const hasLength = value => {
-  return value.length !== 0;
-};
-
-const isDefined = value => {
-  return typeof value !== 'undefined';
-};
-
-const isNumber = value => {
-  return typeof value === 'number';
 };
 
 const isOnlyNumber = value => {
   return NUMBER_REGEX.test(value);
 };
-
 const isOnlyAlphabet = value => {
   return NAME_REGEX.test(value);
-};
-
-const isBoolean = value => {
-  return typeof value === 'boolean';
-};
-
-const isTextChange = (value1, value2) => {
-  return typeof value1 === 'string' ? value1 : value2;
-};
-const isTextEncrypt = (value1, value2) => {
-  return typeof value1 === 'boolean' ? value1 : value2;
-};
-const isTextBoolean = (value1, value2) => {
-  return typeof value1 === 'boolean' ? value1 : value2;
-};
-const isTextNumber = (value1, value2) => {
-  return typeof value1 === 'number' ? value1 : value2;
-};
-
-const isTextMatched = (value1, value2) => {
-  return value1 === value2;
-};
-const isComponent = (component, component2) => {
-  return typeof component === 'object' ? component : component2;
 };
 
 const isArray = value => {
@@ -111,7 +81,7 @@ const arrayUpdate = (data = [], filter, payload = {}) => {
     if (keyValue === filterValue) {
       return {
         ...item,
-        ...payload
+        ...payload,
       };
     }
     return item;
@@ -120,19 +90,10 @@ const arrayUpdate = (data = [], filter, payload = {}) => {
 };
 
 export {
+  isTypeof,
   isString,
-  hasLength,
-  isDefined,
-  isNumber,
   isOnlyNumber,
   isOnlyAlphabet,
-  isBoolean,
-  isTextChange,
-  isTextEncrypt,
-  isTextBoolean,
-  isTextMatched,
-  isTextNumber,
-  isComponent,
   isJsonString,
   isArray,
   isObject,

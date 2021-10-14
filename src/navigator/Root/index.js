@@ -1,4 +1,4 @@
-import {lazy, useEffect} from 'react';
+import {lazy, useRef, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {Switch} from 'react-router-dom';
 import {ConnectedRouter} from 'connected-react-router';
@@ -18,7 +18,6 @@ import useHook, {
   toast as toastReducer,
   toastInitState,
 } from 'hooks';
-import {useRef} from 'react';
 
 const DashboardNavigator = lazy(() => import('navigator/Dashboard'));
 const SignIn = lazy(() => import('pages/SignIn'));
@@ -35,7 +34,7 @@ function RootNavigator({auth, history, error, dispatch}) {
   );
   const [toast, setToast] = useHook(toastInitState, toastReducer);
 
-  const onShowToast = (message, visibilityTime) => {
+  const onShowToast = (message, visibilityTime, callback) => {
     clearInterval(toastInterval.current);
     setToast({
       type: 'set',
@@ -43,6 +42,7 @@ function RootNavigator({auth, history, error, dispatch}) {
       message: message,
     });
     toastInterval.current = setInterval(() => {
+      if (callback) callback();
       onHideToast();
     }, visibilityTime || 2000);
   };

@@ -1,4 +1,4 @@
-import {isTextBoolean, isTextChange} from 'utils/checker';
+import {isTypeof} from 'utils/checker';
 
 export const toastInitState = {
   isVisible: false,
@@ -9,8 +9,8 @@ export default function toast(state = toastInitState, action) {
   switch (action.type) {
     case 'set':
       return {
-        isVisible: isTextBoolean(action.isVisible, state.isVisible),
-        message: isTextChange(action.message, state.message),
+        isVisible: isTypeof('boolean', action.isVisible, state.isVisible),
+        message: isTypeof('string', action.message, state.message),
       };
 
     default:
