@@ -1,5 +1,5 @@
 import {Button, Icon, Separator, Text, View} from 'components';
-import {BUILD_STATE, VERSION} from 'config/env';
+import {ENV, VERSION} from 'config/env';
 import {replace} from 'connected-react-router';
 import {connect} from 'react-redux';
 import {popLocalStorage} from 'storage';
@@ -57,7 +57,7 @@ function Profile({user, dispatch}) {
         ))}
       </View>
       <View style={styles.bottomPane}>
-        <Text style={styles.configText}>{`${BUILD_STATE} | ${VERSION}`}</Text>
+        <Text style={styles.configText}>{`${ENV} | ${VERSION}`}</Text>
       </View>
     </View>
   );
