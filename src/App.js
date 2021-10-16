@@ -15,13 +15,13 @@ export default function App() {
       if (viewHeight !== window.innerHeight) {
         metaViewport.setAttribute(
           'content',
-          `height=${viewHeight}, width=device-width, initial-scale=1.0`,
+          `height=${viewHeight}, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1`,
         );
         return;
       }
       metaViewport.setAttribute(
         'content',
-        `width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1`,
+        `height=device-height, width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1`,
       );
     };
 

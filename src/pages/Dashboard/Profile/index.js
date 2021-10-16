@@ -1,6 +1,5 @@
 import {Button, Icon, Separator, Text, View} from 'components';
 import {ENV, VERSION} from 'config/env';
-import {replace} from 'connected-react-router';
 import {connect} from 'react-redux';
 import {popLocalStorage} from 'storage';
 import Formatter from 'utils/Formatter';
@@ -22,9 +21,8 @@ function Profile({user, dispatch}) {
       return;
     }
     if (actionType === 'Sign out') {
-      popLocalStorage('sat');
-      dispatch(replace('/'));
       window.location.reload();
+      popLocalStorage('sat');
       return;
     }
   };

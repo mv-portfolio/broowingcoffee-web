@@ -1,6 +1,6 @@
 import Icon from 'react-web-vector-icons';
 import useHook, {assessAcc} from 'hooks';
-import styles from '../.module.css';
+import styles from './.module.css';
 
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
@@ -163,7 +163,7 @@ function Account({user, loading, error, dispatch}) {
           <Text style={styles.subtitle}>personal identity</Text>
         </View>
       </View>
-      <Separator vertical={2} />
+      <Separator vertical={1} />
       <View style={styles.bodyPane}>
         <TextInput
           placeholder='Username'

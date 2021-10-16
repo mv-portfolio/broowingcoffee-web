@@ -1,5 +1,5 @@
 import useHook, {assessInfo} from 'hooks';
-import styles from '../.module.css';
+import styles from './.module.css';
 
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
@@ -60,7 +60,7 @@ function Information({router: {location}, error, user, dispatch}) {
           <Text style={styles.subtitle}>personal identity</Text>
         </View>
       </View>
-      <Separator vertical={2} />
+      <Separator vertical={1} />
       <View style={styles.bodyPane}>
         <TextInput
           placeholder='Firstname'
@@ -77,8 +77,8 @@ function Information({router: {location}, error, user, dispatch}) {
         />
         <Separator vertical={1} />
         <Button
-          skin={styles.buttonSkin}
           title='Next'
+          skin={styles.buttonSkin}
           titleStyle={styles.buttonTitle}
           onPress={() => onClick('on-next')}
         />
