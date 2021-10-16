@@ -16,7 +16,7 @@ import PurchasingListItem from './components/PurchasingListItem';
 import Purchase from './modals/Purchase';
 import styles from './.module.css';
 
-function Transaction({purchasingProducts, products, error, dispatch}) {
+function Transaction({purchasingProducts, products, error, loading, dispatch}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
   const {onShow: onShowToast, onHide: onHideToast} = useContext(Toast);
@@ -73,9 +73,7 @@ function Transaction({purchasingProducts, products, error, dispatch}) {
       }
     }
     if (actionType === 'on-click-purchased') {
-      console.log(value);
       dispatch(PUSH_TRANSACTIONS({transaction: {...value}}));
-      onHidePrimaryDialog();
     }
   };
   const showDialog = ({type, productInfo, onAdd, onUpdate, onDelete}) => {
@@ -102,7 +100,13 @@ function Transaction({purchasingProducts, products, error, dispatch}) {
       });
     }
   };
+  const dialogListener = () => {
+    if (!loading.status) {
+      onHidePrimaryDialog();
+    }
+  };
   useEffect(errorListener, [error]);
+  useEffect(dialogListener, [loading]);
 
   return (
     <View style={styles.mainPane}>
@@ -156,11 +160,12 @@ function Transaction({purchasingProducts, products, error, dispatch}) {
   );
 }
 
-const stateProps = ({user, products, purchasingProducts, error}) => ({
+const stateProps = ({user, products, purchasingProducts, error, loading}) => ({
   user,
   products,
   purchasingProducts,
   error,
+  loading,
 });
 
 const dispatchProps = dispatch => ({

@@ -64,5 +64,6 @@
 
 .bottomPane .button {
   flex: 1;
+  height: 6vh;
   background-color: var(--ACCENT-COLOR);
 }

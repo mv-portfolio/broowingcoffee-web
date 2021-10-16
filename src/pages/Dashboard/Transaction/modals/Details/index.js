@@ -1,6 +1,8 @@
 import {Button, Separator, Text, View} from 'components';
 import {NUMBER_REGEX} from 'constants/regex';
+import {SET_LOADING} from 'modules/actions';
 import {useState} from 'react';
+import {connect} from 'react-redux';
 import Formatter from 'utils/Formatter';
 import {sumOfPrice} from 'utils/helper';
 import PurchasingListItem from '../../components/PurchasingListItem';
@@ -8,11 +10,13 @@ import PurchasingListItem from '../../components/PurchasingListItem';
 import styles from './.module.css';
 import TextInput from './TextInput';
 
-export default function Details({
+function Details({
   onPurchase,
   onCancel,
   purchasingProducts,
   onEditSelectedPurchasingProduct,
+  dispatch,
+  loading,
 }) {
   const [totalDiscount, setTotalDiscount] = useState('');
   const [reciptient, setRecipient] = useState('');
@@ -59,6 +63,7 @@ export default function Details({
     if (actionType === 'on-click-purchase') {
       const products = getPurchasingProduct(purchasingProducts);
       onPurchase(products);
+      dispatch(SET_LOADING({status: true}));
     }
   };
   const onChange = (actionType, value) => {
@@ -120,6 +125,7 @@ export default function Details({
         <Button
           title='Purchase'
           skin={styles.button}
+          isLoading={loading.status}
           onPress={() => onClick('on-click-purchase')}
         />
         <Separator horizontal={1} />
@@ -128,3 +134,10 @@ export default function Details({
     </View>
   );
 }
+
+const stateProps = ({loading}) => ({loading});
+
+const dispatchProps = dispatch => ({
+  dispatch: action => dispatch(action),
+});
+export default connect(stateProps, dispatchProps)(Details);
