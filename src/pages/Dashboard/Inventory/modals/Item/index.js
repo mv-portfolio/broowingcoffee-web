@@ -6,7 +6,7 @@ import {Button, Picker, Separator, Text, TextInput, View} from 'components';
 import {accentColor, accentColorDisabled} from 'constants/styles';
 import {Toast} from 'context';
 import useHook, {itemInitState, item as itemReducer} from 'hooks';
-import {isOnlyAlphabet, isOnlyNumber} from 'utils/checker';
+import {isName, isInteger} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
@@ -89,19 +89,19 @@ export default function Item({
   };
   const onChange = (actionType, value) => {
     if (actionType === 'on-change-name') {
-      if (isOnlyAlphabet(value) || value.length === 0) {
+      if (isName(value) || value.length === 0) {
         setState({type: 'set', name: value});
       }
       return;
     }
     if (actionType === 'on-change-quantity') {
-      if (isOnlyNumber(value) || value.length === 0) {
+      if (isInteger(value) || value.length === 0) {
         setState({type: 'set', quantity: value});
       }
       return;
     }
     if (actionType === 'on-change-cost') {
-      if (isOnlyNumber(value) || value.length === 0) {
+      if (isInteger(value) || value.length === 0) {
         setState({type: 'set', cost: value});
       }
       return;

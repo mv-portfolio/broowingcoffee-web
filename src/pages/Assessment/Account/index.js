@@ -22,6 +22,8 @@ import {ASSESSMENT_ACCOUNT} from 'constants/strings';
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {hp} from 'utils/helper';
+import {replace} from 'connected-react-router';
+import {peekLocalStorage} from 'storage';
 
 function Account({user, loading, error, dispatch}) {
   const [state, setState] = useHook(
@@ -40,7 +42,7 @@ function Account({user, loading, error, dispatch}) {
     }
   };
   const onPasswordMatched = (prevState, newState) => {
-    if (prevState === newState && newState.length > 5) {
+    if (prevState === newState && prevState.length) {
       return true;
     } else {
       return false;
@@ -112,49 +114,54 @@ function Account({user, loading, error, dispatch}) {
         isEncrypted: !state.currentPassword.isEncrypted,
       });
     } else if (component === 'on-done') {
-      if (state.confirmNewPassword.isMatched) {
-        const userPayload = {
-          _id: user._id,
-          firstname: user.firstname,
-          lastname: user.lastname,
-          username: state.username.text,
-          email: state.email.text,
-        };
+      if (!state.confirmNewPassword.isMatched) {
+        dispatch(SET_ERROR({assessment: 'Passwords does not Matched'}));
+        return;
+      }
+      const userPayload = {
+        _id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        username: state.username.text,
+        email: state.email.text,
+        currentPassword: state.currentPassword.text,
+        newPassword: state.newPassword.text,
+      };
+      dispatch(SET_LOADING({status: true}));
+      dispatch(SET_ERROR({assessment: ''}));
+      dispatch(SET_USER({...userPayload}));
+      dispatch(
+        SET_ASSESSMENT({
+          data: {
+            ...userPayload,
+            currentPassword: state.currentPassword.text,
+            newPassword: state.newPassword.text,
+          },
+        }),
+      );
+    }
+  };
+
+  const screenInit = () => {
+    document.title = 'Assessment | Broowing Coffee';
+    dispatch(ASSESSMENT_AUTH());
+  };
+  const errorListener = () => {
+    if (error.assessment) {
+      const {assessment} = error;
+      if (assessment.includes('First Name') || assessment.includes('Last Name')) {
+        const sat = peekLocalStorage('sat');
         dispatch(
-          SET_LOADING({
-            status: true,
-          }),
-        );
-        dispatch(
-          SET_ERROR({
-            assessment: '',
-          }),
-        );
-        dispatch(
-          SET_ASSESSMENT({
-            data: {
-              ...userPayload,
-              currentPassword: state.currentPassword.text,
-              newPassword: state.newPassword.text,
-            },
-          }),
-        );
-        dispatch(SET_USER({...userPayload}));
-      } else {
-        dispatch(
-          SET_ERROR({
-            assessment: 'Password does not matched',
+          replace({
+            pathname: '/assessment/information',
+            search: `?sat=${sat}`,
           }),
         );
       }
     }
   };
-
-  useEffect(() => {
-    document.title = 'Assessment | Broowing Coffee';
-    dispatch(ASSESSMENT_AUTH());
-  }, [dispatch]);
-
+  useEffect(screenInit, [dispatch]);
+  useEffect(errorListener, [error]);
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>

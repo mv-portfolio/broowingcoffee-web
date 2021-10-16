@@ -7,22 +7,54 @@ const isTypeof = (type, value1, value2) => {
   }
   return typeof value1 === type ? value1 : value2;
 };
+const isName = val => {
+  return /^[a-zA-Z ]*$/.test(val);
+};
+const isInteger = val => {
+  return /^[0-9]*$/.test(val);
+};
+const isDouble = val => {
+  return /^\$?\d+(,\d{3})*(\.\d*)?$/.test(val);
+};
+const isUsername = val => {
+  return /^[a-zA-Z0-9]*$/.test(val);
+};
+const isEmail = val => {
+  return /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
+    val,
+  );
+};
+const isPassword = (val, length) => {
+  return (
+    (hasUpperCaseLetter(val) &&
+      hasLowerCaseLetter(val) &&
+      hasNumber(val) &&
+      val.length >= length) ||
+    6
+  );
+};
+const hasUpperCaseLetter = val => {
+  return /(?=.*([A-Z]))/.test(val);
+};
+const hasLowerCaseLetter = val => {
+  return /(?=.*([a-z]))/.test(val);
+};
+const hasLetter = val => {
+  return /(?=.*([a-zA-Z]))/.test(val);
+};
+const hasNumber = val => {
+  return /(?=.*[0-9])/.test(val);
+};
+const hasSymbol = val => {
+  return /(?=.*[!@#$%^&*()_=+-/])/.test(val);
+};
 
 const isString = value => {
   return typeof value === 'string';
 };
-
-const isOnlyNumber = value => {
-  return NUMBER_REGEX.test(value);
-};
-const isOnlyAlphabet = value => {
-  return NAME_REGEX.test(value);
-};
-
 const isArray = value => {
   return Array.isArray(value);
 };
-
 const isObject = value => {
   return typeof value === 'object';
 };
@@ -91,12 +123,21 @@ const arrayUpdate = (data = [], filter, payload = {}) => {
 
 export {
   isTypeof,
+  isName,
+  isInteger,
+  isDouble,
+  hasNumber,
+  hasLetter,
+  isEmail,
+  isPassword,
   isString,
-  isOnlyNumber,
-  isOnlyAlphabet,
   isJsonString,
   isArray,
   isObject,
+  hasUpperCaseLetter,
+  hasLowerCaseLetter,
+  hasSymbol,
+  isUsername,
   arrayFind,
   arrayFilter,
   arrayUpdate,

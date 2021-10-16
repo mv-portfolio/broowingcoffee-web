@@ -6,7 +6,7 @@ import useHook, {
   productAddons as productAddonsReducer,
 } from 'hooks';
 import {useContext, useEffect, useState} from 'react';
-import {isOnlyAlphabet, isOnlyNumber} from 'utils/checker';
+import {isName, isInteger} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
@@ -64,13 +64,13 @@ export default function Addons({
 
   const onChange = (actionType, value) => {
     if (actionType === 'on-change-product-name') {
-      if (isOnlyAlphabet(value) || value.length === 0) {
+      if (isName(value) || value.length === 0) {
         setState({type: 'set', name: value});
       }
       return;
     }
     if (actionType === 'on-change-price') {
-      if (isOnlyNumber(value) || value.length === 0) {
+      if (isInteger(value) || value.length === 0) {
         setState({type: 'set', price: value});
       }
       return;

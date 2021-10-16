@@ -38,11 +38,7 @@ function Information({router: {location}, error, user, dispatch}) {
           lastname: state.lastname.text,
         }),
       );
-      dispatch(
-        SET_ERROR({
-          assessment: '',
-        }),
-      );
+      dispatch(SET_ERROR({assessment: ''}));
       dispatch(replace(`/assessment/account?sat=${location.query.sat}`));
     }
   };

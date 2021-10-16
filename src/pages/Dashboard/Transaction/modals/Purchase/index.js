@@ -2,7 +2,7 @@ import {useContext, useEffect, useState} from 'react';
 import {View, Text, Separator, TextInput, Picker, Button} from 'components';
 import useHook, {purchasingProduct, purchasingProductInitState} from 'hooks';
 import Checklist from 'components/Checklist';
-import {arrayFind, isOnlyNumber} from 'utils/checker';
+import {arrayFind, isInteger} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import Generator from 'utils/Generator';
 import {Toast} from 'context';
@@ -106,7 +106,7 @@ export default function Purchase({
   const onChange = (actionType, value) => {
     if (actionType === 'on-change-discount') {
       let val = parseInt(value);
-      if ((isOnlyNumber(value) && val <= 100 && val >= 0) || value.length === 0) {
+      if ((isInteger(value) && val <= 100 && val >= 0) || value.length === 0) {
         setState({type: 'set', discount: value});
       }
     }

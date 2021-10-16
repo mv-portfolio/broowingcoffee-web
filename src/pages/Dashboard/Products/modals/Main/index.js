@@ -3,7 +3,7 @@ import {Button, Picker, Separator, Text, TextInput, View, Icon} from 'components
 import {Toast, SecondaryDialog} from 'context';
 import Formatter from 'utils/Formatter';
 import useHook, {productMain as productMainReducer, productMainInitState} from 'hooks';
-import {arrayFind, isOnlyAlphabet, isOnlyNumber} from 'utils/checker';
+import {arrayFind, isName, isInteger} from 'utils/checker';
 import styles from './.module.css';
 import {accentColor, accentColorDisabled} from 'constants/styles';
 import ItemList from '../../components/ItemList';
@@ -130,20 +130,20 @@ export default function Main({
   };
   const onChange = (actionType, value) => {
     if (actionType === 'on-change-product-name') {
-      if (isOnlyAlphabet(value) || value.length === 0) {
+      if (isName(value) || value.length === 0) {
         setState({type: 'set', name: value});
       }
       return;
     }
     if (actionType === 'on-change-hot-price') {
-      if (isOnlyNumber(value) || value.length === 0) {
+      if (isInteger(value) || value.length === 0) {
         setState({type: 'set', hot_price: value});
       }
       return;
     }
 
     if (actionType === 'on-change-cold-price') {
-      if (isOnlyNumber(value) || value.length === 0) {
+      if (isInteger(value) || value.length === 0) {
         setState({type: 'set', cold_price: value});
       }
       return;

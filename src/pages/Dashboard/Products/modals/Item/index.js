@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import {isOnlyNumber} from 'utils/checker';
+import {isInteger} from 'utils/checker';
 import {Button, Separator, Text, TextInput, View} from 'components';
 import {Toast} from 'context';
 import styles from './.module.css';
@@ -37,7 +37,7 @@ export default function Item({items = [], onAdd, onCancel}) {
           placeholder='0'
           skin={styles.input}
           value={consume}
-          onChangeText={text => setConsume(isOnlyNumber(text) ? text : '')}
+          onChangeText={text => setConsume(isInteger(text) ? text : '')}
         />
       </View>
       <View style={styles.bottomPane}>
