@@ -47,6 +47,9 @@ export default function Main({
     if (state.hot_price.length === 0 && state.cold_price.length === 0) {
       return {isClean: false};
     }
+    if (state.consumables.length === 0) {
+      return {isClean: false};
+    }
 
     let info = state;
     info.date_modified = new Date().getTime();

@@ -1,10 +1,10 @@
 .mainPane {
   width: 40vh;
-  min-height:20vh;
+  min-height:15vh;
   border-radius: 1vh;
   padding: 3vh 2vh 0 2vh;
   background-color: var(--BACKGROUND-COLOR);
-  z-index: 1;
+  z-index: 2;
 }
 
 .mainPane .topPane {

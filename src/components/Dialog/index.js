@@ -3,7 +3,6 @@ import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
 export default function Dialog({
-  type,
   title,
   content,
   positiveButtonStyle,
@@ -26,7 +25,7 @@ export default function Dialog({
           skin={styles.button}
           onPress={onClickPositive}
         />
-        {type === 'conditional' && (
+        {negativeText && (
           <>
             <Separator horizontal={1} />
             <Button

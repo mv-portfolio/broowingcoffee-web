@@ -38,7 +38,6 @@ function* setWorker(state) {
 }
 
 function* popWorker(state) {
-  console.log('INV-SAGA', state);
   try {
     const config = yield serverConfig();
     yield call(server.pop, '/inventory/pop', {name: state.itemId}, config);

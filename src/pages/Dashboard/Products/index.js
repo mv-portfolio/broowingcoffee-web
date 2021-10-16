@@ -197,7 +197,6 @@ function Transaction({
   const onShowConditionalDeleteDialog = ({title, content, value}) => {
     onShowPrimaryDialog(
       <Dialog
-        type='conditional'
         title={title}
         content={content}
         positiveText='Delete'

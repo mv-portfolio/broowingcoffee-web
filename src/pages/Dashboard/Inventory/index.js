@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
-import {View, Button, Icon, SearchField} from 'components';
-import {accentColor} from 'constants/styles';
+import {View, Button, Icon, SearchField, Dialog, SecondaryDialog} from 'components';
+import {accentColor, accentColor2} from 'constants/styles';
 import {connect} from 'react-redux';
 import {PrimaryDialog, Toast} from 'context';
 import ItemList from './components/ItemList';
@@ -70,7 +70,18 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
       return;
     }
     if (actionType === 'on-click-delete-item') {
+      onShowConditionalDeleteDialog({
+        title: 'Item',
+        content: `Do you want to delete ${value}?`,
+        value,
+      });
+      return;
+    }
+
+    //dialog
+    if (actionType === 'on-click-delete-dialog-positive') {
       dispatch(POP_INVENTORY_REQ({itemId: value}));
+      onHidePrimaryDialog();
     }
   };
   const onChange = (actionType, value) => {
@@ -80,12 +91,26 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
     }
   };
 
+  const onShowConditionalDeleteDialog = ({title, content, value}) => {
+    onShowPrimaryDialog(
+      <Dialog
+        title={title}
+        content={content}
+        positiveText='Delete'
+        positiveButtonStyle={{backgroundColor: accentColor2}}
+        onClickPositive={() => onClick('on-click-delete-dialog-positive', value)}
+        negativeText='No'
+        onClickNegative={onHidePrimaryDialog}
+      />,
+    );
+  };
+
   const initListener = () => {
     setInventory(reduxInventory.items);
   };
   const errorListener = () => {
     if (error.inventory) {
-      onShowToast(error.inventory, undefined, () => {
+      onShowToast(error.inventory, 4000, () => {
         dispatch(CLEAR_ERROR());
       });
     }

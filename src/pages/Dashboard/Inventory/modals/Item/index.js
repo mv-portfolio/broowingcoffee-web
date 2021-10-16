@@ -76,7 +76,6 @@ export default function Item({
     }
     if (actionType === 'on-click-delete') {
       onDelete(value);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-cancel') {
@@ -160,7 +159,7 @@ export default function Item({
           onChangeText={text => onChange('on-change-quantity', text)}
         />
         <Separator vertical={1} />
-        <Text style={styles.titleField}>Cost</Text>
+        <Text style={styles.titleField}>Total Cost</Text>
         <Separator vertical={0.25} />
         <TextInput
           skin={styles.input}
