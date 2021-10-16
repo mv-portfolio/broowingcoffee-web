@@ -125,7 +125,7 @@ function Transaction({purchasingProducts, products, error, dispatch}) {
           }
         />
       </View>
-      <Separator vertical={1.5} />
+      <Separator vertical={1} />
       <View style={styles.bodyPane}>
         <View style={styles.headerBodyPane}>
           <Text style={styles.title}>Invoice</Text>

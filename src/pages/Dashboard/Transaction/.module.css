@@ -25,13 +25,15 @@
 }
 
 .bodyPane .headerBodyPane {
+  flex: 0.10;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
 }
 
 .headerBodyPane .buttonClear {
-  height: 3vh;
+  height: 5vh;
+  align-items: center;
 }
 
 .buttonClear .buttonClearText {
