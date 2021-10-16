@@ -3,7 +3,7 @@ import {useState} from 'react';
 import ProductItem from '../ProductItem';
 import styles from './.module.css';
 
-export default function ProductList({products = [], onEdit}) {
+export default function ProductList({products = [], onEdit, style}) {
   const [focus, setFocus] = useState({
     index: 0,
     isOpen: false,
@@ -25,7 +25,7 @@ export default function ProductList({products = [], onEdit}) {
   };
 
   return (
-    <View style={styles.mainPane}>
+    <View style={`${styles.mainPane} ${style}`}>
       {products.map((product, index) => (
         <View key={index}>
           <ProductItem

@@ -241,11 +241,12 @@ function Transaction({
         </View>
         <Separator vertical={0.5} />
         <ProductList
+          style={styles.productList}
           products={products.main.sort(ASC_NAME)}
           onEdit={product => onClick('on-click-edit-product-main', product)}
         />
       </View>
-      <Separator vertical={3} />
+      <Separator vertical={1} />
       <View style={styles.bodyPane}>
         <View style={styles.headerPane}>
           <Text style={styles.label}>Addons</Text>
@@ -268,6 +269,7 @@ function Transaction({
           onEdit={product => onClick('on-click-edit-product-addons', product)}
         />
       </View>
+      <Separator vertical={1.5} />
     </View>
   );
 }

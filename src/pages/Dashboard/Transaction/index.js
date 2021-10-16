@@ -108,16 +108,16 @@ function Transaction({purchasingProducts, products, error, dispatch}) {
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
         <Text style={styles.title}>Coffee</Text>
-        <Separator vertical={0.5} />
+        <Separator vertical={0.25} />
         <ProductList
           products={products.main.filter(mainProd => mainProd.based === 'coffee')}
           onSelectProduct={productInfo =>
             onClick('on-click-add-purchasing-product', productInfo)
           }
         />
-        <Separator vertical={1.5} />
+        <Separator vertical={1} />
         <Text style={styles.title}>Non-Coffee</Text>
-        <Separator vertical={0.5} />
+        <Separator vertical={0.25} />
         <ProductList
           products={products.main.filter(mainProd => mainProd.based !== 'coffee')}
           onSelectProduct={productInfo =>
@@ -144,7 +144,6 @@ function Transaction({purchasingProducts, products, error, dispatch}) {
           }
         />
       </View>
-      <Separator vertical={2} />
       <View style={styles.bottomPane}>
         <Button
           title='PURCHASE'

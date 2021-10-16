@@ -5,7 +5,7 @@
 }
 
 .mainPane .topPane {
-  flex: 1;
+  flex: 4.5;
 }
 
 .topPane .title {
@@ -51,11 +51,12 @@
 }
 
 .mainPane .bottomPane {
-  flex: 1;
+  flex: 1.25;
+  justify-content: center;
 }
 
 .bottomPane .button {
-  height: 5.5vh;
+  height: 6vh;
   background-color: var(--ACCENT-COLOR);
 }
 
