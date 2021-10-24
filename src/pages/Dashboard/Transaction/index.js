@@ -4,6 +4,7 @@ import {View, Text, Separator, Button} from 'components';
 import {PrimaryDialog, Toast} from 'context';
 import {
   CLEAR_ERROR,
+  CLEAR_LOADING,
   CLEAR_PURCHASING_PRODUCTS,
   POP_PURCHASING_PRODUCT,
   PUSH_PURCHASING_PRODUCT,
@@ -101,8 +102,15 @@ function Transaction({purchasingProducts, products, error, loading, dispatch}) {
     }
   };
   const dialogListener = () => {
-    if (!loading.status) {
+    const {status, message} = loading;
+    if (!status) {
       onHidePrimaryDialog();
+
+      if (message === 'transaction-success') {
+        onShowToast('Transaction Complete', undefined, () => {
+          dispatch(CLEAR_LOADING());
+        });
+      }
     }
   };
   useEffect(errorListener, [error]);

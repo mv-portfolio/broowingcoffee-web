@@ -1,4 +1,4 @@
-import {call, put, takeEvery} from '@redux-saga/core/effects';
+import {call, put, takeLatest} from '@redux-saga/core/effects';
 import {ACTION_TYPE} from 'constants/strings';
 import {POP_INVENTORY, SET_ERROR, SET_INVENTORY} from 'modules/actions';
 import serverConfig from 'modules/serverConfig';
@@ -18,7 +18,7 @@ function* peekWorker() {
 function* pushWorker({item}) {
   try {
     const config = yield serverConfig();
-    yield call(server.push, '/inventory/push', {...item}, config);
+    yield call(server.push, '/inventory/push', item, config);
     yield peekWorker();
     yield console.log('PUSH-INVENTORY-RESOLVE');
   } catch (err) {
@@ -50,8 +50,8 @@ function* popWorker(state) {
 }
 
 export default function* rootInventorSaga() {
-  yield takeEvery(ACTION_TYPE('INVENTORY').PEEK, peekWorker);
-  yield takeEvery(ACTION_TYPE('INVENTORY').PUSH, pushWorker);
-  yield takeEvery(ACTION_TYPE('INVENTORY').SET_INDEX, setWorker);
-  yield takeEvery(ACTION_TYPE('INVENTORY-REQ').POP, popWorker);
+  yield takeLatest(ACTION_TYPE('INVENTORY').PEEK, peekWorker);
+  yield takeLatest(ACTION_TYPE('INVENTORY').PUSH, pushWorker);
+  yield takeLatest(ACTION_TYPE('INVENTORY').SET_INDEX, setWorker);
+  yield takeLatest(ACTION_TYPE('INVENTORY-REQ').POP, popWorker);
 }

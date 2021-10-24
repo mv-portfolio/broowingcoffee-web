@@ -24,6 +24,12 @@ import {ICON_SIZE} from 'constants/sizes';
 import {hp} from 'utils/helper';
 import {replace} from 'connected-react-router';
 import {peekLocalStorage} from 'storage';
+import {
+  hasUpperCaseLetter,
+  hasLowerCaseLetter,
+  hasNumber,
+  hasSymbol,
+} from 'utils/checker';
 
 function Account({user, loading, error, dispatch}) {
   const [state, setState] = useHook(
@@ -48,19 +54,31 @@ function Account({user, loading, error, dispatch}) {
       return false;
     }
   };
-  const onPasswordStrength = value => {
+  const onPasswordStrength = val => {
     let strength = 0;
-    if (SMALL_CHAR_REGEX.test(value)) {
-      strength += 25;
+    if (hasUpperCaseLetter(val)) {
+      if (val.length > 2) {
+        strength += 15;
+      }
+      strength += 10;
     }
-    if (CAPITAL_CHAR_REGEX.test(value)) {
-      strength += 25;
+    if (hasLowerCaseLetter(val)) {
+      if (val.length > 4) {
+        strength += 15;
+      }
+      strength += 10;
     }
-    if (NUMS_REGEX.test(value)) {
-      strength += 25;
+    if (hasSymbol(val)) {
+      if (val.length > 6) {
+        strength += 15;
+      }
+      strength += 10;
     }
-    if (SYMBOLS_REGEX.test(value)) {
-      strength += 25;
+    if (hasNumber(val)) {
+      if (val.length > 8) {
+        strength += 15;
+      }
+      strength += 10;
     }
     return strength;
   };

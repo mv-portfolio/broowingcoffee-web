@@ -98,7 +98,6 @@ export default function Main({
         return;
       }
       onUpdate(product.info);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-delete') {

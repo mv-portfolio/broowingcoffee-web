@@ -81,17 +81,22 @@ function Transaction({
       return;
     }
     if (actionType === 'on-click-update-product-main') {
+      if (purchasingProducts.length !== 0) {
+        onShowUpdateDialog({
+          title: 'Update Product',
+          content: getWarnMessage(value.name),
+          value: {type: 'main', payload: value},
+        });
+        return;
+      }
       dispatch(SET_INDEX_PRODUCTS({mainId: value.name, payload: value}));
+      onHidePrimaryDialog();
       return;
     }
     if (actionType === 'on-click-delete-product-main') {
-      let warnMessage = `you want to delete ${Formatter.toName(value)}?`;
-      if (purchasingProducts.length !== 0) {
-        warnMessage = `Invoice is not empty, once you performed this action, all current purchasing product(s) will clear, do you want to proceed?`;
-      }
-      onShowConditionalDeleteDialog({
+      onShowDeleteDialog({
         title: 'Product',
-        content: warnMessage,
+        content: getWarnMessage(value),
         value: {type: 'main', filter: value},
       });
       return;
@@ -101,31 +106,45 @@ function Transaction({
       return;
     }
     if (actionType === 'on-click-update-product-addons') {
+      if (purchasingProducts.length !== 0) {
+        onShowUpdateDialog({
+          title: 'Update Add-on',
+          content: getWarnMessage(value.name),
+          value: {type: 'add-ons', payload: value},
+        });
+        return;
+      }
       dispatch(SET_INDEX_PRODUCTS({addonId: value.name, payload: value}));
+      onHidePrimaryDialog();
       return;
     }
     if (actionType === 'on-click-delete-product-addons') {
-      let warnMessage = `you want to delete ${Formatter.toName(value)}?`;
-      if (purchasingProducts.length !== 0) {
-        warnMessage = `Invoice is not empty, once you performed this action, all current purchasing product(s) will clear, do you want to proceed?`;
-      }
-      onShowConditionalDeleteDialog({
+      onShowDeleteDialog({
         title: 'Addons',
-        content: warnMessage,
+        content: getWarnMessage(value),
         value: {type: 'add-ons', filter: value},
       });
       return;
     }
     //DIALOG
     if (actionType === 'on-click-delete-dialog-positive') {
+      onHidePrimaryDialog();
       const {type, filter} = value;
       if (type === 'add-ons') {
         dispatch(POP_PRODUCT({addonId: filter}));
+        return;
       }
-      if (type === 'main') {
-        dispatch(POP_PRODUCT({mainId: filter}));
-      }
+      dispatch(POP_PRODUCT({mainId: filter}));
+      return;
+    }
+    if (actionType === 'on-click-update-dialog-positive') {
       onHidePrimaryDialog();
+      const {type, payload} = value;
+      if (type === 'add-ons') {
+        dispatch(SET_INDEX_PRODUCTS({addonId: payload.name, payload}));
+        return;
+      }
+      dispatch(SET_INDEX_PRODUCTS({mainId: payload.name, payload}));
       return;
     }
   };
@@ -194,7 +213,7 @@ function Transaction({
       />,
     );
   };
-  const onShowConditionalDeleteDialog = ({title, content, value}) => {
+  const onShowDeleteDialog = ({title, content, value}) => {
     onShowPrimaryDialog(
       <Dialog
         title={title}
@@ -206,6 +225,25 @@ function Transaction({
         onClickNegative={onHidePrimaryDialog}
       />,
     );
+  };
+  const onShowUpdateDialog = ({title, content, value}) => {
+    onShowPrimaryDialog(
+      <Dialog
+        title={title}
+        content={content}
+        positiveText='Yes'
+        onClickPositive={() => onClick('on-click-update-dialog-positive', value)}
+        negativeText='No'
+        onClickNegative={onHidePrimaryDialog}
+      />,
+    );
+  };
+  const getWarnMessage = value => {
+    let warnMessage = `you want to delete ${Formatter.toName(value)}?`;
+    if (purchasingProducts.length !== 0) {
+      warnMessage = `Invoice is not empty, once you performed this action, all current purchasing product(s) will clear, do you want to proceed?`;
+    }
+    return warnMessage;
   };
 
   const initListener = () => {

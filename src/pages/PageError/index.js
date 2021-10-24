@@ -13,7 +13,7 @@ function PageError({error}) {
       return {
         title: 'Server Maintenance',
         subtitle:
-          'Sorry for inconvenient, we temporarily down the server and we will be back soon',
+          'Sorry for inconvenient, we temporarily down the server and we will be back as soon as possible',
         icon: getIcon('AntDesign', 'tool'),
       };
     }

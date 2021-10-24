@@ -15,6 +15,7 @@ export default function Dialog({
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
         <Text style={styles.title}>{Formatter.toName(title)}</Text>
+        <Separator vertical={0.5} />
         <Text style={styles.content}>{content}</Text>
       </View>
       <View style={styles.bodyPane}>

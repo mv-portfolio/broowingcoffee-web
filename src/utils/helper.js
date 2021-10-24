@@ -19,7 +19,6 @@ const sumOfPrice = (value = []) => {
   return totalPrice;
 };
 
-
 const getProperties = obj => {
   let temp_data = [];
   Object.keys(obj).forEach((objKey, objKeyIdx) => {
@@ -95,5 +94,24 @@ const arrayUpdate = (data = [], filter, payload = {}) => {
   });
   return temp_data;
 };
+const getUsername = text => {
+  let lastIndex = text.indexOf('@');
+  return text.substring(0, lastIndex);
+};
+const toName = val => {
+  return val.substring(0, 1).toUpperCase() + val.substring(1).toLowerCase();
+};
 
-export {HEIGHT, WIDTH, arrayFind, arrayFilter, arrayUpdate,  sumOfPrice, ASC_NAME, hp, wp};
+export {
+  HEIGHT,
+  WIDTH,
+  arrayFind,
+  arrayFilter,
+  arrayUpdate,
+  sumOfPrice,
+  ASC_NAME,
+  hp,
+  wp,
+  getUsername,
+  toName
+};

@@ -14,13 +14,14 @@ export default function Button({
   body,
   onPress,
   isLoading,
+  disabled,
   ...props
 }) {
   return (
     <button
       style={defaultStyle}
       className={`${styles.skin} ${skin}`}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       onClick={onPress}
       {...props}>
       {!isLoading && (

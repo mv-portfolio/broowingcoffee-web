@@ -6,7 +6,7 @@ import {peekLocalStorage} from 'storage';
 import ObjectCleaner from 'utils/ObjectCleaner';
 import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from '../actions';
 const {ACTION_TYPE} = require('constants/strings');
-const {takeEvery, put, call} = require('redux-saga/effects');
+const {takeLatest, put, call} = require('redux-saga/effects');
 
 function* authWorker() {
   try {
@@ -57,5 +57,5 @@ function* authWorker() {
 }
 
 export default function* rootAuthSaga() {
-  yield takeEvery(ACTION_TYPE('APP').AUTH, authWorker);
+  yield takeLatest(ACTION_TYPE('APP').AUTH, authWorker);
 }

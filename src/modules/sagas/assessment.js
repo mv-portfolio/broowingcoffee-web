@@ -3,7 +3,7 @@ import {ACTION_TYPE} from 'constants/strings';
 import {CLEAR_LOADING, SET_ERROR, SET_USER} from 'modules/actions';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 
 function* assessmentAuthWorker() {
   try {
@@ -33,6 +33,6 @@ function* assessmentUpdateWorker({data}) {
 }
 
 export default function* rootAssessmentSaga() {
-  yield takeEvery(ACTION_TYPE('ASSESSMENT').AUTH, assessmentAuthWorker);
-  yield takeEvery(ACTION_TYPE('ASSESSMENT').SET, assessmentUpdateWorker);
+  yield takeLatest(ACTION_TYPE('ASSESSMENT').AUTH, assessmentAuthWorker);
+  yield takeLatest(ACTION_TYPE('ASSESSMENT').SET, assessmentUpdateWorker);
 }

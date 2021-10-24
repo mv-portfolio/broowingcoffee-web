@@ -49,7 +49,6 @@ export default function Addons({
         return;
       }
       onUpdate(product.info);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-delete') {

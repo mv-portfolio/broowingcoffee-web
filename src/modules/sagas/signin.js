@@ -4,7 +4,7 @@ import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from 'modules/actions';
 import {userInitState} from 'modules/reducers/user';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 import {pushLocalStorage} from 'storage';
 import ObjectCleaner from 'utils/ObjectCleaner';
 
@@ -54,5 +54,5 @@ function* signInWorker(payload) {
 }
 
 export default function* rootSignInSaga() {
-  yield takeEvery(ACTION_TYPE('SIGNIN').SET, signInWorker);
+  yield takeLatest(ACTION_TYPE('SIGNIN').SET, signInWorker);
 }

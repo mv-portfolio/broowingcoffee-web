@@ -1,5 +1,5 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {takeEvery} from 'redux-saga/effects';
+import {takeLatest} from 'redux-saga/effects';
 
 function* worker() {
   yield console.log('Hi, USER fired USER.PEEK');
@@ -7,5 +7,5 @@ function* worker() {
 
 //change action based from the reducer type
 export default function* rootUsersSaga() {
-  yield takeEvery(ACTION_TYPE('USERS').PEEK, worker);
+  yield takeLatest(ACTION_TYPE('USERS').PEEK, worker);
 }

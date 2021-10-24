@@ -7,7 +7,7 @@ import {
 } from 'modules/actions';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 
 function* peekWorker() {
   try {
@@ -44,27 +44,31 @@ function* pushWorker(state) {
 
 function* setWorker(state) {
   try {
+    yield put(CLEAR_PURCHASING_PRODUCTS());
+
     const config = yield serverConfig();
     if (state.mainId) {
       yield call(server.set, '/products/main/set', state.payload, config);
       return;
     }
     yield call(server.set, '/products/addons/set', state.payload, config);
-    yield put(CLEAR_PURCHASING_PRODUCTS());
     yield console.log('SET-PRODUCTS-RESOLVE');
   } catch (err) {
     yield console.log('PUSH-PRODUCTS-REJECT:');
+    yield put(SET_ERROR({product: err}));
   }
 }
 
 function* popWorker(state) {
   try {
+    yield put(CLEAR_PURCHASING_PRODUCTS());
+
     const config = yield serverConfig();
     if (state.mainId) {
       yield call(server.pop, '/products/main/pop', {name: state.mainId}, config);
+      return;
     }
     yield call(server.pop, '/products/addons/pop', {name: state.addonId}, config);
-    yield put(CLEAR_PURCHASING_PRODUCTS());
     yield console.log('POP-PRODUCTS-RESOLVE');
   } catch (err) {
     yield console.log('POP-PRODUCTS-REJECT');
@@ -72,8 +76,8 @@ function* popWorker(state) {
 }
 
 export default function* rootProductsSaga() {
-  yield takeEvery(ACTION_TYPE('PRODUCTS').PEEK, peekWorker);
-  yield takeEvery(ACTION_TYPE('PRODUCTS').SET_INDEX, setWorker);
-  yield takeEvery(ACTION_TYPE('PRODUCTS').PUSH, pushWorker);
-  yield takeEvery(ACTION_TYPE('PRODUCTS').POP, popWorker);
+  yield takeLatest(ACTION_TYPE('PRODUCTS').PEEK, peekWorker);
+  yield takeLatest(ACTION_TYPE('PRODUCTS').SET_INDEX, setWorker);
+  yield takeLatest(ACTION_TYPE('PRODUCTS').PUSH, pushWorker);
+  yield takeLatest(ACTION_TYPE('PRODUCTS').POP, popWorker);
 }

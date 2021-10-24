@@ -1,16 +1,18 @@
-import Icon from 'react-web-vector-icons';
-import useHook, {assessAcc} from 'hooks';
-import styles from './.module.css';
-
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
+import useHook, {assessAcc} from 'hooks';
+import Icon from 'react-web-vector-icons';
+
 import {accentColor} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
 import {SET_ERROR, SET_FORGOTPASSWOROD, SET_LOADING} from 'modules/actions';
 import {Text, Separator, TextInput, View, Button} from 'components';
+import {isEmail} from 'utils/checker';
+import styles from './.module.css';
 
 function Account({loading, error, dispatch}) {
+  const [isSent, setIsSent] = useState(false);
   const [state, setState] = useHook(ASSESSMENT_ACCOUNT({}), assessAcc);
 
   const onChangeValue = (component, value) => {
@@ -21,18 +23,15 @@ function Account({loading, error, dispatch}) {
       });
     }
   };
-  const onClick = component => {
+  const onClick = (component, val) => {
     if (component === 'on-send') {
-      if (state.email.text.length !== 0) {
-        dispatch(SET_LOADING({status: true}));
-        dispatch(SET_FORGOTPASSWOROD({email: state.email.text}));
-      } else {
-        dispatch(
-          SET_ERROR({
-            forgotPassword: 'Please provide your email address.',
-          }),
-        );
+      if (!isEmail(val) || val.length === 0) {
+        dispatch(SET_ERROR({forgotPassword: 'Please enter a valid email address'}));
+        return;
       }
+      setIsSent(true);
+      dispatch(SET_LOADING({status: true}));
+      dispatch(SET_FORGOTPASSWOROD({email: state.email.text}));
     }
   };
 
@@ -48,7 +47,6 @@ function Account({loading, error, dispatch}) {
       <View style={styles.topPane}>
         <View style={styles.headerPane}>
           <Text style={styles.title}>Forgot Password</Text>
-          <Separator vertical={0.25} />
           <Text style={styles.subtitle}>Please enter the email you used</Text>
         </View>
       </View>
@@ -68,7 +66,8 @@ function Account({loading, error, dispatch}) {
           title='Send'
           titleStyle={styles.buttonTitle}
           isLoading={loading.status}
-          onPress={() => onClick('on-send')}
+          disabled={isSent}
+          onPress={() => onClick('on-send', state.email.text)}
         />
       </View>
       <View style={styles.bottomPane}>
@@ -76,17 +75,13 @@ function Account({loading, error, dispatch}) {
           <>
             <Separator vertical={0.75} />
             {loading.message ? (
-              <>
-                <View style={styles.infoPane}>
-                  <Text style={styles.infoTitle}>{loading.message}</Text>
-                </View>
-              </>
+              <View style={styles.infoPane}>
+                <Text style={styles.infoTitle}>{loading.message}</Text>
+              </View>
             ) : (
-              <>
-                <View style={styles.errorPane}>
-                  <Text style={styles.errorTitle}>{error.forgotPassword}</Text>
-                </View>
-              </>
+              <View style={styles.errorPane}>
+                <Text style={styles.errorTitle}>{error.forgotPassword}</Text>
+              </View>
             )}
           </>
         )}
