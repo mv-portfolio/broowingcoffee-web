@@ -6,7 +6,7 @@ import {Button, Picker, Separator, Text, TextInput, View} from 'components';
 import {accentColor, accentColorDisabled} from 'constants/styles';
 import {Toast} from 'context';
 import useHook, {itemInitState, item as itemReducer} from 'hooks';
-import {isName, isInteger} from 'utils/checker';
+import {isName, isInteger, isDouble} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
@@ -101,7 +101,7 @@ export default function Item({
       return;
     }
     if (actionType === 'on-change-cost') {
-      if (isInteger(value) || value.length === 0) {
+      if (isDouble(value) || value.length === 0) {
         setState({type: 'set', cost: value});
       }
       return;

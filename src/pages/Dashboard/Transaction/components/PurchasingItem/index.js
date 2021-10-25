@@ -3,8 +3,7 @@ import {ICON_SIZE} from 'constants/sizes';
 import {accentColor} from 'constants/styles';
 import {isArray} from 'utils/checker';
 import Formatter from 'utils/Formatter';
-import {sumOfPrice} from 'utils/helper';
-import ObjectCleaner from 'utils/ObjectCleaner';
+import {getProperties, sumOfPrice} from 'utils/helper';
 
 import styles from './.module.css';
 
@@ -18,7 +17,7 @@ export default function PurchasingItem({
 }) {
   const {name} = purchasingProduct;
 
-  const content = ObjectCleaner.getProperties(purchasingProduct)
+  const content = getProperties(purchasingProduct)
     .filter(obj => obj.property !== '_id')
     .filter(obj => obj.property !== 'id')
     .filter(obj => obj.property !== 'name')
@@ -38,7 +37,7 @@ export default function PurchasingItem({
   const onFormat = (property, value) => {
     let val = value;
     if (property === 'price') {
-      val = `₱${Formatter.toMoney(value)}`;
+      val = `${Formatter.toMoney(value)}`;
     }
     if (property === 'discount') {
       val = `${value}%`;
@@ -64,7 +63,7 @@ export default function PurchasingItem({
             </Button>
           )
         ) : (
-          <Text style={styles.price}>₱{onCompute(purchasingProduct)}</Text>
+          <Text style={styles.price}>{onCompute(purchasingProduct)}</Text>
         )}
       </View>
       {isOpen && (
@@ -74,22 +73,28 @@ export default function PurchasingItem({
             {content.map(({property, value}, index) => (
               <View key={index} style={styles.contentPane}>
                 {isArray(value) ? (
-                  <View style={styles.addonsContent}>
-                    <Separator vertical={0.4} />
-                    <Text style={styles.propertyName}>{Formatter.toName(property)}</Text>
-                    <Separator vertical={0.2} />
-                    {value.map(({name, price}, index) => (
-                      <View style={styles.addons} key={index}>
-                        <View style={styles.addonsPane}>
-                          <Text style={styles.addonsName}>{name}</Text>
-                          <Text style={styles.addonsValue}>
-                            ₱{Formatter.toMoney(price)}
-                          </Text>
+                  value.length <= 0 ? null : (
+                    <View style={styles.addonsContent}>
+                      <Separator vertical={0.4} />
+                      <Text style={styles.propertyName}>
+                        {Formatter.toName(property)}
+                      </Text>
+                      <Separator vertical={0.2} />
+                      {value.map(({name, price}, index) => (
+                        <View style={styles.addons} key={index}>
+                          <View style={styles.addonsPane}>
+                            <Text style={styles.addonsName}>{name}</Text>
+                            <Text style={styles.addonsValue}>
+                              {Formatter.toMoney(price)}
+                            </Text>
+                          </View>
+                          {index + 1 !== value.length ? (
+                            <Separator vertical={0.2} />
+                          ) : null}
                         </View>
-                        {index + 1 !== value.length ? <Separator vertical={0.2} /> : null}
-                      </View>
-                    ))}
-                  </View>
+                      ))}
+                    </View>
+                  )
                 ) : (
                   <View style={styles.propertyPane}>
                     <Text style={styles.propertyName}>{property}</Text>

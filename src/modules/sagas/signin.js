@@ -6,7 +6,7 @@ import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {pushLocalStorage} from 'storage';
-import ObjectCleaner from 'utils/ObjectCleaner';
+import {getSpecificProperty} from 'utils/helper';
 
 function* signInWorker(payload) {
   try {
@@ -32,9 +32,8 @@ function* signInWorker(payload) {
     );
     yield put(CLEAR_LOADING());
 
-    const user = ObjectCleaner.getFilteredFields(userInitState, res.user);
-
-    if (!user.isAssessed) {
+    const userInfo = getSpecificProperty(userInitState, res.user);
+    if (!userInfo.isAssessed) {
       yield put(
         replace({
           pathname: `/assessment/information`,
@@ -44,7 +43,7 @@ function* signInWorker(payload) {
       return;
     }
 
-    yield put(SET_USER({...user}));
+    yield put(SET_USER({...userInfo}));
     yield put(replace('/'));
   } catch (err) {
     console.log('SIGN-IN-REJECT:', err);

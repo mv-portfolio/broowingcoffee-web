@@ -24,7 +24,7 @@ function* pushWorker({transaction}) {
   } catch (err) {
     yield console.log('TRANSACTION-REJECT', err);
     yield put(SET_ERROR({transaction: err}));
-    yield put(CLEAR_LOADING());
+    yield put(SET_LOADING({status: false, message: 'transaction-failed'}));
   }
 }
 

@@ -1,14 +1,14 @@
 import {Button, Icon, Separator, Text, View} from 'components';
 import {accentColor} from 'constants/styles';
 import Formatter from 'utils/Formatter';
-import ObjectCleaner from 'utils/ObjectCleaner';
+import {getProperties} from 'utils/helper';
 
 import styles from './.module.css';
 
 export default function Item({product, isOpen, onPress, onEdit}) {
   const {name} = product;
 
-  const contents = ObjectCleaner.getProperties(product)
+  const contents = getProperties(product)
     .filter(obj => obj.property !== '_id')
     .filter(obj => obj.property !== 'name')
     .filter(obj => obj.property !== '__v')
@@ -16,7 +16,7 @@ export default function Item({product, isOpen, onPress, onEdit}) {
 
   const onFormat = (property, value) => {
     if (property.includes('price') || property.includes('cost')) {
-      return `₱${Formatter.toMoney(value)}`;
+      return `${Formatter.toMoney(value)}`;
     }
     if (property.includes('date')) {
       return `${Formatter.getDateDifference(value)}`;

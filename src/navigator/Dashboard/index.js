@@ -8,13 +8,16 @@ import {pages} from './pages';
 import {WHITE} from 'constants/styles';
 import {connect} from 'react-redux';
 import useHook, {menu, initStateMenu} from 'hooks';
-import {CLEAR_ERROR, PEEK_INVENTORY, PEEK_PRODUCTS} from 'modules/actions';
+import {PEEK_INVENTORY, PEEK_PRODUCTS, RESET_SESSION} from 'modules/actions';
 import {PrimaryDialog} from 'context';
+import {popLocalStorage} from 'storage';
+import {replace} from 'connected-react-router';
 
 const HeaderBar = lazy(() => import('components/HeaderBar'));
 
 function DashBoardNavigator({dispatch, user, error}) {
-  const {onShow: onShowPrimaryDialog} = useContext(PrimaryDialog);
+  const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
+    useContext(PrimaryDialog);
   const [menuState, setMenuState] = useHook(initStateMenu, menu);
 
   const onClick = (componentType, value) => {
@@ -40,8 +43,8 @@ function DashBoardNavigator({dispatch, user, error}) {
           title='Session Expired'
           content='We need to redirect you from login'
           onClickPositive={() => {
-            dispatch(CLEAR_ERROR());
-            window.location.reload();
+            dispatch(RESET_SESSION());
+            onHidePrimaryDialog();
           }}
         />,
       );
@@ -49,7 +52,7 @@ function DashBoardNavigator({dispatch, user, error}) {
   };
 
   useEffect(initListener, [dispatch]);
-  useEffect(errorListener, [error, dispatch, onShowPrimaryDialog]);
+  useEffect(errorListener, [error, dispatch]);
 
   return (
     <View style={styles.mainPane}>

@@ -30,17 +30,15 @@ function Details({
     };
 
     temp_products.products = products.map(item => {
-      let addons_price = 0;
       let addons = [];
       item.addons.forEach(addon => {
-        addons_price += addon.price;
         addons.push(addon._id);
       });
       return {
         _id_product: item._id,
         type: item.type,
         discount: parseInt(item.discount),
-        price: addons_price + item.price,
+        price: item.price,
         addons,
       };
     });
@@ -117,7 +115,7 @@ function Details({
         <View style={styles.fieldPane}>
           <Text style={styles.fieldTitle}>total price</Text>
           <Text style={styles.fieldValue}>
-            ₱{Formatter.toMoney(onSumAllProducts(purchasingProducts, totalDiscount))}
+            {Formatter.toMoney(onSumAllProducts(purchasingProducts, totalDiscount))}
           </Text>
         </View>
       </View>

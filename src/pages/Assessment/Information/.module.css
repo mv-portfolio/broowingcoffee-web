@@ -31,13 +31,13 @@
   }
   .bodyPane .inputSkin {
     width: 37.5vh;
-    box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
   }
   .bodyPane .buttonSkin {
     height: 6vh;
     width: 40vh;
     background-color: var(--ACCENT-COLOR);
-    box-shadow: 2px 2px 2.5px 0px rgba(0, 0, 0, 0.5);
+    box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
   }
   .bodyPane .buttonTitle {
     color: #242223;

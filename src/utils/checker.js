@@ -1,5 +1,4 @@
-import {NAME_REGEX, NUMBER_REGEX} from 'constants/regex';
-import ObjectCleaner from './ObjectCleaner';
+import {getProperties} from './helper';
 
 const isTypeof = (type, value1, value2) => {
   if (type === 'array') {
@@ -79,12 +78,11 @@ const arrayFind = (data = [], callback) => {
 
 const arrayFilter = (data = [], filter) => {
   let temp_data = [];
-  const {property: filterKey, value: filterValue} =
-    ObjectCleaner.getProperties(filter)[0];
+  const {property: filterKey, value: filterValue} = getProperties(filter)[0];
 
   temp_data = data.filter(item => {
     let keyValue = '';
-    ObjectCleaner.getProperties(item).forEach(({property, value}) => {
+    getProperties(item).forEach(({property, value}) => {
       if (property === filterKey) {
         keyValue = value;
         return;
@@ -100,12 +98,11 @@ const arrayFilter = (data = [], filter) => {
 
 const arrayUpdate = (data = [], filter, payload = {}) => {
   let temp_data = [];
-  const {property: filterKey, value: filterValue} =
-    ObjectCleaner.getProperties(filter)[0];
+  const {property: filterKey, value: filterValue} = getProperties(filter)[0];
 
   temp_data = data.map(item => {
     let keyValue = '';
-    ObjectCleaner.getProperties(item).forEach(({property, value}) => {
+    getProperties(item).forEach(({property, value}) => {
       if (property === filterKey) {
         keyValue = value;
       }

@@ -193,6 +193,10 @@ const PUSH_TRANSACTIONS = ({transaction}) => ({
   transaction,
 });
 
+const RESET_SESSION = () => ({
+  type: ACTION_TYPE('RESET-SESSION').POP,
+});
+
 export {
   //auth
   APP_AUTH,
@@ -244,4 +248,6 @@ export {
   //transactions
   PEEK_TRANSACTIONS,
   PUSH_TRANSACTIONS,
+  //reset-session
+  RESET_SESSION,
 };

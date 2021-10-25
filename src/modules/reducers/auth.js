@@ -30,6 +30,7 @@ export default function auth(state = initState, action) {
     case ACTION_TYPE('AUTH').CLEAR:
       return {
         ...initState,
+        authenticated: false,
         primary_auth_token: state.primary_auth_token,
       };
 

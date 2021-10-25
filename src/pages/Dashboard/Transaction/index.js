@@ -96,17 +96,19 @@ function Transaction({purchasingProducts, products, error, loading, dispatch}) {
 
   const errorListener = () => {
     if (error.transaction) {
-      onShowToast(error.transaction, undefined, () => {
-        dispatch(CLEAR_ERROR());
-      });
+      if (error.transaction !== 'jwt expired') {
+        onHidePrimaryDialog();
+        onShowToast(error.transaction, undefined, () => {
+          dispatch(CLEAR_ERROR());
+        });
+      }
     }
   };
   const dialogListener = () => {
     const {status, message} = loading;
     if (!status) {
-      onHidePrimaryDialog();
-
       if (message === 'transaction-success') {
+        onHidePrimaryDialog();
         onShowToast('Transaction Complete', undefined, () => {
           dispatch(CLEAR_LOADING());
         });

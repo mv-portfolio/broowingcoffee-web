@@ -4,6 +4,7 @@ import {WHITE} from 'constants/styles';
 import {ASC_NAME} from 'utils/helper';
 import {arrayFind} from 'utils/checker';
 import styles from './.module.css';
+import Formatter from 'utils/Formatter';
 
 export default function Checklist({
   items = [],
@@ -56,7 +57,7 @@ export default function Checklist({
             {isChecked(addon.name)}
             <Text style={styles.itemText}>{addon.name}</Text>
           </View>
-          <Text style={styles.suffixText}>₱{addon.price}</Text>
+          <Text style={styles.suffixText}>{Formatter.toMoney(addon.price)}</Text>
         </Button>
       ))}
     </View>

@@ -3,7 +3,7 @@ import {userInitState} from 'modules/reducers/user';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
 import {peekLocalStorage} from 'storage';
-import ObjectCleaner from 'utils/ObjectCleaner';
+import {getSpecificProperty} from 'utils/helper';
 import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from '../actions';
 const {ACTION_TYPE} = require('constants/strings');
 const {takeLatest, put, call} = require('redux-saga/effects');
@@ -32,8 +32,8 @@ function* authWorker() {
 
     yield put(SET_AUTH({authenticated: true}));
 
-    const {isAssessed} = ObjectCleaner.getFilteredFields(userInitState, user);
-    if (!isAssessed) {
+    const userInfo = getSpecificProperty(userInitState, user);
+    if (!userInfo.isAssessed) {
       yield put(
         replace({
           pathname: `/assessment/information`,
@@ -43,11 +43,7 @@ function* authWorker() {
       return;
     }
 
-    yield put(
-      SET_USER({
-        ...ObjectCleaner.getFilteredFields(Object.keys(userInitState), user),
-      }),
-    );
+    yield put(SET_USER({...userInfo}));
     yield put(replace('/'));
   } catch (err) {
     console.log('APP-AUTH-REJECT', err);
