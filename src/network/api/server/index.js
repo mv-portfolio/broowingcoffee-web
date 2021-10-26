@@ -5,7 +5,7 @@ import requestReject from './interceptors/request/reject';
 import responseResolve from './interceptors/response/resolve';
 import responseReject from './interceptors/response/reject';
 
-const timeout = seconds => 1000 * seconds;
+export const timeout = seconds => 1000 * seconds;
 
 const server = axios.create({
   baseURL: `${SERVER_URL}/${SECRET_KEY}/api/service`,
