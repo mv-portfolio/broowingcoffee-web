@@ -1,9 +1,9 @@
-import {Button, Icon, Separator, Text, View} from 'components';
-import {ENV, VERSION} from 'config/env';
-import {replace} from 'connected-react-router';
-import {RESET_SESSION} from 'modules/actions';
+import {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {popLocalStorage} from 'storage';
+import {Button, Icon, Separator, Text, View} from 'components';
+import {ENV, VERSION} from 'config/env';
+import {RESET_SESSION} from 'modules/actions';
 import Formatter from 'utils/Formatter';
 
 import styles from './.module.css';
@@ -28,6 +28,11 @@ function Profile({user, dispatch}) {
       return;
     }
   };
+
+  const screenInitListener = () => {
+    document.title = 'Broowing Coffee | Profile'
+  };
+  useEffect(screenInitListener, []);
 
   return (
     <View style={styles.mainPane}>

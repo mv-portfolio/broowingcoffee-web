@@ -246,7 +246,8 @@ function Transaction({
     return warnMessage;
   };
 
-  const initListener = () => {
+  const screenInitListener = () => {
+    document.title = 'Broowing Coffee | Products';
     setProducts(reduxProducts);
   };
   const errorListener = () => {
@@ -256,7 +257,7 @@ function Transaction({
       });
     }
   };
-  useEffect(initListener, [reduxProducts]);
+  useEffect(screenInitListener, [reduxProducts]);
   useEffect(errorListener, [error]);
 
   return (

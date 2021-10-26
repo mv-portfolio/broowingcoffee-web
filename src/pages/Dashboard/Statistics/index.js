@@ -1,10 +1,13 @@
-import {View, Text, Separator} from 'components';
 import {useEffect} from 'react';
+import {View, Text, Separator} from 'components';
 import {connect} from 'react-redux';
 import styles from './.module.css';
 
 function Transaction({user}) {
-  useEffect(() => {}, []);
+  const screenInitListener = () => {
+    document.title = 'Broowing Coffee | Statistics';
+  };
+  useEffect(screenInitListener, []);
   return (
     <View style={styles.mainPane}>
       <View style={styles.bodyPane}>

@@ -52,7 +52,7 @@ function SignIn({error, loading, dispatch}) {
   };
 
   useEffect(() => {
-    document.title = 'Sign In | BroowingCoffee ';
+    document.title = 'Broowing Coffee | SignIn ';
     return () => {
       dispatch(CLEAR_SIGNIN());
       dispatch(SET_ERROR({signin: ''}));

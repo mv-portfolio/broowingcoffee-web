@@ -36,7 +36,7 @@ function Account({loading, error, dispatch}) {
   };
 
   useEffect(() => {
-    document.title = 'Forgot Password | Broowing Coffee';
+    document.title = 'Broowing Coffee | Forgot Password';
     return () => {
       dispatch(SET_ERROR({forgotPassword: ''}));
     };

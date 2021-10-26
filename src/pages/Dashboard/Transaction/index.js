@@ -94,6 +94,9 @@ function Transaction({purchasingProducts, products, error, loading, dispatch}) {
     );
   };
 
+  const screenInitListener = () => {
+    document.title = 'Broowing Coffee | Transaction';
+  };
   const errorListener = () => {
     if (error.transaction) {
       if (error.transaction !== 'jwt expired') {
@@ -115,6 +118,7 @@ function Transaction({purchasingProducts, products, error, loading, dispatch}) {
       }
     }
   };
+  useEffect(screenInitListener, []);
   useEffect(errorListener, [error]);
   useEffect(dialogListener, [loading]);
 

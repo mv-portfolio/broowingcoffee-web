@@ -161,7 +161,7 @@ function Account({user, loading, error, dispatch}) {
   };
 
   const screenInit = () => {
-    document.title = 'Assessment | Broowing Coffee';
+    document.title = 'Broowing Coffee | Assessment';
     dispatch(ASSESSMENT_AUTH());
   };
   const errorListener = () => {

@@ -44,7 +44,7 @@ function Information({router: {location}, error, user, dispatch}) {
   };
 
   useEffect(() => {
-    document.title = 'Assessment | Broowing Coffee';
+    document.title = 'Broowing Coffee | Assessment ';
     dispatch(ASSESSMENT_AUTH());
   }, [dispatch]);
 

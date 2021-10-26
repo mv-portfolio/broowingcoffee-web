@@ -105,7 +105,8 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
     );
   };
 
-  const initListener = () => {
+  const screenInitListener = () => {
+    document.title = 'Broowing Coffee | Inventory';
     setInventory(reduxInventory.items);
   };
   const errorListener = () => {
@@ -115,7 +116,7 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
       });
     }
   };
-  useEffect(initListener, [reduxInventory]);
+  useEffect(screenInitListener, [reduxInventory]);
   useEffect(errorListener, [error]);
 
   return (
