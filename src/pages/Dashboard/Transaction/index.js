@@ -126,7 +126,7 @@ function Transaction({purchasingProducts, products, error, loading, dispatch}) {
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
         <Text style={styles.title}>Coffee</Text>
-        <Separator vertical={0.25} />
+        <Separator vertical={0.5} />
         <ProductList
           products={products.main.filter(mainProd => mainProd.based === 'coffee')}
           onSelectProduct={productInfo =>
@@ -135,7 +135,7 @@ function Transaction({purchasingProducts, products, error, loading, dispatch}) {
         />
         <Separator vertical={1} />
         <Text style={styles.title}>Non-Coffee</Text>
-        <Separator vertical={0.25} />
+        <Separator vertical={0.5} />
         <ProductList
           products={products.main.filter(mainProd => mainProd.based !== 'coffee')}
           onSelectProduct={productInfo =>

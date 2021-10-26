@@ -5,15 +5,13 @@
 }
 
 .mainPane .topPane {
-  flex: 4.5;
+  flex: 3.4;
 }
-
 .topPane .title {
   color: var(--ACCENT-COLOR);
   font-weight: bold;
   font-size: 2vh;
 }
-
 .topPane .productList {
   flex-direction: row;
   padding: 1vh;
@@ -21,27 +19,22 @@
 }
 
 .mainPane .bodyPane {
-  flex: 4;
+  flex: 3;
 }
-
 .bodyPane .headerBodyPane {
-  flex: 0.10;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
-
 .headerBodyPane .buttonClear {
   height: 5vh;
   align-items: center;
 }
-
 .buttonClear .buttonClearText {
   font-size: 1.5vh;
   color: var(--ACCENT-COLOR);
   font-weight: bold;
 }
-
 .bodyPane .title {
   color: var(--ACCENT-COLOR);
   font-weight: bold;

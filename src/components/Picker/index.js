@@ -46,7 +46,8 @@ export default function Picker({items = [], selected, onSelected}) {
                 <Button
                   title={type}
                   titleStyle={styles.pickerItemTitle}
-                  skin={styles.pickerItem}
+                  skin={styles.pickerItemSkin}
+                  body={styles.pickerItemBody}
                   onPress={() => onClick('on-select', type)}
                 />
                 {index + 1 !== items.filter(type => type !== state.value).length ? (

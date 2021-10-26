@@ -16,13 +16,14 @@
   .headerPane .title {
     color: #fff;
     font-size: 3vh;
-    font-family: 'Standard-Font2';
+    font-weight: bold;
+    font-family: 'Standard-Font';
   }
   .headerPane .subtitle {
     color: var(--ACCENT-COLOR);
-    font-weight: bold;
     font-size: 2vh;
   }
+  
   
   .mainPane .bodyPane {
     flex: 1;

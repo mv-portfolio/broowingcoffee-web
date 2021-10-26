@@ -28,11 +28,16 @@
   z-index: 1;
 }
 
-.pickerList .pickerItem {
+.pickerList .pickerItemSkin {
   height: 5vh;
+  align-items: center;
   justify-content: flex-start;
   border-radius: 0.5vh;
   background-color: #282726;
+}
+.pickerList .pickerItemBody {
+  height: 5vh;
+  color: var(--ACCENT-COLOR);
 }
 .pickerItem .pickerItemTitle {
   padding-left: 1vh;
