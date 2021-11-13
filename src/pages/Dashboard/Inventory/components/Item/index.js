@@ -5,7 +5,7 @@ import {getProperties} from 'utils/helper';
 
 import styles from './.module.css';
 
-export default function Item({product, isOpen, onPress, onEdit}) {
+export default function Item({product, isOpen, onPress, onEdit, onRestock}) {
   const {name} = product;
 
   const contents = getProperties(product)
@@ -32,14 +32,24 @@ export default function Item({product, isOpen, onPress, onEdit}) {
       <View style={styles.headerPane}>
         <Text style={styles.title}>{Formatter.toName(name)}</Text>
         {isOpen && (
-          <Button
-            skin={styles.buttonEdit}
-            onPress={evt => {
-              evt.stopPropagation();
-              onEdit();
-            }}>
-            <Icon font='Feather' name='edit' size='2vh' color={accentColor} />
-          </Button>
+          <View style={styles.headerRightPane}>
+            <Button
+              skin={styles.buttonEdit}
+              onPress={evt => {
+                evt.stopPropagation();
+                onEdit();
+              }}>
+              <Icon font='Feather' name='edit' size='2vh' color={accentColor} />
+            </Button>
+            <Button
+              skin={styles.buttonEdit}
+              onPress={evt => {
+                evt.stopPropagation();
+                onRestock();
+              }}>
+              <Icon font='Feather' name='repeat' size='2.15vh' color={accentColor} />
+            </Button>
+          </View>
         )}
       </View>
       {isOpen && (

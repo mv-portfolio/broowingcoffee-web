@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {PrimaryDialog, Toast} from 'context';
 import ItemList from './components/ItemList';
 import styles from './.module.css';
+import Restock from './modals/Restock';
 import Item from './modals/Item';
 import {
   CLEAR_ERROR,
@@ -12,6 +13,7 @@ import {
   POP_INVENTORY_REQ,
   PUSH_INVENTORY,
   SET_INDEX_INVENTORY,
+  SET_RESTOCK_INVENTORY,
 } from 'modules/actions';
 
 function Inventory({inventory: reduxInventory, error, dispatch}) {
@@ -46,36 +48,49 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
 
   const onClick = (actionType, value) => {
     //show-dialog
-    if (actionType === 'on-click-add-item') {
+    if (actionType === 'on-click-add-dialog') {
       onShowDialog({type: 'add', onAdd: item => onClick('on-click-added-item', item)});
       return;
     }
-    if (actionType === 'on-click-edit-item') {
+    if (actionType === 'on-click-edit-dialog') {
       onShowDialog({
         type: 'edit',
         productInfo: value,
-        onEdit: item => onClick('on-click-edit-item', item),
+        //onEdit: item => onClick('on-click-edit-dialog', item),
         onUpdate: item => onClick('on-click-update-item', item),
-        onDelete: item => onClick('on-click-delete-item', item),
+        onDelete: item => onClick('on-click-delete-dialog', item),
       });
       return;
     }
-    //CRUD
-    if (actionType === 'on-click-added-item') {
-      dispatch(PUSH_INVENTORY({item: value}));
-      return;
+    if (actionType === 'on-click-restock-dialog') {
+      onShowPrimaryDialog(
+        <Restock
+          productInfo={value}
+          onRestock={item => onClick('on-click-restock-item', item)}
+          onCancel={onHidePrimaryDialog}
+        />,
+      );
     }
-    if (actionType === 'on-click-update-item') {
-      dispatch(SET_INDEX_INVENTORY({itemId: value.name, payload: value}));
-      return;
-    }
-    if (actionType === 'on-click-delete-item') {
+    if (actionType === 'on-click-delete-dialog') {
       onShowConditionalDeleteDialog({
         title: 'Item',
         content: `Do you want to delete ${value}?`,
         value,
       });
       return;
+    }
+
+    //CRUD
+    if (actionType === 'on-click-added-item') {
+      dispatch(PUSH_INVENTORY({item: value}));
+      return;
+    }
+    if (actionType === 'on-click-update-item') {
+      dispatch(SET_INDEX_INVENTORY({item: value}));
+      return;
+    }
+    if (actionType === 'on-click-restock-item') {
+      dispatch(SET_RESTOCK_INVENTORY({item: value}));
     }
 
     //dialog
@@ -127,13 +142,14 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
             value={search}
             onChangeText={text => onChange('on-change-search', text)}
           />
-          <Button skin={styles.buttonAdd} onPress={() => onClick('on-click-add-item')}>
+          <Button skin={styles.buttonAdd} onPress={() => onClick('on-click-add-dialog')}>
             <Icon font='Feather' name='plus' color={accentColor} size='3vh' />
           </Button>
         </View>
         <ItemList
           items={inventory}
-          onEdit={item => onClick('on-click-edit-item', item)}
+          onEdit={item => onClick('on-click-edit-dialog', item)}
+          onRestock={item => onClick('on-click-restock-dialog', item)}
         />
       </View>
     </View>

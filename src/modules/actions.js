@@ -150,10 +150,13 @@ const SET_INVENTORY = ({items}) => ({
   type: ACTION_TYPE('INVENTORY').SET,
   items,
 });
-const SET_INDEX_INVENTORY = ({itemId, payload}) => ({
+const SET_RESTOCK_INVENTORY = ({item}) => ({
+  type: ACTION_TYPE('INVENTORY-RESTOCK').SET_INDEX,
+  item,
+});
+const SET_INDEX_INVENTORY = ({item}) => ({
   type: ACTION_TYPE('INVENTORY').SET_INDEX,
-  itemId,
-  payload,
+  item,
 });
 const POP_INVENTORY = ({itemId}) => ({
   type: ACTION_TYPE('INVENTORY').POP,
@@ -236,6 +239,7 @@ export {
   PEEK_INVENTORY,
   PUSH_INVENTORY,
   SET_INVENTORY,
+  SET_RESTOCK_INVENTORY,
   SET_INDEX_INVENTORY,
   POP_INVENTORY,
   POP_INVENTORY_REQ,

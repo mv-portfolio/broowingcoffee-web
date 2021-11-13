@@ -7,7 +7,6 @@ const {window, caches} = self;
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE).then(cache => {
-      console.log('cached opened');
       return cache.addAll(CACHE_URL);
     }),
   );
@@ -17,7 +16,7 @@ self.addEventListener('install', event => {
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(() => {
-      return fetch(event.request).catch(err => caches.match('offline.html'));
+      return fetch(event.request).catch(err => caches.match('index.html'));
     }),
   );
 });

@@ -39,7 +39,7 @@
   height: 5vh;
   color: var(--ACCENT-COLOR);
 }
-.pickerItem .pickerItemTitle {
+.pickerItemBody .pickerItemTitle {
   padding-left: 1vh;
   color: var(--ACCENT-COLOR);
 }

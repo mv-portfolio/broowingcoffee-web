@@ -9,7 +9,13 @@
 
 .mainPane .headerPane {
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+}
+.headerPane .headerRightPane {
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .headerPane .title {

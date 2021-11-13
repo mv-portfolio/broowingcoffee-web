@@ -8,7 +8,11 @@ export default function App() {
   const store = configStore();
   ConfigInterceptor(store);
 
-  const otherListeners = () => {
+  const screenInit = () => {
+    if (process.env.NODE_ENV !== 'development') {
+      console.log = function () {};
+    }
+
     const viewHeight = window.innerHeight;
     const metaViewport = document.querySelector('meta[name=viewport]');
     const onResize = () => {
@@ -28,7 +32,7 @@ export default function App() {
     window.addEventListener('resize', onResize);
   };
 
-  useEffect(otherListeners, []);
+  useEffect(screenInit, []);
 
   return (
     <Provider store={store}>

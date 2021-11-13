@@ -6,33 +6,27 @@
   background-color: #282627;
   z-index: 1;
 }
-
 .mainPane .title {
   font-family: 'Standard-Font2';
   font-size: 3vh;
 }
 
 .mainPane .bodyPane {
+  flex: 1;
 }
-
 .bodyPane .titleField {
   font-size: 1.75vh;
 }
-
 .bodyPane .input {
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }
 
 .mainPane .bottomPane {
+  flex: 1;
   flex-direction: row;
 }
 .bottomPane .button {
   flex: 1;
   background-color: var(--ACCENT-COLOR);
-  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
-}
-.bottomPane .buttonDelete {
-  flex: 1;
-  background-color: var(--ACCENT-COLOR2);
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }

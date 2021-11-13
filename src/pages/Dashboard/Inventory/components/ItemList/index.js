@@ -3,7 +3,7 @@ import {useState} from 'react';
 import ProductItem from '../Item';
 import styles from './.module.css';
 
-export default function ItemList({items = [], onEdit}) {
+export default function ItemList({items = [], onEdit, onRestock}) {
   const [focus, setFocus] = useState({
     index: 0,
     isOpen: false,
@@ -31,6 +31,7 @@ export default function ItemList({items = [], onEdit}) {
           <ProductItem
             onPress={() => onSelect(index)}
             onEdit={() => onEdit(product)}
+            onRestock={() => onRestock(product)}
             product={product}
             isOpen={focus.isOpen && index === focus.index}
           />

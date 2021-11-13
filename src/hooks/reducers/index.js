@@ -10,6 +10,7 @@ import productAddons, {productAddonsInitState} from './productAddons';
 import products, {productsInitState} from './products';
 import item, {itemInitState} from './item';
 import secondaryDialog, {secondaryDialogInitState} from './secondaryDialog';
+import restock, {restockInitState} from './restock';
 
 export {
   assessAcc,
@@ -33,4 +34,6 @@ export {
   itemInitState,
   secondaryDialog,
   secondaryDialogInitState,
+  restock,
+  restockInitState,
 };

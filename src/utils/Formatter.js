@@ -13,13 +13,19 @@ export default class Formatter {
       sn =
         trimedName.substring(lastIndex + 1, lastIndex + 2).toUpperCase() +
         trimedName.substring(lastIndex + 2, lastIndex2).toLowerCase();
-      fn = trimedName.substring(0, 1).toUpperCase() + trimedName.substring(1, lastIndex).toLowerCase();
+      fn =
+        trimedName.substring(0, 1).toUpperCase() +
+        trimedName.substring(1, lastIndex).toLowerCase();
     } else if (lastIndex > 0) {
       sn =
-        trimedName.substring(lastIndex + 1, lastIndex + 2).toUpperCase() + trimedName.substring(lastIndex + 2).toLowerCase();
-      fn = trimedName.substring(0, 1).toUpperCase() + trimedName.substring(1, lastIndex).toLowerCase();
+        trimedName.substring(lastIndex + 1, lastIndex + 2).toUpperCase() +
+        trimedName.substring(lastIndex + 2).toLowerCase();
+      fn =
+        trimedName.substring(0, 1).toUpperCase() +
+        trimedName.substring(1, lastIndex).toLowerCase();
     } else {
-      fn = trimedName.substring(0, 1).toUpperCase() + trimedName.substring(1).toLowerCase();
+      fn =
+        trimedName.substring(0, 1).toUpperCase() + trimedName.substring(1).toLowerCase();
     }
 
     return `${fn} ${sn} ${tn}`.trim();
@@ -72,41 +78,45 @@ export default class Formatter {
     return `${day}, ${month} ${d} ${year}`;
   }
 
-  static getDateDifference(date) {
-    let current_date = new Date();
-    let prefer_date = new Date(date);
-    let d = '',
-      hr = '',
-      min = '',
-      a = '';
+  static getDateDifference(prevDate) {
+    const prevTime = new Date(prevDate).getTime();
+    const currTime = new Date().getTime();
+    const timeDifference = Math.floor((currTime - prevTime) / 1000);
 
-    d = prefer_date.toLocaleDateString();
-    hr = prefer_date.getHours();
-    min = prefer_date.getMinutes();
-
-    a = hr > 12 ? 'PM' : 'AM';
-    hr = hr % 12;
-    hr = hr ? hr : 12;
-
-    let diff_date = current_date.getTime() - prefer_date;
-    if (diff_date >= 0 && diff_date < 60 * 1000) {
+    //exact
+    if (timeDifference === 0) {
       return 'Now';
-    } else if (diff_date >= 60 * 1000 && diff_date < 60 * 60 * 1000) {
-      if (diff_date < 60 * 1000 * 2) {
-        return Math.round(diff_date / (60 * 1000)) + ' minute ago';
-      } else {
-        return Math.round(diff_date / (60 * 1000)) + ' minutes ago';
+    }
+    //seconds
+    if (timeDifference < 60) {
+      return `${timeDifference} second${timeDifference > 1 ? 's' : ''} ago`;
+    }
+    //minutes
+    if (timeDifference < 60 * 60) {
+      const minute = Math.floor(timeDifference / 60);
+      if (minute < 60) {
+        return `${minute} minute${minute > 1 ? 's' : ''} ago`;
       }
-    } else if (diff_date >= 60 * 60 * 1000 && diff_date < 24 * 60 * 60 * 1000) {
-      if (diff_date < 60 * 60 * 1000 * 2) {
-        return Math.round(diff_date / (60 * 60 * 1000)) + ' hour ago';
-      } else {
-        return Math.round(diff_date / (60 * 60 * 1000)) + ' hours ago';
+    }
+    //hour
+    if (timeDifference < 60 * 60 * 60) {
+      const hour = Math.floor(timeDifference / (60 * 60));
+      if (hour < 24) {
+        return `${hour} hour${hour > 1 ? 's' : ''} ago`;
       }
-    } else if (diff_date >= 24 * 60 * 60 * 1000 && diff_date < 24 * 60 * 60 * 1000 * 2) {
-      return 'Yesterday at ' + this.numberFormatter(hr) + ':' + this.numberFormatter(min) + ' ' + a;
-    } else {
-      return d + ' - ' + this.numberFormatter(hr) + ':' + this.numberFormatter(min) + ' ' + a;
+    }
+    //day
+    if (timeDifference < 60 * 60 * 60 * 24) {
+      const day = Math.floor(timeDifference / (60 * 60 * 24));
+      if (day <= 1) {
+        return 'Yesterday';
+      }
+      const date = new Date(prevTime);
+      const hours = this.#numberFormatter(date.getHours() % 12);
+      const minutes = this.#numberFormatter(date.getUTCMinutes());
+      const seconds = this.#numberFormatter(date.getSeconds());
+      const meridian = date.getHours() >= 12 ? 'PM' : 'AM';
+      return `${date.toLocaleDateString()} - ${hours}:${minutes}:${seconds} ${meridian}`;
     }
   }
   static getDayGreeting() {
@@ -121,7 +131,7 @@ export default class Formatter {
   }
 
   //strategy
-  static numberFormatter(num) {
+  static #numberFormatter(num) {
     if (num < 10) {
       return '0' + num;
     } else {

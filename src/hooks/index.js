@@ -21,6 +21,8 @@ import {
   itemInitState,
   secondaryDialog,
   secondaryDialogInitState,
+  restock,
+  restockInitState,
 } from './reducers';
 
 export {
@@ -45,6 +47,8 @@ export {
   itemInitState,
   secondaryDialog,
   secondaryDialogInitState,
+  restock,
+  restockInitState,
 };
 
 export default function useHook(init, reducer) {
