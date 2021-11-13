@@ -70,8 +70,8 @@ export default class Formatter {
       d = '',
       year = '';
 
-    day = this.dayTerm(prefer_date);
-    month = this.monthTerm(prefer_date);
+    day = this.#dayTerm(prefer_date);
+    month = this.#monthTerm(prefer_date);
     d = prefer_date.getDate();
     year = prefer_date.getFullYear();
 
@@ -138,7 +138,7 @@ export default class Formatter {
       return num;
     }
   }
-  static dayTerm(date) {
+  static #dayTerm(date) {
     let day;
     if (date.getDay() === 0) {
       day = 'Sunday';
@@ -157,7 +157,7 @@ export default class Formatter {
     }
     return day;
   }
-  static monthTerm(date) {
+  static #monthTerm(date) {
     let month;
     if (date.getMonth() === 0) {
       month = 'January';
