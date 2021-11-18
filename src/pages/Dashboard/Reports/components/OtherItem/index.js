@@ -45,6 +45,9 @@ export default function OtherItem({other}) {
       if (module.includes('addon')) {
         return 'Add-on';
       }
+      if(module.includes('inventory')) {
+        return 'Item Inventory'
+      }
       return Formatter.toName(module);
     };
     return `${fixedMessageAction(action)} ${fixedMessageModule(module)}`;
