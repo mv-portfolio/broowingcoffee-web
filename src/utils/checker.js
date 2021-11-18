@@ -1,4 +1,4 @@
-import {getProperties} from './helper';
+import {getPropsValues} from './helper';
 
 const isTypeof = (type, value1, value2) => {
   if (type === 'array') {
@@ -78,11 +78,11 @@ const arrayFind = (data = [], callback) => {
 
 const arrayFilter = (data = [], filter) => {
   let temp_data = [];
-  const {property: filterKey, value: filterValue} = getProperties(filter)[0];
+  const {property: filterKey, value: filterValue} = getPropsValues(filter)[0];
 
   temp_data = data.filter(item => {
     let keyValue = '';
-    getProperties(item).forEach(({property, value}) => {
+    getPropsValues(item).forEach(({property, value}) => {
       if (property === filterKey) {
         keyValue = value;
         return;
@@ -98,11 +98,11 @@ const arrayFilter = (data = [], filter) => {
 
 const arrayUpdate = (data = [], filter, payload = {}) => {
   let temp_data = [];
-  const {property: filterKey, value: filterValue} = getProperties(filter)[0];
+  const {property: filterKey, value: filterValue} = getPropsValues(filter)[0];
 
   temp_data = data.map(item => {
     let keyValue = '';
-    getProperties(item).forEach(({property, value}) => {
+    getPropsValues(item).forEach(({property, value}) => {
       if (property === filterKey) {
         keyValue = value;
       }

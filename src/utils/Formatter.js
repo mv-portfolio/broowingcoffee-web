@@ -30,6 +30,9 @@ export default class Formatter {
 
     return `${fn} ${sn} ${tn}`.trim();
   }
+  static toPluralName(numberSubject, value) {
+    return numberSubject > 1 ? `${value}s` : `${value}`;
+  }
   static toMoney(number) {
     return parseFloat(number).toFixed(2);
   }
@@ -89,20 +92,20 @@ export default class Formatter {
     }
     //seconds
     if (timeDifference < 60) {
-      return `${timeDifference} second${timeDifference > 1 ? 's' : ''} ago`;
+      return `${timeDifference} ${this.toPluralName(timeDifference, 'second')} ago`;
     }
     //minutes
     if (timeDifference < 60 * 60) {
       const minute = Math.floor(timeDifference / 60);
       if (minute < 60) {
-        return `${minute} minute${minute > 1 ? 's' : ''} ago`;
+        return `${minute} ${this.toPluralName(minute, 'minute')} ago`;
       }
     }
     //hour
     if (timeDifference < 60 * 60 * 60) {
       const hour = Math.floor(timeDifference / (60 * 60));
       if (hour < 24) {
-        return `${hour} hour${hour > 1 ? 's' : ''} ago`;
+        return `${hour} ${this.toPluralName(hour, 'hour')} ago`;
       }
     }
     //day

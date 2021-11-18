@@ -12,6 +12,7 @@ const errorInitState = {
   transaction: '',
   product: '',
   inventory: '',
+  report: '',
 };
 
 export default function error(state = errorInitState, action) {
@@ -28,6 +29,7 @@ export default function error(state = errorInitState, action) {
         transaction: isTypeof('string', action.transaction, state.transaction),
         product: isTypeof('string', action.product, state.product),
         inventory: isTypeof('string', action.inventory, state.inventory),
+        report: isTypeof('string', action.report, state.report),
       };
 
     case ACTION_TYPE('ERROR').CLEAR:

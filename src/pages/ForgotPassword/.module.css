@@ -40,7 +40,7 @@
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }
 .bodyPane .buttonTitle {
-  color: #242223;
+  color: var(--BACKGROUND-COLOR);
 }
 
 .mainPane .bottomPane {

@@ -4,7 +4,7 @@
   padding: 1vh;
   border-radius: 2vh !important;
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
-  background-color: #2e2c2d !important;
+  background-color: var(--BACKGROUND-COLOR3) !important;
 }
 
 .mainPane .bodyPane {

@@ -3,32 +3,27 @@
   padding-left: 2vh;
   padding-right: 2vh;
 }
-
-.mainPane .topPane {
-  flex: 0.75;
+.mainPane .label {
+  color: var(--ACCENT-COLOR);
+  font-weight: bold;
+  font-size: 1.75vh;
 }
-
-.topPane .productList {
-  height: 40vh;
-}
-
-.mainPane .bodyPane {
-  flex: 0.5;
-}
-
-.bodyPane .headerPane,
-.topPane .headerPane {
+.mainPane .headerPane {
   height: 5vh;
   padding: 0.5vh;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-} 
+}
 
-.headerPane .label {
-  color: var(--ACCENT-COLOR);
-  font-size: 2vh;
-  font-weight: bold;
+.mainPane .bodyPane {
+  height: 85vh;
+}
+.bodyPane .mainProductList {
+  height: 38vh;
+}
+.bodyPane .addonProductList {
+  height: 28vh;
 }
 
 .headerPane .actionPane {

@@ -3,7 +3,7 @@ import {ICON_SIZE} from 'constants/sizes';
 import {accentColor} from 'constants/styles';
 import {isArray} from 'utils/checker';
 import Formatter from 'utils/Formatter';
-import {getProperties, sumOfPrice} from 'utils/helper';
+import {getPropsValues, onFormat, sumOfPrice} from 'utils/helper';
 
 import styles from './.module.css';
 
@@ -17,7 +17,7 @@ export default function PurchasingItem({
 }) {
   const {name} = purchasingProduct;
 
-  const content = getProperties(purchasingProduct)
+  const content = getPropsValues(purchasingProduct)
     .filter(obj => obj.property !== '_id')
     .filter(obj => obj.property !== 'id')
     .filter(obj => obj.property !== 'name')
@@ -33,16 +33,6 @@ export default function PurchasingItem({
       finalPrice -= (discount / 100) * finalPrice;
     }
     return Formatter.toMoney(finalPrice);
-  };
-  const onFormat = (property, value) => {
-    let val = value;
-    if (property === 'price') {
-      val = `${Formatter.toMoney(value)}`;
-    }
-    if (property === 'discount') {
-      val = `${value}%`;
-    }
-    return val;
   };
 
   return (

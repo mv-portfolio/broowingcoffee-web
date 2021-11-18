@@ -7,7 +7,7 @@
   font-family: 'Standard-Font';
   font-weight: bold;
   text-align: end;
-  background-color: var(--BACKGROUND-COLOR);
+  background-color: var(--BACKGROUND-COLOR2);
 }
 
 .input:focus {

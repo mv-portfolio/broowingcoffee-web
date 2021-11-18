@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Button, Icon, Separator, Text, View} from 'components';
 import styles from './.module.css';
-import {backgroundColor} from 'constants/styles';
+import {backgroundColor2} from 'constants/styles';
 import {ICON_SIZE} from 'constants/sizes';
 export default function Picker({items = [], selected, onSelected}) {
   const [state, setState] = useState({
@@ -32,7 +32,7 @@ export default function Picker({items = [], selected, onSelected}) {
           <Icon
             font='AntDesign'
             name='caretdown'
-            color={backgroundColor}
+            color={backgroundColor2}
             size={ICON_SIZE}
           />
         </View>

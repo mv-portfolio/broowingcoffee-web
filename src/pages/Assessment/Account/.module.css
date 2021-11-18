@@ -11,7 +11,7 @@
 .topPane .headerPane {
   width: 37.5vh;
   align-items: flex-start;
-  justify-content: center;  
+  justify-content: center;
 }
 .headerPane .title {
   color: #fff;
@@ -40,7 +40,7 @@
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }
 .bodyPane .buttonTitle {
-  color: #242223;
+  color: var(--BACKGROUND-COLOR2);
 }
 
 .mainPane .bottomPane {

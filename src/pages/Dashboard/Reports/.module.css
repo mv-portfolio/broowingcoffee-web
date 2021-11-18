@@ -1,39 +1,18 @@
 .mainPane {
   height: 90vh;
-  align-items: center;
-  justify-content: center;
+  padding-left: 2vh;
+  padding-right: 2vh;
 }
 
 .mainPane .bodyPane {
+}
+.bodyPane .labelPane {
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 }
-
-.bodyPane .title {
+.labelPane .label {
+  font-size: 1.8vh;
+  font-weight: bold;
   color: var(--ACCENT-COLOR);
-  padding: 0;
-  margin: 0;
-  font-size: max(20px, 2.5vw);
-  font-family: 'Standard-Font2';
-}
-
-.bodyPane .subtitle {
-  font-size: max(12px, 1.2vw);
-}
-
-@media screen and (max-width: 400px) {
-  .backgroundPane .mainPane {
-    flex: 1;
-    width: 100vw;
-  }
-
-  .bodyPane .title {
-    font-size: 2.25vh;
-  }
-
-  .bodyPane .subtitle {
-    font-size: 1.75vh;
-    width: 250px;
-    text-align: center;
-  }
 }

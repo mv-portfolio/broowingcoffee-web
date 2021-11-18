@@ -3,7 +3,7 @@
   flex-direction: row;
   justify-content: space-between;
   border-radius: 1vh;
-  background-color: var(--BACKGROUND-COLOR2);
+  background-color: var(--BACKGROUND-COLOR3);
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }
 

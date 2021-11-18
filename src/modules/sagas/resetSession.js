@@ -10,6 +10,7 @@ import {
   CLEAR_SIGNIN,
   CLEAR_USER,
   CLEAR_USERS,
+  CLEAR_REPORTS,
 } from 'modules/actions';
 import {replace} from 'connected-react-router';
 
@@ -22,6 +23,7 @@ function* resetWorker() {
   yield put(CLEAR_SIGNIN());
   yield put(CLEAR_USER());
   yield put(CLEAR_USERS());
+  yield put(CLEAR_REPORTS());
   yield put(replace('/'));
   console.log('RESET-SESSION RESOLVE');
 }

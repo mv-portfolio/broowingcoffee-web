@@ -3,14 +3,14 @@
   padding-left: 2vh;
   padding-right: 2vh;
 }
+.mainPane .title {
+ color: var(--ACCENT-COLOR);
+ font-weight: bold;
+ font-size: 1.75vh;
+}
 
 .mainPane .topPane {
   flex: 3.4;
-}
-.topPane .title {
-  color: var(--ACCENT-COLOR);
-  font-weight: bold;
-  font-size: 2vh;
 }
 .topPane .productList {
   flex-direction: row;
@@ -34,11 +34,6 @@
   font-size: 1.5vh;
   color: var(--ACCENT-COLOR);
   font-weight: bold;
-}
-.bodyPane .title {
-  color: var(--ACCENT-COLOR);
-  font-weight: bold;
-  font-size: 2vh;
 }
 
 .bodyPane .subtitle {

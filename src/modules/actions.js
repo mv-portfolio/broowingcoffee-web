@@ -69,6 +69,7 @@ const SET_ERROR = ({
   transaction,
   product,
   inventory,
+  report,
 }) => ({
   type: ACTION_TYPE('ERROR').SET,
   page,
@@ -81,6 +82,7 @@ const SET_ERROR = ({
   transaction,
   product,
   inventory,
+  report,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION_TYPE('ERROR').CLEAR,
@@ -121,16 +123,16 @@ const SET_PRODUCTS = ({main, addons}) => ({
   main,
   addons,
 });
-const PUSH_PRODUCT = ({mainProduct, addonProduct}) => ({
-  type: ACTION_TYPE('PRODUCTS').PUSH,
-  mainProduct,
-  addonProduct,
-});
 const SET_INDEX_PRODUCTS = ({mainId, addonId, payload}) => ({
   type: ACTION_TYPE('PRODUCTS').SET_INDEX,
   mainId,
   addonId,
   payload,
+});
+const PUSH_PRODUCT = ({mainProduct, addonProduct}) => ({
+  type: ACTION_TYPE('PRODUCTS').PUSH,
+  mainProduct,
+  addonProduct,
 });
 const POP_PRODUCT = ({mainId, addonId}) => ({
   type: ACTION_TYPE('PRODUCTS').POP,
@@ -196,6 +198,23 @@ const PUSH_TRANSACTIONS = ({transaction}) => ({
   transaction,
 });
 
+const PEEK_REPORTS = () => ({
+  type: ACTION_TYPE('REPORTS').PEEK,
+});
+const PUSH_REPORT = ({transactionHistory, otherHistory}) => ({
+  type: ACTION_TYPE('REPORTS').PUSH,
+  transactionHistory,
+  otherHistory,
+});
+const SET_REPORTS = ({transactionHistories, otherHistories}) => ({
+  type: ACTION_TYPE('REPORTS').SET,
+  transactionHistories,
+  otherHistories,
+});
+const CLEAR_REPORTS = () => ({
+  type: ACTION_TYPE('REPORTS').CLEAR,
+});
+
 const RESET_SESSION = () => ({
   type: ACTION_TYPE('RESET-SESSION').POP,
 });
@@ -252,6 +271,11 @@ export {
   //transactions
   PEEK_TRANSACTIONS,
   PUSH_TRANSACTIONS,
+  //reports
+  PEEK_REPORTS,
+  PUSH_REPORT,
+  SET_REPORTS,
+  CLEAR_REPORTS,
   //reset-session
   RESET_SESSION,
 };

@@ -3,7 +3,13 @@ import {ACTION_TYPE} from 'constants/strings';
 import {POP_INVENTORY, SET_ERROR, SET_INVENTORY} from 'modules/actions';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
-import {arrayFind} from 'utils/helper';
+import {
+  arrayFind,
+  getObjectChanges,
+  getPropsValues,
+  getSpecificProperty,
+} from 'utils/helper';
+import {onReport} from './reports';
 
 function* peekWorker() {
   try {
@@ -15,38 +21,72 @@ function* peekWorker() {
     yield console.log('PEEK-INVENTORY-REJECT');
   }
 }
-
 function* pushWorker({item}) {
   try {
     const config = yield serverConfig();
-    yield call(server.push, '/inventory/push', item, config);
+    const {res: pushResponse} = yield call(server.push, '/inventory/push', item, config);
     yield peekWorker();
+
+    yield onReport({
+      action: 'ADD',
+      module: 'inventory',
+      reference: pushResponse,
+    });
+
     yield console.log('PUSH-INVENTORY-RESOLVE');
   } catch (err) {
     yield console.log('PUSH-INVENTORY-REJECT');
     yield put(SET_ERROR({inventory: err}));
   }
 }
-
 function* setWorker(state) {
   try {
+    const config = yield serverConfig();
     let quantity = state.item.quantity;
+    let action = 'UPDATE';
     if (state.type === ACTION_TYPE('INVENTORY-RESTOCK').SET_INDEX) {
       const items = yield select(state => state.inventory.items);
       const item = arrayFind(items, {name: state.item.name});
       quantity = item.quantity;
+      action = 'RESTOCK';
     }
-    const config = yield serverConfig();
+
+    const {res: peekResponse} = yield call(server.peek, '/inventory', {
+      ...config,
+      params: {
+        name: state.item.name,
+      },
+    });
+    console.log(peekResponse[0], state.item);
+    const reference = getObjectChanges(peekResponse[0], {...state.item, quantity});
+
     yield call(server.set, '/inventory/set', {...state.item, quantity}, config);
+    yield onReport({
+      action,
+      module: 'inventory',
+      reference,
+    });
+
     yield console.log('SET-INVENTORY-RESOLVE');
   } catch (err) {
-    yield console.log('SET-INVENTORY-REJECT');
+    yield console.log('SET-INVENTORY-REJECT', err);
   }
 }
-
 function* popWorker(state) {
   try {
     const config = yield serverConfig();
+    const {res: peekResponse} = yield call(server.peek, '/inventory', {
+      ...config,
+      params: {
+        name: state.itemId,
+      },
+    });
+    yield onReport({
+      action: 'DELETE',
+      module: 'inventory',
+      reference: peekResponse[0],
+    });
+
     yield call(server.pop, '/inventory/pop', {name: state.itemId}, config);
     yield put(POP_INVENTORY({itemId: state.itemId}));
     yield console.log('POP-INVENTORY-RESOLVE');

@@ -1,6 +1,6 @@
 import styles from './.module.css';
 import * as Progress from 'components/Progress';
-import {backgroundColor} from 'constants/styles';
+import {backgroundColor2} from 'constants/styles';
 import {Separator, View} from 'components';
 import {hp} from 'utils/helper';
 
@@ -38,7 +38,7 @@ export default function Button({
       )}
       {isLoading && (
         <Progress.CircleSnail
-          color={backgroundColor}
+          color={backgroundColor2}
           size={hp(2.75)}
           thickness={hp(0.35)}
         />

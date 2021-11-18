@@ -257,7 +257,7 @@ export default function Main({
               skin={styles.button}
               disabled={!isChange}
               defaultStyle={{
-                backgroundColor: isChange ? accentColor : accentColorDisabled,
+                backgroundColor2: isChange ? accentColor : accentColorDisabled,
               }}
               onPress={() => onClick('on-click-update')}
             />

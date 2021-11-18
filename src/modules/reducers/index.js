@@ -10,6 +10,7 @@ import products from './products';
 import purchasingProducts from './purchasingProducts';
 import transactions from './transactions';
 import inventory from './inventory';
+import reports from './reports';
 
 import {combineReducers} from 'redux';
 import {connectRouter} from 'connected-react-router';
@@ -28,6 +29,7 @@ export default function rootReducer(history) {
     purchasingProducts,
     transactions,
     inventory,
+    reports,
     router: connectRouter(history),
   });
 }

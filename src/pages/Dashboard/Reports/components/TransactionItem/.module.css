@@ -1,49 +1,43 @@
 .mainPane {
-  min-height: 2vh;
-  justify-content: center;
-  padding: 1.5vh 2.5vh 1.75vh 2vh;
+  padding: 1.5vh 2vh;
   border-radius: 1vh;
   background-color: var(--BACKGROUND-COLOR3);
   box-shadow: rgba(0, 0, 0, 0.25) 0.25vh 0.25vh 0.25vh;
 }
 
 .mainPane .headerPane {
+  flex: 1;
   flex-direction: row;
-  align-items: center;
   justify-content: space-between;
 }
-.headerPane .headerRightPane {
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
 .headerPane .title {
-  font-size: 1.75vh;
+  font-size: 1.7vh;
   font-weight: bold;
 }
-
-.headerPane .buttonEdit {
-  width: 3vh;
-  height: 3vh;
-  border-radius: 0;
+.headerPane .text {
+  font-size: 1.65vh;
+}
+.headerPane .buttonView {
+  width: 2.5vh;
+  height: 2.5vh;
 }
 
-.mainPane .contentPane {
+.mainPane .bodyPane {
 }
-
-.contentPane .propertyPane {
+.bodyPane .property {
+}
+.bodyPane .propertyPane {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   border-bottom: solid 0.05vh rgba(0, 0, 0, 0.2);
 }
 
-.propertyPane .propertyName {
+.bodyPane .propertyName {
   font-size: 1.5vh;
 }
 
-.propertyPane .propertyValue {
+.bodyPane .propertyValue {
   color: var(--ACCENT-COLOR);
   font-size: 1.6vh;
   font-weight: bold;

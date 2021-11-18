@@ -219,7 +219,7 @@ function Transaction({
         title={title}
         content={content}
         positiveText='Delete'
-        positiveButtonStyle={{backgroundColor: accentColor2}}
+        positiveButtonStyle={{backgroundColor2: accentColor2}}
         onClickPositive={() => onClick('on-click-delete-dialog-positive', value)}
         negativeText='No'
         onClickNegative={onHidePrimaryDialog}
@@ -262,7 +262,7 @@ function Transaction({
 
   return (
     <View style={styles.mainPane}>
-      <View style={styles.topPane}>
+      <View style={styles.bodyPane}>
         <View style={styles.headerPane}>
           <Text style={styles.label}>Main</Text>
           <View style={styles.actionPane}>
@@ -278,15 +278,13 @@ function Transaction({
             </Button>
           </View>
         </View>
-        <Separator vertical={0.5} />
+        <Separator vertical={0.25} />
         <ProductList
-          style={styles.productList}
+          style={styles.mainProductList}
           products={products.main.sort(ASC_NAME)}
           onEdit={product => onClick('on-click-edit-product-main', product)}
         />
-      </View>
-      <Separator vertical={1} />
-      <View style={styles.bodyPane}>
+        <Separator vertical={1} />
         <View style={styles.headerPane}>
           <Text style={styles.label}>Addons</Text>
           <View style={styles.actionPane}>
@@ -302,13 +300,15 @@ function Transaction({
             </Button>
           </View>
         </View>
-        <Separator vertical={0.5} />
+        <Separator vertical={0.25} />
         <ProductList
+          style={styles.addonProductList}
           products={products.addons.sort(ASC_NAME)}
           onEdit={product => onClick('on-click-edit-product-addons', product)}
         />
+        <Separator vertical={1.5} />
       </View>
-      <Separator vertical={1.5} />
+      <View style={styles.bottomPane}></View>
     </View>
   );
 }

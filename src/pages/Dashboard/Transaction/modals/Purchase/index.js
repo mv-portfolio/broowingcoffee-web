@@ -197,7 +197,7 @@ export default function Purchase({
               skin={styles.button}
               disabled={!isChange}
               defaultStyle={{
-                backgroundColor: isChange ? accentColor : accentColorDisabled,
+                backgroundColor2: isChange ? accentColor : accentColorDisabled,
               }}
               title='Update'
               onPress={() => onClick('on-click-update')}

@@ -11,6 +11,7 @@ import products, {productsInitState} from './products';
 import item, {itemInitState} from './item';
 import secondaryDialog, {secondaryDialogInitState} from './secondaryDialog';
 import restock, {restockInitState} from './restock';
+import reports, {reportsInitState} from './reports';
 
 export {
   assessAcc,
@@ -36,4 +37,6 @@ export {
   secondaryDialogInitState,
   restock,
   restockInitState,
+  reports,
+  reportsInitState,
 };

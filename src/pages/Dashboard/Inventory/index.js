@@ -73,7 +73,7 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
     }
     if (actionType === 'on-click-delete-dialog') {
       onShowConditionalDeleteDialog({
-        title: 'Item',
+        title: 'Delete',
         content: `Do you want to delete ${value}?`,
         value,
       });
@@ -112,7 +112,7 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
         title={title}
         content={content}
         positiveText='Delete'
-        positiveButtonStyle={{backgroundColor: accentColor2}}
+        positiveButtonStyle={{backgroundColor2: accentColor2}}
         onClickPositive={() => onClick('on-click-delete-dialog-positive', value)}
         negativeText='No'
         onClickNegative={onHidePrimaryDialog}

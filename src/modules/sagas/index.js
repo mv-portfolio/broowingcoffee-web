@@ -4,9 +4,10 @@ import rootAuthSaga from './auth';
 import rootAssessmentSaga from './assessment';
 import rootSignInSaga from './signin';
 import rootForgotPasswordSaga from './forgotPassword';
-import rootTransactionSaga from './transaction';
+import rootTransactionSaga from './transactions';
 import rootInventorSaga from './inventory';
 import rootResetSessionSaga from './resetSession';
+import rootReportSaga from './reports';
 
 import {all} from 'redux-saga/effects';
 
@@ -21,5 +22,6 @@ export default function* rootSagas() {
     rootTransactionSaga(),
     rootInventorSaga(),
     rootResetSessionSaga(),
+    rootReportSaga(),
   ]);
 }
