@@ -41,7 +41,7 @@ function* pushWorker(state) {
       config,
     );
     yield peekWorker();
-    
+
     yield onReport({
       action: 'ADD',
       module: `products/${chunks.path}`,
@@ -71,6 +71,7 @@ function* setWorker(state) {
         name: chunks.name,
       },
     });
+    console.log(peekResponse[0], state.payload);
     const reference = getObjectChanges(peekResponse[0], state.payload);
     yield onReport({
       action: 'UPDATE',

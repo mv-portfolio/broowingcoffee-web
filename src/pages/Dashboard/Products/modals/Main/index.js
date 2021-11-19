@@ -3,9 +3,10 @@ import {Button, Picker, Separator, Text, TextInput, View, Icon} from 'components
 import {Toast, SecondaryDialog} from 'context';
 import Formatter from 'utils/Formatter';
 import useHook, {productMain as productMainReducer, productMainInitState} from 'hooks';
-import {arrayFind, isName, isInteger, isDouble} from 'utils/checker';
-import styles from './.module.css';
 import {accentColor, accentColorDisabled} from 'constants/styles';
+import {isName, isDouble} from 'utils/checker';
+import {isConsumableChange} from 'utils/helper';
+import styles from './.module.css';
 import ItemList from '../../components/ItemList';
 import Item from '../Item';
 
@@ -147,24 +148,6 @@ export default function Main({
       }
       return;
     }
-  };
-
-  const isConsumableChange = (prevArr = [], currentArr = []) => {
-    let isChange = false;
-    if (prevArr.length !== currentArr.length) {
-      return true;
-    }
-    prevArr.forEach(prev => {
-      if (
-        !arrayFind(
-          currentArr,
-          cur => cur.name === prev.name && cur.consumed === prev.consumed,
-        )
-      ) {
-        isChange = true;
-      }
-    });
-    return isChange;
   };
 
   const changeListener = () => {

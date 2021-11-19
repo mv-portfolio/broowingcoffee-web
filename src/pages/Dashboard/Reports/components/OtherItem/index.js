@@ -4,7 +4,7 @@ import {ADDED_COLOR, UPDATED_COLOR, DELETED_COLOR, RESTOCK_COLOR} from 'constant
 import Formatter from 'utils/Formatter';
 import {getPropsValues, getSpecificProperty, onCleanName, onFormat} from 'utils/helper';
 import styles from './.module.css';
-import {isArray} from 'utils/checker';
+import {hasSymbol, isArray, isObject} from 'utils/checker';
 
 export default function OtherItem({other}) {
   const history = getSpecificProperty(
@@ -45,8 +45,8 @@ export default function OtherItem({other}) {
       if (module.includes('addon')) {
         return 'Add-on';
       }
-      if(module.includes('inventory')) {
-        return 'Item Inventory'
+      if (module.includes('inventory')) {
+        return 'Item Inventory';
       }
       return Formatter.toName(module);
     };
@@ -118,49 +118,55 @@ export default function OtherItem({other}) {
               </View>
             ))}
           </View>
-          {(history.action === 'UPDATE' || history.action === 'RESTOCK') && (
+          {history.action !== 'ADD' && history.action !== 'DELETE' && (
             <>
               <Separator vertical={1} />
               <View style={styles.updatesPane}>
                 <Text style={styles.updatesLabel}>Updates</Text>
-                <Separator vertical={0.5} />
-                {references.map(({property, value}, index) => (
-                  <View key={index} style={styles.property}>
-                    <View style={styles.propertyPane}>
-                      <Text style={styles.propertyName}>{onCleanName(property)}</Text>
-                      {property === 'cost' ? (
-                        <Text style={styles.propertyValue}>{`${onFormat(
-                          property,
-                          value[1],
-                        )}`}</Text>
-                      ) : (
-                        <Text style={styles.propertyValue}>{`${onFormat(
-                          property,
-                          value[0],
-                        )} -> ${onFormat(property, value[1])}`}</Text>
-                      )}
-                    </View>
-                    {index + 1 !== properties.length && <Separator vertical={0.2} />}
-                  </View>
-                ))}
+                {references.length > 0 && (
+                  <>
+                    <Separator vertical={0.5} />
+                    {references.map(({property, value}, index) => (
+                      <View key={index} style={styles.property}>
+                        <View style={styles.propertyPane}>
+                          <Text style={styles.propertyName}>{onCleanName(property)}</Text>
+                          {property === 'cost' && history.action === 'RESTOCK' ? (
+                            <Text style={styles.propertyValue}>{`${onFormat(
+                              property,
+                              value[1],
+                            )}`}</Text>
+                          ) : (
+                            <Text style={styles.propertyValue}>{`${onFormat(
+                              property,
+                              value[0],
+                            )} -> ${onFormat(property, value[1])}`}</Text>
+                          )}
+                        </View>
+                        {index + 1 !== properties.length && <Separator vertical={0.2} />}
+                      </View>
+                    ))}
+                  </>
+                )}
               </View>
-              {history.action === 'UPDATE' && (
+              {isObject(history.reference.consumables) && (
                 <>
                   <Separator vertical={0.75} />
+                  {isObject(history.reference.consumables) && (
+                    <Separator vertical={0.25} />
+                  )}
                   <Text style={styles.propertyName}>consumables</Text>
                   <Separator vertical={0.25} />
-                  {history.reference.consumables.map(({name, consumed}, index) => (
-                    <View style={styles.property} key={index}>
-                      <View style={styles.propertyPane}>
-                        <Text style={styles.propertyName}>{name}</Text>
-                        <Text
-                          style={
-                            styles.propertyValue
-                          }>{`${consumed[0]} pcs -> ${consumed[1]} pcs`}</Text>
+                  {getPropsValues(history.reference.consumables).map(
+                    ({property, value}, index) => (
+                      <View style={styles.property} key={index}>
+                        <View style={styles.propertyPane}>
+                          <Text style={styles.propertyName}>{property}</Text>
+                          <Text style={styles.propertyValue}>{`${value} pcs`}</Text>
+                        </View>
+                        {index + 1 !== properties.length && <Separator vertical={0.2} />}
                       </View>
-                      {index + 1 !== properties.length && <Separator vertical={0.2} />}
-                    </View>
-                  ))}
+                    ),
+                  )}
                 </>
               )}
             </>

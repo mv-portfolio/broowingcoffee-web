@@ -51,38 +51,61 @@ const onFormat = (property, value) => {
 const getObjectChanges = (target, source) => {
   let tempObject = {
     name: target.name,
+    consumables: {},
   };
-  getPropsValues(target).map(object => {
-    getPropsValues(source).map(object2 => {
+  getPropsValues(target).forEach((targetObj) => {
+    getPropsValues(source).forEach((sourceObj) => {
       if (
-        (object.property === object2.property &&
-          object.value !== object2.value &&
-          !object.property.includes('date')) ||
-        (object.property === 'cost' && object2.property === 'cost')
+        (targetObj.property === sourceObj.property &&
+          targetObj.value !== sourceObj.value &&
+          !targetObj.property.includes("date")) ||
+        (targetObj.property === "cost" && sourceObj.property === "cost")
       ) {
-        if (isArray(object2.value)) {
-          let consumables = [];
-          object.value.map(value => {
-            object2.value.map(value2 => {
-              if (
-                value._id_item._id === value2._id_item._id &&
-                value.consumed !== value2.consumed
-              ) {
-                consumables.push({
-                  name: value._id_item.name,
-                  consumed: [value.consumed, value2.consumed],
-                });
-              }
-            });
+        if (isArray(sourceObj.value)) {
+          sourceObj.value.forEach((src) => {
+            const isExist = targetObj.value.filter(
+              (objVal) => objVal._id_item._id === src._id_item._id
+            )[0];
+
+            if (!isExist) {
+              tempObject.consumables[src._id_item.name] = `${src.consumed}`;
+            } else {
+              targetObj.value.forEach((trg) => {
+                const { consumed: trgConsumed } = trg;
+                const { consumed: srcConsumed } = src;
+                if (
+                  trg._id_item.name === src._id_item.name &&
+                  trgConsumed !== srcConsumed
+                ) {
+                  tempObject.consumables[
+                    src._id_item.name
+                  ] = `${trgConsumed} -> ${srcConsumed}`;
+                }
+              });
+            }
           });
-          tempObject[object.property] = consumables;
           return;
         }
-        tempObject[object.property] = [object.value, object2.value];
+        tempObject[targetObj.property] = [targetObj.value, sourceObj.value];
       }
     });
   });
   return tempObject;
+};
+const isConsumableChange = (prevArr = [], currentArr = []) => {
+  let isChange = false;
+  if (prevArr.length !== currentArr.length) {
+    return true;
+  }
+  console.log(prevArr, currentArr);
+  prevArr.forEach(prev => {
+    currentArr.forEach(curr => {
+      if (prev._id_item.name === curr._id_item.name && prev.consumed !== curr.consumed) {
+        isChange = true;
+      }
+    });
+  });
+  return isChange;
 };
 /* ----- end ---- */
 
@@ -255,4 +278,5 @@ export {
   getPropsValues,
   getObjectChanges,
   getSpecificProperty,
+  isConsumableChange,
 };
