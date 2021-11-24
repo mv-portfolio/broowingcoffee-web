@@ -3,20 +3,18 @@
   min-height: 67.5vh;
   border-radius: 2vh;
   padding: 4vh 3vh 4vh 3vh;
-  background-color: #282627;
+  background-color: var(--BACKGROUND-COLOR2);
   z-index: 1;
 }
 
 .mainPane .topPane {
   flex: 1.5;
 }
-
 .topPane .title {
   color: var(--ACCENT-COLOR);
   font-weight: bold;
   font-size: 3vh;
 }
-
 .topPane .subtitle {
   font-size: 2.25vh;
 }
@@ -24,11 +22,13 @@
 .mainPane .bodyPane {
   flex: 6;
 }
-
 .bodyPane .titleField {
   font-size: 1.65vh;
 }
-
+.bodyPane .dropdown {
+  width: auto;
+  background-color: var(--ACCENT-COLOR);
+}
 .bodyPane .input {
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }
@@ -38,7 +38,6 @@
   flex-direction: row;
   align-items: flex-end;
 }
-
 .bottomPane .button {
   flex: 1;
   height: 6vh;

@@ -6,7 +6,8 @@ const Button = lazy(() => import('./Button'));
 const Checklist = lazy(() => import('./Checklist'));
 const Dialog = lazy(() => import('./Dialog'));
 const Image = lazy(() => import('./Image'));
-const Picker = lazy(() => import('./Picker'));
+const Dropdown = lazy(() => import('./Dropdown'));
+const DatePicker = lazy(() => import('./DatePicker'));
 const Separator = lazy(() => import('./Separator'));
 const TextInput = lazy(() => import('./TextInput'));
 const Text = lazy(() => import('./Text'));
@@ -26,7 +27,8 @@ export {
   CircleSnail,
   Dialog,
   Image,
-  Picker,
+  DatePicker,
+  Dropdown,
   Separator,
   TextInput,
   Text,
@@ -37,5 +39,5 @@ export {
   Icon,
   Toast,
   SearchField,
-  SecondaryDialog
+  SecondaryDialog,
 };

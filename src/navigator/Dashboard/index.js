@@ -1,32 +1,30 @@
-import Icon from 'react-web-vector-icons';
-import styles from './.module.css';
-
-import {lazy, useContext, useEffect} from 'react';
+import {lazy, useContext, useEffect, useReducer} from 'react';
 import {Switch, Route} from 'react-router-dom';
-import {Button, Dialog, View} from 'components';
-import {pages} from './pages';
-import {WHITE} from 'constants/styles';
 import {connect} from 'react-redux';
-import useHook, {menu, initStateMenu} from 'hooks';
+import Icon from 'react-web-vector-icons';
+
+import {Button, Dialog, View} from 'components';
+import {WHITE} from 'constants/colors';
 import {PEEK_INVENTORY, PEEK_PRODUCTS, RESET_SESSION} from 'modules/actions';
-import {PrimaryDialog} from 'context';
-import {popLocalStorage} from 'storage';
-import {replace} from 'connected-react-router';
+import {Header, PrimaryDialog} from 'context';
+import {pages} from './pages';
+import styles from './.module.css';
 
 const HeaderBar = lazy(() => import('components/HeaderBar'));
 
 function DashBoardNavigator({dispatch, user, error}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
-  const [menuState, setMenuState] = useHook(initStateMenu, menu);
+
+  const {title, isMenuListShow, onSetHeader} = useContext(Header);
 
   const onClick = (componentType, value) => {
     if (componentType === 'switch-route') {
-      setMenuState({type: 'set', title: value, isShow: false});
+      onSetHeader({isMenuListShow: false, title: value});
     } else if (componentType === 'menu') {
-      setMenuState({type: 'set-show', isShow: !menuState.isShow});
+      onSetHeader({isMenuListShow: !isMenuListShow});
     } else if (componentType === 'menu-touch-outside') {
-      setMenuState({type: 'set-show', isShow: false});
+      onSetHeader({isMenuListShow: false});
     }
   };
 
@@ -34,9 +32,7 @@ function DashBoardNavigator({dispatch, user, error}) {
     dispatch(PEEK_PRODUCTS());
     dispatch(PEEK_INVENTORY());
   };
-
   const errorListener = () => {
-    //error.auth === 'jwt must be provided' ||
     if (error.auth === 'jwt expired') {
       onShowPrimaryDialog(
         <Dialog
@@ -44,6 +40,7 @@ function DashBoardNavigator({dispatch, user, error}) {
           content='We need to redirect you from login'
           onClickPositive={() => {
             dispatch(RESET_SESSION());
+            onSetHeader({type: 'clear'});
             onHidePrimaryDialog();
           }}
         />,
@@ -58,8 +55,8 @@ function DashBoardNavigator({dispatch, user, error}) {
     <View style={styles.mainPane}>
       {user.isAssessed && (
         <HeaderBar
-          title={menuState.title}
-          showMenu={menuState.isShow}
+          title={title}
+          showMenu={isMenuListShow}
           onSwitchRoute={routeName => onClick('switch-route', routeName)}
           prefixComponent={
             <Button onPress={() => onClick('menu')}>
@@ -69,7 +66,7 @@ function DashBoardNavigator({dispatch, user, error}) {
         />
       )}
       <View style={styles.contentPane}>
-        {menuState.isShow && (
+        {isMenuListShow && (
           <Button
             onPress={() => onClick('menu-touch-outside')}
             title=''

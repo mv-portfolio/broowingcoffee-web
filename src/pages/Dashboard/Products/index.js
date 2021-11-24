@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 import {Button, Dialog, Icon, Separator, Text, View, SearchField} from 'components';
-import {accentColor, accentColor2} from 'constants/styles';
+import {ACCENT_COLOR, ACCENT_COLOR2} from 'constants/colors';
 import {PrimaryDialog, Toast} from 'context';
 import useHook, {productsInitState, products as productsReducer} from 'hooks';
 import {connect} from 'react-redux';
@@ -219,7 +219,7 @@ function Transaction({
         title={title}
         content={content}
         positiveText='Delete'
-        positiveButtonStyle={{backgroundColor2: accentColor2}}
+        positiveButtonStyle={{BACKGROUND_COLOR2: ACCENT_COLOR2}}
         onClickPositive={() => onClick('on-click-delete-dialog-positive', value)}
         negativeText='No'
         onClickNegative={onHidePrimaryDialog}
@@ -274,7 +274,7 @@ function Transaction({
             <Button
               skin={styles.headerButtons}
               onPress={() => onClick('on-click-add-product-main')}>
-              <Icon font='Feather' name='plus' color={accentColor} size='3vh' />
+              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='3vh' />
             </Button>
           </View>
         </View>
@@ -296,7 +296,7 @@ function Transaction({
             <Button
               skin={styles.headerButtons}
               onPress={() => onClick('on-click-add-product-addons')}>
-              <Icon font='Feather' name='plus' color={accentColor} size='3vh' />
+              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='3vh' />
             </Button>
           </View>
         </View>

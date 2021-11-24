@@ -8,6 +8,7 @@ import rootTransactionSaga from './transactions';
 import rootInventorSaga from './inventory';
 import rootResetSessionSaga from './resetSession';
 import rootReportSaga from './reports';
+import rootReportBugSaga from './reportBug';
 
 import {all} from 'redux-saga/effects';
 
@@ -23,5 +24,6 @@ export default function* rootSagas() {
     rootInventorSaga(),
     rootResetSessionSaga(),
     rootReportSaga(),
+    rootReportBugSaga(),
   ]);
 }

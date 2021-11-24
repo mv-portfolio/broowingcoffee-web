@@ -1,5 +1,6 @@
+import Header from './Header';
 import PrimaryDialog from './PrimaryDialog';
 import SecondaryDialog from './SecondaryDialog';
 import Toast from './Toast';
 
-export {Toast, PrimaryDialog, SecondaryDialog};
+export {Header, Toast, PrimaryDialog, SecondaryDialog};

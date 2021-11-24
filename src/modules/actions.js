@@ -198,8 +198,9 @@ const PUSH_TRANSACTIONS = ({transaction}) => ({
   transaction,
 });
 
-const PEEK_REPORTS = () => ({
+const PEEK_REPORTS = ({filter}) => ({
   type: ACTION_TYPE('REPORTS').PEEK,
+  filter,
 });
 const PUSH_REPORT = ({transactionHistory, otherHistory}) => ({
   type: ACTION_TYPE('REPORTS').PUSH,
@@ -217,6 +218,13 @@ const CLEAR_REPORTS = () => ({
 
 const RESET_SESSION = () => ({
   type: ACTION_TYPE('RESET-SESSION').POP,
+});
+
+const REPORT_BUG = ({title, issue, from}) => ({
+  type: ACTION_TYPE('REPORT-BUG').PUSH,
+  from,
+  title,
+  issue,
 });
 
 export {
@@ -278,4 +286,6 @@ export {
   CLEAR_REPORTS,
   //reset-session
   RESET_SESSION,
+  //report-bug
+  REPORT_BUG,
 };

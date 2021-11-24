@@ -1,0 +1,8 @@
+.mainPane {
+  display: block;
+  height: 42.5vh;
+  padding: 1vh;
+  overflow-y: auto;
+  border-radius: 1vh;
+  background-color: var(--BACKGROUND-COLOR);
+}

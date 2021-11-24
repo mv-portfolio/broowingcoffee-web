@@ -1,18 +1,19 @@
 import {Button, Icon, Separator, Text, View} from 'components';
-import {accentColor} from 'constants/styles';
+import {ACCENT_COLOR} from 'constants/colors';
 import {useState} from 'react';
 import {isArray} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import {
+  hp,
   getPropsValues,
   getSpecificProperty,
-  hp,
   onCleanName,
+  onComputeTransaction,
   onFormat,
 } from 'utils/helper';
 import styles from './.module.css';
 
-export default function TransactionItem({transaction}) {
+export default function TransactionItem({transaction, onViewTransaction}) {
   const reference = getSpecificProperty(
     ['_id', 'discount', 'receiptTo', 'products', 'date_created'],
     transaction.reference,
@@ -30,6 +31,7 @@ export default function TransactionItem({transaction}) {
       return;
     }
     if (action === 'on-view-details') {
+      onViewTransaction(transaction.reference);
       return;
     }
   };
@@ -53,10 +55,10 @@ export default function TransactionItem({transaction}) {
                 e.stopPropagation();
                 onClick('on-view-details');
               }}>
-              <Icon font='Feather' name='eye' size={hp(2.5)} color={accentColor} />
+              <Icon font='Feather' name='eye' size={hp(2.5)} color={ACCENT_COLOR} />
             </Button>
           </View>
-          <Separator vertical={0.75} />
+          <Separator vertical={0.5} />
           <View style={styles.bodyPane}>
             {properties.map(({property, value}, index) => (
               <View key={index} style={styles.property}>
@@ -66,10 +68,10 @@ export default function TransactionItem({transaction}) {
                     <Text style={styles.propertyValue}>{onFormat(property, value)}</Text>
                   </View>
                 )}
-                {index + 1 !== properties.length && <Separator vertical={0.2} />}
+                {index + 1 !== properties.length && <Separator vertical={0.15} />}
               </View>
             ))}
-            <Separator vertical={0.2} />
+            <Separator vertical={0.15} />
             <View style={styles.propertyPane}>
               <Text style={styles.propertyName}>purchased</Text>
               <Text style={styles.propertyValue}>
@@ -77,6 +79,13 @@ export default function TransactionItem({transaction}) {
                   reference.products.length,
                   'product',
                 )}`}
+              </Text>
+            </View>
+            <Separator vertical={0.15} />
+            <View style={styles.propertyPane}>
+              <Text style={styles.propertyName}>total price</Text>
+              <Text style={styles.propertyValue}>
+                {onComputeTransaction(transaction.reference)}
               </Text>
             </View>
           </View>

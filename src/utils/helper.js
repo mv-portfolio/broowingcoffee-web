@@ -27,6 +27,25 @@ const sumOfPrice = (value = []) => {
   value.map(item => (totalPrice = totalPrice + item.price));
   return totalPrice;
 };
+const onCompute = purchasingProductInfo => {
+  let finalPrice = 0;
+  const {discount, price, addons} = purchasingProductInfo;
+  const addonsTotalPrice = sumOfPrice(addons);
+  finalPrice += addonsTotalPrice + price;
+  if (discount) {
+    finalPrice -= (discount / 100) * finalPrice;
+  }
+  return Formatter.toMoney(finalPrice);
+};
+const onComputeTransaction = transactionInfo => {
+  const {products, discount} = transactionInfo;
+  let totalPrice = 0;
+  let totalDiscount = discount / 100;
+  products.forEach(product => {
+    totalPrice += parseInt(onCompute(product));
+  });
+  return Formatter.toMoney(totalPrice - totalDiscount);
+};
 const onCleanName = value => {
   if (value.includes('username')) {
     return 'created by';
@@ -53,26 +72,26 @@ const getObjectChanges = (target, source) => {
     name: target.name,
     consumables: {},
   };
-  getPropsValues(target).forEach((targetObj) => {
-    getPropsValues(source).forEach((sourceObj) => {
+  getPropsValues(target).forEach(targetObj => {
+    getPropsValues(source).forEach(sourceObj => {
       if (
         (targetObj.property === sourceObj.property &&
           targetObj.value !== sourceObj.value &&
-          !targetObj.property.includes("date")) ||
-        (targetObj.property === "cost" && sourceObj.property === "cost")
+          !targetObj.property.includes('date')) ||
+        (targetObj.property === 'cost' && sourceObj.property === 'cost')
       ) {
         if (isArray(sourceObj.value)) {
-          sourceObj.value.forEach((src) => {
+          sourceObj.value.forEach(src => {
             const isExist = targetObj.value.filter(
-              (objVal) => objVal._id_item._id === src._id_item._id
+              objVal => objVal._id_item._id === src._id_item._id,
             )[0];
 
             if (!isExist) {
               tempObject.consumables[src._id_item.name] = `${src.consumed}`;
             } else {
-              targetObj.value.forEach((trg) => {
-                const { consumed: trgConsumed } = trg;
-                const { consumed: srcConsumed } = src;
+              targetObj.value.forEach(trg => {
+                const {consumed: trgConsumed} = trg;
+                const {consumed: srcConsumed} = src;
                 if (
                   trg._id_item.name === src._id_item.name &&
                   trgConsumed !== srcConsumed
@@ -97,7 +116,6 @@ const isConsumableChange = (prevArr = [], currentArr = []) => {
   if (prevArr.length !== currentArr.length) {
     return true;
   }
-  console.log(prevArr, currentArr);
   prevArr.forEach(prev => {
     currentArr.forEach(curr => {
       if (prev._id_item.name === curr._id_item.name && prev.consumed !== curr.consumed) {
@@ -106,6 +124,9 @@ const isConsumableChange = (prevArr = [], currentArr = []) => {
     });
   });
   return isChange;
+};
+const getDateToNumber = (date, day) => {
+  return new Date(date.getFullYear(), date.getMonth(), day).getTime();
 };
 /* ----- end ---- */
 
@@ -273,10 +294,13 @@ export {
   wp,
   getUsername,
   toName,
+  onCompute,
+  onComputeTransaction,
   onCleanName,
   onFormat,
   getPropsValues,
   getObjectChanges,
   getSpecificProperty,
+  getDateToNumber,
   isConsumableChange,
 };

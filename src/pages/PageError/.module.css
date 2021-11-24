@@ -2,7 +2,7 @@
   height: 100vh;
   align-items: center;
   justify-content: center;
-  background-color: #282627;
+  background-color: var(--BACKGROUND-COLOR2);
 }
 
 .mainPane .bodyPane {

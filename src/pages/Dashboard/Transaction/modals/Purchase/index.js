@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react';
-import {View, Text, Separator, TextInput, Picker, Button} from 'components';
+import {View, Text, Separator, TextInput, Dropdown, Button} from 'components';
 import useHook, {purchasingProduct, purchasingProductInitState} from 'hooks';
 import Checklist from 'components/Checklist';
 import {arrayFind, isInteger} from 'utils/checker';
@@ -8,7 +8,7 @@ import Generator from 'utils/Generator';
 import {Toast} from 'context';
 
 import styles from './.module.css';
-import {accentColor, accentColorDisabled} from 'constants/styles';
+import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
 
 export default function Purchase({
   type,
@@ -159,10 +159,12 @@ export default function Purchase({
         <Separator vertical={0.75} />
         <Text style={styles.titleField}>Type</Text>
         <Separator vertical={0.25} />
-        <Picker
+        <Dropdown
           items={getPickerItems(hot_price, cold_price)}
           selected={state.tempType}
           onSelected={value => onClick('on-select-type', value)}
+          style={styles.dropdown}
+          ACCENT_COLOR={BACKGROUND_COLOR}
         />
         <Separator vertical={0.75} />
         <Text style={styles.titleField}>Price</Text>
@@ -197,7 +199,7 @@ export default function Purchase({
               skin={styles.button}
               disabled={!isChange}
               defaultStyle={{
-                backgroundColor2: isChange ? accentColor : accentColorDisabled,
+                BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
               title='Update'
               onPress={() => onClick('on-click-update')}

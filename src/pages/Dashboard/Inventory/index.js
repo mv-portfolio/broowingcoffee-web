@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from 'react';
 import {View, Button, Icon, SearchField, Dialog, SecondaryDialog} from 'components';
-import {accentColor, accentColor2} from 'constants/styles';
+import {ACCENT_COLOR, ACCENT_COLOR2} from 'constants/colors';
 import {connect} from 'react-redux';
 import {PrimaryDialog, Toast} from 'context';
 import ItemList from './components/ItemList';
@@ -112,7 +112,7 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
         title={title}
         content={content}
         positiveText='Delete'
-        positiveButtonStyle={{backgroundColor2: accentColor2}}
+        positiveButtonStyle={{BACKGROUND_COLOR2: ACCENT_COLOR2}}
         onClickPositive={() => onClick('on-click-delete-dialog-positive', value)}
         negativeText='No'
         onClickNegative={onHidePrimaryDialog}
@@ -143,7 +143,7 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
             onChangeText={text => onChange('on-change-search', text)}
           />
           <Button skin={styles.buttonAdd} onPress={() => onClick('on-click-add-dialog')}>
-            <Icon font='Feather' name='plus' color={accentColor} size='3vh' />
+            <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='3vh' />
           </Button>
         </View>
         <ItemList

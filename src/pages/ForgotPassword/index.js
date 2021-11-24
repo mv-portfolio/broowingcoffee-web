@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import useHook, {assessAcc} from 'hooks';
 import Icon from 'react-web-vector-icons';
 
-import {accentColor} from 'constants/styles';
+import {ACCENT_COLOR} from 'constants/colors';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
 import {SET_ERROR, SET_FORGOTPASSWOROD, SET_LOADING} from 'modules/actions';
@@ -57,7 +57,7 @@ function Account({loading, error, dispatch}) {
           value={state.email.text}
           onChangeText={value => onChangeValue('email', value)}
           prefixIcon={
-            <Icon font='Feather' size={ICON_SIZE} name='mail' color={accentColor} />
+            <Icon font='Feather' size={ICON_SIZE} name='mail' color={ACCENT_COLOR} />
           }
         />
         <Separator vertical={1} />

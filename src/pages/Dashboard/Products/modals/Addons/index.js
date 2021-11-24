@@ -1,5 +1,5 @@
 import {Button, Separator, Text, TextInput, View} from 'components';
-import {accentColor, accentColorDisabled} from 'constants/styles';
+import {ACCENT_COLOR, ACCENT_COLOR_DISABLED} from 'constants/colors';
 import {Toast} from 'context';
 import useHook, {
   productAddonsInitState,
@@ -148,7 +148,7 @@ export default function Addons({
               skin={styles.button}
               disabled={!isChange}
               defaultStyle={{
-                backgroundColor2: isChange ? accentColor : accentColorDisabled,
+                BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
               onPress={() => onClick('on-click-update')}
             />

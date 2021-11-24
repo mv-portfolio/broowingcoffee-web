@@ -1,4 +1,4 @@
-export default class Formatter {
+module.exports = class Formatter {
   static toName(name) {
     let fn = '',
       sn = '',
@@ -57,7 +57,7 @@ export default class Formatter {
       d = '',
       year = '';
 
-    month = this.monthTerm(prefer_date);
+    month = this.monthTerm(prefer_date.getMonth());
     d = prefer_date.getDate();
     year = prefer_date.getFullYear();
 
@@ -73,8 +73,8 @@ export default class Formatter {
       d = '',
       year = '';
 
-    day = this.#dayTerm(prefer_date);
-    month = this.#monthTerm(prefer_date);
+    day = this.dayTerm(prefer_date);
+    month = this.monthTerm(prefer_date.getMonth());
     d = prefer_date.getDate();
     year = prefer_date.getFullYear();
 
@@ -110,14 +110,14 @@ export default class Formatter {
     }
     //day
     if (timeDifference < 60 * 60 * 60 * 24) {
-      const day = Math.floor(timeDifference / (60 * 60 * 24));
-      if (day <= 1) {
-        return 'Yesterday';
-      }
+      // const day = Math.floor(timeDifference / (60 * 60 * 24));
+      // if (day <= 1) {
+      //   return 'Yesterday';
+      // }
       const date = new Date(prevTime);
-      const hours = this.#numberFormatter(date.getHours() % 12);
-      const minutes = this.#numberFormatter(date.getUTCMinutes());
-      const seconds = this.#numberFormatter(date.getSeconds());
+      const hours = this.numberFormatter(date.getHours() % 12);
+      const minutes = this.numberFormatter(date.getUTCMinutes());
+      const seconds = this.numberFormatter(date.getSeconds());
       const meridian = date.getHours() >= 12 ? 'PM' : 'AM';
       return `${date.toLocaleDateString()} - ${hours}:${minutes}:${seconds} ${meridian}`;
     }
@@ -134,14 +134,14 @@ export default class Formatter {
   }
 
   //strategy
-  static #numberFormatter(num) {
+  static numberFormatter(num) {
     if (num < 10) {
       return '0' + num;
     } else {
       return num;
     }
   }
-  static #dayTerm(date) {
+  static dayTerm(date) {
     let day;
     if (date.getDay() === 0) {
       day = 'Sunday';
@@ -160,33 +160,71 @@ export default class Formatter {
     }
     return day;
   }
-  static #monthTerm(date) {
+  static monthTerm(number) {
     let month;
-    if (date.getMonth() === 0) {
+    if (number === 0) {
       month = 'January';
-    } else if (date.getMonth() === 1) {
+    } else if (number === 1) {
       month = 'February';
-    } else if (date.getMonth() === 2) {
+    } else if (number === 2) {
       month = 'March';
-    } else if (date.getMonth() === 3) {
+    } else if (number === 3) {
       month = 'April';
-    } else if (date.getMonth() === 4) {
+    } else if (number === 4) {
       month = 'May';
-    } else if (date.getMonth() === 5) {
+    } else if (number === 5) {
       month = 'June';
-    } else if (date.getMonth() === 6) {
+    } else if (number === 6) {
       month = 'July';
-    } else if (date.getMonth() === 7) {
+    } else if (number === 7) {
       month = 'August';
-    } else if (date.getMonth() === 8) {
+    } else if (number === 8) {
       month = 'September';
-    } else if (date.getMonth() === 9) {
+    } else if (number === 9) {
       month = 'October';
-    } else if (date.getMonth() === 10) {
+    } else if (number === 10) {
       month = 'November';
-    } else if (date.getMonth() === 11) {
+    } else if (number === 11) {
       month = 'December';
     }
     return month;
   }
-}
+  static monthNumber(month) {
+    if (month.toLowerCase() === 'january') {
+      return 1;
+    }
+    if (month.toLowerCase() === 'february') {
+      return 2;
+    }
+    if (month.toLowerCase() === 'march') {
+      return 3;
+    }
+    if (month.toLowerCase() === 'april') {
+      return 4;
+    }
+    if (month.toLowerCase() === 'may') {
+      return 5;
+    }
+    if (month.toLowerCase() === 'june') {
+      return 6;
+    }
+    if (month.toLowerCase() === 'july') {
+      return 7;
+    }
+    if (month.toLowerCase() === 'august') {
+      return 8;
+    }
+    if (month.toLowerCase() === 'september') {
+      return 9;
+    }
+    if (month.toLowerCase() === 'october') {
+      return 10;
+    }
+    if (month.toLowerCase() === 'november') {
+      return 11;
+    }
+    if (month.toLowerCase() === 'december') {
+      return 12;
+    }
+  }
+};

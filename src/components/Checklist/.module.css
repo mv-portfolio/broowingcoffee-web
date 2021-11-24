@@ -19,7 +19,7 @@
 }
 
 .itemBody .itemText {
-  color: #fff;
+  color: var(--WHITE);
   margin-left: 1vh;
   font-size: 1.75vh;
 }

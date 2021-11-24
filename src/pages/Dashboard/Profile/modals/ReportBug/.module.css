@@ -1,0 +1,52 @@
+.mainPane {
+  width: 40vh;
+  min-height: 42.5vh;
+  border-radius: 2vh;
+  padding: 4vh 3vh 4vh 3vh;
+  background-color: var(--BACKGROUND-COLOR2);
+  z-index: 1;
+}
+
+.mainPane .topPane {
+  flex: 0.3;
+}
+.topPane .title {
+  font-size: 3vh;
+  font-weight: bold;
+}
+.topPane .subtitle {
+  font-size: 1.75vh;
+}
+
+.mainPane .bodyPane {
+  flex: 1;
+}
+.bodyPane .input {
+}
+.bodyPane .textArea {
+  resize: none;
+  border: none;
+  border-radius: 1vh;
+  height: 12.5vh;
+  color: var(--WHITE);
+  font-family: 'Standard-Font';
+  font-size: 1.75vh;
+  padding: 2vh;
+  background-color: var(--BACKGROUND-COLOR3);
+}
+.bodyPane .textArea:focus {
+  outline: none;
+}
+.bodyPane .textArea::placeholder {
+  font-family: 'Standard-Font';
+  color: #9e9e9e;
+}
+
+.mainPane .bottomPane {
+  flex: 0.25;
+  justify-content: center;
+}
+.bottomPane .button {
+  height: 5.5vh;
+  background-color: var(--ACCENT-COLOR);
+}

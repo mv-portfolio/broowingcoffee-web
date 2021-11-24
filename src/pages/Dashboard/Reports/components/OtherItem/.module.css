@@ -11,6 +11,7 @@
   justify-content: space-between;
 }
 .headerPane .title {
+  max-width: 30vh;
   font-size: 1.7vh;
   font-weight: bold;
 }

@@ -1,0 +1,71 @@
+.blankPane {
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  top: 0;
+  left: 0;
+}
+
+.blankPane .mainPane {
+  width: 35vh;
+  height: 20vh;
+  border-radius: 1vh;
+  background-color: var(--BACKGROUND-COLOR2);
+}
+.mainPane .bodyPane {
+  flex: 2;
+  justify-content: center;
+  background-color: var(--BACKGROUND-COLOR4);
+}
+.bodyPane .titlePane {
+  flex: 1;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0vh 2vh;
+}
+.titlePane .title {
+  font-size: 2vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
+}
+.bodyPane .datePane {
+  flex: 1.5;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.datePane .dropdownMonth {
+  width: 10vh;
+  align-items: center;
+  justify-content: center;
+}
+.datePane .dropdownDay {
+  width: 4vh;
+  align-items: center;
+  justify-content: center;
+}
+.datePane .dropdownYear {
+  width: 6vh;
+  align-items: center;
+  justify-content: center;
+}
+.datePane .dropdownText {
+  color: var(--WHITE);
+}
+.mainPane .bottomPane {
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0vh 3vh;
+}
+.bottomPane .button {
+  width: 7.5vh;
+  height: 4vh;
+  color: var(--ACCENT-COLOR);
+  font-size: 1.65vh;
+}

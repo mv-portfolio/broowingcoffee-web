@@ -1,4 +1,5 @@
 .mainPane {
+  display: block;
   height: 30vh;
   padding: 1vh;
   border-radius: 1vh;

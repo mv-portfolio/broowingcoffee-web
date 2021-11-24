@@ -1,0 +1,42 @@
+.mainPane {
+  padding: 1.5vh 2vh;
+  border-radius: 1vh;
+  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+  background-color: var(--BACKGROUND-COLOR3);
+}
+.mainPane .propertyPane {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid 0.05vh rgba(0, 0, 0, 0.2);
+}
+.propertyPane .propertyName {
+  font-size: 1.5vh;
+  color: var(--WHITE);
+}
+.propertyPane .propertyValue {
+  color: var(--ACCENT-COLOR);
+  font-size: 1.6vh;
+  font-weight: bold;
+}
+
+.mainPane .detailsPane {
+}
+.detailsPane .propertyPane {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid 0.05vh rgba(0, 0, 0, 0.2);
+}
+.mainPane .propertyName {
+  font-size: 1.5vh;
+}
+.mainPane .propertyValue {
+  color: var(--ACCENT-COLOR);
+  font-size: 1.5vh;
+  font-weight: bold;
+}
+
+.mainPane .bottomPane {
+  flex: 1;
+}

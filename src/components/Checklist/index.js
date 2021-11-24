@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Button, Icon, Text, View} from 'components';
-import {WHITE} from 'constants/styles';
+import {WHITE} from 'constants/colors';
 import {ASC_NAME} from 'utils/helper';
 import {arrayFind} from 'utils/checker';
 import styles from './.module.css';

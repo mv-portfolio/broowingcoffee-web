@@ -61,7 +61,7 @@ function* setWorker(state) {
 
     let chunks = {
       path: 'addons',
-      name: '',
+      name: state.addonId,
     };
 
     if (state.mainId) chunks = {path: 'main', name: state.mainId};
@@ -71,7 +71,6 @@ function* setWorker(state) {
         name: chunks.name,
       },
     });
-    console.log(peekResponse[0], state.payload);
     const reference = getObjectChanges(peekResponse[0], state.payload);
     yield onReport({
       action: 'UPDATE',

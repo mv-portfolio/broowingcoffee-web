@@ -1,0 +1,48 @@
+.mainPane {
+  height: 90vh;
+  padding-left: 2vh;
+  padding-right: 2vh;
+}
+
+.mainPane .topPane {
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.topPane .label {
+  font-size: 1.75vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
+}
+
+.mainPane .bodyPane {
+  flex: 5;
+}
+.bodyPane .bodyHeaderPane {
+  height: 7.5vh;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 1vh 1vh;
+}
+.bodyHeaderPane .filterPane {
+  max-width: 27.5vh;
+}
+.filterPane .filterLabel {
+  font-size: 1.65vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
+}
+.filterPane .filterDatePane {
+  align-items: center;
+  flex-direction: row;
+}
+.filterDatePane .filterDateLabel {
+  width: 5vh;
+  font-size: 1.65vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
+}
+.bodyPane .list {
+  height: 70vh;
+}

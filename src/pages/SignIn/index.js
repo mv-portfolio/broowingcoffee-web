@@ -4,7 +4,7 @@ import styles from './.module.css';
 
 import {useEffect} from 'react';
 import {connect} from 'react-redux';
-import {accentColor} from 'constants/styles';
+import {ACCENT_COLOR} from 'constants/colors';
 import {SIGNIN_FIELDS} from 'constants/strings';
 import {SET_ERROR, CLEAR_SIGNIN, SET_LOADING, SET_SIGNIN} from 'modules/actions';
 import {Text, Separator, TextInput, View, Button} from 'components';
@@ -65,7 +65,7 @@ function SignIn({error, loading, dispatch}) {
         <View style={styles.headerPane}>
           <Text style={styles.title}>Broowing</Text>
           <View style={styles.subtitlePane}>
-            <Icon font='AntDesign' name='barschart' color={accentColor} size='3vh' />
+            <Icon font='AntDesign' name='barschart' color={ACCENT_COLOR} size='3vh' />
             <Separator horizontal={0.4} />
             <Text style={styles.subtitle}>Coffee</Text>
           </View>
@@ -76,7 +76,7 @@ function SignIn({error, loading, dispatch}) {
           placeholder='Username'
           skin={styles.inputSkin}
           prefixIcon={
-            <Icon name='user' font='Feather' color={accentColor} size={ICON_SIZE} />
+            <Icon name='user' font='Feather' color={ACCENT_COLOR} size={ICON_SIZE} />
           }
           value={state.username.text}
           onChangeText={value => onChangeValue('username', value)}
@@ -86,7 +86,7 @@ function SignIn({error, loading, dispatch}) {
           placeholder='Password'
           skin={styles.inputSkin}
           prefixIcon={
-            <Icon name='lock' font='Feather' color={accentColor} size={ICON_SIZE} />
+            <Icon name='lock' font='Feather' color={ACCENT_COLOR} size={ICON_SIZE} />
           }
           isTextEncrypt={!state.password.isEncrypted}
           onEncryptText={() => onClick('on-encrypt-text')}

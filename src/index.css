@@ -1,23 +1,23 @@
 @font-face {
   font-family: 'Standard-Font';
   src: local('Montserrat'),
-    url('./assets//fonts/Montserrat-Regular.ttf') format('truetype');
+    url('./assets/fonts/Montserrat-Regular.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Standard-Font2';
   src: local('VanillaExtractRegular'),
-    url('./assets//fonts/VanillaExtractRegular.ttf') format('truetype');
+    url('./assets/fonts/VanillaExtractRegular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: AntDesign;
   font-weight: bold;
-  src: local('AntDesign'), url('./assets//fonts/AntDesign.ttf') format('truetype');
+  src: local('AntDesign'), url('./assets/fonts/AntDesign.ttf') format('truetype');
 }
 @font-face {
   font-family: Feather;
   font-weight: bold;
-  src: local('Feather'), url('./assets//fonts/Feather.ttf') format('truetype');
+  src: local('Feather'), url('./assets/fonts/Feather.ttf') format('truetype');
 }
 
 body {

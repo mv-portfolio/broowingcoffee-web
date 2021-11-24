@@ -1,7 +1,7 @@
 import {createContext} from 'react';
 
 const primaryDialogInitState = {
-  onShow: () => {},
+  onShow: (component, props) => {},
   onHide: () => {},
 };
 

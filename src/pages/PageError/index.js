@@ -1,10 +1,11 @@
 import {View, Text, Icon, Separator} from 'components';
-import {accentColor} from 'constants/styles';
+import {ACCENT_COLOR} from 'constants/colors';
 import {connect} from 'react-redux';
 import styles from './.module.css';
+
 function PageError({error}) {
   const getIcon = (type, name) => {
-    return <Icon font={type} name={name} size='7.5vh' color={accentColor} />;
+    return <Icon font={type} name={name} size='7.5vh' color={ACCENT_COLOR} />;
   };
   const errorHandler = error => {
     let errorName = '';

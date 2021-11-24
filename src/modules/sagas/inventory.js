@@ -3,12 +3,7 @@ import {ACTION_TYPE} from 'constants/strings';
 import {POP_INVENTORY, SET_ERROR, SET_INVENTORY} from 'modules/actions';
 import serverConfig from 'modules/serverConfig';
 import {server} from 'network/service';
-import {
-  arrayFind,
-  getObjectChanges,
-  getPropsValues,
-  getSpecificProperty,
-} from 'utils/helper';
+import {arrayFind, getObjectChanges} from 'utils/helper';
 import {onReport} from './reports';
 
 function* peekWorker() {

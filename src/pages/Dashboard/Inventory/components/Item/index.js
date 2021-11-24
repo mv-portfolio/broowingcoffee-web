@@ -1,5 +1,5 @@
 import {Button, Icon, Separator, Text, View} from 'components';
-import {accentColor} from 'constants/styles';
+import {ACCENT_COLOR} from 'constants/colors';
 import Formatter from 'utils/Formatter';
 import {getPropsValues, onFormat} from 'utils/helper';
 
@@ -26,7 +26,7 @@ export default function Item({product, isOpen, onPress, onEdit, onRestock}) {
                 evt.stopPropagation();
                 onEdit();
               }}>
-              <Icon font='Feather' name='edit' size='2vh' color={accentColor} />
+              <Icon font='Feather' name='edit' size='2vh' color={ACCENT_COLOR} />
             </Button>
             <Button
               skin={styles.buttonEdit}
@@ -34,7 +34,7 @@ export default function Item({product, isOpen, onPress, onEdit, onRestock}) {
                 evt.stopPropagation();
                 onRestock();
               }}>
-              <Icon font='Feather' name='repeat' size='2.15vh' color={accentColor} />
+              <Icon font='Feather' name='repeat' size='2.15vh' color={ACCENT_COLOR} />
             </Button>
           </View>
         )}
@@ -49,7 +49,7 @@ export default function Item({product, isOpen, onPress, onEdit, onRestock}) {
                   <Text style={styles.propertyName}>{property}</Text>
                   <Text style={styles.propertyValue}>{onFormat(property, value)}</Text>
                 </View>
-                {index + 1 !== contents.length ? <Separator vertical={0.25} /> : null}
+                {index + 1 !== contents.length ? <Separator vertical={0.15} /> : null}
               </View>
             ))}
           </View>

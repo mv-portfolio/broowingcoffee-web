@@ -1,7 +1,7 @@
 import assessAcc from './assessAcc';
 import assessInfo from './assessInfo';
 import login from './login';
-import menu, {initStateMenu} from './menu';
+import header, {headerInitState} from './header';
 import primaryDialog, {primaryDialogInitState} from './primaryDialog';
 import purchasingProduct, {purchasingProductInitState} from './purchasingProduct';
 import toast, {toastInitState} from './toast';
@@ -12,13 +12,15 @@ import item, {itemInitState} from './item';
 import secondaryDialog, {secondaryDialogInitState} from './secondaryDialog';
 import restock, {restockInitState} from './restock';
 import reports, {reportsInitState} from './reports';
+import searchHistory, {searchHistoryInitState} from './searchHistory';
+import reportBug, {reportBugInitState} from './reportBug';
 
 export {
   assessAcc,
   assessInfo,
   login,
-  initStateMenu,
-  menu,
+  header,
+  headerInitState,
   primaryDialogInitState,
   primaryDialog,
   purchasingProductInitState,
@@ -39,4 +41,8 @@ export {
   restockInitState,
   reports,
   reportsInitState,
+  searchHistory,
+  searchHistoryInitState,
+  reportBug,
+  reportBugInitState,
 };

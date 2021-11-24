@@ -19,7 +19,7 @@ import {
 } from 'modules/actions';
 import {Text, Separator, TextInput, View, Button} from 'components';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
-import {accentColor} from 'constants/styles';
+import {ACCENT_COLOR} from 'constants/colors';
 import {ICON_SIZE} from 'constants/sizes';
 import {hp} from 'utils/helper';
 import {replace} from 'connected-react-router';
@@ -42,9 +42,9 @@ function Account({user, loading, error, dispatch}) {
 
   const onPasswordMatchedIcon = status => {
     if (status) {
-      return <Icon font='Feather' name='check' size={ICON_SIZE} color={accentColor} />;
+      return <Icon font='Feather' name='check' size={ICON_SIZE} color={ACCENT_COLOR} />;
     } else {
-      return <Icon font='Feather' name='x' size={ICON_SIZE} color={accentColor} />;
+      return <Icon font='Feather' name='x' size={ICON_SIZE} color={ACCENT_COLOR} />;
     }
   };
   const onPasswordMatched = (prevState, newState) => {
@@ -196,7 +196,7 @@ function Account({user, loading, error, dispatch}) {
           value={state.username.text}
           onChangeText={value => onChangeValue('username', value)}
           prefixIcon={
-            <Icon font='Feather' size={ICON_SIZE} name='user' color={accentColor} />
+            <Icon font='Feather' size={ICON_SIZE} name='user' color={ACCENT_COLOR} />
           }
         />
         <Separator vertical={0.5} />
@@ -206,7 +206,7 @@ function Account({user, loading, error, dispatch}) {
           value={state.email.text}
           onChangeText={value => onChangeValue('email', value)}
           prefixIcon={
-            <Icon font='Feather' size={ICON_SIZE} name='mail' color={accentColor} />
+            <Icon font='Feather' size={ICON_SIZE} name='mail' color={ACCENT_COLOR} />
           }
         />
         <Separator vertical={0.5} />
@@ -216,7 +216,7 @@ function Account({user, loading, error, dispatch}) {
           value={state.currentPassword.text}
           onChangeText={value => onChangeValue('current-password', value)}
           prefixIcon={
-            <Icon font='Feather' size={ICON_SIZE} name='lock' color={accentColor} />
+            <Icon font='Feather' size={ICON_SIZE} name='lock' color={ACCENT_COLOR} />
           }
           isTextEncrypt={!state.currentPassword.isEncrypted}
           onEncryptText={() => onClick('on-encrypt-current-password-text')}
@@ -228,9 +228,9 @@ function Account({user, loading, error, dispatch}) {
           value={state.newPassword.text}
           onChangeText={value => onChangeValue('new-password', value)}
           prefixIcon={
-            <Icon font='Feather' size={ICON_SIZE} name='lock' color={accentColor} />
+            <Icon font='Feather' size={ICON_SIZE} name='lock' color={ACCENT_COLOR} />
           }
-          indicatorColor={accentColor}
+          indicatorColor={ACCENT_COLOR}
           indicatorProgress={state.newPassword.strength}
           indicatorSize={hp(2.75)}
           indicatorThickness={hp(0.35)}

@@ -2,8 +2,8 @@ import {useContext, useEffect, useState} from 'react';
 // import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import {Button, Picker, Separator, Text, TextInput, View} from 'components';
-import {accentColor, accentColorDisabled} from 'constants/styles';
+import {Button, Dropdown, Separator, Text, TextInput, View} from 'components';
+import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
 import {Toast} from 'context';
 import useHook, {itemInitState, item as itemReducer} from 'hooks';
 import {isName, isInteger, isDouble} from 'utils/checker';
@@ -144,10 +144,12 @@ export default function Item({
         <Separator vertical={1} />
         <Text style={styles.titleField}>Type</Text>
         <Separator vertical={0.25} />
-        <Picker
+        <Dropdown
           items={['material']} // ['material', 'ingredient']
           selected={state.itemType}
           onSelected={item => onClick('on-select-item-type', item)}
+          style={styles.dropdown}
+          ACCENT_COLOR={BACKGROUND_COLOR}
         />
         <Separator vertical={1} />
         <Text style={styles.titleField}>Quantity</Text>
@@ -167,8 +169,6 @@ export default function Item({
           value={state.cost}
           onChangeText={text => onChange('on-change-cost', text)}
         />
-        {/* <Separator vertical={1} />
-        <DatePicker da className={styles.datePicker} selected={startDate} onChange={date => setStartDate(date)} /> */}
       </View>
       <Separator vertical={2} />
       <View style={styles.bottomPane}>
@@ -186,7 +186,7 @@ export default function Item({
               skin={styles.button}
               disabled={!isChange}
               defaultStyle={{
-                backgroundColor2: isChange ? accentColor : accentColorDisabled,
+                BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
               onPress={() => onClick('on-click-update')}
             />

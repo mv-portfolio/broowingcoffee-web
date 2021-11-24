@@ -1,0 +1,13 @@
+.mainPane {
+  padding: 0.5vh 1vh;
+  border-radius: 1vh;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.mainPane .text {
+  font-size: 1.65vh;
+  font-weight: bold;
+  color: var(--WHITE);
+}

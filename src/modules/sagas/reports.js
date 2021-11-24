@@ -34,16 +34,30 @@ export function* onReport({action, module, reference}) {
   );
 }
 
-function* peekWorker() {
+function* peekWorker(state) {
   try {
     const config = yield serverConfig();
-    const {res} = yield call(server.peek, '/reports/', config);
-
-    const transactionHistories = res.filter(
-      response => response.module === 'transactions',
-    );
-    const otherHistories = res.filter(response => response.module !== 'transactions');
-    yield put(SET_REPORTS({transactionHistories, otherHistories}));
+    const {
+      filter: {type, date},
+    } = state;
+    const {res} = yield call(server.peek, '/reports', {...config, params: {date}});
+    if (type) {
+      if (type === 'transaction') {
+        const transactionHistories = res.filter(
+          response => response.module === 'transactions',
+        );
+        yield put(SET_REPORTS({transactionHistories}));
+        return;
+      }
+      const otherHistories = res.filter(response => response.module !== 'transactions');
+      yield put(SET_REPORTS({otherHistories}));
+    } else {
+      const transactionHistories = res.filter(
+        response => response.module === 'transactions',
+      );
+      const otherHistories = res.filter(response => response.module !== 'transactions');
+      yield put(SET_REPORTS({transactionHistories, otherHistories}));
+    }
 
     console.log('PEEK-REPORT-RESOLVE');
   } catch (err) {

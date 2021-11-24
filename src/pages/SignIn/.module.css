@@ -13,7 +13,7 @@
   justify-content: center;
 }
 .headerPane .title {
-  color: #fff;
+  color: var(--WHITE);
   font-size: 5vh;
   font-family: 'Standard-Font2';
 }

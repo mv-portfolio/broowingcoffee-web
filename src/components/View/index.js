@@ -1,8 +1,10 @@
+import {forwardRef} from 'react';
 import styles from './.module.css';
-export default function View({children, style, defaultStyle, ...props}) {
+
+export default forwardRef(({style, children, defaultStyle, ...props}, ref) => {
   return (
-    <div className={`${style} ${styles.view}`} style={defaultStyle} {...props}>
+    <div ref={ref} className={`${style} ${styles.view}`} style={defaultStyle} {...props}>
       {children}
     </div>
   );
-}
+});

@@ -13,64 +13,32 @@
   align-items: center;
   justify-content: space-between;
 }
-
 .headerPane .buttonEdit {
   padding: 0.25vh;
   border-radius: 0;
   z-index: 1;
 }
-
 .headerPane .title {
-  color: #fff;
+  color: var(--WHITE);
   font-size: 1.8vh;
   font-weight: bold;
 }
-
 .headerPane .price {
   color: var(--ACCENT-COLOR);
   font-size: 1.8vh;
   font-weight: bold;
 }
 
-.mainPane .content {
-}
-
-.content .contentPane {
-}
-
-.contentPane .propertyPane {
+.mainPane .propertyPane {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   border-bottom: solid 0.05vh rgba(0, 0, 0, 0.2);
 }
-
 .propertyPane .propertyName {
   font-size: 1.5vh;
 }
-
 .propertyPane .propertyValue {
-  color: var(--ACCENT-COLOR);
-  font-size: 1.6vh;
-  font-weight: bold;
-}
-
-.addonsContent .propertyName {
-  font-size: 1.5vh;
-  font-weight: bold;
-}
-
-.contentPane .addonsPane {
-  flex-direction: row;
-  justify-content: space-between;
-  border-bottom: solid 0.05vh rgba(0, 0, 0, 0.2);
-}
-
-.addonsPane .addonsName {
-  font-size: 1.5vh;
-}
-
-.addonsPane .addonsValue {
   color: var(--ACCENT-COLOR);
   font-size: 1.6vh;
   font-weight: bold;

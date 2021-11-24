@@ -3,9 +3,9 @@ import TransactionItem from '../TransactionItem';
 import OtherItem from '../OtherItem';
 import styles from './.module.css';
 
-export default function OtherList({otherHistories}) {
+export default function OtherList({otherHistories, style}) {
   return (
-    <View style={styles.mainPane}>
+    <View style={`${styles.mainPane} ${style}`}>
       {otherHistories.map((item, index) => (
         <View key={index}>
           <OtherItem other={item} />

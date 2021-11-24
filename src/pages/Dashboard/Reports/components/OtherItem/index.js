@@ -22,35 +22,17 @@ export default function OtherItem({other}) {
 
   const [isDetailShow, setIsDetailShow] = useState(false);
 
-  const onFixedReport = (action, module) => {
-    const fixedMessageAction = action => {
-      if (action === 'ADD') {
-        return 'Added';
-      }
-      if (action === 'UPDATE') {
-        return 'Updated';
-      }
-      if (action === 'DELETE') {
-        return 'Deleted';
-      }
-      return Formatter.toName(action);
-    };
-    const fixedMessageModule = module => {
-      if (module.includes('transactions')) {
-        return 'Transaction';
-      }
-      if (module.includes('main')) {
-        return 'Product';
-      }
-      if (module.includes('addon')) {
-        return 'Add-on';
-      }
-      if (module.includes('inventory')) {
-        return 'Item Inventory';
-      }
-      return Formatter.toName(module);
-    };
-    return `${fixedMessageAction(action)} ${fixedMessageModule(module)}`;
+  const onFixedMessage = action => {
+    if (action === 'ADD') {
+      return 'Added';
+    }
+    if (action === 'UPDATE') {
+      return 'Updated';
+    }
+    if (action === 'DELETE') {
+      return 'Deleted';
+    }
+    return Formatter.toName(action);
   };
   const onFixedProperty = (property, value) => {
     if (value.includes('addon')) {
@@ -87,9 +69,9 @@ export default function OtherItem({other}) {
     <View style={styles.mainPane} onClick={() => onClick('on-show-details')}>
       {!isDetailShow ? (
         <View style={styles.headerPane}>
-          <Text style={styles.title}>
-            {onFixedReport(history.action, history.module)}
-          </Text>
+          <Text style={styles.title}>{`${Formatter.toName(
+            history.reference.name,
+          )} (${onFixedMessage(history.action)})`}</Text>
           <Text style={styles.text}>
             {Formatter.getDateDifference(history.date_created)}
           </Text>
@@ -104,7 +86,7 @@ export default function OtherItem({other}) {
               {history.action}
             </Text>
           </View>
-          <Separator vertical={0.75} />
+          <Separator vertical={0.5} />
           <View style={styles.bodyPane}>
             {properties.map(({property, value}, index) => (
               <View key={index} style={styles.property}>
@@ -114,7 +96,7 @@ export default function OtherItem({other}) {
                     {onFixedProperty(property, onFormat(property, value))}
                   </Text>
                 </View>
-                {index + 1 !== properties.length && <Separator vertical={0.2} />}
+                {index + 1 !== properties.length && <Separator vertical={0.15} />}
               </View>
             ))}
           </View>
@@ -125,7 +107,7 @@ export default function OtherItem({other}) {
                 <Text style={styles.updatesLabel}>Updates</Text>
                 {references.length > 0 && (
                   <>
-                    <Separator vertical={0.5} />
+                    <Separator vertical={0.15} />
                     {references.map(({property, value}, index) => (
                       <View key={index} style={styles.property}>
                         <View style={styles.propertyPane}>
@@ -142,7 +124,7 @@ export default function OtherItem({other}) {
                             )} -> ${onFormat(property, value[1])}`}</Text>
                           )}
                         </View>
-                        {index + 1 !== properties.length && <Separator vertical={0.2} />}
+                        {index + 1 !== properties.length && <Separator vertical={0.15} />}
                       </View>
                     ))}
                   </>
@@ -150,9 +132,8 @@ export default function OtherItem({other}) {
               </View>
               {isObject(history.reference.consumables) && (
                 <>
-                  <Separator vertical={0.75} />
                   {isObject(history.reference.consumables) && (
-                    <Separator vertical={0.25} />
+                    <Separator vertical={0.4} />
                   )}
                   <Text style={styles.propertyName}>consumables</Text>
                   <Separator vertical={0.25} />

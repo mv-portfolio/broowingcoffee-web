@@ -16,3 +16,16 @@
   font-weight: bold;
   color: var(--ACCENT-COLOR);
 }
+
+.labelPane .buttonSearch {
+  height: 4.5vh;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2vh 0 1.5vh;
+  background-origin: red;
+}
+
+.buttonSearch .textSearch {
+  font-size: 1.8vh;
+  color: var(--WHITE);
+}

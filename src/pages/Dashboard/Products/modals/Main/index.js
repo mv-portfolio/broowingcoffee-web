@@ -1,9 +1,9 @@
 import {useContext, useEffect, useState} from 'react';
-import {Button, Picker, Separator, Text, TextInput, View, Icon} from 'components';
+import {Button, Dropdown, Separator, Text, TextInput, View, Icon} from 'components';
 import {Toast, SecondaryDialog} from 'context';
 import Formatter from 'utils/Formatter';
 import useHook, {productMain as productMainReducer, productMainInitState} from 'hooks';
-import {accentColor, accentColorDisabled} from 'constants/styles';
+import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
 import {isName, isDouble} from 'utils/checker';
 import {isConsumableChange} from 'utils/helper';
 import styles from './.module.css';
@@ -186,10 +186,12 @@ export default function Main({
         <Separator vertical={1} />
         <Text style={styles.titleField}>Based</Text>
         <Separator vertical={0.25} />
-        <Picker
+        <Dropdown
           items={['coffee', 'non-coffee']}
           selected={state.based}
           onSelected={item => onClick('on-select-based', item)}
+          style={styles.dropdown}
+          ACCENT_COLOR={BACKGROUND_COLOR}
         />
         <Separator vertical={1} />
         <Text style={styles.titleField}>Hot Price</Text>
@@ -215,7 +217,7 @@ export default function Main({
           <Button
             skin={styles.buttonAdd}
             onPress={() => onClick('on-click-add-consumables')}>
-            <Icon font='Feather' name='plus' color={accentColor} size='2.5vh' />
+            <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='2.5vh' />
           </Button>
         </View>
         <Separator vertical={0.25} />
@@ -240,7 +242,7 @@ export default function Main({
               skin={styles.button}
               disabled={!isChange}
               defaultStyle={{
-                backgroundColor2: isChange ? accentColor : accentColorDisabled,
+                BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
               onPress={() => onClick('on-click-update')}
             />

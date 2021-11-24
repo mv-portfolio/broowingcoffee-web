@@ -1,6 +1,9 @@
 import {getPropsValues} from './helper';
 
 const isTypeof = (type, value1, value2) => {
+  if (type === 'date') {
+    return value1 instanceof Date ? value1 : value2;
+  }
   if (type === 'array') {
     return Array.isArray(value1) ? value1 : value2;
   }

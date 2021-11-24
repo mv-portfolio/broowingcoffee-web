@@ -25,7 +25,7 @@ export default function products(state = productsInitState, action) {
     case ACTION_TYPE('PRODUCTS').PUSH:
       if (action.mainProduct) {
         const mainProduct = arrayFind(state.main, {name: action.mainProduct.name});
-        if (mainProduct) return state;
+        if (mainProduct || action.mainProduct.name.length <= 1) return state;
         return {
           ...state,
           main: isObject(action.mainProduct)
@@ -35,7 +35,7 @@ export default function products(state = productsInitState, action) {
       }
 
       const addon = arrayFind(state.addons, {name: action.addonProduct.name});
-      if (addon) return state;
+      if (addon || action.addonProduct.name.length <= 1) return state;
       return {
         ...state,
         addons: isObject(action.addonProduct)

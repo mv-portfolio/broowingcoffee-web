@@ -3,7 +3,7 @@
   min-height: 50vh;
   border-radius: 2vh;
   padding: 4vh 3vh 4vh 3vh;
-  background-color: #282627;
+  background-color: var(--BACKGROUND-COLOR2);
   z-index: 1;
 }
 
@@ -14,26 +14,25 @@
 
 .mainPane .bodyPane {
 }
-
 .bodyPane .titleField {
   font-size: 1.75vh;
 }
-
 .bodyPane .input {
   box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }
-
+.bodyPane .dropdown {
+  width: auto;
+  background-color: var(--ACCENT-COLOR);
+}
 .bodyPane .inventoryPane {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
-
 .inventoryPane .subtitle {
   font-family: 'Standard-Font2';
   font-size: 1.75vh;
 }
-
 .inventoryPane .buttonAdd {
   width: 4vh;
   height: 4vh;

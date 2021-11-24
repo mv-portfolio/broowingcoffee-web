@@ -13,7 +13,7 @@ export default function inventory(state = itemsInitState, action) {
 
     case ACTION_TYPE('INVENTORY').PUSH:
       const item = arrayFind(state.items, {name: action.item.name});
-      if (item) return state;
+      if (item || action.item.name.length <= 1) return state;
       return {
         items: [...state.items, action.item],
       };
@@ -24,7 +24,6 @@ export default function inventory(state = itemsInitState, action) {
       };
 
     case ACTION_TYPE('INVENTORY-RESTOCK').SET_INDEX:
-      //how will you compute cost if there is quantity
       const itemInventory = arrayFind(state.items, {name: action.item.name});
       const newState = arrayUpdate(
         state.items,

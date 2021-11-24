@@ -15,7 +15,7 @@
   justify-content: center;
   border-radius: 25vh;
   border: var(--ACCENT-COLOR) solid 1vh;
-  background-color: #282627;
+  background-color: var(--BACKGROUND-COLOR2);
 }
 
 .topPane .title {

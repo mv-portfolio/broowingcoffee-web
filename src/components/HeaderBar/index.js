@@ -4,7 +4,7 @@ import styles from './.module.css';
 import {Button, Separator, Text, View, Icon} from 'components';
 import {replace} from 'connected-react-router';
 import {connect} from 'react-redux';
-import {WHITE} from 'constants/styles';
+import {WHITE} from 'constants/colors';
 
 function HeaderBar({
   //Redux Props

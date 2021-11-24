@@ -7,6 +7,7 @@ const Products = lazy(() => import('pages/Dashboard/Products'));
 const Statistics = lazy(() => import('pages/Dashboard/Statistics'));
 const Profile = lazy(() => import('pages/Dashboard/Profile'));
 const PageError = lazy(() => import('pages/PageError'));
+const Search = lazy(() => import('pages/Dashboard/Search'));
 
 const AssessmentInformation = lazy(() => import('pages/Assessment/Information'));
 const AssessmentAccount = lazy(() => import('pages/Assessment/Account'));
@@ -15,6 +16,13 @@ const pages = [
   {
     path: '/',
     component: Transaction,
+    exact: true,
+    sensitive: true,
+    strict: true,
+  },
+  {
+    path: '/search',
+    component: Search,
     exact: true,
     sensitive: true,
     strict: true,

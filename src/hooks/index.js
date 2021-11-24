@@ -3,8 +3,8 @@ import {
   assessAcc,
   assessInfo,
   login,
-  menu,
-  initStateMenu,
+  header,
+  headerInitState,
   primaryDialog,
   primaryDialogInitState,
   purchasingProduct,
@@ -23,14 +23,18 @@ import {
   secondaryDialogInitState,
   restock,
   restockInitState,
+  searchHistory,
+  searchHistoryInitState,
+  reportBug,
+  reportBugInitState,
 } from './reducers';
 
 export {
   assessAcc,
   assessInfo,
   login,
-  menu,
-  initStateMenu,
+  header,
+  headerInitState,
   primaryDialog,
   primaryDialogInitState,
   purchasingProduct,
@@ -49,6 +53,10 @@ export {
   secondaryDialogInitState,
   restock,
   restockInitState,
+  searchHistory,
+  searchHistoryInitState,
+  reportBug,
+  reportBugInitState,
 };
 
 export default function useHook(init, reducer) {
