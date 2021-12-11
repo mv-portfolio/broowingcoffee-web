@@ -7,7 +7,7 @@ export default function List({items = []}) {
     <View style={styles.mainPane}>
       {items.map((item, index) => (
         <View key={index}>
-          <Item {...item} />
+          <Item place={index} {...item} />
           {index + 1 !== items.length && <Separator vertical={0.5} />}
         </View>
       ))}
