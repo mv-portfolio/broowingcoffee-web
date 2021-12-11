@@ -13,6 +13,7 @@ export default function DatePicker({
   endDate,
   pickerStyle,
   onSelectedDate,
+  hideDateSelection,
   title,
   style,
 }) {
@@ -57,9 +58,11 @@ export default function DatePicker({
         <Text style={styles.text}>{`${getFormatType(
           formatType,
           state.date.getMonth() + 1,
-        )} ${numberFormatter(state.date.getDate())}, ${numberFormatter(
-          state.date.getFullYear(),
-        )} ${getDatePickerType(type)}`}</Text>
+        )}${
+          !hideDateSelection ? ` ${numberFormatter(state.date.getDate())},` : ', '
+        } ${numberFormatter(state.date.getFullYear())} ${getDatePickerType(
+          type,
+        )}`}</Text>
       </View>
       {state.isPickerShow && (
         <Picker
@@ -68,6 +71,7 @@ export default function DatePicker({
           startDate={startDate || state.startDate}
           endDate={endDate || state.endDate}
           style={pickerStyle}
+          hideDateSelection={hideDateSelection}
           onHide={() => onClick('on-picker-hide')}
           onOkay={date => onClick('on-picker-select-date', date)}
         />

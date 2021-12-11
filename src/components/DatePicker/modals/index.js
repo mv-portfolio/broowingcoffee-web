@@ -5,7 +5,16 @@ import {monthTerm, monthNumber, numberFormatter} from 'utils/Formatter';
 import {getMonthDays, getYears, month} from '../constants';
 import styles from './.module.css';
 
-export default function Picker({onHide, style, title, date, startDate, endDate, onOkay}) {
+export default function Picker({
+  onHide,
+  style,
+  title,
+  hideDateSelection,
+  date,
+  startDate,
+  endDate,
+  onOkay,
+}) {
   const [state, setState] = useState({
     month: date.getMonth() + 1,
     day: numberFormatter(date.getDate()),
@@ -51,15 +60,17 @@ export default function Picker({onHide, style, title, date, startDate, endDate, 
               placeholder='month'
               hideIcon
             />
-            <Dropdown
-              style={styles.dropdownDay}
-              textStyle={styles.dropdownText}
-              items={getMonthDays(parseInt(state.month), parseInt(state.year))}
-              selected={state.day}
-              onSelected={item => onClick('on-select-day', item)}
-              placeholder='day'
-              hideIcon
-            />
+            {!hideDateSelection && (
+              <Dropdown
+                style={styles.dropdownDay}
+                textStyle={styles.dropdownText}
+                items={getMonthDays(parseInt(state.month), parseInt(state.year))}
+                selected={state.day}
+                onSelected={item => onClick('on-select-day', item)}
+                placeholder='day'
+                hideIcon
+              />
+            )}
             <Dropdown
               style={styles.dropdownYear}
               textStyle={styles.dropdownText}

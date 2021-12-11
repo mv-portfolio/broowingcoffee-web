@@ -16,6 +16,8 @@
 }
 .headerPane .text {
   font-size: 1.65vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR)
 }
 .headerPane .buttonView {
   width: 2.5vh;

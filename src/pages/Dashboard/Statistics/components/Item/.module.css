@@ -1,0 +1,21 @@
+.mainPane {
+  min-height: 5vh;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 1vh;
+  background-color: var(--BACKGROUND-COLOR3);
+  box-shadow: rgba(0, 0, 0, 0.25) 0.25vh 0.25vh 0.25vh;
+  padding: 0 2vh;
+}
+
+.mainPane .title {
+  font-size: 1.75vh;
+  font-weight: bold;
+}
+
+.mainPane .value {
+  font-size: 2vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
+}

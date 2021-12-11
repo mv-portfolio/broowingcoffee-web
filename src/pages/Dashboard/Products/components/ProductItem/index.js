@@ -2,7 +2,7 @@ import {Button, Icon, Separator, Text, View} from 'components';
 import {ACCENT_COLOR} from 'constants/colors';
 import {isArray} from 'utils/checker';
 import Formatter from 'utils/Formatter';
-import {getPropsValues, onFormat} from 'utils/helper';
+import {getPropsValues, onCleanName, onFormat} from 'utils/helper';
 
 import styles from './.module.css';
 
@@ -53,7 +53,9 @@ export default function ProductItem({product, isOpen, onPress, onEdit}) {
                       <Separator vertical={0.25} />
                       {value.map(({_id_item, consumed}, index) => (
                         <View style={styles.propertyPane} key={index}>
-                          <Text style={styles.propertyName}>{_id_item.name}</Text>
+                          <Text style={styles.propertyName}>
+                            {onCleanName(_id_item.name)}
+                          </Text>
                           <Text style={styles.propertyValue}>
                             {consumed} {getUnit(consumed)}
                           </Text>
@@ -64,7 +66,7 @@ export default function ProductItem({product, isOpen, onPress, onEdit}) {
                 ) : (
                   <>
                     <View style={styles.propertyPane}>
-                      <Text style={styles.propertyName}>{property}</Text>
+                      <Text style={styles.propertyName}>{onCleanName(property)}</Text>
                       <Text style={styles.propertyValue}>
                         {onFormat(property, value)}
                       </Text>

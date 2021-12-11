@@ -119,7 +119,7 @@ module.exports = class Formatter {
       const minutes = this.numberFormatter(date.getUTCMinutes());
       const seconds = this.numberFormatter(date.getSeconds());
       const meridian = date.getHours() >= 12 ? 'PM' : 'AM';
-      return `${date.toLocaleDateString()} - ${hours}:${minutes}:${seconds} ${meridian}`;
+      return `${date.toLocaleDateString()} - ${hours}:${minutes} ${meridian}`;
     }
   }
   static getDayGreeting() {

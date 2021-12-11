@@ -14,6 +14,7 @@ import restock, {restockInitState} from './restock';
 import reports, {reportsInitState} from './reports';
 import searchHistory, {searchHistoryInitState} from './searchHistory';
 import reportBug, {reportBugInitState} from './reportBug';
+import statistics, {statisticsInitState} from './statistics';
 
 export {
   assessAcc,
@@ -45,4 +46,6 @@ export {
   searchHistoryInitState,
   reportBug,
   reportBugInitState,
+  statistics,
+  statisticsInitState,
 };

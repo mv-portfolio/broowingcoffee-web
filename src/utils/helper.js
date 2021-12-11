@@ -128,6 +128,90 @@ const isConsumableChange = (prevArr = [], currentArr = []) => {
 const getDateToNumber = (date, day) => {
   return new Date(date.getFullYear(), date.getMonth(), day).getTime();
 };
+const getDate = time => {
+  const thisDate = new Date(time);
+  return thisDate.getDate();
+};
+const manipulateData = (data, filteredDate = [], top3Products = []) => {
+  let tempData = [];
+  let partialData = [];
+  let finalData = [];
+
+  data
+    .sort(function (a, b) {
+      if (a.date_created > b.date_created) return 1;
+      if (a.date_created < b.date_created) return -1;
+      return -1;
+    })
+    .forEach((d, i) => {
+      let tempObj = {};
+      d.products.forEach(({_id_product}) => {
+        if (_id_product) {
+          const isPartialDatePropExist = arrayFind(getPropsValues(tempObj), {
+            property: _id_product.name,
+          });
+          if (!isPartialDatePropExist) {
+            tempObj[_id_product.name] = 1;
+            return;
+          }
+          tempObj[_id_product.name] = isPartialDatePropExist.value += 1;
+        }
+      });
+      partialData.push({date: getDate(d.date_created), ...tempObj});
+    });
+
+  partialData.forEach(partialD => {
+    const isFinalDateExist = arrayFind(tempData, {date: partialD.date});
+    if (!isFinalDateExist) {
+      tempData.push({...partialD});
+      return;
+    }
+    tempData = tempData.map((tempD, i) => {
+      if (tempD.date === partialD.date) {
+        let tempObj = {};
+        const partialDProps = getPropsValues(partialD).filter(
+          ({property}) => property !== 'date',
+        );
+        const tempDProps = getPropsValues(tempD).filter(
+          ({property}) => property !== 'date',
+        );
+        partialDProps.forEach(({property, value}) => {
+          const isPropsExist = arrayFind(tempDProps, {property});
+          if (!isPropsExist) {
+            tempObj[property] = value;
+            return;
+          }
+          tempObj[property] = value + isPropsExist.value;
+        });
+        return {...tempD, ...tempObj};
+      }
+      return tempD;
+    });
+  });
+
+  if (tempData.length) {
+    const date = new Date(filteredDate[0], filteredDate[1] - 1);
+    const numberOfDays = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+    for (let i = 0; i < numberOfDays; i++) {
+      let tempObj = {};
+      const isDateExist = arrayFind(tempData, {
+        date: i + 1,
+      });
+
+      top3Products.forEach(({product}) => {
+        tempObj[product] = 0;
+      });
+
+      if (!isDateExist) {
+        finalData.push({date: i + 1, ...tempObj});
+        continue;
+      }
+      finalData.push({...tempObj, ...isDateExist});
+    }
+  }
+  return finalData;
+};
 /* ----- end ---- */
 
 const getPropsValues = obj => {
@@ -303,4 +387,5 @@ export {
   getSpecificProperty,
   getDateToNumber,
   isConsumableChange,
+  manipulateData,
 };

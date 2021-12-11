@@ -46,4 +46,11 @@
   color: var(--ACCENT-COLOR);
   font-size: 1.75vh;
   font-weight: bold;
+  max-width: 25vh;
+  overflow-x: auto;
+  word-break: unset;
+}
+.propertyPane .propertyValue::-webkit-scrollbar {
+  background: transparent;
+  height: 0;
 }

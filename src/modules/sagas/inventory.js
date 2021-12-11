@@ -1,4 +1,4 @@
-import {call, put, select, takeLatest} from '@redux-saga/core/effects';
+import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {ACTION_TYPE} from 'constants/strings';
 import {POP_INVENTORY, SET_ERROR, SET_INVENTORY} from 'modules/actions';
 import serverConfig from 'modules/serverConfig';
@@ -31,7 +31,9 @@ function* pushWorker({item}) {
     yield console.log('PUSH-INVENTORY-RESOLVE');
   } catch (err) {
     yield console.log('PUSH-INVENTORY-REJECT');
-    yield put(SET_ERROR({inventory: err}));
+    if (!err.includes('jwt')) {
+      yield put(SET_ERROR({inventory: err}));
+    }
   }
 }
 function* setWorker(state) {
@@ -76,18 +78,22 @@ function* popWorker(state) {
         name: state.itemId,
       },
     });
+
+    yield call(server.pop, '/inventory/pop', {name: state.itemId}, config);
+    yield put(POP_INVENTORY({itemId: state.itemId}));
+
     yield onReport({
       action: 'DELETE',
       module: 'inventory',
       reference: peekResponse[0],
     });
 
-    yield call(server.pop, '/inventory/pop', {name: state.itemId}, config);
-    yield put(POP_INVENTORY({itemId: state.itemId}));
     yield console.log('POP-INVENTORY-RESOLVE');
   } catch (err) {
     yield console.log('POP-INVENTORY-REJECT');
-    yield put(SET_ERROR({inventory: err}));
+    if (!err.includes('jwt')) {
+      yield put(SET_ERROR({inventory: err}));
+    }
   }
 }
 

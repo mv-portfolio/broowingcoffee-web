@@ -7,6 +7,7 @@
   background-color: rgba(0, 0, 0, 0.75);
   top: 0;
   left: 0;
+  z-index: 2;
 }
 
 .blankPane .mainPane {
@@ -14,6 +15,7 @@
   height: 20vh;
   border-radius: 1vh;
   background-color: var(--BACKGROUND-COLOR2);
+  z-index: 2;
 }
 .mainPane .bodyPane {
   flex: 2;

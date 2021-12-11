@@ -27,7 +27,7 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
   const onSearch = value => {
     let filtered = [];
     if (value.length !== 0) {
-      filtered = inventory.filter(product => product.name.includes(value));
+      filtered = reduxInventory.items.filter(item => item.name.includes(value));
       setInventory(filtered);
       return;
     }

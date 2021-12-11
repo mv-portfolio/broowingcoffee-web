@@ -190,8 +190,15 @@ const CLEAR_PURCHASING_PRODUCTS = () => ({
   type: ACTION_TYPE('PURCHASING-PRODUCTS').CLEAR,
 });
 
-const PEEK_TRANSACTIONS = () => ({
+const PEEK_TRANSACTIONS = ({date}) => ({
   type: ACTION_TYPE('TRANSACTIONS').PEEK,
+  date,
+});
+const SET_TRANSACTIONS = ({data, topList, manipulatedData}) => ({
+  type: ACTION_TYPE('TRANSACTIONS').SET,
+  data,
+  topList,
+  manipulatedData,
 });
 const PUSH_TRANSACTIONS = ({transaction}) => ({
   type: ACTION_TYPE('TRANSACTIONS').PUSH,
@@ -278,6 +285,7 @@ export {
   CLEAR_PURCHASING_PRODUCTS,
   //transactions
   PEEK_TRANSACTIONS,
+  SET_TRANSACTIONS,
   PUSH_TRANSACTIONS,
   //reports
   PEEK_REPORTS,

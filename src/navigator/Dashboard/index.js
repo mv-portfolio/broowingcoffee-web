@@ -68,8 +68,8 @@ function DashBoardNavigator({dispatch, user, error}) {
       <View style={styles.contentPane}>
         {isMenuListShow && (
           <Button
-            onPress={() => onClick('menu-touch-outside')}
             title=''
+            onPress={() => onClick('menu-touch-outside')}
             skin={styles.touchableOutside}
           />
         )}

@@ -27,6 +27,8 @@ import {
   searchHistoryInitState,
   reportBug,
   reportBugInitState,
+  statistics,
+  statisticsInitState,
 } from './reducers';
 
 export {
@@ -57,6 +59,8 @@ export {
   searchHistoryInitState,
   reportBug,
   reportBugInitState,
+  statistics,
+  statisticsInitState,
 };
 
 export default function useHook(init, reducer) {
