@@ -1,6 +1,6 @@
 import {Button, Icon, Separator, Text, View} from 'components';
 import {ACCENT_COLOR2} from 'constants/colors';
-import * as Formatter from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
 export default function Item({

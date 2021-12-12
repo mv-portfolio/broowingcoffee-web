@@ -1,6 +1,6 @@
-import {useEffect, useReducer} from 'react';
+import {useReducer} from 'react';
 import {Text, View} from 'components';
-import {monthTerm, numberFormatter} from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 import datePicker, {datePickerInitState} from './reducer';
 import styles from './.module.css';
 import Picker from './modals';
@@ -30,7 +30,7 @@ export default function DatePicker({
   };
   const getFormatType = (formatType, value) => {
     if (formatType === 'standard') {
-      return monthTerm(parseInt(value) - 1);
+      return Formatter.monthTerm(parseInt(value) - 1);
     }
     return value;
   };
@@ -59,8 +59,10 @@ export default function DatePicker({
           formatType,
           state.date.getMonth() + 1,
         )}${
-          !hideDateSelection ? ` ${numberFormatter(state.date.getDate())},` : ', '
-        } ${numberFormatter(state.date.getFullYear())} ${getDatePickerType(
+          !hideDateSelection
+            ? ` ${Formatter.numberFormatter(state.date.getDate())},`
+            : ', '
+        } ${Formatter.numberFormatter(state.date.getFullYear())} ${getDatePickerType(
           type,
         )}`}</Text>
       </View>

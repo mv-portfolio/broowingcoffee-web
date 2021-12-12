@@ -5,7 +5,7 @@ import {Button, Dialog, Icon, Separator, Text, View} from 'components';
 import {ENV, VERSION} from 'config/env';
 import {CLEAR_LOADING, RESET_SESSION} from 'ducks/actions';
 import {PrimaryDialog} from 'context';
-import * as Formatter from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 
 import ReportBug from './modals/ReportBug';
 import styles from './.module.css';

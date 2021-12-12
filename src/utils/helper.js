@@ -1,5 +1,5 @@
 import {isArray} from './checker';
-import * as Formatter from './Formatter';
+import Formatter from './Formatter';
 
 const HEIGHT = window.innerHeight;
 const WIDTH = window.innerWidth;

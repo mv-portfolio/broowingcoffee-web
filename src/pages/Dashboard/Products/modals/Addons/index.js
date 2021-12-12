@@ -7,7 +7,7 @@ import useHook, {
 } from 'hooks';
 import {useContext, useEffect, useState} from 'react';
 import {isName, isInteger, isDouble} from 'utils/checker';
-import * as Formatter from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
 export default function Addons({

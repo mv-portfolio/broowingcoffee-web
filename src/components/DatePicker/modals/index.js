@@ -1,7 +1,7 @@
+import {useState} from 'react';
 import {Text, View, Button} from 'components';
 import Dropdown from 'components/Dropdown';
-import {useEffect, useState} from 'react';
-import {monthTerm, monthNumber, numberFormatter} from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 import {getMonthDays, getYears, month} from '../constants';
 import styles from './.module.css';
 
@@ -17,18 +17,18 @@ export default function Picker({
 }) {
   const [state, setState] = useState({
     month: date.getMonth() + 1,
-    day: numberFormatter(date.getDate()),
+    day: Formatter.numberFormatter(date.getDate()),
     year: date.getFullYear(),
   });
 
   const onClick = (action, value) => {
     if (action === 'on-click-okay') {
-      const month = monthTerm(parseInt(state.month) - 1);
+      const month = Formatter.monthTerm(parseInt(state.month) - 1);
       onOkay(new Date(`${month} ${state.day} ${state.year}`));
       return;
     }
     if (action === 'on-select-month') {
-      const month = numberFormatter(monthNumber(value));
+      const month = Formatter.numberFormatter(Formatter.monthNumber(value));
       setState(prev => ({...prev, month, day: '01'}));
       return;
     }
@@ -55,7 +55,7 @@ export default function Picker({
               style={styles.dropdownMonth}
               textStyle={styles.dropdownText}
               items={month}
-              selected={monthTerm(parseInt(state.month) - 1)}
+              selected={Formatter.monthTerm(parseInt(state.month) - 1)}
               onSelected={item => onClick('on-select-month', item)}
               placeholder='month'
               hideIcon

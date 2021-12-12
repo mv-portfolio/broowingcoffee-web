@@ -1,34 +1,12 @@
-module.exports = class Formatter {
+export default class Formatter {
   static toName(name) {
-    let fn = '',
-      sn = '',
-      tn = '';
-    let trimedName = name.replace(/\s+/g, ' ').trim();
-    let lastIndex = trimedName.indexOf(' ');
-    let lastIndex2 = trimedName.indexOf(' ', lastIndex + 1);
-    if (lastIndex2 > 0) {
-      tn =
-        trimedName.substring(lastIndex2 + 1, lastIndex2 + 2).toUpperCase() +
-        trimedName.substring(lastIndex2 + 2).toLowerCase();
-      sn =
-        trimedName.substring(lastIndex + 1, lastIndex + 2).toUpperCase() +
-        trimedName.substring(lastIndex + 2, lastIndex2).toLowerCase();
-      fn =
-        trimedName.substring(0, 1).toUpperCase() +
-        trimedName.substring(1, lastIndex).toLowerCase();
-    } else if (lastIndex > 0) {
-      sn =
-        trimedName.substring(lastIndex + 1, lastIndex + 2).toUpperCase() +
-        trimedName.substring(lastIndex + 2).toLowerCase();
-      fn =
-        trimedName.substring(0, 1).toUpperCase() +
-        trimedName.substring(1, lastIndex).toLowerCase();
-    } else {
-      fn =
-        trimedName.substring(0, 1).toUpperCase() + trimedName.substring(1).toLowerCase();
-    }
-
-    return `${fn} ${sn} ${tn}`.trim();
+    const names = name.split(' ');
+    let tempName = '';
+    names.forEach((name, index) => {
+      tempName += name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+      if (index !== names.length) tempName += ' ';
+    });
+    return tempName;
   }
   static toPluralName(numberSubject, value) {
     return numberSubject > 1 ? `${value}s` : `${value}`;
@@ -227,4 +205,4 @@ module.exports = class Formatter {
       return 12;
     }
   }
-};
+}

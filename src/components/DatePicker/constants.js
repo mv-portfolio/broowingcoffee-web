@@ -1,4 +1,4 @@
-import {numberFormatter} from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 
 export const month = [
   'January',
@@ -23,7 +23,7 @@ export const getMonthDays = (month, year) => {
   const days = getDays(month, year);
   let tempDays = [];
   for (let i = 0; i < days; i++) {
-    tempDays.push(numberFormatter(i + 1));
+    tempDays.push(Formatter.numberFormatter(i + 1));
   }
   return tempDays;
 };

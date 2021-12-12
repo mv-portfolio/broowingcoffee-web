@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {View, Text, Separator} from 'components';
 import {getPropsValues, hp, onCleanName, onCompute, onFormat} from 'utils/helper';
-import * as Formatter from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 
 import styles from './.module.css';
 import {isObject} from 'utils/checker';

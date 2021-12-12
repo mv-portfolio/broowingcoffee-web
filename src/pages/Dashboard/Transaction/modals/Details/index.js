@@ -3,7 +3,7 @@ import {NUMBER_REGEX} from 'constants/regex';
 import {SET_LOADING} from 'ducks/actions';
 import {useState} from 'react';
 import {connect} from 'react-redux';
-import * as Formatter from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 import {sumOfPrice} from 'utils/helper';
 import PurchasingListItem from '../../components/PurchasingListItem';
 

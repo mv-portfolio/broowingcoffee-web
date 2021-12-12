@@ -1,5 +1,5 @@
 import {Button, Separator, Text, View} from 'components';
-import * as Formatter from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
 export default function Dialog({

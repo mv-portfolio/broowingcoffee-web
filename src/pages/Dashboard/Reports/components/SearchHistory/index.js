@@ -4,8 +4,8 @@ import {PrimaryDialog} from 'context';
 import {PEEK_REPORTS} from 'ducks/actions';
 import {useContext, useReducer} from 'react';
 import {connect} from 'react-redux';
-import {toName} from 'utils/Formatter';
-import {arrayFind, ASC_DATE, getDateToNumber} from 'utils/helper';
+import Formatter from 'utils/Formatter';
+import {ASC_DATE} from 'utils/helper';
 import OtherList from '../OtherList';
 import TransactionList from '../TransactionList';
 import styles from './.module.css';
@@ -14,8 +14,7 @@ import Transaction from '../../modals/Transaction';
 function SearchHistory({dispatch, reports, type}) {
   const date = new Date();
 
-  const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
-    useContext(PrimaryDialog);
+  const {onShow: onShowPrimaryDialog} = useContext(PrimaryDialog);
 
   const [state, setState] = useReducer(
     searchHistory,
@@ -97,7 +96,7 @@ function SearchHistory({dispatch, reports, type}) {
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
-        <Text style={styles.label}>{`${toName(type)} History`}</Text>
+        <Text style={styles.label}>{`${Formatter.toName(type)} History`}</Text>
       </View>
       <View style={styles.bodyPane}>
         <View style={styles.bodyHeaderPane}>

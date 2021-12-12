@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Button, Separator, Text, TextInput, View} from 'components';
 import {reportBug, reportBugInitState} from 'hooks';
 import {Toast} from 'context';
-import * as Formatter from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 
 import styles from './.module.css';
 import {REPORT_BUG, SET_LOADING} from 'ducks/actions';

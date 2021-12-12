@@ -7,7 +7,7 @@ import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/c
 import {Toast} from 'context';
 import useHook, {itemInitState, item as itemReducer} from 'hooks';
 import {isName, isInteger, isDouble} from 'utils/checker';
-import * as Formatter from 'utils/Formatter';
+import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
 export default function Item({
