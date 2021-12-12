@@ -1,5 +1,5 @@
 import {isArray} from './checker';
-import Formatter from './Formatter';
+import * as Formatter from './Formatter';
 
 const HEIGHT = window.innerHeight;
 const WIDTH = window.innerWidth;
@@ -44,7 +44,7 @@ const onComputeTransaction = transactionInfo => {
   products.forEach(product => {
     totalPrice += parseInt(onCompute(product));
   });
-  return Formatter.toMoney(totalPrice - (totalDiscount * totalPrice));
+  return Formatter.toMoney(totalPrice - totalDiscount * totalPrice);
 };
 const onCleanName = value => {
   if (value.includes('username')) {
