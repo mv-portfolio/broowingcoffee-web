@@ -1,7 +1,10 @@
 {
   "name": "capstone-web",
-  "version": "0.1.0",
+  "version": "1.0.4",
   "private": true,
+  "engines": {
+    "node": "v14.18.1"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
