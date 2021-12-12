@@ -1,9 +1,14 @@
 {
   "name": "capstone-web",
   "version": "1.0.4",
+  "author": {
+    "name": "Marvin Petate",
+    "email": "petatemarvin26@gmail.com",
+    "url": "https://petatemarvin26.github.io/"
+  },
   "private": true,
   "engines": {
-    "node": "v14.18.1"
+    "node": "14.18.1"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.13.0",
