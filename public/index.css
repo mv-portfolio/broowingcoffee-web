@@ -8,7 +8,6 @@
   src: local('VanillaExtractRegular'),
     url('./assets/fonts/VanillaExtractRegular.ttf') format('truetype');
 }
-
 @font-face {
   font-family: AntDesign;
   font-weight: bold;
