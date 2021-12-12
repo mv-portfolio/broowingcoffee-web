@@ -1,7 +1,7 @@
 import {View, Text, DatePicker, SearchField} from 'components';
 import {searchHistory, searchHistoryInitState} from 'hooks';
 import {PrimaryDialog} from 'context';
-import {PEEK_REPORTS} from 'modules/actions';
+import {PEEK_REPORTS} from 'ducks/actions';
 import {useContext, useReducer} from 'react';
 import {connect} from 'react-redux';
 import {toName} from 'utils/Formatter';

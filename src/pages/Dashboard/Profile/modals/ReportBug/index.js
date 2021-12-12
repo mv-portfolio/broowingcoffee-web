@@ -6,7 +6,7 @@ import {Toast} from 'context';
 import * as Formatter from 'utils/Formatter';
 
 import styles from './.module.css';
-import {REPORT_BUG, SET_LOADING} from 'modules/actions';
+import {REPORT_BUG, SET_LOADING} from 'ducks/actions';
 
 function ReportBug({user, loading, dispatch}) {
   const {onShow: onShowToast} = useContext(Toast);

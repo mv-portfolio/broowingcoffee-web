@@ -19,7 +19,7 @@ export default function PurchasedItem({data}) {
           defaultStyle={{fontWeight: 'bold', fontSize: hp(1.75)}}>
           {Formatter.toName(data._id_product.name)}
         </Text>
-        <Text style={styles.propertyValue}>{onCompute(data)}</Text>
+        {!isShow && <Text style={styles.propertyValue}>{onCompute(data)}</Text>}
       </View>
       {isShow && (
         <View style={styles.detailsPane}>

@@ -1,8 +1,9 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {ACTION_TYPE} from 'constants/strings';
-import serverConfig from 'modules/serverConfig';
+import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
-import {CLEAR_LOADING, SET_LOADING} from 'modules/actions';
+import {CLEAR_LOADING, SET_LOADING} from 'ducks/actions';
+import {timeout} from 'network/api/server';
 
 function* pushWorker(state) {
   try {
@@ -13,7 +14,7 @@ function* pushWorker(state) {
       {from: state.from, title: state.title, issue: state.issue},
       {
         ...config,
-        timeout: 7000,
+        timeout: timeout(7),
       },
     );
     yield put(SET_LOADING({status: false, message: res}));

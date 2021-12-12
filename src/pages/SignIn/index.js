@@ -6,7 +6,7 @@ import {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {ACCENT_COLOR} from 'constants/colors';
 import {SIGNIN_FIELDS} from 'constants/strings';
-import {SET_ERROR, CLEAR_SIGNIN, SET_LOADING, SET_SIGNIN} from 'modules/actions';
+import {SET_ERROR, CLEAR_SIGNIN, SET_LOADING, SET_SIGNIN} from 'ducks/actions';
 import {Text, Separator, TextInput, View, Button} from 'components';
 import {push} from 'connected-react-router';
 import {ICON_SIZE} from 'constants/sizes';

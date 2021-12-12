@@ -11,7 +11,7 @@ import {
   CLEAR_USER,
   CLEAR_USERS,
   CLEAR_REPORTS,
-} from 'modules/actions';
+} from 'ducks/actions';
 import {replace} from 'connected-react-router';
 
 function* resetWorker() {

@@ -14,7 +14,7 @@ import {
   PUSH_INVENTORY,
   SET_INDEX_INVENTORY,
   SET_RESTOCK_INVENTORY,
-} from 'modules/actions';
+} from 'ducks/actions';
 
 function Inventory({inventory: reduxInventory, error, dispatch}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =

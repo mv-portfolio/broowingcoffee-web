@@ -2,7 +2,7 @@ import {useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {push} from 'connected-react-router';
 import {View, Text, Separator, Button, Icon} from 'components';
-import {PEEK_REPORTS} from 'modules/actions';
+import {PEEK_REPORTS} from 'ducks/actions';
 import {ASC_DATE, getDateToNumber, hp} from 'utils/helper';
 import {Header, PrimaryDialog} from 'context';
 

@@ -5,7 +5,7 @@ import {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {replace} from 'connected-react-router';
 import {Text, Separator, TextInput, View, Button} from 'components';
-import {ASSESSMENT_AUTH, SET_ERROR, SET_USER} from 'modules/actions';
+import {ASSESSMENT_AUTH, SET_ERROR, SET_USER} from 'ducks/actions';
 import {NAME_REGEX} from 'constants/regex';
 import {ASSESSMENT_INFORMATION} from 'constants/strings';
 

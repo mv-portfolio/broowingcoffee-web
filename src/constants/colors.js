@@ -13,7 +13,7 @@ const UPDATED_COLOR = '#ffe400';
 const DELETED_COLOR = '#f2381b';
 const RESTOCK_COLOR = '#c76ae6';
 
-const LINEGRAPH_COLORS = ['#eb5031', '#4deb31', '#dbd518'];
+const LINEGRAPH_COLORS = ['#7be368', '#dbd518', '#eb7831'];
 
 export {
   WHITE,

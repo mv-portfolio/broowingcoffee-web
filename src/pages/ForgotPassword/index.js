@@ -6,7 +6,7 @@ import Icon from 'react-web-vector-icons';
 import {ACCENT_COLOR} from 'constants/colors';
 import {ICON_SIZE} from 'constants/sizes';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
-import {SET_ERROR, SET_FORGOTPASSWOROD, SET_LOADING} from 'modules/actions';
+import {SET_ERROR, SET_FORGOTPASSWOROD, SET_LOADING} from 'ducks/actions';
 import {Text, Separator, TextInput, View, Button} from 'components';
 import {isEmail} from 'utils/checker';
 import styles from './.module.css';

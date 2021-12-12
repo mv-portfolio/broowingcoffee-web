@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {popLocalStorage} from 'storage';
 import {Button, Dialog, Icon, Separator, Text, View} from 'components';
 import {ENV, VERSION} from 'config/env';
-import {CLEAR_LOADING, RESET_SESSION} from 'modules/actions';
+import {CLEAR_LOADING, RESET_SESSION} from 'ducks/actions';
 import {PrimaryDialog} from 'context';
 import Formatter from 'utils/Formatter';
 

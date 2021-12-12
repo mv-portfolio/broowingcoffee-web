@@ -1,9 +1,9 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {CLEAR_PURCHASING_PRODUCTS, SET_ERROR, SET_PRODUCTS} from 'modules/actions';
-import serverConfig from 'modules/serverConfig';
+import {CLEAR_PURCHASING_PRODUCTS, SET_ERROR, SET_PRODUCTS} from 'ducks/actions';
+import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {arrayFind, getObjectChanges} from 'utils/helper';
+import {getObjectChanges} from 'utils/helper';
 import {onReport} from './reports';
 
 function* peekWorker() {

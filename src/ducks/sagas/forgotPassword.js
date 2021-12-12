@@ -1,7 +1,8 @@
 import {replace} from 'connected-react-router';
 import {ACTION_TYPE} from 'constants/strings';
-import {CLEAR_LOADING, SET_ERROR, SET_LOADING} from 'modules/actions';
-import serverConfig from 'modules/serverConfig';
+import {CLEAR_LOADING, SET_ERROR, SET_LOADING} from 'ducks/actions';
+import serverConfig from 'ducks/serverConfig';
+import {timeout} from 'network/api/server';
 import {server} from 'network/service';
 import {call, put, takeLatest, delay} from 'redux-saga/effects';
 
@@ -10,7 +11,7 @@ function* resetPasswordWorker(state) {
     const config = yield serverConfig();
     yield call(server.push, '/reset-password-encoder', state, {
       ...config,
-      timeout: 7000,
+      timeout: timeout(7),
     });
     yield put(
       SET_LOADING({

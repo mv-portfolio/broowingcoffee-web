@@ -1,8 +1,8 @@
 import {call, select, put, takeLatest} from '@redux-saga/core/effects';
 
 import {ACTION_TYPE} from 'constants/strings';
-import {PUSH_REPORT, SET_ERROR, SET_REPORTS} from 'modules/actions';
-import serverConfig from 'modules/serverConfig';
+import {PUSH_REPORT, SET_ERROR, SET_REPORTS} from 'ducks/actions';
+import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
 
 export function* onReport({action, module, reference}) {

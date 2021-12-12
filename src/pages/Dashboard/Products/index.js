@@ -14,7 +14,7 @@ import {
   CLEAR_ERROR,
   PUSH_PRODUCT,
   SET_INDEX_PRODUCTS,
-} from 'modules/actions';
+} from 'ducks/actions';
 import Formatter from 'utils/Formatter';
 
 function Transaction({

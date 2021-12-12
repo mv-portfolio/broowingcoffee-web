@@ -1,7 +1,7 @@
 import {popLocalStorage} from 'storage';
 import {ASSESSMENT_BAD_REQUEST, UNAUTHORIZED} from 'constants/network';
 import {replace} from 'connected-react-router';
-import {SET_ERROR} from 'modules/actions';
+import {SET_ERROR} from 'ducks/actions';
 
 export default function responseReject({dispatch, getState}) {
   const {auth} = getState();

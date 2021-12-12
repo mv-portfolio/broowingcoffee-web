@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 import {Provider} from 'react-redux';
-import configStore, {history} from 'modules';
+import configStore, {history} from 'ducks';
 import RootNavigator from 'navigator/Root';
 import {ConfigInterceptor} from 'network/api/server';
 
@@ -31,7 +31,6 @@ export default function App() {
 
     window.addEventListener('resize', onResize);
   };
-
   useEffect(screenInit, []);
 
   return (

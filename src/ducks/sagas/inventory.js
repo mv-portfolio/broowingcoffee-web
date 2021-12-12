@@ -1,7 +1,7 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {ACTION_TYPE} from 'constants/strings';
-import {POP_INVENTORY, SET_ERROR, SET_INVENTORY} from 'modules/actions';
-import serverConfig from 'modules/serverConfig';
+import {POP_INVENTORY, SET_ERROR, SET_INVENTORY} from 'ducks/actions';
+import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
 import {arrayFind, getObjectChanges} from 'utils/helper';
 import {onReport} from './reports';

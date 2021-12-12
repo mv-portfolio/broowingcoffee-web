@@ -12,7 +12,11 @@ export default function RouteAuth({
   const isAuthenticated = (auth, routeProps) => {
     if (error.server || error.request || error.page) return <PageError />;
     if (typeof auth.authenticated !== 'boolean') return <Loading />;
-    return auth.authenticated ? <AuthComponent {...routeProps} /> : <NonAuthComponent {...routeProps} />;
+    return auth.authenticated ? (
+      <AuthComponent {...routeProps} />
+    ) : (
+      <NonAuthComponent {...routeProps} />
+    );
   };
 
   return <Route render={routeProps => isAuthenticated(auth, routeProps)} {...props} />;

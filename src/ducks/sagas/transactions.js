@@ -6,8 +6,8 @@ import {
   SET_ERROR,
   SET_LOADING,
   SET_TRANSACTIONS,
-} from 'modules/actions';
-import serverConfig from 'modules/serverConfig';
+} from 'ducks/actions';
+import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
 import {manipulateData} from 'utils/helper';
 import {onReport} from './reports';
@@ -35,11 +35,15 @@ function* peekWorker(state) {
     yield put(SET_ERROR({transaction: err}));
   }
 }
-
 function* pushWorker(state) {
   try {
     const config = yield serverConfig();
-    const {res} = yield call(server.push, '/transactions/push', state.transaction, config);
+    const {res} = yield call(
+      server.push,
+      '/transactions/push',
+      state.transaction,
+      config,
+    );
     yield put(PEEK_INVENTORY());
     yield put(CLEAR_PURCHASING_PRODUCTS());
     yield put(SET_LOADING({status: false, message: 'transaction-success'}));

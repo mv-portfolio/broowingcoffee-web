@@ -7,7 +7,7 @@ import './index.css';
 require('dotenv').config();
 
 ReactDom.render(
-  <Suspense fallback={<Loading planeBackground />}>
+  <Suspense fallback={<Loading />}>
     <App />
   </Suspense>,
   document.getElementById('root'),

@@ -44,7 +44,7 @@ const onComputeTransaction = transactionInfo => {
   products.forEach(product => {
     totalPrice += parseInt(onCompute(product));
   });
-  return Formatter.toMoney(totalPrice - totalDiscount);
+  return Formatter.toMoney(totalPrice - (totalDiscount * totalPrice));
 };
 const onCleanName = value => {
   if (value.includes('username')) {

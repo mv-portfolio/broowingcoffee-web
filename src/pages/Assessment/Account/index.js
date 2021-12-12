@@ -16,7 +16,7 @@ import {
   SET_ERROR,
   SET_LOADING,
   SET_USER,
-} from 'modules/actions';
+} from 'ducks/actions';
 import {Text, Separator, TextInput, View, Button} from 'components';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
 import {ACCENT_COLOR} from 'constants/colors';

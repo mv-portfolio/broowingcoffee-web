@@ -5,7 +5,7 @@ import Icon from 'react-web-vector-icons';
 
 import {Button, Dialog, View} from 'components';
 import {WHITE} from 'constants/colors';
-import {PEEK_INVENTORY, PEEK_PRODUCTS, RESET_SESSION} from 'modules/actions';
+import {PEEK_INVENTORY, PEEK_PRODUCTS, RESET_SESSION} from 'ducks/actions';
 import {Header, PrimaryDialog} from 'context';
 import {pages} from './pages';
 import styles from './.module.css';

@@ -10,7 +10,7 @@ import {
   PUSH_PURCHASING_PRODUCT,
   PUSH_TRANSACTIONS,
   SET_INDEX_PURCHASING_PRODUCT,
-} from 'modules/actions';
+} from 'ducks/actions';
 import Details from './modals/Details';
 import ProductList from './components/ProductList';
 import PurchasingListItem from './components/PurchasingListItem';

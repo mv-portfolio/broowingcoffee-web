@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Switch} from 'react-router-dom';
 import {ConnectedRouter} from 'connected-react-router';
 import {RouteAuth, RoutePrivate, Toast, PrimaryDialog, SecondaryDialog} from 'components';
-import {APP_AUTH} from 'modules/actions';
+import {APP_AUTH} from 'ducks/actions';
 import {pages} from './pages';
 import {
   PrimaryDialog as PrimaryDialogContext,
@@ -134,7 +134,6 @@ const stateProps = ({auth, error}) => ({
   auth,
   error,
 });
-
 const dispatchProps = dispatch => ({
   dispatch: action => dispatch(action),
 });

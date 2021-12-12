@@ -1,8 +1,8 @@
 import {replace} from 'connected-react-router';
 import {ACTION_TYPE} from 'constants/strings';
-import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from 'modules/actions';
-import {userInitState} from 'modules/reducers/user';
-import serverConfig from 'modules/serverConfig';
+import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from 'ducks/actions';
+import {userInitState} from 'ducks/reducers/user';
+import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {pushLocalStorage} from 'storage';

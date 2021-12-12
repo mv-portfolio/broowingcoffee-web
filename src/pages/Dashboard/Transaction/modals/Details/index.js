@@ -1,6 +1,6 @@
 import {Button, Separator, Text, View} from 'components';
 import {NUMBER_REGEX} from 'constants/regex';
-import {SET_LOADING} from 'modules/actions';
+import {SET_LOADING} from 'ducks/actions';
 import {useState} from 'react';
 import {connect} from 'react-redux';
 import Formatter from 'utils/Formatter';

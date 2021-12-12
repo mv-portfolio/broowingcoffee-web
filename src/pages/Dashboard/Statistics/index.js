@@ -3,7 +3,7 @@ import {View, Text, Separator, DatePicker} from 'components';
 import {connect} from 'react-redux';
 import styles from './.module.css';
 import LineGraph from './components/LineGraph';
-import {PEEK_TRANSACTIONS} from 'modules/actions';
+import {PEEK_TRANSACTIONS} from 'ducks/actions';
 import {statistics, statisticsInitState} from 'hooks';
 import List from './components/List';
 
