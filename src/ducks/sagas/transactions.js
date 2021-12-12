@@ -15,11 +15,16 @@ import {onReport} from './reports';
 function* peekWorker(state) {
   try {
     const config = yield serverConfig();
-    const date = new Date(state.date);
+    const date = new Date(state.date.getFullYear(), state.date.getMonth());
+
     const {res} = yield call(server.peek, '/transactions', {
       ...config,
-      params: {date},
+      params: {
+        date_start: date.getTime(),
+        date_end: new Date(date.getFullYear(), date.getMonth() + 1).getTime(),
+      },
     });
+
     yield put(
       SET_TRANSACTIONS({
         manipulatedData: manipulateData(res.transactions, [
@@ -30,6 +35,7 @@ function* peekWorker(state) {
         topList: res.topList,
       }),
     );
+    yield console.log('PEEK-TRANSACTION-RESOLVE');
   } catch (err) {
     yield console.log('PEEK-TRANSACTION-REJECT', err);
     yield put(SET_ERROR({transaction: err}));

@@ -12,20 +12,16 @@ function Statistics({user, transactions, dispatch}) {
 
   const onClick = (action, value) => {
     if (action === 'on-select-most-purchasable') {
-      const filteredDate = new Date(value);
-      setState({
-        type: 'set',
-        filteredDate: [filteredDate.getFullYear(), filteredDate.getMonth() + 1],
-      });
-      dispatch(PEEK_TRANSACTIONS({date: filteredDate}));
+      const date = new Date(value);
+      dispatch(PEEK_TRANSACTIONS({date}));
+      setState({type: 'set', filteredDate: [date.getFullYear(), date.getMonth() + 1]});
     }
   };
 
   const screenInitListener = () => {
     document.title = 'Broowing Coffee | Statistics';
-
     const date = new Date();
-    dispatch(PEEK_TRANSACTIONS({date: date}));
+    dispatch(PEEK_TRANSACTIONS({date}));
     setState({type: 'set', filteredDate: [date.getFullYear(), date.getMonth() + 1]});
   };
   useEffect(screenInitListener, []);

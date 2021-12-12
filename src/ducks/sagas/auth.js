@@ -5,8 +5,8 @@ import {server} from 'network/service';
 import {peekLocalStorage} from 'storage';
 import {getSpecificProperty} from 'utils/helper';
 import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from '../actions';
-const {ACTION_TYPE} = require('constants/strings');
-const {takeLatest, put, call} = require('redux-saga/effects');
+import {ACTION_TYPE} from 'constants/strings';
+import {takeLatest, put, call} from 'redux-saga/effects';
 
 function* authWorker() {
   try {
