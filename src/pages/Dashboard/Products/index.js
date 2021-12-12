@@ -15,7 +15,7 @@ import {
   PUSH_PRODUCT,
   SET_INDEX_PRODUCTS,
 } from 'ducks/actions';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 
 function Transaction({
   products: reduxProducts = {main: [], addons: []},

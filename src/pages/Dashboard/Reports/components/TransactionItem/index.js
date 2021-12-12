@@ -2,7 +2,7 @@ import {Button, Icon, Separator, Text, View} from 'components';
 import {ACCENT_COLOR} from 'constants/colors';
 import {useState} from 'react';
 import {isArray} from 'utils/checker';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 import {
   hp,
   getPropsValues,

@@ -1,6 +1,6 @@
 import {Button, Icon, Separator, Text, View} from 'components';
 import {ACCENT_COLOR} from 'constants/colors';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 import {getPropsValues, onCleanName, onFormat} from 'utils/helper';
 
 import styles from './.module.css';

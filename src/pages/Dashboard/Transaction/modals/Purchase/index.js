@@ -3,7 +3,7 @@ import {View, Text, Separator, TextInput, Dropdown, Button} from 'components';
 import useHook, {purchasingProduct, purchasingProductInitState} from 'hooks';
 import Checklist from 'components/Checklist';
 import {arrayFind, isInteger} from 'utils/checker';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 import Generator from 'utils/Generator';
 import {Toast} from 'context';
 

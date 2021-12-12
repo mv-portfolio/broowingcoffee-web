@@ -4,7 +4,7 @@ import {WHITE} from 'constants/colors';
 import {ASC_NAME} from 'utils/helper';
 import {arrayFind} from 'utils/checker';
 import styles from './.module.css';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 
 export default function Checklist({
   items = [],

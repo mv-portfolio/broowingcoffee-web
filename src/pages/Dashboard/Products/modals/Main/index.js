@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from 'react';
 import {Button, Dropdown, Separator, Text, TextInput, View, Icon} from 'components';
 import {Toast, SecondaryDialog} from 'context';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 import useHook, {productMain as productMainReducer, productMainInitState} from 'hooks';
 import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
 import {isName, isDouble} from 'utils/checker';

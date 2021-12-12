@@ -1,7 +1,7 @@
 import {useContext, useReducer} from 'react';
 import {Button, Separator, Text, TextInput, View} from 'components';
 import {restock, restockInitState} from 'hooks';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 import {isDouble, isInteger} from 'utils/checker';
 import styles from './.module.css';
 import {Toast} from 'context';

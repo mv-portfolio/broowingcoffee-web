@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {Separator, Text, View} from 'components';
 import {ADDED_COLOR, UPDATED_COLOR, DELETED_COLOR, RESTOCK_COLOR} from 'constants/colors';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 import {getPropsValues, getSpecificProperty, onCleanName, onFormat} from 'utils/helper';
 import styles from './.module.css';
 import {hasSymbol, isArray, isObject} from 'utils/checker';

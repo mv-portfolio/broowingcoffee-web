@@ -2,7 +2,7 @@ import {Button, View, Text, Separator, Icon} from 'components';
 import {ICON_SIZE} from 'constants/sizes';
 import {ACCENT_COLOR} from 'constants/colors';
 import {isArray} from 'utils/checker';
-import Formatter from 'utils/Formatter';
+import * as Formatter from 'utils/Formatter';
 import {getPropsValues, onFormat, onCompute} from 'utils/helper';
 
 import styles from './.module.css';
