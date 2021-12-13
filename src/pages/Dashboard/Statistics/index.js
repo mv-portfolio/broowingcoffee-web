@@ -33,15 +33,15 @@ function Statistics({user, loading, transactions, dispatch}) {
   useEffect(screenInitListener, []);
 
   const onSetViewport = width => {
-    setState({type: 'set', graphStyle: {width: (99 / 100) * width, height: hp(30)}});
+    setState({type: 'set', graphStyle: {width: (97.5 / 100) * width, height: hp(30)}});
   };
   const onChangeViewport = () => {
     const {innerWidth: width} = window;
-    if (width > 1095) onSetViewport(width);
+    if (width > 950) onSetViewport(width);
 
     const onResize = () => {
       const currentWidth = window.innerWidth;
-      if (currentWidth > 1095) {
+      if (currentWidth > 950) {
         onSetViewport(currentWidth);
         return;
       }
