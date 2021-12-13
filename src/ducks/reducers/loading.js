@@ -10,7 +10,7 @@ export default function loading(state = initState, action) {
     case ACTION_TYPE('LOADING').SET:
       return {
         status: action.status,
-        message: action.message,
+        message: action.message || '',
       };
 
     case ACTION_TYPE('LOADING').CLEAR:

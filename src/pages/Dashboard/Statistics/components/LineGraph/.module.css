@@ -1,16 +1,26 @@
 .mainPane {
-  width: 100%;
-  height: 80%;
+  flex: 1;
   overflow-x: auto;
+  overflow-y: hidden;
+  justify-content: center;
 }
-.mainPane::-webkit-scrollbar {
-  background: transparent;
-  height: 0;
+
+.mainPane .loadingPane {
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 }
 
 .mainPane .graph {
+  height: 60vh;
   font-size: 1.75vh;
   font-family: 'Standard-Font';
   font-weight: bold;
   z-index: 1;
+}
+
+@media screen and (min-width: 1095px) {
+  .mainPane::-webkit-scrollbar {
+    display: none;
+  }
 }

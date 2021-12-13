@@ -9,10 +9,10 @@ export default function Item({place, color, product, availed}) {
         <Text style={styles.title}>{`${place + 1}.`}</Text>
         <Separator horizontal={0.75} />
         <Text style={styles.title} defaultStyle={{color}}>
-          {Formatter.toName(product)}
+          {product}
         </Text>
       </View>
-      <Text style={styles.value} defaultStyle={{color}}>{availed}</Text>
+      <Text style={styles.value}>{availed}</Text>
     </View>
   );
 }

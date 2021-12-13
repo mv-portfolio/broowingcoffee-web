@@ -1,4 +1,4 @@
-import {call, put, takeLatest} from '@redux-saga/core/effects';
+import {call, put, takeLatest, select} from 'redux-saga/effects';
 import {ACTION_TYPE} from 'constants/strings';
 import {
   CLEAR_PURCHASING_PRODUCTS,
@@ -15,6 +15,7 @@ import {onReport} from './reports';
 function* peekWorker(state) {
   try {
     const config = yield serverConfig();
+    yield put(SET_LOADING({status: true}));
     const date = new Date(state.date.getFullYear(), state.date.getMonth());
 
     const {res} = yield call(server.peek, '/transactions', {
@@ -35,6 +36,7 @@ function* peekWorker(state) {
         topList: res.topList,
       }),
     );
+    yield put(SET_LOADING({status: false}));
     yield console.log('PEEK-TRANSACTION-RESOLVE');
   } catch (err) {
     yield console.log('PEEK-TRANSACTION-REJECT', err);

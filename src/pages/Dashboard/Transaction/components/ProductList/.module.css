@@ -6,11 +6,6 @@
   border-radius: 1vh;
   background-color: var(--BACKGROUND-COLOR);
 }
-
-.mainPane::-webkit-scrollbar {
-  display: none;
-}
-
 .mainPane .productPane {
   flex-direction: row;
 }

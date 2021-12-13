@@ -16,9 +16,31 @@
 }
 
 .mainPane .topPane {
-  flex: 1;
+  flex: 2.5;
 }
 
 .mainPane .bodyPane {
+  flex: 2.25;
+  justify-content: center;
+}
+
+.mainPane .bottomPane {
   flex: 1;
+  padding: 0 1.5vh;
+}
+
+.bottomPane .propertyPane {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.propertyPane .property {
+  font-size: 1.75vh;
+  font-weight: bold;
+}
+.propertyPane .value {
+  font-size: 2.5vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
 }

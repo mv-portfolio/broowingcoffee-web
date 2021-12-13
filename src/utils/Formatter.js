@@ -1,10 +1,10 @@
 export default class Formatter {
   static toName(name) {
-    const names = name.split(' ');
+    const names = name ? name.split(' ') : [];
     let tempName = '';
     names.forEach((name, index) => {
       tempName += name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-      if (index !== names.length) tempName += ' ';
+      if (index + 1 !== names.length) tempName += ' ';
     });
     return tempName;
   }

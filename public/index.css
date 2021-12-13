@@ -38,3 +38,30 @@ body {
   /* COMMON COLORS */
   --WHITE: #fff;
 }
+
+@media (max-resolution: 1dppx) {
+  /* width */
+  ::-webkit-scrollbar {
+    width: 0.75vh;
+    height: 0.5vh;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background-color: var(--BACKGROUND-COLOR);
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--ACCENT-COLOR);
+    border-radius: 25px;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    opacity: 0.75;
+  }
+  ::-webkit-scrollbar-thumb:active {
+    opacity: 0.5;
+  }
+}

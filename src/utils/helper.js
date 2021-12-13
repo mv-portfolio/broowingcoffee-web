@@ -148,13 +148,13 @@ const manipulateData = (data, filteredDate = [], top3Products = []) => {
       d.products.forEach(({_id_product}) => {
         if (_id_product) {
           const isPartialDatePropExist = arrayFind(getPropsValues(tempObj), {
-            property: _id_product.name,
+            property: Formatter.toName(_id_product.name),
           });
           if (!isPartialDatePropExist) {
-            tempObj[_id_product.name] = 1;
+            tempObj[Formatter.toName(_id_product.name)] = 1;
             return;
           }
-          tempObj[_id_product.name] = isPartialDatePropExist.value += 1;
+          tempObj[Formatter.toName(_id_product.name)] = isPartialDatePropExist.value += 1;
         }
       });
       partialData.push({date: getDate(d.date_created), ...tempObj});
@@ -211,6 +211,55 @@ const manipulateData = (data, filteredDate = [], top3Products = []) => {
     }
   }
   return finalData;
+};
+const getTotalAmountPurchasedProducts = (transactions = []) => {
+  let totalAmountPurchased = 0;
+  transactions.forEach(
+    transaction =>
+      (totalAmountPurchased += parseFloat(onComputeTransaction(transaction))),
+  );
+  return Formatter.toMoney(totalAmountPurchased);
+};
+const getTotalAvailedProducts = transactions => {
+  let totalNumberProducts = 0;
+  const purchasedProducts = getPurchasedProducts(transactions);
+  purchasedProducts.forEach(({availed}) => (totalNumberProducts += availed));
+  return totalNumberProducts;
+};
+const getPurchasedProducts = data => {
+  let tempData = [];
+  data.forEach(data => {
+    data.products.forEach(({_id_product}) => {
+      if (_id_product) {
+        const isPropExist = arrayFind(tempData, {
+          product: Formatter.toName(_id_product.name),
+        });
+
+        if (!isPropExist) {
+          tempData.push({
+            product: Formatter.toName(_id_product.name),
+            availed: 1,
+          });
+          return;
+        }
+
+        tempData = tempData.map(tempD => {
+          if (tempD.product === Formatter.toName(_id_product.name)) {
+            return {
+              ...tempD,
+              availed: (tempD.availed += 1),
+            };
+          }
+          return tempD;
+        });
+      }
+    });
+  });
+  return tempData.sort(function (a, b) {
+    if (a.availed > b.availed) return -1;
+    if (a.availed < b.availed) return 1;
+    return 0;
+  });
 };
 /* ----- end ---- */
 
@@ -388,4 +437,6 @@ export {
   getDateToNumber,
   isConsumableChange,
   manipulateData,
+  getTotalAmountPurchasedProducts,
+  getTotalAvailedProducts,
 };
