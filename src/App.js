@@ -9,10 +9,6 @@ export default function App() {
   ConfigInterceptor(store);
 
   const screenInit = () => {
-    if (process.env.NODE_ENV !== 'development') {
-      console.log = function () {};
-    }
-
     const viewHeight = window.innerHeight;
     const metaViewport = document.querySelector('meta[name=viewport]');
     const onResize = () => {
