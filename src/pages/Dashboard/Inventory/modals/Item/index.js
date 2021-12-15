@@ -1,7 +1,4 @@
 import {useContext, useEffect, useState} from 'react';
-// import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-
 import {Button, Dropdown, Separator, Text, TextInput, View} from 'components';
 import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
 import {Toast} from 'context';
@@ -9,8 +6,12 @@ import useHook, {itemInitState, item as itemReducer} from 'hooks';
 import {isName, isInteger, isDouble} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
+import {connect} from 'react-redux';
+import {CLEAR_LOADING} from 'ducks/actions';
 
-export default function Item({
+function Item({
+  loading,
+  dispatch,
   type,
   productInfo = {},
   onAdd,
@@ -61,7 +62,6 @@ export default function Item({
         return;
       }
       onAdd(item.info);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-update') {
@@ -71,7 +71,6 @@ export default function Item({
         return;
       }
       onUpdate(item.info);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-delete') {
@@ -121,7 +120,14 @@ export default function Item({
     }
     setIsChange(false);
   };
+  const requestListener = () => {
+    if (!loading.status && loading.message === 'done') {
+      dispatch(CLEAR_LOADING());
+      onCancel();
+    }
+  };
   useEffect(changeListener, [name, itemType, quantity, cost, date_expired, state]);
+  useEffect(requestListener, [loading]);
 
   return (
     <View style={styles.mainPane}>
@@ -176,6 +182,7 @@ export default function Item({
           <Button
             title='Add'
             skin={styles.button}
+            isLoading={loading.status}
             onPress={() => onClick('on-click-add')}
           />
         )}
@@ -185,6 +192,7 @@ export default function Item({
               title='Update'
               skin={styles.button}
               disabled={!isChange}
+              isLoading={loading.status}
               defaultStyle={{
                 BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
@@ -208,3 +216,11 @@ export default function Item({
     </View>
   );
 }
+
+const stateProps = ({loading}) => ({
+  loading,
+});
+const dispatchProps = dispatch => ({
+  dispatch: action => dispatch(action),
+});
+export default connect(stateProps, dispatchProps)(Item);

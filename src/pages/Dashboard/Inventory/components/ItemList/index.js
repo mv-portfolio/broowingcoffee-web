@@ -1,5 +1,6 @@
 import {Separator, View} from 'components';
 import {useState} from 'react';
+import {peekLocalStorage} from 'storage';
 import ProductItem from '../Item';
 import styles from './.module.css';
 
@@ -33,7 +34,10 @@ export default function ItemList({items = [], onEdit, onRestock}) {
             onEdit={() => onEdit(product)}
             onRestock={() => onRestock(product)}
             product={product}
-            isOpen={focus.isOpen && index === focus.index}
+            isOpen={
+              (focus.isOpen && index === focus.index) ||
+              peekLocalStorage('cfg')['always show details product']
+            }
           />
           {index + 1 !== items.length ? <Separator vertical={0.5} /> : null}
         </View>

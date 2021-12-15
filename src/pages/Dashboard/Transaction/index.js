@@ -16,6 +16,7 @@ import ProductList from './components/ProductList';
 import PurchasingListItem from './components/PurchasingListItem';
 import Purchase from './modals/Purchase';
 import styles from './.module.css';
+import {pushLocalStorage} from 'storage';
 
 function Transaction({purchasingProducts, products, error, loading, dispatch}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
@@ -74,6 +75,7 @@ function Transaction({purchasingProducts, products, error, loading, dispatch}) {
       }
     }
     if (actionType === 'on-click-purchased') {
+      // pushLocalStorage('tmp', {...value});
       dispatch(PUSH_TRANSACTIONS({transaction: {...value}}));
     }
   };

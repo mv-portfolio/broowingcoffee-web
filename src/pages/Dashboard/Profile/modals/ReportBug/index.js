@@ -39,6 +39,7 @@ function ReportBug({user, loading, dispatch}) {
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
         <Text style={styles.title}>Report Bug</Text>
+        <Separator vertical={0.25} />
         <Text style={styles.subtitle}>{Formatter.toLocaleString(new Date())}</Text>
       </View>
       <View style={styles.bodyPane}>

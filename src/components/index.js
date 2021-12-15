@@ -17,6 +17,7 @@ const RoutePrivate = lazy(() => import('./RoutePrivate'));
 const PrimaryDialog = lazy(() => import('./PrimaryDialog'));
 const Icon = lazy(() => import('./Icon'));
 const Toast = lazy(() => import('./Toast'));
+const ToggleButton = lazy(() => import('./ToggleButton'));
 const SearchField = lazy(() => import('./SearchField'));
 const SecondaryDialog = lazy(() => import('./SecondaryDialog'));
 
@@ -38,6 +39,7 @@ export {
   PrimaryDialog,
   Icon,
   Toast,
+  ToggleButton,
   SearchField,
   SecondaryDialog,
 };

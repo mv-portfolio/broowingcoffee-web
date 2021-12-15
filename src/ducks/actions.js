@@ -123,11 +123,22 @@ const SET_PRODUCTS = ({main, addons}) => ({
   main,
   addons,
 });
+const SET_INDEX_PRODUCTS_REQ = ({mainId, addonId, payload}) => ({
+  type: ACTION_TYPE('PRODUCTS-REQ').SET_INDEX,
+  mainId,
+  addonId,
+  payload,
+});
 const SET_INDEX_PRODUCTS = ({mainId, addonId, payload}) => ({
   type: ACTION_TYPE('PRODUCTS').SET_INDEX,
   mainId,
   addonId,
   payload,
+});
+const PUSH_PRODUCT_REQ = ({mainProduct, addonProduct}) => ({
+  type: ACTION_TYPE('PRODUCTS-REQ').PUSH,
+  mainProduct,
+  addonProduct,
 });
 const PUSH_PRODUCT = ({mainProduct, addonProduct}) => ({
   type: ACTION_TYPE('PRODUCTS').PUSH,
@@ -158,6 +169,14 @@ const SET_RESTOCK_INVENTORY = ({item}) => ({
 });
 const SET_INDEX_INVENTORY = ({item}) => ({
   type: ACTION_TYPE('INVENTORY').SET_INDEX,
+  item,
+});
+const SET_RESTOCK_INVENTORY_REQ = ({item}) => ({
+  type: ACTION_TYPE('INVENTORY-RESTOCK-REQ').SET_INDEX,
+  item,
+});
+const SET_INDEX_INVENTORY_REQ = ({item}) => ({
+  type: ACTION_TYPE('INVENTORY-REQ').SET_INDEX,
   item,
 });
 const POP_INVENTORY = ({itemId}) => ({
@@ -269,12 +288,16 @@ export {
   SET_INDEX_PRODUCTS,
   PUSH_PRODUCT,
   POP_PRODUCT,
+  SET_INDEX_PRODUCTS_REQ,
+  PUSH_PRODUCT_REQ,
   //inventory items
   PEEK_INVENTORY,
   PUSH_INVENTORY,
   SET_INVENTORY,
   SET_RESTOCK_INVENTORY,
   SET_INDEX_INVENTORY,
+  SET_RESTOCK_INVENTORY_REQ,
+  SET_INDEX_INVENTORY_REQ,
   POP_INVENTORY,
   POP_INVENTORY_REQ,
   //purchasing-products

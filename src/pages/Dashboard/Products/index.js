@@ -14,6 +14,8 @@ import {
   CLEAR_ERROR,
   PUSH_PRODUCT,
   SET_INDEX_PRODUCTS,
+  PUSH_PRODUCT_REQ,
+  SET_INDEX_PRODUCTS_REQ,
 } from 'ducks/actions';
 import Formatter from 'utils/Formatter';
 
@@ -77,7 +79,7 @@ function Transaction({
     }
     //CRUD actions
     if (actionType === 'on-click-added-product-main') {
-      dispatch(PUSH_PRODUCT({mainProduct: value}));
+      dispatch(PUSH_PRODUCT_REQ({mainProduct: value}));
       return;
     }
     if (actionType === 'on-click-update-product-main') {
@@ -89,8 +91,7 @@ function Transaction({
         });
         return;
       }
-      dispatch(SET_INDEX_PRODUCTS({mainId: value.name, payload: value}));
-      onHidePrimaryDialog();
+      dispatch(SET_INDEX_PRODUCTS_REQ({mainId: value.name, payload: value}));
       return;
     }
     if (actionType === 'on-click-delete-product-main') {
@@ -102,7 +103,7 @@ function Transaction({
       return;
     }
     if (actionType === 'on-click-added-product-addons') {
-      dispatch(PUSH_PRODUCT({addonProduct: value}));
+      dispatch(PUSH_PRODUCT_REQ({addonProduct: value}));
       return;
     }
     if (actionType === 'on-click-update-product-addons') {
@@ -114,8 +115,7 @@ function Transaction({
         });
         return;
       }
-      dispatch(SET_INDEX_PRODUCTS({addonId: value.name, payload: value}));
-      onHidePrimaryDialog();
+      dispatch(SET_INDEX_PRODUCTS_REQ({addonId: value.name, payload: value}));
       return;
     }
     if (actionType === 'on-click-delete-product-addons') {

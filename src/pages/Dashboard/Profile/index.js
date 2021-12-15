@@ -1,6 +1,6 @@
 import {useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {popLocalStorage} from 'storage';
+import {peekLocalStorage, popLocalStorage} from 'storage';
 import {Button, Dialog, Icon, Separator, Text, View} from 'components';
 import {ENV, VERSION} from 'config/env';
 import {CLEAR_LOADING, RESET_SESSION} from 'ducks/actions';
@@ -8,8 +8,10 @@ import {PrimaryDialog} from 'context';
 import Formatter from 'utils/Formatter';
 
 import ReportBug from './modals/ReportBug';
+import About from './modals/About';
 import styles from './.module.css';
 import modules from './modules';
+import Settings from './modals/Settings';
 
 function Profile({user, loading, dispatch}) {
   const {firstname, lastname, username} = user;
@@ -18,9 +20,18 @@ function Profile({user, loading, dispatch}) {
 
   const onPress = action => {
     if (action === 'Settings') {
+      onShowPrimaryDialog(
+        <Settings configs={peekLocalStorage('cfg')} onHide={onHidePrimaryDialog} />,
+        {
+          disabledTouchOutside: false,
+        },
+      );
       return;
     }
     if (action === 'About') {
+      onShowPrimaryDialog(<About onHide={() => onHidePrimaryDialog()} />, {
+        disabledTouchOutside: false,
+      });
       return;
     }
     if (action === 'Report') {
@@ -36,7 +47,6 @@ function Profile({user, loading, dispatch}) {
 
   const screenInitListener = () => {
     document.title = 'Broowing Coffee | Profile';
-
     return () => {
       dispatch(CLEAR_LOADING());
     };

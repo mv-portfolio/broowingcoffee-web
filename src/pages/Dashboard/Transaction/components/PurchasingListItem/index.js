@@ -2,6 +2,7 @@ import {Separator, View} from 'components';
 import {useState} from 'react';
 import {arrayFind} from 'utils/checker';
 import {ASC_NAME} from 'utils/helper';
+import {peekLocalStorage} from 'storage';
 import PurchasingItem from '../PurchasingItem';
 
 import styles from './.module.css';
@@ -69,7 +70,10 @@ export default function PurchasingListItem({
             <PurchasingItem
               isEditable={isEditable}
               suffixName={getSuffixName(temp_purchasingProducts, purchasingProduct.name)}
-              isOpen={focus.index === index && focus.isShow}
+              isOpen={
+                (focus.index === index && focus.isShow) ||
+                peekLocalStorage('cfg')['always show details product']
+              }
               purchasingProduct={purchasingProduct}
               onClick={() => onSelect(index)}
               onEdit={() => onEditSelectedPurchasingProduct(purchasingProduct)}

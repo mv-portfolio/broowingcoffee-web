@@ -29,6 +29,8 @@ import {
   reportBugInitState,
   statistics,
   statisticsInitState,
+  settings,
+  settignsInitState,
 } from './reducers';
 
 export {
@@ -61,6 +63,8 @@ export {
   reportBugInitState,
   statistics,
   statisticsInitState,
+  settings,
+  settignsInitState,
 };
 
 export default function useHook(init, reducer) {

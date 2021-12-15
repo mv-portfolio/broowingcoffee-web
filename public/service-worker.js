@@ -13,13 +13,13 @@ self.addEventListener('install', event => {
 });
 
 // Listen for request
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(() => {
-      return fetch(event.request).catch(err => caches.match('index.html'));
-    }),
-  );
-});
+// self.addEventListener('fetch', event => {
+//   event.respondWith(
+//     caches.match(event.request).then(() => {
+//       return fetch(event.request).catch(err => caches.match('index.html'));
+//     }),
+//   );
+// });
 
 //Activate the SW
 self.addEventListener('activate', event => {

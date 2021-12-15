@@ -1,0 +1,8 @@
+.mainPane {
+  cursor: pointer;
+  border-radius: 2vh;
+  background-color: var(--BACKGROUND-COLOR, #5f5d5b);
+}
+.mainPane .toggle {
+  background-color: var(--ACCENT-COLOR, #ffffff);
+}

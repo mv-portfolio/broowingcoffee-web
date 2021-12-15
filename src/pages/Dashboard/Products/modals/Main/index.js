@@ -9,8 +9,12 @@ import {isConsumableChange} from 'utils/helper';
 import styles from './.module.css';
 import ItemList from '../../components/ItemList';
 import Item from '../Item';
+import {connect} from 'react-redux';
+import {CLEAR_LOADING} from 'ducks/actions';
 
-export default function Main({
+function Main({
+  loading,
+  dispatch,
   productInfo = {},
   type,
   inventory,
@@ -89,7 +93,6 @@ export default function Main({
         return;
       }
       onAdd(product.info);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-update') {
@@ -163,8 +166,14 @@ export default function Main({
     }
     setIsChange(false);
   };
+  const requestListener = () => {
+    if (!loading.status && loading.message === 'done') {
+      onCancel();
+      dispatch(CLEAR_LOADING());
+    }
+  };
   useEffect(changeListener, [name, based, hot_price, cold_price, state]);
-
+  useEffect(requestListener, [loading]);
   return (
     <View style={styles.mainPane}>
       <Text style={styles.title}>{`${Formatter.toName(type)} Product`}</Text>
@@ -232,6 +241,7 @@ export default function Main({
           <Button
             title='Add'
             skin={styles.button}
+            isLoading={loading.status}
             onPress={() => onClick('on-click-add', state)}
           />
         )}
@@ -240,6 +250,7 @@ export default function Main({
             <Button
               title='Update'
               skin={styles.button}
+              isLoading={loading.status}
               disabled={!isChange}
               defaultStyle={{
                 BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
@@ -264,3 +275,11 @@ export default function Main({
     </View>
   );
 }
+
+const stateProps = ({loading}) => ({
+  loading,
+});
+const dispatchProps = dispatch => ({
+  dispatch: action => dispatch(action),
+});
+export default connect(stateProps, dispatchProps)(Main);

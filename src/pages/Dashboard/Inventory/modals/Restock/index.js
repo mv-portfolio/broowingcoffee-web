@@ -1,12 +1,14 @@
-import {useContext, useReducer} from 'react';
+import {useContext, useEffect, useReducer} from 'react';
 import {Button, Separator, Text, TextInput, View} from 'components';
 import {restock, restockInitState} from 'hooks';
 import Formatter from 'utils/Formatter';
 import {isDouble, isInteger} from 'utils/checker';
-import styles from './.module.css';
 import {Toast} from 'context';
+import {connect} from 'react-redux';
+import {CLEAR_LOADING} from 'ducks/actions';
+import styles from './.module.css';
 
-export default function Restock({productInfo, onRestock, onCancel}) {
+function Restock({loading, dispatch, productInfo, onRestock, onCancel}) {
   const {name, type} = productInfo;
   const {onShow: onShowToast} = useContext(Toast);
 
@@ -45,9 +47,18 @@ export default function Restock({productInfo, onRestock, onCancel}) {
         cost: parseFloat(state.cost),
         date_modified,
       });
-      onCancel();
     }
   };
+
+  const requestListener = () => {
+    if (!loading.status && loading.message === 'done') {
+      onCancel();
+      dispatch(CLEAR_LOADING());
+    }
+  };
+
+  useEffect(requestListener, [loading]);
+
   return (
     <View style={styles.mainPane}>
       <Text style={styles.title}>Restock {Formatter.toName(name)}</Text>
@@ -76,6 +87,7 @@ export default function Restock({productInfo, onRestock, onCancel}) {
         <Button
           skin={styles.button}
           title='Restock'
+          isLoading={loading.status}
           onPress={() => onClick('on-click-restock')}
         />
         <Separator horizontal={1} />
@@ -84,3 +96,11 @@ export default function Restock({productInfo, onRestock, onCancel}) {
     </View>
   );
 }
+
+const stateProps = ({loading}) => ({
+  loading,
+});
+const dispatchProps = dispatch => ({
+  dispatch: action => dispatch(action),
+});
+export default connect(stateProps, dispatchProps)(Restock);

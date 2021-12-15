@@ -1,0 +1,40 @@
+.mainPane {
+  width: 40vh;
+  min-height: 42.5vh;
+  border-radius: 2vh;
+  padding: 4vh 3vh 4vh 3vh;
+  background-color: var(--BACKGROUND-COLOR2);
+  z-index: 1;
+}
+
+.mainPane .topPane {
+  flex: 0.4;
+}
+.topPane .title {
+  font-size: 3vh;
+  font-family: 'Standard-Font2';
+  color: var(--ACCENT-COLOR);
+}
+
+.mainPane .bodyPane {
+  flex: 2;
+  padding: 0 2vh;
+  overflow-y: auto;
+}
+.bodyPane .propertyPane {
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 1.5vh 0;
+}
+.propertyPane .property {
+  font-size: 1.75vh;
+}
+
+.mainPane .bottomPane {
+  flex: 0.5;
+  justify-content:flex-end;
+}
+.bottomPane .button {
+  background-color: var(--ACCENT-COLOR);
+}

@@ -8,11 +8,12 @@
 }
 
 .mainPane .topPane {
-  flex: 0.3;
+  flex: 0.4;
 }
 .topPane .title {
   font-size: 3vh;
-  font-weight: bold;
+  font-family: 'Standard-Font2';
+  color: var(--ACCENT-COLOR);
 }
 .topPane .subtitle {
   font-size: 1.75vh;
@@ -49,6 +50,6 @@
   justify-content: center;
 }
 .bottomPane .button {
-  height: 5.5vh;
   background-color: var(--ACCENT-COLOR);
+  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
 }

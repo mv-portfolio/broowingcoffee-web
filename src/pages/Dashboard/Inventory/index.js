@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from 'react';
-import {View, Button, Icon, SearchField, Dialog, SecondaryDialog} from 'components';
+import {View, Button, Icon, SearchField, Dialog} from 'components';
 import {ACCENT_COLOR, ACCENT_COLOR2} from 'constants/colors';
 import {connect} from 'react-redux';
 import {PrimaryDialog, Toast} from 'context';
@@ -9,11 +9,12 @@ import Restock from './modals/Restock';
 import Item from './modals/Item';
 import {
   CLEAR_ERROR,
-  POP_INVENTORY,
   POP_INVENTORY_REQ,
   PUSH_INVENTORY,
   SET_INDEX_INVENTORY,
+  SET_INDEX_INVENTORY_REQ,
   SET_RESTOCK_INVENTORY,
+  SET_RESTOCK_INVENTORY_REQ,
 } from 'ducks/actions';
 
 function Inventory({inventory: reduxInventory, error, dispatch}) {
@@ -86,17 +87,19 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
       return;
     }
     if (actionType === 'on-click-update-item') {
-      dispatch(SET_INDEX_INVENTORY({item: value}));
+      dispatch(SET_INDEX_INVENTORY_REQ({item: value}));
       return;
     }
     if (actionType === 'on-click-restock-item') {
-      dispatch(SET_RESTOCK_INVENTORY({item: value}));
+      dispatch(SET_RESTOCK_INVENTORY_REQ({item: value}))
+      return;
     }
 
     //dialog
     if (actionType === 'on-click-delete-dialog-positive') {
       dispatch(POP_INVENTORY_REQ({itemId: value}));
       onHidePrimaryDialog();
+      return;
     }
   };
   const onChange = (actionType, value) => {

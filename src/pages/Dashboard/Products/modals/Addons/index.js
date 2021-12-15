@@ -1,16 +1,20 @@
 import {Button, Separator, Text, TextInput, View} from 'components';
 import {ACCENT_COLOR, ACCENT_COLOR_DISABLED} from 'constants/colors';
 import {Toast} from 'context';
+import {CLEAR_LOADING} from 'ducks/actions';
 import useHook, {
   productAddonsInitState,
   productAddons as productAddonsReducer,
 } from 'hooks';
 import {useContext, useEffect, useState} from 'react';
-import {isName, isInteger, isDouble} from 'utils/checker';
+import {connect} from 'react-redux';
+import {isName, isDouble} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
-export default function Addons({
+function Addons({
+  loading,
+  dispatch,
   type,
   productInfo = {},
   onAdd,
@@ -39,7 +43,6 @@ export default function Addons({
         return;
       }
       onAdd(product.info);
-      onCancel();
       return;
     }
     if (actionType === 'on-click-update') {
@@ -60,7 +63,6 @@ export default function Addons({
       return;
     }
   };
-
   const onChange = (actionType, value) => {
     if (actionType === 'on-change-product-name') {
       if (isName(value) || value.length === 0) {
@@ -75,7 +77,6 @@ export default function Addons({
       return;
     }
   };
-
   const onClean = state => {
     if (state.name.length === 0) {
       return {isClean: false};
@@ -101,9 +102,14 @@ export default function Addons({
     }
     setIsChange(false);
   };
-
+  const requestListener = () => {
+    if (!loading.status && loading.message === 'done') {
+      onCancel();
+      dispatch(CLEAR_LOADING());
+    }
+  };
   useEffect(changeListener, [name, price, state]);
-
+  useEffect(requestListener, [loading]);
   return (
     <View style={styles.mainPane}>
       <Text style={styles.title}>{`${Formatter.toName(type)} Addons`}</Text>
@@ -138,6 +144,7 @@ export default function Addons({
           <Button
             title='Add'
             skin={styles.button}
+            isLoading={loading.status}
             onPress={() => onClick('on-click-add')}
           />
         )}
@@ -146,6 +153,7 @@ export default function Addons({
             <Button
               title='Update'
               skin={styles.button}
+              isLoading={loading.status}
               disabled={!isChange}
               defaultStyle={{
                 BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
@@ -170,3 +178,11 @@ export default function Addons({
     </View>
   );
 }
+
+const stateProps = ({loading}) => ({
+  loading,
+});
+const dispatchProps = dispatch => ({
+  dispatch: action => dispatch(action),
+});
+export default connect(stateProps, dispatchProps)(Addons);

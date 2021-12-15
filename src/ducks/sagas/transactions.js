@@ -9,6 +9,7 @@ import {
 } from 'ducks/actions';
 import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
+import {popLocalStorage} from 'storage';
 import {manipulateData} from 'utils/helper';
 import {onReport} from './reports';
 
@@ -61,6 +62,8 @@ function* pushWorker(state) {
       module: 'transactions',
       reference: res,
     });
+
+    yield popLocalStorage('tmp');
 
     yield console.log('PUSH-TRANSACTION-RESOLVE');
   } catch (err) {

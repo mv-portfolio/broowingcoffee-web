@@ -36,14 +36,12 @@
 }
 
 .menuListPane {
-  align-items: center;
   justify-content: center;
-  padding-bottom: 2vh;
+  padding: 0 0 2vh 3vh;
   background-color: var(--BACKGROUND-COLOR2);
 }
 
 .menuListPane .button {
-  width: 90vw;
   height: 5vh;
   justify-content: flex-start;
 }

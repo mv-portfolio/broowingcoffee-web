@@ -21,6 +21,7 @@ import useHook, {
   header as headerReducer,
   headerInitState,
 } from 'hooks';
+import {peekLocalStorage, pushLocalStorage} from 'storage';
 
 const DashboardNavigator = lazy(() => import('navigator/Dashboard'));
 const SignIn = lazy(() => import('pages/SignIn'));
@@ -93,9 +94,15 @@ function RootNavigator({auth, history, error, dispatch}) {
     });
   };
 
-  useEffect(() => {
+  const screenInitListener = () => {
     dispatch(APP_AUTH());
-  }, [dispatch]);
+    if (!peekLocalStorage('cfg')) {
+      pushLocalStorage('cfg', {
+        'always show details product': false,
+      });
+    }
+  };
+  useEffect(screenInitListener, [dispatch]);
 
   return (
     <HeaderContent.Provider

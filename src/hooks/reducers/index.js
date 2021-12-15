@@ -15,6 +15,7 @@ import reports, {reportsInitState} from './reports';
 import searchHistory, {searchHistoryInitState} from './searchHistory';
 import reportBug, {reportBugInitState} from './reportBug';
 import statistics, {statisticsInitState} from './statistics';
+import settings, {settignsInitState} from './settings';
 
 export {
   assessAcc,
@@ -48,4 +49,6 @@ export {
   reportBugInitState,
   statistics,
   statisticsInitState,
+  settings,
+  settignsInitState,
 };

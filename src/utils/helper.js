@@ -67,7 +67,7 @@ const onFormat = (property, value) => {
   }
   return value;
 };
-const getObjectChanges = (target, source) => {
+const getPropertyChanges = (target, source) => {
   let tempObject = {
     name: target.name,
     consumables: {},
@@ -432,7 +432,7 @@ export {
   onCleanName,
   onFormat,
   getPropsValues,
-  getObjectChanges,
+  getPropertyChanges,
   getSpecificProperty,
   getDateToNumber,
   isConsumableChange,

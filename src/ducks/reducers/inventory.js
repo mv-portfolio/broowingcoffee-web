@@ -23,24 +23,14 @@ export default function inventory(state = itemsInitState, action) {
         items: action.items,
       };
 
-    case ACTION_TYPE('INVENTORY-RESTOCK').SET_INDEX:
-      const itemInventory = arrayFind(state.items, {name: action.item.name});
-      const newState = arrayUpdate(
-        state.items,
-        {name: itemInventory.name},
-        {
-          quantity: itemInventory.quantity + action.item.quantity,
-          cost: action.item.cost,
-          date_modified: action.item.date_modified,
-        },
-      );
-      return {
-        items: newState,
-      };
-
     case ACTION_TYPE('INVENTORY').SET_INDEX:
+      const itemInventory = arrayFind(state.items, {name: action.item.name});
       return {
-        items: arrayUpdate(state.items, {name: action.item.name}, action.item),
+        items: arrayUpdate(
+          state.items,
+          {name: action.item.name},
+          {...itemInventory, ...action.item},
+        ),
       };
 
     case ACTION_TYPE('INVENTORY').POP:
