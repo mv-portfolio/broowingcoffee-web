@@ -82,27 +82,35 @@ const getPropertyChanges = (target, source) => {
       ) {
         if (isArray(sourceObj.value)) {
           sourceObj.value.forEach(src => {
-            const isExist = targetObj.value.filter(
-              objVal => objVal._id_item._id === src._id_item._id,
-            )[0];
+            tempObject.consumables[src._id_item.name] = `${src.consumed}`;
 
-            if (!isExist) {
-              tempObject.consumables[src._id_item.name] = `${src.consumed}`;
-            } else {
-              targetObj.value.forEach(trg => {
-                const {consumed: trgConsumed} = trg;
-                const {consumed: srcConsumed} = src;
-                if (
-                  trg._id_item.name === src._id_item.name &&
-                  trgConsumed !== srcConsumed
-                ) {
-                  tempObject.consumables[
-                    src._id_item.name
-                  ] = `${trgConsumed} -> ${srcConsumed}`;
-                }
-              });
-            }
+            targetObj.value.forEach(trg => {
+              const {consumed: trgConsumed} = trg;
+              const {consumed: srcConsumed} = src;
+
+              const isExist = sourceObj.value.filter(
+                src => src._id_item.name === trg._id_item.name,
+              )[0];
+              if (!isExist) {
+                tempObject.consumables[trg._id_item.name] = 'removed';
+              }
+
+              if (
+                trg._id_item.name === src._id_item.name &&
+                trgConsumed !== srcConsumed
+              ) {
+                tempObject.consumables[
+                  src._id_item.name
+                ] = `${trgConsumed} -> ${srcConsumed}`;
+              } else if (
+                trg._id_item.name === src._id_item.name &&
+                trgConsumed === srcConsumed
+              ) {
+                delete tempObject.consumables[src._id_item.name];
+              }
+            });
           });
+
           return;
         }
         tempObject[targetObj.property] = [targetObj.value, sourceObj.value];
@@ -118,7 +126,10 @@ const isConsumableChange = (prevArr = [], currentArr = []) => {
   }
   prevArr.forEach(prev => {
     currentArr.forEach(curr => {
-      if (prev._id_item.name === curr._id_item.name && prev.consumed !== curr.consumed) {
+      if (
+        (prev._id_item.name === curr._id_item.name && prev.consumed !== curr.consumed) ||
+        prev._id_item.name !== curr._id_item.name
+      ) {
         isChange = true;
       }
     });

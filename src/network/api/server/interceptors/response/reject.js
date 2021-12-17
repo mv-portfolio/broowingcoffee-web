@@ -9,6 +9,10 @@ export default function responseReject({dispatch, getState}) {
     console.log('INTERCEPTOR-ERROR', error.toJSON());
 
     if (error.message === 'Network Error') {
+      if (error.config.url === '/app-authentication') {
+        dispatch(SET_ERROR({server: 'server maintenance'}));
+      }
+
       return Promise.reject('Connection Lost, please try again later');
     }
 

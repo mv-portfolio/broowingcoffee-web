@@ -8,9 +8,7 @@ function PageError({error}) {
     return <Icon font={type} name={name} size='7.5vh' color={ACCENT_COLOR} />;
   };
   const errorHandler = error => {
-    let errorName = '';
-    Object.values(error).map(error => (error ? (errorName = error) : null));
-    if (errorName === 'Network Error' || errorName === 'timeout of 5000ms exceeded') {
+    if (error.server) {
       return {
         title: 'Server Maintenance',
         subtitle:

@@ -2,7 +2,7 @@ import {Button, Separator, Text, View} from 'components';
 import {hp} from 'utils/helper';
 import styles from './.module.css';
 
-export default function About({onHide}) {
+export default function About() {
   return (
     <View style={styles.mainPane}>
       <Text style={styles.title}>About</Text>
@@ -21,13 +21,13 @@ export default function About({onHide}) {
           and Ifugao.
         </Text>
         <Separator vertical={3} />
-        <Text style={styles.contentTitle}>Developed and Designed by</Text>
+        <Text style={styles.contentTitle}>Developed by</Text>
         <Separator vertical={0.25} />
         <Text style={styles.content} defaultStyle={{fontSize: hp(1.9)}}>
           Marvin Petate
         </Text>
         <Separator vertical={1} />
-        <Text style={styles.contentTitle}>Conceptualized by</Text>
+        <Text style={styles.contentTitle}>Designed by</Text>
         <Separator vertical={0.25} />
         <Text style={styles.content} defaultStyle={{fontSize: hp(1.9)}}>
           Marvin Petate

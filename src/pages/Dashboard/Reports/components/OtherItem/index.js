@@ -4,7 +4,7 @@ import {ADDED_COLOR, UPDATED_COLOR, DELETED_COLOR, RESTOCK_COLOR} from 'constant
 import Formatter from 'utils/Formatter';
 import {getPropsValues, getSpecificProperty, onCleanName, onFormat} from 'utils/helper';
 import styles from './.module.css';
-import {hasSymbol, isArray, isObject} from 'utils/checker';
+import {isInteger, isObject} from 'utils/checker';
 
 export default function OtherItem({other}) {
   const history = getSpecificProperty(
@@ -43,7 +43,6 @@ export default function OtherItem({other}) {
     }
     return value;
   };
-
   const getColorPattern = value => {
     if (value === 'ADD') {
       return ADDED_COLOR;
@@ -58,7 +57,6 @@ export default function OtherItem({other}) {
       return RESTOCK_COLOR;
     }
   };
-
   const onClick = action => {
     if (action === 'on-show-details') {
       setIsDetailShow(prev => !prev);
@@ -142,7 +140,13 @@ export default function OtherItem({other}) {
                       <View style={styles.property} key={index}>
                         <View style={styles.propertyPane}>
                           <Text style={styles.propertyName}>{property}</Text>
-                          <Text style={styles.propertyValue}>{`${value} pcs`}</Text>
+                          <Text style={styles.propertyValue}>{`${
+                            isInteger(value.substring(value.length - 1))
+                              ? value.substring(value.length - 1) === '1'
+                                ? `${value} pc`
+                                : `${value} pcs`
+                              : `${value}`
+                          }`}</Text>
                         </View>
                         {index + 1 !== properties.length && <Separator vertical={0.2} />}
                       </View>

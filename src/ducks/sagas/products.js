@@ -51,7 +51,7 @@ function* pushWorker(state) {
       chunks.payload,
       config,
     );
-    
+
     yield put(
       PUSH_PRODUCT(
         chunks.path === 'addons'
@@ -90,19 +90,21 @@ function* setWorker(state) {
     yield put(SET_LOADING({status: true}));
 
     if (state.mainId) chunks = {path: 'main', name: state.mainId};
-    yield call(server.set, `/products/${chunks.path}/set`, state.payload, config);
 
     const {res: peekResponse} = yield call(server.peek, `/products/${chunks.path}`, {
       ...config,
       params: {name: chunks.name},
     });
+
+    console.log('>>>', peekResponse[0], state.payload);
+
     const reference = getPropertyChanges(peekResponse[0], state.payload);
     yield onReport({
       action: 'UPDATE',
       module: `products/${chunks.path}`,
       reference,
     });
-
+    yield call(server.set, `/products/${chunks.path}/set`, state.payload, config);
     yield put(
       SET_INDEX_PRODUCTS(
         chunks.path === 'addons'
