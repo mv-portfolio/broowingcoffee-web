@@ -12,6 +12,7 @@ import {server} from 'network/service';
 import {popLocalStorage} from 'storage';
 import {manipulateData} from 'utils/helper';
 import {onReport} from './reports';
+import Formatter from 'utils/Formatter';
 
 function* peekWorker(state) {
   try {
@@ -60,7 +61,10 @@ function* pushWorker(state) {
     yield onReport({
       action: 'ADD',
       module: 'transactions',
-      reference: res,
+      reference: {
+        ...res,
+        issuedBy: Formatter.toName(`${res.issuedBy.firstname} ${res.issuedBy.lastname}`),
+      },
     });
 
     yield popLocalStorage('tmp');

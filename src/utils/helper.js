@@ -51,6 +51,12 @@ const onCleanName = value => {
   if (value.includes('username')) {
     return 'created by';
   }
+  if (value.includes('issuedBy')) {
+    return 'issued by';
+  }
+  if (value.includes('receiptTo')) {
+    return 'receipt to';
+  }
   return value.replace('_', ' ');
 };
 const onFormat = (property, value) => {
