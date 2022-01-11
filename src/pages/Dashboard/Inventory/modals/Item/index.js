@@ -26,16 +26,15 @@ function Item({
     itemInitState({name, cost, itemType, quantity, date_expired}),
     itemReducer,
   );
-  // const [startDate, setStartDate] = useState(new Date());
   const [isChange, setIsChange] = useState(false);
 
   const onClean = state => {
     if (state.name.length === 0) {
       return {isClean: false};
     }
-    if (state.itemType.length === 0) {
-      return {isClean: false};
-    }
+    // if (state.itemType.length === 0) {
+    //   return {isClean: false};
+    // }
     if (state.cost.length === 0) {
       return {isClean: false};
     }
@@ -43,9 +42,11 @@ function Item({
       return {isClean: false};
     }
 
-    let info = state;
-    info.cost = parseFloat(info.cost);
-    info.quantity = parseInt(info.quantity);
+    let info = {};
+    info.name = state.name;
+    info.type = state.itemType;
+    info.quantity = parseInt(state.quantity);
+    info.cost = parseFloat(state.cost);
     info.date_expired = null;
     info.date_modified = new Date().getTime();
 
@@ -111,8 +112,8 @@ function Item({
     if (
       name !== state.name ||
       itemType !== state.itemType ||
-      String(quantity) !== state.quantity ||
-      String(cost) !== state.cost ||
+      quantity !== parseInt(state.quantity ? state.quantity : '0') ||
+      cost !== parseInt(state.cost ? state.cost : '0') ||
       date_expired !== state.date_expired
     ) {
       setIsChange(true);
@@ -147,16 +148,17 @@ function Item({
           value={state.name}
           onChangeText={text => onChange('on-change-name', text)}
         />
-        <Separator vertical={1} />
+        {/* <Separator vertical={1} />
         <Text style={styles.titleField}>Type</Text>
         <Separator vertical={0.25} />
         <Dropdown
-          items={['material']} // ['material', 'ingredient']
+          items={['Non-Perishable']} // ['material', 'ingredient']
+          hideIcon
           selected={state.itemType}
           onSelected={item => onClick('on-select-item-type', item)}
           style={styles.dropdown}
           ACCENT_COLOR={BACKGROUND_COLOR}
-        />
+        /> */}
         <Separator vertical={1} />
         <Text style={styles.titleField}>Quantity</Text>
         <Separator vertical={0.25} />

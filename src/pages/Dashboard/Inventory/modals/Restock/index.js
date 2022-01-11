@@ -42,7 +42,7 @@ function Restock({loading, dispatch, productInfo, onRestock, onCancel}) {
       const date_modified = new Date().getTime();
       onRestock({
         name,
-        itemType: type,
+        type,
         quantity: parseInt(state.quantity),
         cost: parseFloat(state.cost),
         date_modified,

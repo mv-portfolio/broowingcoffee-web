@@ -3,7 +3,8 @@ import {isTypeof} from 'utils/checker';
 export const itemInitState = ({name, cost, itemType, quantity, date_expired}) => ({
   name: name ? `${name}` : '',
   cost: cost ? `${cost}` : '',
-  itemType: itemType ? `${itemType}` : '',
+  // itemType: itemType ? `${itemType}` : '',
+  itemType: 'non-perishable',
   quantity: quantity ? `${quantity}` : '',
   date_expired: date_expired ? `${date_expired}` : null,
 });

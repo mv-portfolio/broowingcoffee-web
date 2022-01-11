@@ -74,11 +74,9 @@ const isJsonString = value => {
   }
   return true;
 };
-
 const arrayFind = (data = [], callback) => {
   return data.filter(callback).length !== 0;
 };
-
 const arrayFilter = (data = [], filter) => {
   let temp_data = [];
   const {property: filterKey, value: filterValue} = getPropsValues(filter)[0];

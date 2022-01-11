@@ -11,9 +11,7 @@ import {
   CLEAR_ERROR,
   POP_INVENTORY_REQ,
   PUSH_INVENTORY,
-  SET_INDEX_INVENTORY,
   SET_INDEX_INVENTORY_REQ,
-  SET_RESTOCK_INVENTORY,
   SET_RESTOCK_INVENTORY_REQ,
 } from 'ducks/actions';
 
@@ -91,7 +89,7 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
       return;
     }
     if (actionType === 'on-click-restock-item') {
-      dispatch(SET_RESTOCK_INVENTORY_REQ({item: value}))
+      dispatch(SET_RESTOCK_INVENTORY_REQ({item: value}));
       return;
     }
 
@@ -99,6 +97,7 @@ function Inventory({inventory: reduxInventory, error, dispatch}) {
     if (actionType === 'on-click-delete-dialog-positive') {
       dispatch(POP_INVENTORY_REQ({itemId: value}));
       onHidePrimaryDialog();
+      setSearch('');
       return;
     }
   };

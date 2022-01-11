@@ -1,3 +1,4 @@
+import {CRITICAL_COLOR, GOOD_COLOR, MODERATE_COLOR} from 'constants/colors';
 import {isArray} from './checker';
 import Formatter from './Formatter';
 
@@ -67,73 +68,34 @@ const onFormat = (property, value) => {
   }
   return value;
 };
-const getPropertyChanges = (target, source) => {
-  let tempObject = {
-    name: target.name,
-    consumables: {},
-  };
-  getPropsValues(target).forEach(targetObj => {
-    getPropsValues(source).forEach(sourceObj => {
-      if (
-        (targetObj.property === sourceObj.property &&
-          targetObj.value !== sourceObj.value &&
-          !targetObj.property.includes('date')) ||
-        (targetObj.property === 'cost' && sourceObj.property === 'cost')
-      ) {
-        if (isArray(sourceObj.value)) {
-          sourceObj.value.forEach(src => {
-            tempObject.consumables[src._id_item.name] = `${src.consumed}`;
-
-            targetObj.value.forEach(trg => {
-              const {consumed: trgConsumed} = trg;
-              const {consumed: srcConsumed} = src;
-
-              const isExist = sourceObj.value.filter(
-                src => src._id_item.name === trg._id_item.name,
-              )[0];
-              if (!isExist) {
-                tempObject.consumables[trg._id_item.name] = 'removed';
-              }
-
-              if (
-                trg._id_item.name === src._id_item.name &&
-                trgConsumed !== srcConsumed
-              ) {
-                tempObject.consumables[
-                  src._id_item.name
-                ] = `${trgConsumed} -> ${srcConsumed}`;
-              } else if (
-                trg._id_item.name === src._id_item.name &&
-                trgConsumed === srcConsumed
-              ) {
-                delete tempObject.consumables[src._id_item.name];
-              }
-            });
-          });
-
-          return;
-        }
-        tempObject[targetObj.property] = [targetObj.value, sourceObj.value];
-      }
-    });
-  });
-  return tempObject;
-};
-const isConsumableChange = (prevArr = [], currentArr = []) => {
+const isConsumableChange = (prevArr = [], currArr = []) => {
   let isChange = false;
-  if (prevArr.length !== currentArr.length) {
+
+  if (prevArr.length !== currArr.length) {
     return true;
   }
-  prevArr.forEach(prev => {
-    currentArr.forEach(curr => {
-      if (
-        (prev._id_item.name === curr._id_item.name && prev.consumed !== curr.consumed) ||
-        prev._id_item.name !== curr._id_item.name
-      ) {
-        isChange = true;
-      }
+  prevArr
+    .sort(function (a, b) {
+      if (a._id_item.name > b._id_item.name) return 1;
+      if (a._id_item.name < b._id_item.name) return -1;
+      return 0;
+    })
+    .forEach((prev, prevIndex) => {
+      currArr
+        .sort(function (a, b) {
+          if (a._id_item.name > b._id_item.name) return 1;
+          if (a._id_item.name < b._id_item.name) return -1;
+          return 0;
+        })
+        .forEach((curr, currIndex) => {
+          if (
+            (prevIndex === currIndex && prev._id_item.name !== curr._id_item.name) ||
+            (prev._id_item.name === curr._id_item.name && prev.consumed !== curr.consumed)
+          ) {
+            isChange = true;
+          }
+        });
     });
-  });
   return isChange;
 };
 const getDateToNumber = (date, day) => {
@@ -142,6 +104,15 @@ const getDateToNumber = (date, day) => {
 const getDate = time => {
   const thisDate = new Date(time);
   return thisDate.getDate();
+};
+const getColorIndication = value => {
+  if (value > 100) {
+    return GOOD_COLOR;
+  }
+  if (value > 25) {
+    return MODERATE_COLOR;
+  }
+  return CRITICAL_COLOR;
 };
 const manipulateData = (data, filteredDate = [], top3Products = []) => {
   let tempData = [];
@@ -271,6 +242,58 @@ const getPurchasedProducts = data => {
     if (a.availed < b.availed) return 1;
     return 0;
   });
+};
+const getPropertyChanges = (target, source) => {
+  let tempObject = {
+    name: target.name,
+    consumables: {},
+  };
+  getPropsValues(target).forEach(targetObj => {
+    getPropsValues(source).forEach(sourceObj => {
+      if (
+        (targetObj.property === sourceObj.property &&
+          targetObj.value !== sourceObj.value &&
+          !targetObj.property.includes('date')) ||
+        (targetObj.property === 'cost' && sourceObj.property === 'cost')
+      ) {
+        if (isArray(sourceObj.value)) {
+          sourceObj.value.forEach(src => {
+            tempObject.consumables[src._id_item.name] = `+ ${src.consumed}`;
+
+            targetObj.value.forEach(trg => {
+              const {consumed: trgConsumed} = trg;
+              const {consumed: srcConsumed} = src;
+
+              const isExist = sourceObj.value.filter(
+                src => src._id_item.name === trg._id_item.name,
+              )[0];
+              if (!isExist) {
+                tempObject.consumables[trg._id_item.name] = 'removed';
+              }
+
+              if (
+                trg._id_item.name === src._id_item.name &&
+                trgConsumed !== srcConsumed
+              ) {
+                tempObject.consumables[
+                  src._id_item.name
+                ] = `${trgConsumed} -> ${srcConsumed}`;
+              } else if (
+                trg._id_item.name === src._id_item.name &&
+                trgConsumed === srcConsumed
+              ) {
+                delete tempObject.consumables[src._id_item.name];
+              }
+            });
+          });
+
+          return;
+        }
+        tempObject[targetObj.property] = [targetObj.value, sourceObj.value];
+      }
+    });
+  });
+  return tempObject;
 };
 /* ----- end ---- */
 
@@ -437,6 +460,7 @@ export {
   hp,
   wp,
   getUsername,
+  getColorIndication,
   toName,
   onCompute,
   onComputeTransaction,

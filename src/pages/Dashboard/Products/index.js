@@ -129,6 +129,7 @@ function Transaction({
     //DIALOG
     if (actionType === 'on-click-delete-dialog-positive') {
       onHidePrimaryDialog();
+      setState({type: 'set', addon: '', main: ''});
       const {type, filter} = value;
       if (type === 'add-ons') {
         dispatch(POP_PRODUCT({addonId: filter}));

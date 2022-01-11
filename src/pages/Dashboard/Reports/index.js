@@ -16,8 +16,7 @@ import Transaction from './modals/Transaction';
 function Reports({user, reports, dispatch}) {
   const {title, onSetHeader} = useContext(Header);
 
-  const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
-    useContext(PrimaryDialog);
+  const {onShow: onShowPrimaryDialog} = useContext(PrimaryDialog);
 
   const onClick = (action, value) => {
     if (action === 'on-search-transactions-history') {
@@ -93,7 +92,7 @@ function Reports({user, reports, dispatch}) {
         />
         <Separator vertical={1} />
         <View style={styles.labelPane}>
-          <Text style={styles.label}>Other History</Text>
+          <Text style={styles.label}>Action History</Text>
           <Button
             skin={styles.buttonSearch}
             onPress={() => onClick('on-search-other-history')}>

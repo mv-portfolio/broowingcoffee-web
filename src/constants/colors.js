@@ -13,6 +13,10 @@ const UPDATED_COLOR = '#ffe400';
 const DELETED_COLOR = '#f2381b';
 const RESTOCK_COLOR = '#c76ae6';
 
+const GOOD_COLOR = '#acff75';
+const MODERATE_COLOR = '#ffea00';
+const CRITICAL_COLOR = '#fa3c3c';
+
 const LINEGRAPH_COLORS = ['#7be368', '#dbd518', '#eb7831'];
 
 export {
@@ -31,4 +35,7 @@ export {
   DELETED_COLOR,
   RESTOCK_COLOR,
   LINEGRAPH_COLORS,
+  GOOD_COLOR,
+  MODERATE_COLOR,
+  CRITICAL_COLOR,
 };

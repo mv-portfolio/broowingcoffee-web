@@ -18,7 +18,7 @@ import Purchase from './modals/Purchase';
 import styles from './.module.css';
 import {pushLocalStorage} from 'storage';
 
-function Transaction({purchasingProducts, products, error, loading, dispatch}) {
+function Transaction({purchasingProducts, user, products, error, loading, dispatch}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
   const {onShow: onShowToast, onHide: onHideToast} = useContext(Toast);
@@ -76,7 +76,7 @@ function Transaction({purchasingProducts, products, error, loading, dispatch}) {
     }
     if (actionType === 'on-click-purchased') {
       // pushLocalStorage('tmp', {...value});
-      dispatch(PUSH_TRANSACTIONS({transaction: {...value}}));
+      dispatch(PUSH_TRANSACTIONS({transaction: {...value, issuedBy: user._id}}));
     }
   };
   const showDialog = ({type, productInfo, onAdd, onUpdate, onDelete}) => {
