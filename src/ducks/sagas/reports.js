@@ -1,7 +1,13 @@
 import {call, select, put, takeLatest} from '@redux-saga/core/effects';
 
 import {ACTION_TYPE} from 'constants/strings';
-import {PUSH_REPORT, SET_ERROR, SET_REPORTS} from 'ducks/actions';
+import {
+  CLEAR_LOADING,
+  PUSH_REPORT,
+  SET_ERROR,
+  SET_LOADING,
+  SET_REPORTS,
+} from 'ducks/actions';
 import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
 
@@ -40,7 +46,13 @@ function* peekWorker(state) {
     const {
       filter: {type, date},
     } = state;
+
+    yield put(SET_LOADING({status: true}));
+
     const {res} = yield call(server.peek, '/reports', {...config, params: {date}});
+    
+    yield put(CLEAR_LOADING());
+
     if (type) {
       if (type === 'transaction') {
         const transactionHistories = res.filter(

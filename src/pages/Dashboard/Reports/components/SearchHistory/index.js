@@ -1,17 +1,18 @@
-import {View, Text, DatePicker, SearchField} from 'components';
+import {View, Text, DatePicker, SearchField, CircleSnail} from 'components';
 import {searchHistory, searchHistoryInitState} from 'hooks';
 import {PrimaryDialog} from 'context';
 import {PEEK_REPORTS} from 'ducks/actions';
 import {useContext, useReducer} from 'react';
 import {connect} from 'react-redux';
 import Formatter from 'utils/Formatter';
-import {ASC_DATE} from 'utils/helper';
+import {ASC_DATE, hp} from 'utils/helper';
 import OtherList from '../OtherList';
 import TransactionList from '../TransactionList';
 import styles from './.module.css';
 import Transaction from '../../modals/Transaction';
+import {ACCENT_COLOR} from 'constants/colors';
 
-function SearchHistory({dispatch, reports, type}) {
+function SearchHistory({dispatch, loading, reports, type}) {
   const date = new Date();
 
   const {onShow: onShowPrimaryDialog} = useContext(PrimaryDialog);
@@ -60,7 +61,6 @@ function SearchHistory({dispatch, reports, type}) {
       onShowPrimaryDialog(<Transaction data={value} />, {disabledTouchOutside: false});
     }
   };
-
   const onChange = (action, value) => {
     if (action === 'on-search') {
       setState({
@@ -70,7 +70,6 @@ function SearchHistory({dispatch, reports, type}) {
       });
     }
   };
-
   const onSearch = value => {
     const isTransaction = type === 'transaction';
     const onSearchTransactionHistories = value => history => {
@@ -128,31 +127,50 @@ function SearchHistory({dispatch, reports, type}) {
           />
         </View>
         {type === 'transaction' ? (
-          <TransactionList
-            transactionHistories={
-              state.search.length > 0
-                ? state.filter
-                : reports.transactionHistories.sort(ASC_DATE)
-            }
-            style={styles.list}
-            onViewTransaction={transaction => onClick('on-view-transaction', transaction)}
-          />
+          <>
+            {loading.status ? (
+              <View style={styles.loadingPane}>
+                <CircleSnail color={ACCENT_COLOR} size={hp(5)} thickness={hp(0.6)} />
+              </View>
+            ) : (
+              <TransactionList
+                transactionHistories={
+                  state.search.length > 0
+                    ? state.filter
+                    : reports.transactionHistories.sort(ASC_DATE)
+                }
+                style={styles.list}
+                onViewTransaction={transaction =>
+                  onClick('on-view-transaction', transaction)
+                }
+              />
+            )}
+          </>
         ) : (
-          <OtherList
-            otherHistories={
-              state.search.length > 0
-                ? state.filter
-                : reports.otherHistories.sort(ASC_DATE)
-            }
-            style={styles.list}
-          />
+          <>
+            {loading.status ? (
+              <View style={styles.loadingPane}>
+                <CircleSnail color={ACCENT_COLOR} size={hp(5)} thickness={hp(0.6)} />
+              </View>
+            ) : (
+              <OtherList
+                otherHistories={
+                  state.search.length > 0
+                    ? state.filter
+                    : reports.otherHistories.sort(ASC_DATE)
+                }
+                style={styles.list}
+              />
+            )}
+          </>
         )}
       </View>
     </View>
   );
 }
 
-const stateProps = ({reports}) => ({
+const stateProps = ({loading, reports}) => ({
+  loading,
   reports,
 });
 const dispatchProps = dispatch => ({

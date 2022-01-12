@@ -46,3 +46,8 @@
 .bodyPane .list {
   height: 70vh;
 }
+.bodyPane .loadingPane {
+  height: 70vh;
+  align-items: center;
+  justify-content: center;
+}

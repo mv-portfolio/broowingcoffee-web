@@ -15,7 +15,7 @@ export default function LineGraph({
     <View style={styles.mainPane}>
       {isLoading ? (
         <View style={styles.loadingPane}>
-          <CircleSnail color={ACCENT_COLOR} size={hp(5)} />
+          <CircleSnail color={ACCENT_COLOR} size={hp(5)} thickness={hp(0.6)} />
         </View>
       ) : (
         <AreaChart
