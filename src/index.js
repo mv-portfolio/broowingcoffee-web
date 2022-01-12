@@ -3,11 +3,7 @@ import ReactDom from 'react-dom';
 import Loading from 'pages/Loading';
 import App from 'App';
 
-if (process.env.NODE_ENV === 'production') {
-  console.log = function () {
-    return;
-  };
-}
+if (process.env.NODE_ENV !== 'development') console.log = () => {};
 
 require('dotenv').config();
 
