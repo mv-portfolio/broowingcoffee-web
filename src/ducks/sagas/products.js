@@ -95,9 +95,7 @@ function* setWorker(state) {
       ...config,
       params: {name: chunks.name},
     });
-
-    console.log('>>>', peekResponse[0], state.payload);
-
+    
     const reference = getPropertyChanges(peekResponse[0], state.payload);
     yield onReport({
       action: 'UPDATE',

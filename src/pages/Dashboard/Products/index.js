@@ -12,8 +12,6 @@ import ProductAddons from './modals/Addons';
 import {
   POP_PRODUCT,
   CLEAR_ERROR,
-  PUSH_PRODUCT,
-  SET_INDEX_PRODUCTS,
   PUSH_PRODUCT_REQ,
   SET_INDEX_PRODUCTS_REQ,
 } from 'ducks/actions';
@@ -78,6 +76,7 @@ function Transaction({
       return;
     }
     //CRUD actions
+    //main
     if (actionType === 'on-click-added-product-main') {
       dispatch(PUSH_PRODUCT_REQ({mainProduct: value}));
       return;
@@ -102,6 +101,7 @@ function Transaction({
       });
       return;
     }
+    //add-ons
     if (actionType === 'on-click-added-product-addons') {
       dispatch(PUSH_PRODUCT_REQ({addonProduct: value}));
       return;
@@ -142,10 +142,10 @@ function Transaction({
       onHidePrimaryDialog();
       const {type, payload} = value;
       if (type === 'add-ons') {
-        dispatch(SET_INDEX_PRODUCTS({addonId: payload.name, payload}));
+        dispatch(SET_INDEX_PRODUCTS_REQ({addonId: payload.name, payload}));
         return;
       }
-      dispatch(SET_INDEX_PRODUCTS({mainId: payload.name, payload}));
+      dispatch(SET_INDEX_PRODUCTS_REQ({mainId: payload.name, payload}));
       return;
     }
   };
