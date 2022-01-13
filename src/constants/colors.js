@@ -1,4 +1,5 @@
 const WHITE = '#fff';
+const DIRTY_WHITE = '#7a7979';
 const BLACK = '#000';
 const FONT_COLOR = '#fff';
 const ACCENT_COLOR = '#f7a35b';
@@ -21,6 +22,7 @@ const LINEGRAPH_COLORS = ['#7be368', '#dbd518', '#eb7831'];
 
 export {
   WHITE,
+  DIRTY_WHITE,
   BLACK,
   FONT_COLOR,
   ACCENT_COLOR,

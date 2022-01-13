@@ -1,15 +1,9 @@
-import Icon from 'react-web-vector-icons';
-import useHook, {assessAcc} from 'hooks';
+import {assessAcc} from 'hooks';
 import styles from './.module.css';
 
-import {useEffect} from 'react';
+import {useContext, useEffect, useReducer} from 'react';
 import {connect} from 'react-redux';
-import {
-  CAPITAL_CHAR_REGEX,
-  NUMS_REGEX,
-  SMALL_CHAR_REGEX,
-  SYMBOLS_REGEX,
-} from 'constants/regex';
+import {replace} from 'connected-react-router';
 import {
   ASSESSMENT_AUTH,
   SET_ASSESSMENT,
@@ -17,12 +11,12 @@ import {
   SET_LOADING,
   SET_USER,
 } from 'ducks/actions';
-import {Text, Separator, TextInput, View, Button} from 'components';
+import {Text, Separator, TextInput, View, Button, Icon} from 'components';
 import {ASSESSMENT_ACCOUNT} from 'constants/strings';
-import {ACCENT_COLOR} from 'constants/colors';
+import {ACCENT_COLOR, WHITE} from 'constants/colors';
 import {ICON_SIZE} from 'constants/sizes';
 import {hp} from 'utils/helper';
-import {replace} from 'connected-react-router';
+import {PrimaryDialog} from 'context';
 import {peekLocalStorage} from 'storage';
 import {
   hasUpperCaseLetter,
@@ -30,14 +24,17 @@ import {
   hasNumber,
   hasSymbol,
 } from 'utils/checker';
+import Checkbox from './components/Checkbox';
+import TermsAndConditions from './modals/TermsAndConditions';
 
 function Account({user, loading, error, dispatch}) {
-  const [state, setState] = useHook(
+  const {onShow: onShowPrimaryDialog} = useContext(PrimaryDialog);
+  const [state, setState] = useReducer(
+    assessAcc,
     ASSESSMENT_ACCOUNT({
       username: user.username,
       email: user.email,
     }),
-    assessAcc,
   );
 
   const onPasswordMatchedIcon = status => {
@@ -117,7 +114,6 @@ function Account({user, loading, error, dispatch}) {
       });
     }
   };
-
   const onClick = component => {
     if (component === 'on-encrypt-confirm-password-text') {
       setState({
@@ -125,13 +121,29 @@ function Account({user, loading, error, dispatch}) {
         type: 'set-confirm-new-password',
         isEncrypted: !state.confirmNewPassword.isEncrypted,
       });
-    } else if (component === 'on-encrypt-current-password-text') {
+      return;
+    }
+    if (component === 'on-encrypt-current-password-text') {
       setState({
         ...state.currentPassword,
         type: 'set-current-password',
         isEncrypted: !state.currentPassword.isEncrypted,
       });
-    } else if (component === 'on-done') {
+      return;
+    }
+    if (component === 'on-click-terms-and-conditions') {
+      onShowPrimaryDialog(
+        <TermsAndConditions
+          isChecked={state.privacyPolicy}
+          onReadPrivacyPolicy={privacyPolicy =>
+            setState({type: 'set-terms-and-conditions', privacyPolicy})
+          }
+        />,
+        {disabledTouchOutside: false},
+      );
+      return;
+    }
+    if (component === 'on-done') {
       if (!state.confirmNewPassword.isMatched) {
         dispatch(SET_ERROR({assessment: 'Passwords does not Matched'}));
         return;
@@ -144,7 +156,9 @@ function Account({user, loading, error, dispatch}) {
         email: state.email.text,
         currentPassword: state.currentPassword.text,
         newPassword: state.newPassword.text,
+        didReadPrivacyPolicy: state.privacyPolicy,
       };
+
       dispatch(SET_LOADING({status: true}));
       dispatch(SET_ERROR({assessment: ''}));
       dispatch(SET_USER({...userPayload}));
@@ -157,6 +171,7 @@ function Account({user, loading, error, dispatch}) {
           },
         }),
       );
+      return;
     }
   };
 
@@ -184,11 +199,11 @@ function Account({user, loading, error, dispatch}) {
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
         <View style={styles.headerPane}>
-          <Text style={styles.title}>Account</Text>
-          <Text style={styles.subtitle}>personal identity</Text>
+          <Text style={styles.title}>ACCOUNT</Text>
+          <Text style={styles.subtitle}>SECURITY AND REFERENCE</Text>
         </View>
       </View>
-      <Separator vertical={1} />
+      <Separator vertical={1.5} />
       <View style={styles.bodyPane}>
         <TextInput
           placeholder='Username'
@@ -209,7 +224,7 @@ function Account({user, loading, error, dispatch}) {
             <Icon font='Feather' size={ICON_SIZE} name='mail' color={ACCENT_COLOR} />
           }
         />
-        <Separator vertical={0.5} />
+        <Separator vertical={1.5} />
         <TextInput
           placeholder='Current Password'
           skin={styles.inputSkin}
@@ -246,11 +261,20 @@ function Account({user, loading, error, dispatch}) {
           isTextEncrypt={!state.confirmNewPassword.isEncrypted}
           onEncryptText={() => onClick('on-encrypt-confirm-password-text')}
         />
-        <Separator vertical={1} />
+        <Separator vertical={1.5} />
+        <Checkbox
+          isCheck={state.privacyPolicy}
+          text='I READ PRIVACY POLICY'
+          isDisabled={true}
+          onPress={() => onClick('on-click-terms-and-conditions')}
+        />
+        <Separator vertical={0.5} />
         <Button
           skin={styles.buttonSkin}
           title='Done'
           titleStyle={styles.buttonTitle}
+          disabled={!state.privacyPolicy}
+          defaultStyle={{opacity: !state.privacyPolicy ? '0.6' : '1'}}
           isLoading={loading.status}
           onPress={() => onClick('on-done')}
         />
@@ -258,7 +282,6 @@ function Account({user, loading, error, dispatch}) {
       <View style={styles.bottomPane}>
         {error.assessment && (
           <>
-            <Separator vertical={1} />
             <View style={styles.errorPane}>
               <Text style={styles.errorTitle}>{error.assessment}</Text>
             </View>

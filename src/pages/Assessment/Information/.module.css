@@ -9,19 +9,20 @@
   }
   
   .topPane .headerPane {
-    width: 37.5vh;
+    width: 39vh;
     align-items: flex-start;
     justify-content: center;
   }
   .headerPane .title {
     color: var(--WHITE);
     font-size: 3vh;
-    font-weight: bold;
-    font-family: 'Standard-Font';
+    letter-spacing: 0.15vh;
+    font-family: 'Standard-Font2';
   }
   .headerPane .subtitle {
     color: var(--ACCENT-COLOR);
-    font-size: 2vh;
+    font-weight: bold;
+    font-size: 1.5vh;
   }
   
   
@@ -48,14 +49,14 @@
     flex: 1.5;
     padding: 2vh;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
   }
   .bottomPane .errorPane {
     align-items: center;
     justify-content: center;
     width: 37.5vh;
     padding: 1vh;
-    border: 0.25vh var(--ACCENT-COLOR2) solid;
+    border: 0.4vh var(--ACCENT-COLOR2) solid;
     border-radius: 7.5px;
   }
   .errorPane .errorTitle {
@@ -69,5 +70,11 @@
   }
   .bottomPane .bForgotPasswordText {
     color: var(--ACCENT-COLOR);
+  }
+  .bottomPane .reminder {
+    width: 45vh;
+    text-align: center;
+    color: var(--WHITE);
+    font-size: 1.5vh;
   }
   

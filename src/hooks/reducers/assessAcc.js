@@ -1,3 +1,5 @@
+import {isTypeof} from 'utils/checker';
+
 const assessAccInitState = {
   username: {
     text: '',
@@ -5,6 +7,7 @@ const assessAccInitState = {
   email: {
     text: '',
   },
+  privacyPolicy: false,
   currentPassword: {
     text: '',
   },
@@ -20,28 +23,6 @@ const assessAccInitState = {
 };
 export default function assessAcc(state = assessAccInitState, action) {
   switch (action.type) {
-    case 'set':
-      return {
-        username: {
-          text: action.username.text || state.username.text,
-        },
-        email: {
-          text: action.email.text || state.email.text,
-        },
-        currentPassword: {
-          text: action.currentPassword.text || state.currentPassword.text,
-        },
-        newPassword: {
-          text: action.newPassword.text || state.newPassword.text,
-          strength: action.newPassword.strength || state.newPassword.strength,
-        },
-        confirmNewPassword: {
-          text: action.confirmNewPassword.text || state.confirmNewPassword.text,
-          isMatched: action.confirmNewPassword.isMatched || state.confirmNewPassword.isMatched,
-          isEncrypted: action.confirmNewPassword.isEncrypted || state.confirmNewPassword.isEncrypted,
-        },
-      };
-
     case 'set-username':
       return {
         ...state,
@@ -88,6 +69,12 @@ export default function assessAcc(state = assessAccInitState, action) {
           isMatched: action.isMatched,
           isEncrypted: action.isEncrypted,
         },
+      };
+
+    case 'set-terms-and-conditions':
+      return {
+        ...state,
+        privacyPolicy: action.privacyPolicy,
       };
 
     default:

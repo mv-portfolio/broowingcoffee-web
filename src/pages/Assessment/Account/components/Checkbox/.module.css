@@ -1,0 +1,21 @@
+.mainPane {
+  height: 5vh;
+  width: 39vh;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1vh;
+}
+.mainPane .bodyPane {
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.bodyPane .text {
+  font-size: 1.5vh;
+  margin-top: 0.25vh;
+  color: var(--ACCENT-COLOR);
+}

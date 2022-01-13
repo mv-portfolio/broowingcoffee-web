@@ -3,7 +3,7 @@
 }
 
 .mainPane .topPane {
-  flex: 1.5;
+  flex: 2.5;
   align-items: center;
   justify-content: flex-end;
 }
@@ -16,12 +16,13 @@
 .headerPane .title {
   color: var(--WHITE);
   font-size: 3vh;
-  font-weight: bold;
-  font-family: 'Standard-Font';
+  letter-spacing: 0.15vh;
+  font-family: 'Standard-Font2';
 }
 .headerPane .subtitle {
   color: var(--ACCENT-COLOR);
-  font-size: 2vh;
+  font-weight: bold;
+  font-size: 1.5vh;
 }
 
 .mainPane .bodyPane {
@@ -54,8 +55,8 @@
   justify-content: center;
   width: 37.5vh;
   padding: 1vh;
-  border: 0.25vh var(--ACCENT-COLOR2) solid;
-  border-radius: 7.5px;
+  border-radius: 1vh;
+  border: 0.4vh var(--ACCENT-COLOR2) solid;
 }
 .errorPane .errorTitle {
   display: inline-block;

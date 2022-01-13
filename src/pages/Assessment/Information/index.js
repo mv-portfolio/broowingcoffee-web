@@ -1,15 +1,17 @@
-import useHook, {assessInfo} from 'hooks';
-import styles from './.module.css';
-
-import {useEffect} from 'react';
+import {useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
+import useHook, {assessInfo} from 'hooks';
 import {replace} from 'connected-react-router';
 import {Text, Separator, TextInput, View, Button} from 'components';
 import {ASSESSMENT_AUTH, SET_ERROR, SET_USER} from 'ducks/actions';
 import {NAME_REGEX} from 'constants/regex';
 import {ASSESSMENT_INFORMATION} from 'constants/strings';
+import {Toast} from 'context';
+
+import styles from './.module.css';
 
 function Information({router: {location}, error, user, dispatch}) {
+  const {onShow: onShowToast} = useContext(Toast);
   const [state, setState] = useHook(
     ASSESSMENT_INFORMATION({
       firstname: user.firstname,
@@ -32,6 +34,10 @@ function Information({router: {location}, error, user, dispatch}) {
   };
   const onClick = component => {
     if (component === 'on-next') {
+      if (!state.firstname.text || !state.lastname.text) {
+        onShowToast('Please enter important field(s)');
+        return;
+      }
       dispatch(
         SET_USER({
           firstname: state.firstname.text,
@@ -52,8 +58,8 @@ function Information({router: {location}, error, user, dispatch}) {
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
         <View style={styles.headerPane}>
-          <Text style={styles.title}>Information</Text>
-          <Text style={styles.subtitle}>personal identity</Text>
+          <Text style={styles.title}>INFORMATION</Text>
+          <Text style={styles.subtitle}>PERSONAL IDENTITY</Text>
         </View>
       </View>
       <Separator vertical={1} />
@@ -82,12 +88,16 @@ function Information({router: {location}, error, user, dispatch}) {
       <View style={styles.bottomPane}>
         {error.assessment && (
           <>
-            <Separator vertical={1} />
             <View style={styles.errorPane}>
               <Text style={styles.errorTitle}>{error.assessment}</Text>
             </View>
           </>
         )}
+        <Separator vertical={1} />
+        <Text style={styles.reminder}>
+          This is one at a time assessment, just make sure, all information you have been
+          input in the fields are correct
+        </Text>
       </View>
     </View>
   );

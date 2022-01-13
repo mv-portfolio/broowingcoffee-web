@@ -27,6 +27,7 @@ const ASSESSMENT_ACCOUNT = ({
   currentPassword,
   newPassword,
   confirmNewPassword,
+  privacyPolicy,
 }) => ({
   username: {
     text: username || '',
@@ -34,6 +35,7 @@ const ASSESSMENT_ACCOUNT = ({
   email: {
     text: email || '',
   },
+  privacyPolicy,
   currentPassword: {
     text: currentPassword || '',
   },
