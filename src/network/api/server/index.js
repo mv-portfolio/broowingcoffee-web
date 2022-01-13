@@ -9,7 +9,7 @@ export const timeout = seconds => 1000 * seconds;
 
 const server = axios.create({
   baseURL: `${SERVER_URL}/${SECRET_KEY}/api/service`,
-  timeout: timeout(5),
+  timeout: timeout(8),
 });
 
 export const ConfigInterceptor = store => {

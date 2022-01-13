@@ -11,8 +11,9 @@ import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
 import {popLocalStorage} from 'storage';
 import {manipulateData} from 'utils/helper';
-import {onReport} from './reports';
 import Formatter from 'utils/Formatter';
+import {timeout} from 'network/api/server';
+import {onReport} from './reports';
 
 function* peekWorker(state) {
   try {
@@ -22,6 +23,7 @@ function* peekWorker(state) {
 
     const {res} = yield call(server.peek, '/transactions', {
       ...config,
+      timeout: timeout(10),
       params: {
         date_start: date.getTime(),
         date_end: new Date(date.getFullYear(), date.getMonth() + 1).getTime(),

@@ -5,18 +5,15 @@ import Icon from 'react-web-vector-icons';
 
 import {Button, Dialog, View} from 'components';
 import {WHITE} from 'constants/colors';
-import {
-  PEEK_INVENTORY,
-  PEEK_PRODUCTS,
-  RESET_SESSION,
-} from 'ducks/actions';
-import {Header, PrimaryDialog} from 'context';
+import {PEEK_INVENTORY, PEEK_PRODUCTS, RESET_SESSION} from 'ducks/actions';
+import {Header, PrimaryDialog, Toast} from 'context';
 import {pages} from './pages';
 import styles from './.module.css';
 
 const HeaderBar = lazy(() => import('components/HeaderBar'));
 
 function DashBoardNavigator({dispatch, user, error}) {
+  const {onShow: onShowToast} = useContext(Toast);
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
 
@@ -54,6 +51,17 @@ function DashBoardNavigator({dispatch, user, error}) {
           }}
         />,
       );
+    } else {
+      let errorMessage = '';
+      Object.values(error).map(value => {
+        if (value.includes('Connection Lost')) {
+          errorMessage = value;
+        }
+      });
+      if (errorMessage) {
+        onShowToast(errorMessage);
+        return;
+      }
     }
   };
 

@@ -9,6 +9,7 @@ import {
   SET_REPORTS,
 } from 'ducks/actions';
 import serverConfig from 'ducks/serverConfig';
+import {timeout} from 'network/api/server';
 import {server} from 'network/service';
 
 export function* onReport({action, module, reference}) {
@@ -49,8 +50,12 @@ function* peekWorker(state) {
 
     yield put(SET_LOADING({status: true}));
 
-    const {res} = yield call(server.peek, '/reports', {...config, params: {date}});
-    
+    const {res} = yield call(server.peek, '/reports', {
+      ...config,
+      timeout: timeout(10),
+      params: {date},
+    });
+
     yield put(CLEAR_LOADING());
 
     if (type) {
