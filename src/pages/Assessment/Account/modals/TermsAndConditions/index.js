@@ -21,7 +21,7 @@ export default function TermsAndConditions({isChecked, onReadPrivacyPolicy}) {
         style={styles.bodyPane}
         onScroll={e => {
           const bottom =
-            e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+            e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight;
           if (bottom) {
             setRead(true);
           }

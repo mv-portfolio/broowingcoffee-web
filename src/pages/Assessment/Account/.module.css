@@ -3,7 +3,7 @@
 }
 
 .mainPane .topPane {
-  flex: 2.5;
+  flex: 1;
   align-items: center;
   justify-content: flex-end;
 }
@@ -26,7 +26,7 @@
 }
 
 .mainPane .bodyPane {
-  flex: 2.5;
+  flex: 1.95;
   align-items: center;
   justify-content: flex-end;
 }
@@ -45,7 +45,7 @@
 }
 
 .mainPane .bottomPane {
-  flex: 1.5;
+  flex: 0.5;
   padding: 2vh;
   align-items: center;
   justify-content: flex-start;

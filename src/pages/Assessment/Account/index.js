@@ -200,10 +200,10 @@ function Account({user, loading, error, dispatch}) {
       <View style={styles.topPane}>
         <View style={styles.headerPane}>
           <Text style={styles.title}>ACCOUNT</Text>
+          <Separator vertical={0.15} />
           <Text style={styles.subtitle}>SECURITY AND REFERENCE</Text>
         </View>
       </View>
-      <Separator vertical={1.5} />
       <View style={styles.bodyPane}>
         <TextInput
           placeholder='Username'

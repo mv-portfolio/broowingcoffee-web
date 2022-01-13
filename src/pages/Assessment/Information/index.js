@@ -59,6 +59,7 @@ function Information({router: {location}, error, user, dispatch}) {
       <View style={styles.topPane}>
         <View style={styles.headerPane}>
           <Text style={styles.title}>INFORMATION</Text>
+          <Separator vertical={0.15} />
           <Text style={styles.subtitle}>PERSONAL IDENTITY</Text>
         </View>
       </View>
