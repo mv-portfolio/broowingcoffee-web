@@ -61,7 +61,7 @@ export default function TermsAndConditions({isChecked, onReadPrivacyPolicy}) {
           entire application, we used multiple security features to give more protection
           to any request of data
         </Text>
-        <Separator vertical={0.5} />
+        <Separator vertical={1.5} />
         <Text style={styles.contents}>
           These services are provided by Student Developers in STI Cubao College
         </Text>
