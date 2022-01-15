@@ -2,7 +2,7 @@ import {isTypeof} from 'utils/checker';
 
 export const datePickerInitState = ({
   date = new Date(),
-  startDate = new Date('january 1 1980'),
+  startDate = new Date('january 1 2022'),
   endDate = new Date('january 1 2030'),
   isPickerShow = false,
 }) => ({

@@ -30,7 +30,7 @@ function Reports({user, reports, dispatch}) {
           },
         }),
       );
-      onSetHeader({title: `Search Transaction`});
+      onSetHeader({title: `Search Transactions`});
       return;
     }
     if (action === 'on-search-action-history') {
@@ -44,7 +44,7 @@ function Reports({user, reports, dispatch}) {
           },
         }),
       );
-      onSetHeader({title: `Search Action`});
+      onSetHeader({title: `Search Actions`});
       return;
     }
     if (action === 'on-view-transaction-history') {
