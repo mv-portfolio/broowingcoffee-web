@@ -58,8 +58,8 @@ function Main({
 
     let info = state;
     info.date_modified = new Date().getTime();
-    info.hot_price = state.hot_price ? parseFloat(state.hot_price) : null;
-    info.cold_price = state.cold_price ? parseFloat(state.cold_price) : null;
+    info.hot_price = state.hot_price ? parseFloat(state.hot_price) : 0;
+    info.cold_price = state.cold_price ? parseFloat(state.cold_price) : 0;
 
     info.consumables = state.consumables.map(consumable => ({
       consumed: consumable.consumed,
