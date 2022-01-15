@@ -165,7 +165,7 @@ function Transaction({purchasingProducts, user, products, error, loading, dispat
         <View style={styles.headerBodyPane}>
           <Text style={styles.title}>Invoice</Text>
           <Button
-            title='CLEAR'
+            title='CLEAR ALL'
             titleStyle={styles.buttonClearText}
             skin={styles.buttonClear}
             onPress={() => onClick('on-click-clear-purchasing-products')}
