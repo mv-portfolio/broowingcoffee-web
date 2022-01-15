@@ -48,5 +48,7 @@ function Dialog({
 const stateProps = ({loading}) => ({
   loading,
 });
-const dispatchProps = () => {};
+const dispatchProps = dispatch => ({
+  dispatch: action => dispatch(action),
+});
 export default connect(stateProps, dispatchProps)(Dialog);
