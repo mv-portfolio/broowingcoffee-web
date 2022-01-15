@@ -1,7 +1,7 @@
 import {useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
-import {View, Text, Separator, Button} from 'components';
-import {PrimaryDialog, Toast} from 'context';
+import {View, Text, Separator, Button, Dialog} from 'components';
+import {PrimaryDialog, SecondaryDialog, Toast} from 'context';
 import {
   CLEAR_ERROR,
   CLEAR_LOADING,
@@ -10,17 +10,19 @@ import {
   PUSH_PURCHASING_PRODUCT,
   PUSH_TRANSACTIONS,
   SET_INDEX_PURCHASING_PRODUCT,
+  SET_LOADING,
 } from 'ducks/actions';
 import Details from './modals/Details';
 import ProductList from './components/ProductList';
 import PurchasingListItem from './components/PurchasingListItem';
 import Purchase from './modals/Purchase';
 import styles from './.module.css';
-import {pushLocalStorage} from 'storage';
 
 function Transaction({purchasingProducts, user, products, error, loading, dispatch}) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
+  const {onShow: onShowSecondaryDialog, onHide: onHideSecondaryDialog} =
+    useContext(SecondaryDialog);
   const {onShow: onShowToast, onHide: onHideToast} = useContext(Toast);
 
   const onClick = (actionType, value) => {
@@ -75,8 +77,20 @@ function Transaction({purchasingProducts, user, products, error, loading, dispat
       }
     }
     if (actionType === 'on-click-purchased') {
-      // pushLocalStorage('tmp', {...value});
-      dispatch(PUSH_TRANSACTIONS({transaction: {...value, issuedBy: user._id}}));
+      onShowSecondaryDialog(
+        <Dialog
+          title='Transaction'
+          content='Are you sure you want to proceed this transaction?'
+          // isLoading={loading.status}
+          positiveText='Yes'
+          onClickPositive={() => {
+            dispatch(PUSH_TRANSACTIONS({transaction: {...value, issuedBy: user._id}}));
+            dispatch(SET_LOADING({status: true}));
+          }}
+          negativeText='No'
+          onClickNegative={onHideSecondaryDialog}
+        />,
+      );
     }
   };
   const showDialog = ({type, productInfo, onAdd, onUpdate, onDelete}) => {
@@ -114,6 +128,7 @@ function Transaction({purchasingProducts, user, products, error, loading, dispat
     if (!status) {
       if (message === 'transaction-success') {
         onHidePrimaryDialog();
+        onHideSecondaryDialog();
         onShowToast('Transaction Complete', undefined, () => {
           dispatch(CLEAR_LOADING());
         });

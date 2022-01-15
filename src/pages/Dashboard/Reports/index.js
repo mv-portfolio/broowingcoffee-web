@@ -30,10 +30,10 @@ function Reports({user, reports, dispatch}) {
           },
         }),
       );
-      onSetHeader({title: `Search ${title}`});
+      onSetHeader({title: `Search Transaction`});
       return;
     }
-    if (action === 'on-search-other-history') {
+    if (action === 'on-search-action-history') {
       dispatch(
         push({
           pathname: '/search',
@@ -44,7 +44,7 @@ function Reports({user, reports, dispatch}) {
           },
         }),
       );
-      onSetHeader({title: `Search ${title}`});
+      onSetHeader({title: `Search Action`});
       return;
     }
     if (action === 'on-view-transaction-history') {
@@ -95,7 +95,7 @@ function Reports({user, reports, dispatch}) {
           <Text style={styles.label}>Action History</Text>
           <Button
             skin={styles.buttonSearch}
-            onPress={() => onClick('on-search-other-history')}>
+            onPress={() => onClick('on-search-action-history')}>
             <Text style={styles.textSearch}>Search</Text>
             <Separator horizontal={1} />
             <Icon font='Feather' name='search' color={WHITE} size={hp(2)} />

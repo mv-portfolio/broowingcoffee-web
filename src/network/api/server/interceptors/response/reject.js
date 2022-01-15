@@ -1,12 +1,14 @@
 import {popLocalStorage} from 'storage';
 import {ASSESSMENT_BAD_REQUEST, UNAUTHORIZED} from 'constants/network';
 import {replace} from 'connected-react-router';
-import {SET_ERROR} from 'ducks/actions';
+import {CLEAR_LOADING, SET_ERROR} from 'ducks/actions';
 
 export default function responseReject({dispatch, getState}) {
   const {auth} = getState();
   return function (error) {
     console.log('INTERCEPTOR-ERROR', error.toJSON());
+
+    dispatch(CLEAR_LOADING());
 
     if (error.message === 'Network Error') {
       if (error.config.url === '/app-authentication') {

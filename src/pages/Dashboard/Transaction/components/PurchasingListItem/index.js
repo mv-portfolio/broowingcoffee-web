@@ -8,6 +8,7 @@ import PurchasingItem from '../PurchasingItem';
 import styles from './.module.css';
 
 export default function PurchasingListItem({
+  style,
   isEditable,
   purchasingProducts = [],
   onEditSelectedPurchasingProduct,
@@ -41,7 +42,7 @@ export default function PurchasingListItem({
   };
 
   return (
-    <View style={styles.mainPane}>
+    <View style={`${styles.mainPane} ${style}`}>
       {purchasingProducts.sort(ASC_NAME).map((purchasingProduct, index) => {
         const isExisting = arrayFind(
           temp_purchasingProducts,

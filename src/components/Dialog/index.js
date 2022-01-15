@@ -1,8 +1,9 @@
 import {Button, Separator, Text, View} from 'components';
+import {connect} from 'react-redux';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 
-export default function Dialog({
+function Dialog({
   title,
   content,
   positiveButtonStyle,
@@ -10,6 +11,7 @@ export default function Dialog({
   onClickPositive,
   negativeText,
   onClickNegative,
+  loading,
 }) {
   return (
     <View style={styles.mainPane}>
@@ -22,6 +24,7 @@ export default function Dialog({
         <Button
           title={positiveText || 'Okay'}
           titleStyle={styles.buttonText}
+          isLoading={loading.status}
           defaultStyle={positiveButtonStyle}
           skin={styles.button}
           onPress={onClickPositive}
@@ -41,3 +44,9 @@ export default function Dialog({
     </View>
   );
 }
+
+const stateProps = ({loading}) => ({
+  loading,
+});
+const dispatchProps = () => {};
+export default connect(stateProps, dispatchProps)(Dialog);

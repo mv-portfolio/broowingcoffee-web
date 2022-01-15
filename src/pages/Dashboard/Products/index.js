@@ -287,7 +287,7 @@ function Transaction({
         />
         <Separator vertical={1} />
         <View style={styles.headerPane}>
-          <Text style={styles.label}>Addons</Text>
+          <Text style={styles.label}>Add-ons</Text>
           <View style={styles.actionPane}>
             <SearchField
               value={state.addon}

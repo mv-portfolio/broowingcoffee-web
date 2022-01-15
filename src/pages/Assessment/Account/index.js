@@ -193,6 +193,7 @@ function Account({user, loading, error, dispatch}) {
       }
     }
   };
+  
   useEffect(screenInit, [dispatch]);
   useEffect(errorListener, [error]);
   return (
@@ -264,7 +265,7 @@ function Account({user, loading, error, dispatch}) {
         <Separator vertical={1.5} />
         <Checkbox
           isCheck={state.privacyPolicy}
-          text='I READ PRIVACY POLICY'
+          text='AGREE TO PRIVACY POLICY'
           isDisabled={true}
           onPress={() => onClick('on-click-terms-and-conditions')}
         />

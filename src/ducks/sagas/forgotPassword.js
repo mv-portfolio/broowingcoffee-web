@@ -17,7 +17,7 @@ function* resetPasswordWorker(state) {
       SET_LOADING({
         status: false,
         message:
-          'We already sent an email from the email address you provide, Thank you.',
+          'We already sent an email to the email address you provide, Thank you.',
       }),
     );
     console.log('RESET-PASSWORD-RESOLVED');

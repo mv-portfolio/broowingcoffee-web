@@ -112,7 +112,7 @@ function SignIn({error, loading, dispatch}) {
           </>
         )}
         <Button
-          title='Forgot Password ?'
+          title='Forgot password?'
           titleStyle={styles.bForgotPasswordText}
           disabled={loading.status}
           onPress={() => onClick('on-forgot-password')}

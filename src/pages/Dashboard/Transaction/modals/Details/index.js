@@ -61,7 +61,7 @@ function Details({
     if (actionType === 'on-click-purchase') {
       const products = getPurchasingProduct(purchasingProducts);
       onPurchase(products);
-      dispatch(SET_LOADING({status: true}));
+      // dispatch(SET_LOADING({status: true}));
     }
   };
   const onChange = (actionType, value) => {
@@ -123,7 +123,7 @@ function Details({
         <Button
           title='Purchase'
           skin={styles.button}
-          isLoading={loading.status}
+          // isLoading={loading.status}
           onPress={() => onClick('on-click-purchase')}
         />
         <Separator horizontal={1} />

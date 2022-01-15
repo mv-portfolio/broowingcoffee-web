@@ -71,7 +71,7 @@ export default function TermsAndConditions({isChecked, onReadPrivacyPolicy}) {
         <Checkbox
           isCheck={isCheck}
           isDisabled={isChecked || isRead}
-          text='I READ ALREADY'
+          text='AGREE TO PRIVACY POLICY'
           onPress={() => setIsCheck(prev => !prev)}
         />
       </View>

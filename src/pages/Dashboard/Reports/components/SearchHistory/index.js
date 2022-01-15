@@ -95,7 +95,9 @@ function SearchHistory({dispatch, loading, reports, type}) {
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
-        <Text style={styles.label}>{`${Formatter.toName(type)} History`}</Text>
+        <Text style={styles.label}>{`${Formatter.toName(
+          type === 'transaction' ? type : 'Action',
+        )} History`}</Text>
       </View>
       <View style={styles.bodyPane}>
         <View style={styles.bodyHeaderPane}>

@@ -59,7 +59,7 @@ function Item({
     if (actionType === 'on-click-add') {
       const item = onClean(state);
       if (!item.isClean) {
-        onShowToast('Please fill up all fields');
+        onShowToast('Please fill up all the inputs');
         return;
       }
       onAdd(item.info);
@@ -68,7 +68,7 @@ function Item({
     if (actionType === 'on-click-update') {
       const item = onClean(state);
       if (!item.isClean) {
-        onShowToast('Please fill up all fields');
+        onShowToast('Please fill up all the inputs');
         return;
       }
       onUpdate(item.info);

@@ -80,7 +80,7 @@ export default function Purchase({
     if (actionType === 'on-click-add') {
       const product = getProduct(state);
       if (product.type.length === 0) {
-        onShowToast('Please fill up all fields');
+        onShowToast('Please fill up all the inputs');
         return;
       }
       onAdd(product);

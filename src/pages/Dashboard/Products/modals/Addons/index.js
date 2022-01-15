@@ -39,7 +39,7 @@ function Addons({
     if (actionType === 'on-click-add') {
       const product = onClean(state);
       if (!product.isClean) {
-        onShowToast('Please fill up all fields');
+        onShowToast('Please fill up all the inputs');
         return;
       }
       onAdd(product.info);
@@ -48,7 +48,7 @@ function Addons({
     if (actionType === 'on-click-update') {
       const product = onClean(state);
       if (!product.isClean) {
-        onShowToast('Please fill up all fields');
+        onShowToast('Please fill up all the inputs');
         return;
       }
       onUpdate(product.info);
