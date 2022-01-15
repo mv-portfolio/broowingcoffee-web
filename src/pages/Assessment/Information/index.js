@@ -97,7 +97,7 @@ function Information({router: {location}, error, user, dispatch}) {
         <Separator vertical={1} />
         <Text style={styles.reminder}>
           This is a one time assessment only. Please make sure that all information are
-          correct before to proceed.
+          valid and correct before proceeding
         </Text>
       </View>
     </View>
