@@ -35,6 +35,7 @@ function Dialog({
             <Button
               title={negativeText || 'Cancel'}
               titleStyle={styles.buttonText}
+              disabled={loading.status}
               skin={styles.button}
               onPress={onClickNegative}
             />

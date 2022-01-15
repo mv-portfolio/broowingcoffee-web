@@ -1,10 +1,12 @@
 import {Button, Separator, Text, View} from 'components';
 import {NUMBER_REGEX} from 'constants/regex';
 import {SET_LOADING} from 'ducks/actions';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {connect} from 'react-redux';
+import {isEmail} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import {sumOfPrice} from 'utils/helper';
+import {Toast} from 'context';
 import PurchasingListItem from '../../components/PurchasingListItem';
 
 import styles from './.module.css';
@@ -18,6 +20,7 @@ function Details({
   dispatch,
   loading,
 }) {
+  const {onShow: onShowToast} = useContext(Toast);
   const [totalDiscount, setTotalDiscount] = useState('');
   const [reciptient, setRecipient] = useState('');
 
@@ -60,6 +63,10 @@ function Details({
   const onClick = actionType => {
     if (actionType === 'on-click-purchase') {
       const products = getPurchasingProduct(purchasingProducts);
+      if (reciptient && !isEmail(reciptient)) {
+        onShowToast('Please provide a valid email');
+        return;
+      }
       onPurchase(products);
       // dispatch(SET_LOADING({status: true}));
     }

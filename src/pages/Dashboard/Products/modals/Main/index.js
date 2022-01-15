@@ -269,6 +269,7 @@ function Main({
         <Button
           title='Cancel'
           skin={styles.button}
+          disabled={loading.status}
           onPress={() => onClick('on-click-cancel')}
         />
       </View>

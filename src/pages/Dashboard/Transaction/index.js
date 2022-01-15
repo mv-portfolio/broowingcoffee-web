@@ -75,12 +75,13 @@ function Transaction({purchasingProducts, user, products, error, loading, dispat
         );
         return;
       }
+      onShowToast('Please select products');
     }
     if (actionType === 'on-click-purchased') {
       onShowSecondaryDialog(
         <Dialog
           title='Transaction'
-          content='Are you sure you want to proceed this transaction?'
+          content='Are you sure?, you want to proceed this transaction?'
           // isLoading={loading.status}
           positiveText='Yes'
           onClickPositive={() => {

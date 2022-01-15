@@ -27,6 +27,14 @@ const modules = [
     },
   },
   {
+    title: 'Contact us',
+    theme: WHITE,
+    icon: {
+      font: 'Feather',
+      name: 'mail',
+    },
+  },
+  {
     title: 'Sign out',
     theme: ACCENT_COLOR2,
     icon: {

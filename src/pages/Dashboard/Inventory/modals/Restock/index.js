@@ -91,7 +91,12 @@ function Restock({loading, dispatch, productInfo, onRestock, onCancel}) {
           onPress={() => onClick('on-click-restock')}
         />
         <Separator horizontal={1} />
-        <Button skin={styles.button} title='Cancel' onPress={onCancel} />
+        <Button
+          skin={styles.button}
+          title='Cancel'
+          disabled={loading.status}
+          onPress={onCancel}
+        />
       </View>
     </View>
   );

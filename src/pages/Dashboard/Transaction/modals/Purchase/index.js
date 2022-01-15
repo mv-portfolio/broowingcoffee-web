@@ -147,6 +147,7 @@ export default function Purchase({
         <Text style={styles.title}>{Formatter.toName(name)}</Text>
         <Text style={styles.subtitle}>{based}</Text>
       </View>
+      <Separator vertical={1.5} />
       <View style={styles.bodyPane}>
         <Text style={styles.titleField}>Discounts(%)</Text>
         <Separator vertical={0.25} />

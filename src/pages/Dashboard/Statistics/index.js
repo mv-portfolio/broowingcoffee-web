@@ -74,7 +74,7 @@ function Statistics({user, loading, transactions, dispatch}) {
       </View>
       <View style={styles.bodyPane}>
         <Text style={styles.label}>
-          Purchased Product{`${transactions.topList.length > 1 ? 's' : ''}`} (month)
+          Purchased Product{`${transactions.topList.length > 1 ? 's' : ''}`} (per month)
         </Text>
         <Separator vertical={1} />
         <List items={loading.status ? [] : transactions.topList} />

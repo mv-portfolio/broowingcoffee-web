@@ -9,9 +9,10 @@ import Formatter from 'utils/Formatter';
 
 import ReportBug from './modals/ReportBug';
 import About from './modals/About';
-import styles from './.module.css';
 import modules from './modules';
 import Settings from './modals/Settings';
+import ContactUs from './modals/Contact Us';
+import styles from './.module.css';
 
 function Profile({user, loading, dispatch}) {
   const {firstname, lastname, username} = user;
@@ -36,6 +37,10 @@ function Profile({user, loading, dispatch}) {
     }
     if (action === 'Report') {
       onShowPrimaryDialog(<ReportBug />, {disabledTouchOutside: false});
+      return;
+    }
+    if (action === 'Contact us') {
+      onShowPrimaryDialog(<ContactUs />, {disabledTouchOutside: false});
       return;
     }
     if (action === 'Sign out') {

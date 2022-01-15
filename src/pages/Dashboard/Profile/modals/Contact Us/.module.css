@@ -1,0 +1,23 @@
+.mainPane {
+  width: 40vh;
+  height: 37.5vh;
+  border-radius: 2vh;
+  padding: 3vh;
+  background-color: var(--BACKGROUND-COLOR2);
+  z-index: 1;
+}
+.mainPane .title {
+  font-size: 3vh;
+  font-family: 'Standard-Font2';
+  color: var(--ACCENT-COLOR);
+}
+
+.mainPane .component {
+}
+
+.component .name {
+  font-size: 2.25vh;
+}
+.component .email {
+  font-size: 1.75vh;
+}
