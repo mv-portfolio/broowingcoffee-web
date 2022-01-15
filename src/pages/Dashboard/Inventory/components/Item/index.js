@@ -11,6 +11,7 @@ export default function Item({product, isOpen, onPress, onEdit, onRestock}) {
   const contents = getPropsValues(product)
     .filter(obj => obj.property !== '_id')
     .filter(obj => obj.property !== 'name')
+    .filter(obj => obj.property !== 'cost')
     .filter(obj => obj.property !== '__v')
     .filter(obj => obj.value !== null);
 

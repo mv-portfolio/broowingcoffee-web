@@ -2,17 +2,21 @@ import Icon from 'react-web-vector-icons';
 import useHook, {login} from 'hooks';
 import styles from './.module.css';
 
-import {useEffect} from 'react';
+import {useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {ACCENT_COLOR} from 'constants/colors';
 import {SIGNIN_FIELDS} from 'constants/strings';
 import {SET_ERROR, CLEAR_SIGNIN, SET_LOADING, SET_SIGNIN} from 'ducks/actions';
 import {Text, Separator, TextInput, View, Button} from 'components';
+import {PrimaryDialog, SecondaryDialog} from 'context';
 import {push} from 'connected-react-router';
 import {ICON_SIZE} from 'constants/sizes';
 
 function SignIn({error, loading, dispatch}) {
   const [state, setState] = useHook(SIGNIN_FIELDS, login);
+  const {onHide: onHidePrimaryDialog} = useContext(PrimaryDialog);
+  const {onHide: onHideSecondaryDialog} = useContext(SecondaryDialog);
+
   const onChangeValue = (component, value) => {
     if (component === 'username') {
       setState({
@@ -51,13 +55,16 @@ function SignIn({error, loading, dispatch}) {
     }
   };
 
-  useEffect(() => {
+  const screenInitListener = () => {
     document.title = 'Broowing Coffee | SignIn ';
+    onHidePrimaryDialog();
+    onHideSecondaryDialog();
     return () => {
       dispatch(CLEAR_SIGNIN());
       dispatch(SET_ERROR({signin: ''}));
     };
-  }, [dispatch]);
+  };
+  useEffect(screenInitListener, [dispatch]);
 
   return (
     <View style={styles.mainPane}>
