@@ -165,7 +165,7 @@ export default function Purchase({
           selected={state.tempType}
           onSelected={value => onClick('on-select-type', value)}
           style={styles.dropdown}
-          ACCENT_COLOR={BACKGROUND_COLOR}
+          accentColor={BACKGROUND_COLOR}
         />
         <Separator vertical={0.75} />
         <Text style={styles.titleField}>Price</Text>

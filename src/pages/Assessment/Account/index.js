@@ -80,24 +80,24 @@ function Account({user, loading, error, dispatch}) {
     return strength;
   };
 
-  const onChangeValue = (component, value) => {
-    if (component === 'username') {
+  const onChangeValue = (actionType, value) => {
+    if (actionType === 'username') {
       setState({
         type: 'set-username',
         text: value,
       });
-    } else if (component === 'email') {
+    } else if (actionType === 'email') {
       setState({
         type: 'set-email',
         text: value,
       });
-    } else if (component === 'current-password') {
+    } else if (actionType === 'current-password') {
       setState({
         ...state.currentPassword,
         type: 'set-current-password',
         text: value,
       });
-    } else if (component === 'new-password') {
+    } else if (actionType === 'new-password') {
       setState({
         ...state.newPassword,
         type: 'set-new-password',
@@ -105,7 +105,7 @@ function Account({user, loading, error, dispatch}) {
         strength: onPasswordStrength(value),
         isMatched: onPasswordMatched(state.confirmNewPassword.text, value),
       });
-    } else if (component === 'confirm-new-password') {
+    } else if (actionType === 'confirm-new-password') {
       setState({
         ...state.confirmNewPassword,
         type: 'set-confirm-new-password',
@@ -114,8 +114,8 @@ function Account({user, loading, error, dispatch}) {
       });
     }
   };
-  const onClick = component => {
-    if (component === 'on-encrypt-confirm-password-text') {
+  const onClick = actionType => {
+    if (actionType === 'on-encrypt-confirm-password-text') {
       setState({
         ...state.confirmNewPassword,
         type: 'set-confirm-new-password',
@@ -123,7 +123,7 @@ function Account({user, loading, error, dispatch}) {
       });
       return;
     }
-    if (component === 'on-encrypt-current-password-text') {
+    if (actionType === 'on-encrypt-current-password-text') {
       setState({
         ...state.currentPassword,
         type: 'set-current-password',
@@ -131,7 +131,7 @@ function Account({user, loading, error, dispatch}) {
       });
       return;
     }
-    if (component === 'on-click-terms-and-conditions') {
+    if (actionType === 'on-click-terms-and-conditions') {
       onShowPrimaryDialog(
         <TermsAndConditions
           isChecked={state.privacyPolicy}
@@ -143,7 +143,7 @@ function Account({user, loading, error, dispatch}) {
       );
       return;
     }
-    if (component === 'on-done') {
+    if (actionType === 'on-done') {
       if (!state.confirmNewPassword.isMatched) {
         dispatch(SET_ERROR({assessment: 'Passwords does not Matched'}));
         return;

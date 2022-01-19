@@ -15,11 +15,11 @@ function HeaderBar({
   onSwitchRoute,
   prefixComponent,
 }) {
-  const onPress = (component, value) => {
-    if (component === 'on-navigate') {
+  const onPress = (actionType, value) => {
+    if (actionType === 'on-navigate') {
       dispatch(replace(`/${value === 'Transaction' ? '' : value.toLowerCase()}`));
       onSwitchRoute(value);
-    } else if (component === 'on-navigate-profile') {
+    } else if (actionType === 'on-navigate-profile') {
       dispatch(replace(`/profile`));
       onSwitchRoute('Profile');
     }

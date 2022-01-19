@@ -9,7 +9,7 @@
   font-size: 1.75vh;
 }
 .mainPane .headerPane {
-  height: 5vh;
+  height: 6vh;
   padding: 0.5vh;
   flex-direction: row;
   align-items: center;
@@ -20,10 +20,7 @@
   height: 85vh;
 }
 .bodyPane .mainProductList {
-  height: 38vh;
-}
-.bodyPane .addonProductList {
-  height: 28vh;
+  height: 80vh;
 }
 
 .headerPane .actionPane {

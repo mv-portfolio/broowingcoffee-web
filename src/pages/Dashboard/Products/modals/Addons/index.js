@@ -164,6 +164,7 @@ function Addons({
             <Button
               title='Delete'
               skin={styles.buttonDelete}
+              disabled={loading.status}
               onPress={() => onClick('on-click-delete', productInfo.name)}
             />
           </>

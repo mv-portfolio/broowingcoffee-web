@@ -75,6 +75,27 @@ const SIGNIN_FIELDS = {
   },
 };
 
+const TWO_DAYS_BEFORE = {name: '2 days before', value: 1000 * 60 * 60 * 24 * 2};
+const FIVE_DAYS_BEFORE = {name: '5 days before', value: 1000 * 60 * 60 * 24 * 5};
+const TEN_DAYS_BEFORE = {name: '10 days before', value: 1000 * 60 * 60 * 24 * 10};
+const FIFTEEN_DAYS_BEFORE = {name: '15 days before', value: 1000 * 60 * 60 * 24 * 15};
+
+//actual days
+const ONE_MONTH_BEFORE = {name: '1 month before', value: 1000 * 60 * 60 * 24 * 30};
+
+const ITEM_PROPERTIES = [
+  'name',
+  'brand',
+  'type',
+  'quantity',
+  'unit',
+  'current_unit',
+  'unit_type',
+  'cost',
+  'expiry_date',
+  'expire_point',
+];
+
 export {
   //function
   ACTION_TYPE,
@@ -84,4 +105,12 @@ export {
   USER_FIELDS,
   SIGNIN_FIELDS,
   ERROR_FIELDS,
+  //days,
+  TWO_DAYS_BEFORE,
+  FIVE_DAYS_BEFORE,
+  TEN_DAYS_BEFORE,
+  FIFTEEN_DAYS_BEFORE,
+  ONE_MONTH_BEFORE,
+  //item
+  ITEM_PROPERTIES,
 };

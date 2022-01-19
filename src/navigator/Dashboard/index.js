@@ -5,7 +5,12 @@ import Icon from 'react-web-vector-icons';
 
 import {Button, Dialog, View} from 'components';
 import {WHITE} from 'constants/colors';
-import {PEEK_INVENTORY, PEEK_PRODUCTS, RESET_SESSION} from 'ducks/actions';
+import {
+  PEEK_DISCOUNTS,
+  PEEK_INVENTORY,
+  PEEK_PRODUCTS,
+  RESET_SESSION,
+} from 'ducks/actions';
 import {Header, PrimaryDialog, Toast} from 'context';
 import {pages} from './pages';
 import styles from './.module.css';
@@ -32,6 +37,7 @@ function DashBoardNavigator({dispatch, user, error}) {
   const initListener = () => {
     dispatch(PEEK_PRODUCTS());
     dispatch(PEEK_INVENTORY());
+    dispatch(PEEK_DISCOUNTS());
 
     // const transaction = peekLocalStorage('tmp');
     // if (transaction) {

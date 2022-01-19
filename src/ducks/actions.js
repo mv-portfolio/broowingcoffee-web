@@ -70,6 +70,7 @@ const SET_ERROR = ({
   product,
   inventory,
   report,
+  discount,
 }) => ({
   type: ACTION_TYPE('ERROR').SET,
   page,
@@ -83,6 +84,7 @@ const SET_ERROR = ({
   product,
   inventory,
   report,
+  discount,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION_TYPE('ERROR').CLEAR,
@@ -118,16 +120,20 @@ const CLEAR_USER = () => ({
 const PEEK_PRODUCTS = () => ({
   type: ACTION_TYPE('PRODUCTS').PEEK,
 });
+const PUSH_PRODUCT = ({mainProduct, addonProduct}) => ({
+  type: ACTION_TYPE('PRODUCTS').PUSH,
+  mainProduct,
+  addonProduct,
+});
+const PUSH_PRODUCT_REQ = ({mainProduct, addonProduct}) => ({
+  type: ACTION_TYPE('PRODUCTS-REQ').PUSH,
+  mainProduct,
+  addonProduct,
+});
 const SET_PRODUCTS = ({main, addons}) => ({
   type: ACTION_TYPE('PRODUCTS').SET,
   main,
   addons,
-});
-const SET_INDEX_PRODUCTS_REQ = ({mainId, addonId, payload}) => ({
-  type: ACTION_TYPE('PRODUCTS-REQ').SET_INDEX,
-  mainId,
-  addonId,
-  payload,
 });
 const SET_INDEX_PRODUCTS = ({mainId, addonId, payload}) => ({
   type: ACTION_TYPE('PRODUCTS').SET_INDEX,
@@ -135,15 +141,11 @@ const SET_INDEX_PRODUCTS = ({mainId, addonId, payload}) => ({
   addonId,
   payload,
 });
-const PUSH_PRODUCT_REQ = ({mainProduct, addonProduct}) => ({
-  type: ACTION_TYPE('PRODUCTS-REQ').PUSH,
-  mainProduct,
-  addonProduct,
-});
-const PUSH_PRODUCT = ({mainProduct, addonProduct}) => ({
-  type: ACTION_TYPE('PRODUCTS').PUSH,
-  mainProduct,
-  addonProduct,
+const SET_INDEX_PRODUCTS_REQ = ({mainId, addonId, payload}) => ({
+  type: ACTION_TYPE('PRODUCTS-REQ').SET_INDEX,
+  mainId,
+  addonId,
+  payload,
 });
 const POP_PRODUCT = ({mainId, addonId}) => ({
   type: ACTION_TYPE('PRODUCTS').POP,
@@ -159,24 +161,28 @@ const PUSH_INVENTORY = ({item}) => ({
   type: ACTION_TYPE('INVENTORY').PUSH,
   item,
 });
+const PUSH_INVENTORY_REQ = ({item}) => ({
+  type: ACTION_TYPE('INVENTORY-REQ').PUSH,
+  item,
+});
 const SET_INVENTORY = ({items}) => ({
   type: ACTION_TYPE('INVENTORY').SET,
   items,
-});
-const SET_RESTOCK_INVENTORY = ({item}) => ({
-  type: ACTION_TYPE('INVENTORY-RESTOCK').SET_INDEX,
-  item,
 });
 const SET_INDEX_INVENTORY = ({item}) => ({
   type: ACTION_TYPE('INVENTORY').SET_INDEX,
   item,
 });
-const SET_RESTOCK_INVENTORY_REQ = ({item}) => ({
-  type: ACTION_TYPE('INVENTORY-RESTOCK-REQ').SET_INDEX,
-  item,
-});
 const SET_INDEX_INVENTORY_REQ = ({item}) => ({
   type: ACTION_TYPE('INVENTORY-REQ').SET_INDEX,
+  item,
+});
+const SET_RESTOCK_INVENTORY = ({item}) => ({
+  type: ACTION_TYPE('INVENTORY-RESTOCK').SET_INDEX,
+  item,
+});
+const SET_RESTOCK_INVENTORY_REQ = ({item}) => ({
+  type: ACTION_TYPE('INVENTORY-RESTOCK-REQ').SET_INDEX,
   item,
 });
 const POP_INVENTORY = ({itemId}) => ({
@@ -186,6 +192,35 @@ const POP_INVENTORY = ({itemId}) => ({
 const POP_INVENTORY_REQ = ({itemId}) => ({
   type: ACTION_TYPE('INVENTORY-REQ').POP,
   itemId,
+});
+
+//discounts
+const PEEK_DISCOUNTS = () => ({
+  type: ACTION_TYPE('DISCOUNTS').PEEK,
+});
+const PUSH_DISCOUNT = ({discount}) => ({
+  type: ACTION_TYPE('DISCOUNTS').PUSH,
+  discount,
+});
+const PUSH_DISCOUNT_REQ = ({discount}) => ({
+  type: ACTION_TYPE('DISCOUNTS-REQ').PUSH,
+  discount,
+});
+const SET_INDEX_DISCOUNTS = ({discount}) => ({
+  type: ACTION_TYPE('DISCOUNTS').SET_INDEX,
+  discount,
+});
+const SET_INDEX_DISCOUNTS_REQ = ({discount}) => ({
+  type: ACTION_TYPE('DISCOUNTS-REQ').SET_INDEX,
+  discount,
+});
+const SET_DISCOUNTS = ({discounts}) => ({
+  type: ACTION_TYPE('DISCOUNTS').SET,
+  discounts,
+});
+const POP_DISCOUNT = ({discount}) => ({
+  type: ACTION_TYPE('DISCOUNTS').POP,
+  discount,
 });
 
 //purchasing products
@@ -209,6 +244,7 @@ const CLEAR_PURCHASING_PRODUCTS = () => ({
   type: ACTION_TYPE('PURCHASING-PRODUCTS').CLEAR,
 });
 
+//transactions
 const PEEK_TRANSACTIONS = ({date}) => ({
   type: ACTION_TYPE('TRANSACTIONS').PEEK,
   date,
@@ -224,6 +260,7 @@ const PUSH_TRANSACTIONS = ({transaction}) => ({
   transaction,
 });
 
+//reports
 const PEEK_REPORTS = ({filter}) => ({
   type: ACTION_TYPE('REPORTS').PEEK,
   filter,
@@ -293,13 +330,22 @@ export {
   //inventory items
   PEEK_INVENTORY,
   PUSH_INVENTORY,
+  PUSH_INVENTORY_REQ,
   SET_INVENTORY,
-  SET_RESTOCK_INVENTORY,
   SET_INDEX_INVENTORY,
-  SET_RESTOCK_INVENTORY_REQ,
   SET_INDEX_INVENTORY_REQ,
+  SET_RESTOCK_INVENTORY,
+  SET_RESTOCK_INVENTORY_REQ,
   POP_INVENTORY,
   POP_INVENTORY_REQ,
+  //discounts
+  PEEK_DISCOUNTS,
+  PUSH_DISCOUNT,
+  PUSH_DISCOUNT_REQ,
+  SET_INDEX_DISCOUNTS,
+  SET_INDEX_DISCOUNTS_REQ,
+  SET_DISCOUNTS,
+  POP_DISCOUNT,
   //purchasing-products
   SET_PURCHASING_PRODUCTS,
   SET_INDEX_PURCHASING_PRODUCT,

@@ -1,5 +1,5 @@
 import {useReducer} from 'react';
-import {Text, View} from 'components';
+import {Icon, Text, View} from 'components';
 import Formatter from 'utils/Formatter';
 import datePicker, {datePickerInitState} from './reducer';
 import styles from './.module.css';
@@ -16,6 +16,10 @@ export default function DatePicker({
   hideDateSelection,
   title,
   style,
+  showIcon,
+  iconColor,
+  iconSize,
+  textStyle,
 }) {
   const [state, setState] = useReducer(
     datePicker,
@@ -34,7 +38,6 @@ export default function DatePicker({
     }
     return value;
   };
-
   const onClick = (action, value) => {
     if (action === 'on-picker-show') {
       setState({type: 'set', isPickerShow: !state.isPickerShow});
@@ -55,7 +58,7 @@ export default function DatePicker({
       <View
         style={`${styles.mainPane} ${style}`}
         onClick={() => onClick('on-picker-show')}>
-        <Text style={styles.text}>{`${getFormatType(
+        <Text style={`${styles.text} ${textStyle}`}>{`${getFormatType(
           formatType,
           state.date.getMonth() + 1,
         )}${
@@ -65,6 +68,14 @@ export default function DatePicker({
         } ${Formatter.numberFormatter(state.date.getFullYear())} ${getDatePickerType(
           type,
         )}`}</Text>
+        {showIcon && (
+          <Icon
+            font='AntDesign'
+            name='table'
+            size={iconSize || 5}
+            color={iconColor || '#fff'}
+          />
+        )}
       </View>
       {state.isPickerShow && (
         <Picker

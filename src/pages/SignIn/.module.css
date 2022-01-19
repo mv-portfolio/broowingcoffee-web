@@ -72,6 +72,14 @@
   text-align: center;
   color: var(--ACCENT-COLOR2);
 }
-.bottomPane .bForgotPasswordText {
+
+.bottomPane .buttonSkin {
+  height: 5vh;
+}
+.buttonSkin .buttonBody {
+}
+.buttonBody .buttonText {
+  font-size: 1.75vh;
+  font-weight: bold;
   color: var(--ACCENT-COLOR);
 }

@@ -11,7 +11,11 @@ export default function responseReject({dispatch, getState}) {
     dispatch(CLEAR_LOADING());
 
     if (error.message === 'Network Error') {
-      if (error.config.url === '/app-authentication') {
+      if (
+        error.config.url === '/app-authentication' ||
+        error.config.url === '/reset-password-encoder' ||
+        error.config.url === '/signin-authentication-encoder'
+      ) {
         dispatch(SET_ERROR({server: 'server maintenance'}));
       }
 

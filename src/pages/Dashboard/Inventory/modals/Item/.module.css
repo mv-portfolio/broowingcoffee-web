@@ -4,12 +4,31 @@
   border-radius: 2vh;
   padding: 4vh 3vh 4vh 3vh;
   background-color: var(--BACKGROUND-COLOR2);
+  box-shadow: 0.25vh 0.25vh 0.5vh rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
-
 .mainPane .title {
   font-family: 'Standard-Font2';
   font-size: 3vh;
+}
+
+.mainPane .topPane {
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.topPane .buttonConfigSkin {
+  height: 4vh;
+  padding: 1vh 2vh;
+  background-color: var(--BACKGROUND-COLOR3);
+  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+}
+.topPane .buttonConfigBody {
+}
+.buttonConfigBody .buttonConfigText {
+  font-size: 1.5vh;
+  font-weight: bold;
+  color: var(--WHITE);
 }
 
 .mainPane .bodyPane {
@@ -23,6 +42,20 @@
 .bodyPane .dropdown {
   width: auto;
   background-color: var(--ACCENT-COLOR);
+}
+.bodyPane .buttonPropertySkin {
+  height: 5.5vh;
+  background-color: var(--ACCENT-COLOR);
+}
+.buttonPropertySkin .buttonPropertyBody {
+  flex: 1;
+  padding: 0 1.75vh 0 1vh;
+  justify-content: space-between;
+}
+.buttonPropertyBody .buttonPropertyText {
+  color: var(--BACKGROUND-COLOR);
+  font-weight: bold;
+  font-size: 1.75vh;
 }
 
 .mainPane .bottomPane {

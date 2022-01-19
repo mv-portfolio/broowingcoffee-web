@@ -1,12 +1,21 @@
 import {isTypeof} from 'utils/checker';
 
-export const itemInitState = ({name, cost, itemType, quantity, date_expired}) => ({
+export const itemInitState = ({
+  name,
+  brand,
+  itemType,
+  quantity,
+  perishable_properties,
+  restock_point,
+  cost,
+}) => ({
   name: name ? `${name}` : '',
-  cost: cost ? `${cost}` : '',
-  // itemType: itemType ? `${itemType}` : '',
-  itemType: 'non-perishable',
+  brand: brand ? brand : '',
+  itemType: itemType ? itemType : 'non-perishable',
   quantity: quantity ? `${quantity}` : '',
-  date_expired: date_expired ? `${date_expired}` : null,
+  perishable_properties: perishable_properties ? perishable_properties : {},
+  restock_point: restock_point ? restock_point : {low: [0], mid: [0, 0]},
+  cost: cost ? `${cost}` : '',
 });
 
 export default function item(state = itemInitState({}), action) {
@@ -14,10 +23,16 @@ export default function item(state = itemInitState({}), action) {
     case 'set':
       return {
         name: isTypeof('string', action.name, state.name),
-        cost: isTypeof('string', action.cost, state.cost),
+        brand: isTypeof('string', action.brand, state.brand),
         itemType: isTypeof('string', action.itemType, state.itemType),
         quantity: isTypeof('string', action.quantity, state.quantity),
-        date_expired: isTypeof('string', action.date_expired, state.date_expired),
+        perishable_properties: isTypeof(
+          'object',
+          action.perishable_properties,
+          state.perishable_properties,
+        ),
+        restock_point: isTypeof('object', action.restock_point, state.restock_point),
+        cost: isTypeof('string', action.cost, state.cost),
       };
 
     default:

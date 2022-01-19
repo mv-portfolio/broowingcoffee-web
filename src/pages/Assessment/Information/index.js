@@ -19,21 +19,21 @@ function Information({router: {location}, error, user, dispatch}) {
     }),
     assessInfo,
   );
-  const onChangeValue = (component, value) => {
-    if (component === 'firstname') {
+  const onChangeValue = (actionType, value) => {
+    if (actionType === 'firstname') {
       setState({
         type: 'set-firstname',
         text: NAME_REGEX.test(value) ? value : state.firstname.text,
       });
-    } else if (component === 'lastname') {
+    } else if (actionType === 'lastname') {
       setState({
         type: 'set-lastname',
         text: NAME_REGEX.test(value) ? value : state.lastname.text,
       });
     }
   };
-  const onClick = component => {
-    if (component === 'on-next') {
+  const onClick = actionType => {
+    if (actionType === 'on-next') {
       if (!state.firstname.text || !state.lastname.text) {
         onShowToast('Please enter important field(s)');
         return;

@@ -265,7 +265,7 @@ function Transaction({
     <View style={styles.mainPane}>
       <View style={styles.bodyPane}>
         <View style={styles.headerPane}>
-          <Text style={styles.label}>Main</Text>
+          <Text style={styles.label}></Text>
           <View style={styles.actionPane}>
             <SearchField
               value={state.main}
@@ -285,29 +285,6 @@ function Transaction({
           products={products.main.sort(ASC_NAME)}
           onEdit={product => onClick('on-click-edit-product-main', product)}
         />
-        <Separator vertical={1} />
-        <View style={styles.headerPane}>
-          <Text style={styles.label}>Add-ons</Text>
-          <View style={styles.actionPane}>
-            <SearchField
-              value={state.addon}
-              onChangeText={text => onChange('on-change-search-product-addon', text)}
-            />
-            <Separator horizontal={0.4} />
-            <Button
-              skin={styles.headerButtons}
-              onPress={() => onClick('on-click-add-product-addons')}>
-              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='3vh' />
-            </Button>
-          </View>
-        </View>
-        <Separator vertical={0.25} />
-        <ProductList
-          style={styles.addonProductList}
-          products={products.addons.sort(ASC_NAME)}
-          onEdit={product => onClick('on-click-edit-product-addons', product)}
-        />
-        <Separator vertical={1.5} />
       </View>
       <View style={styles.bottomPane}></View>
     </View>

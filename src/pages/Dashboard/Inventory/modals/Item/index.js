@@ -1,13 +1,31 @@
-import {useContext, useEffect, useState} from 'react';
-import {Button, Dropdown, Separator, Text, TextInput, View} from 'components';
-import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
-import {Toast} from 'context';
-import useHook, {itemInitState, item as itemReducer} from 'hooks';
+import {useContext, useEffect, useReducer, useState} from 'react';
+import {
+  Button,
+  Dialog,
+  Dropdown,
+  Icon,
+  Separator,
+  Text,
+  TextInput,
+  View,
+} from 'components';
+import {
+  ACCENT_COLOR,
+  ACCENT_COLOR_DISABLED,
+  BACKGROUND_COLOR,
+  BACKGROUND_COLOR2,
+  BACKGROUND_COLOR3,
+  BACKGROUND_COLOR4,
+  WHITE,
+} from 'constants/colors';
+import {SecondaryDialog, Toast} from 'context';
+import {itemInitState, item as itemReducer, restock} from 'hooks';
 import {isName, isInteger, isDouble} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
 import {connect} from 'react-redux';
-import {CLEAR_LOADING} from 'ducks/actions';
+import PerishableProperties from '../PerishableProperties';
+import ItemConfig from '../ItemConfig';
 
 function Item({
   loading,
@@ -19,59 +37,87 @@ function Item({
   onDelete,
   onCancel,
 }) {
-  const {name, cost, type: itemType, quantity, date_expired} = productInfo;
+  const {
+    name,
+    brand,
+    quantity,
+    type: itemType,
+    perishable_properties = {},
+    restock_point,
+    cost,
+  } = productInfo;
+  const {onShow: onShowSecondaryDialog, onHide: onHideSecondaryDialog} =
+    useContext(SecondaryDialog);
   const {onShow: onShowToast} = useContext(Toast);
 
-  const [state, setState] = useHook(
-    itemInitState({name, cost, itemType, quantity, date_expired}),
+  const [state, setState] = useReducer(
     itemReducer,
+    itemInitState({
+      name,
+      brand,
+      quantity,
+      itemType,
+      perishable_properties,
+      restock_point,
+      cost,
+    }),
   );
   const [isChange, setIsChange] = useState(false);
 
   const onClean = state => {
-    if (state.name.length === 0) {
-      return {isClean: false};
+    if (!state.name || !state.itemType || !state.cost || !state.quantity) {
+      return {status: false, error: 'Please fill up all the inputs'};
     }
-    // if (state.itemType.length === 0) {
-    //   return {isClean: false};
-    // }
-    if (state.cost.length === 0) {
-      return {isClean: false};
+    if (state.itemType === 'perishable') {
+      if (state.perishable_properties.expiry_date < new Date().getTime()) {
+        return {status: false, error: `Expiry date must be ahead of today's date`};
+      }
+      if (
+        !state.perishable_properties.unit ||
+        !state.perishable_properties.current_unit ||
+        !state.perishable_properties.unit_type ||
+        !state.perishable_properties.expiry_date
+      ) {
+        return {status: false, error: 'Please enter all property needed in perishable'};
+      }
+      if (!state.perishable_properties.expire_point) {
+        return {status: false, error: 'Please set the configuration expire point'};
+      }
     }
-    if (state.quantity.length <= 0) {
-      return {isClean: false};
+    if (!state.restock_point.low[0] || !state.restock_point.mid[1]) {
+      return {status: false, error: 'Please set the configuration restock point'};
     }
 
-    let info = {};
-    info.name = state.name;
-    info.type = state.itemType;
-    info.quantity = parseInt(state.quantity);
-    info.cost = parseFloat(state.cost);
-    info.date_expired = null;
-    info.date_modified = new Date().getTime();
+    let payload = state;
+    payload.type = state.itemType;
+    payload.quantity = parseInt(state.quantity);
+    payload.date_modified = new Date().getTime();
+    payload.cost = parseFloat(state.cost);
+    payload.perishable_properties =
+      state.itemType === 'non-perishable' ? {} : state.perishable_properties;
 
     return {
-      isClean: true,
-      info,
+      status: true,
+      payload,
     };
   };
   const onClick = (actionType, value) => {
     if (actionType === 'on-click-add') {
       const item = onClean(state);
-      if (!item.isClean) {
-        onShowToast('Please fill up all the inputs');
+      if (!item.status) {
+        onShowToast(item.error);
         return;
       }
-      onAdd(item.info);
+      onAdd(item.payload);
       return;
     }
     if (actionType === 'on-click-update') {
       const item = onClean(state);
-      if (!item.isClean) {
-        onShowToast('Please fill up all the inputs');
+      if (!item.status) {
+        onShowToast(item.error);
         return;
       }
-      onUpdate(item.info);
+      onUpdate(item.payload);
       return;
     }
     if (actionType === 'on-click-delete') {
@@ -84,26 +130,68 @@ function Item({
     }
     if (actionType === 'on-select-item-type') {
       setState({type: 'set', itemType: value});
+      if (type !== 'add' && value === 'perishable') {
+        setState({type: 'set', perishable_properties: state.perishable_properties});
+      }
+      return;
+    }
+    if (actionType === 'on-show-perishable-props-dialog') {
+      onShowSecondaryDialog(
+        <PerishableProperties
+          type={type}
+          perishableProperties={state.perishable_properties}
+          onSave={perishableProps => onClick('on-save-perishable-props', perishableProps)}
+          onCancel={onHideSecondaryDialog}
+        />,
+      );
+      return;
+    }
+    if (actionType === 'on-save-perishable-props') {
+      setState({
+        type: 'set',
+        perishable_properties: {...state.perishable_properties, ...value},
+      });
+    }
+    if (actionType === 'on-show-item-config-dialog') {
+      onShowSecondaryDialog(
+        <ItemConfig
+          itemType={state.itemType}
+          perishableProperties={state.perishable_properties}
+          restockPoint={state.restock_point}
+          onSave={config => onClick('on-save-item-config', config)}
+          onCancel={onHideSecondaryDialog}
+        />,
+        {disabledTouchOutside: false},
+      );
+      return;
+    }
+    if (actionType === 'on-save-item-config') {
+      setState({
+        type: 'set',
+        restock_point: {low: [value.low], mid: [value.low, value.mid]},
+        perishable_properties: {
+          ...state.perishable_properties,
+          expire_point: value.expire_point,
+        },
+      });
       return;
     }
   };
   const onChange = (actionType, value) => {
     if (actionType === 'on-change-name') {
-      if (isName(value) || value.length === 0) {
-        setState({type: 'set', name: value});
-      }
+      setState({type: 'set', name: value});
       return;
     }
-    if (actionType === 'on-change-quantity') {
-      if (isInteger(value) || value.length === 0) {
-        setState({type: 'set', quantity: value});
-      }
+    if (actionType === 'on-change-brand' && isName(value)) {
+      setState({type: 'set', brand: value});
       return;
     }
-    if (actionType === 'on-change-cost') {
-      if (isDouble(value) || value.length === 0) {
-        setState({type: 'set', cost: value});
-      }
+    if (actionType === 'on-change-quantity' && isInteger(value ? value : '0')) {
+      setState({type: 'set', quantity: value});
+      return;
+    }
+    if (actionType === 'on-change-cost' && isDouble(value ? value : '0')) {
+      setState({type: 'set', cost: value});
       return;
     }
   };
@@ -111,35 +199,44 @@ function Item({
   const changeListener = () => {
     if (
       name !== state.name ||
+      brand !== state.brand ||
       itemType !== state.itemType ||
       quantity !== parseInt(state.quantity ? state.quantity : '0') ||
       cost !== parseInt(state.cost ? state.cost : '0') ||
-      date_expired !== state.date_expired
+      perishable_properties.unit !== state.perishable_properties.unit ||
+      perishable_properties.current_unit !== state.perishable_properties.current_unit ||
+      perishable_properties.unit_type !== state.perishable_properties.unit_type ||
+      perishable_properties.expiry_date !== state.perishable_properties.expiry_date ||
+      perishable_properties.expire_point !== state.perishable_properties.expire_point ||
+      restock_point.low[0] !== state.restock_point.low[0] ||
+      restock_point.mid[1] !== state.restock_point.mid[1]
     ) {
       setIsChange(true);
       return;
     }
     setIsChange(false);
   };
-  const requestListener = () => {
-    if (!loading.status && loading.message === 'done') {
-      dispatch(CLEAR_LOADING());
-      onCancel();
-    }
-  };
-  useEffect(changeListener, [name, itemType, quantity, cost, date_expired, state]);
-  useEffect(requestListener, [loading]);
+  useEffect(changeListener, [state]);
 
   return (
     <View style={styles.mainPane}>
-      <Text style={styles.title}>{`${Formatter.toName(type)} Item`}</Text>
+      <View style={styles.topPane}>
+        <Text style={styles.title}>{`${Formatter.toName(type)} Item`}</Text>
+        <Button
+          skin={styles.buttonConfigSkin}
+          body={styles.buttonConfigBody}
+          onPress={() => onClick('on-show-item-config-dialog')}>
+          <Icon font='' />
+          <Text style={styles.buttonConfigText}>CONFIG</Text>
+        </Button>
+      </View>
       <Separator vertical={1.5} />
       <View style={styles.bodyPane}>
         <Text style={styles.titleField}>Item</Text>
         <Separator vertical={0.25} />
         <TextInput
           skin={styles.input}
-          placeholder='Name'
+          placeholder='name'
           disabled={type !== 'add'}
           defaultStyle={{
             boxShadow:
@@ -148,18 +245,16 @@ function Item({
           value={state.name}
           onChangeText={text => onChange('on-change-name', text)}
         />
-        {/* <Separator vertical={1} />
-        <Text style={styles.titleField}>Type</Text>
+        <Separator vertical={0.75} />
+        <Text style={styles.titleField}>Brand</Text>
         <Separator vertical={0.25} />
-        <Dropdown
-          items={['Non-Perishable']} // ['material', 'ingredient']
-          hideIcon
-          selected={state.itemType}
-          onSelected={item => onClick('on-select-item-type', item)}
-          style={styles.dropdown}
-          ACCENT_COLOR={BACKGROUND_COLOR}
-        /> */}
-        <Separator vertical={1} />
+        <TextInput
+          skin={styles.input}
+          placeholder='name'
+          value={state.brand}
+          onChangeText={text => onChange('on-change-brand', text)}
+        />
+        <Separator vertical={0.75} />
         <Text style={styles.titleField}>Quantity</Text>
         <Separator vertical={0.25} />
         <TextInput
@@ -168,8 +263,45 @@ function Item({
           value={state.quantity}
           onChangeText={text => onChange('on-change-quantity', text)}
         />
-        <Separator vertical={1} />
-        <Text style={styles.titleField}>Cost</Text>
+        <Separator vertical={0.75} />
+        <Text style={styles.titleField}>Type</Text>
+        <Separator vertical={0.25} />
+        <Dropdown
+          items={['non-perishable', 'perishable']} // ['material', 'ingredient']
+          selected={state.itemType}
+          accentColor={type !== 'add' ? BACKGROUND_COLOR4 : BACKGROUND_COLOR}
+          disabled={type !== 'add'}
+          textDefaultStyle={{
+            color: type !== 'add' ? WHITE : BACKGROUND_COLOR,
+            fontWeight: type !== 'add' ? '100' : 'bold',
+          }}
+          defaultStyle={{
+            backgroundColor: type !== 'add' ? BACKGROUND_COLOR3 : ACCENT_COLOR,
+            color: WHITE,
+            boxShadow:
+              type !== 'add'
+                ? 'none'
+                : 'box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25)',
+          }}
+          onSelected={item => onClick('on-select-item-type', item)}
+          style={styles.dropdown}
+        />
+        <Separator vertical={0.75} />
+        {state.itemType === 'perishable' && (
+          <>
+            <Text style={styles.titleField}>Perishable</Text>
+            <Separator vertical={0.25} />
+            <Button
+              skin={styles.buttonPropertySkin}
+              body={styles.buttonPropertyBody}
+              onPress={() => onClick('on-show-perishable-props-dialog')}>
+              <Text style={styles.buttonPropertyText}>Properties</Text>
+              <Icon font='Feather' name='menu' size='2.5vh' color={BACKGROUND_COLOR} />
+            </Button>
+            <Separator vertical={0.75} />
+          </>
+        )}
+        <Text style={styles.titleField}>Cost per item</Text>
         <Separator vertical={0.25} />
         <TextInput
           skin={styles.input}
@@ -196,7 +328,7 @@ function Item({
               disabled={!isChange}
               isLoading={loading.status}
               defaultStyle={{
-                BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
+                backgroundColor: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
               onPress={() => onClick('on-click-update')}
             />

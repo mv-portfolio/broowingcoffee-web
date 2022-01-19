@@ -17,13 +17,13 @@ function SignIn({error, loading, dispatch}) {
   const {onHide: onHidePrimaryDialog} = useContext(PrimaryDialog);
   const {onHide: onHideSecondaryDialog} = useContext(SecondaryDialog);
 
-  const onChangeValue = (component, value) => {
-    if (component === 'username') {
+  const onChangeValue = (actionType, value) => {
+    if (actionType === 'username') {
       setState({
         type: 'set-username',
         text: value,
       });
-    } else if (component === 'password') {
+    } else if (actionType === 'password') {
       setState({
         ...state.password,
         type: 'set-password',
@@ -31,8 +31,8 @@ function SignIn({error, loading, dispatch}) {
       });
     }
   };
-  const onClick = component => {
-    if (component === 'on-signin') {
+  const onClick = actionType => {
+    if (actionType === 'on-signin') {
       dispatch(
         SET_SIGNIN({
           username: state.username.text,
@@ -44,13 +44,13 @@ function SignIn({error, loading, dispatch}) {
           status: true,
         }),
       );
-    } else if (component === 'on-encrypt-text') {
+    } else if (actionType === 'on-encrypt-text') {
       setState({
         ...state.password,
         type: 'set-password',
         isEncrypted: !state.password.isEncrypted,
       });
-    } else if (component === 'on-forgot-password') {
+    } else if (actionType === 'on-forgot-password') {
       dispatch(push('/forgot-password'));
     }
   };
@@ -119,11 +119,12 @@ function SignIn({error, loading, dispatch}) {
           </>
         )}
         <Button
-          title='Forgot password?'
-          titleStyle={styles.bForgotPasswordText}
+          skin={styles.buttonSkin}
+          body={styles.buttonBody}
           disabled={loading.status}
-          onPress={() => onClick('on-forgot-password')}
-        />
+          onPress={() => onClick('on-forgot-password')}>
+          <Text style={styles.buttonText}>Forgot Password?</Text>
+        </Button>
       </View>
     </View>
   );

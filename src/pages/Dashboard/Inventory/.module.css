@@ -12,6 +12,16 @@
   height: 7.5vh;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+}
+.headerBodyPane .label {
+  color: var(--ACCENT-COLOR);
+  font-weight: bold;
+  font-size: 1.75vh;
+}
+.headerBodyPane .headerRightPane {
+  flex-direction: row;
+  align-items: center;
   justify-content: flex-end;
 }
 

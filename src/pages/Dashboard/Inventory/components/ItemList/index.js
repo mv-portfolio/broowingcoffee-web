@@ -1,7 +1,7 @@
-import {Separator, View} from 'components';
 import {useState} from 'react';
+import {Separator, View} from 'components';
 import {peekLocalStorage} from 'storage';
-import ProductItem from '../Item';
+import Item from '../Item';
 import styles from './.module.css';
 
 export default function ItemList({items = [], onEdit, onRestock}) {
@@ -27,13 +27,13 @@ export default function ItemList({items = [], onEdit, onRestock}) {
 
   return (
     <View style={styles.mainPane}>
-      {items.map((product, index) => (
+      {items.map((item, index) => (
         <View key={index}>
-          <ProductItem
+          <Item
             onPress={() => onSelect(index)}
-            onEdit={() => onEdit(product)}
-            onRestock={() => onRestock(product)}
-            product={product}
+            onEdit={() => onEdit(item)}
+            onRestock={() => onRestock(item)}
+            item={item}
             isOpen={
               (focus.isOpen && index === focus.index) ||
               peekLocalStorage('cfg')['always show details product']

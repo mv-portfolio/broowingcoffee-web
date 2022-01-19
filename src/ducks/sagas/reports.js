@@ -13,12 +13,11 @@ import {timeout} from 'network/api/server';
 import {server} from 'network/service';
 
 export function* onReport({action, module, reference}) {
-  const {email} = yield select(state => state.user);
+  const {firstname, lastname} = yield select(state => state.user);
   if (module === 'transactions') {
     yield put(
       PUSH_REPORT({
         transactionHistory: {
-          email,
           action,
           module,
           reference,
@@ -31,10 +30,12 @@ export function* onReport({action, module, reference}) {
   yield put(
     PUSH_REPORT({
       otherHistory: {
-        email,
         action,
         module,
-        reference,
+        reference: {
+          ...reference,
+          madeBy: `${firstname} ${lastname}`,
+        },
         date_created: new Date().getTime(),
       },
     }),

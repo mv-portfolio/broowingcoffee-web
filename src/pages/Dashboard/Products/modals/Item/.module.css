@@ -4,6 +4,7 @@
   border-radius: 2vh;
   padding: 4vh 3vh 4vh 3vh;
   background-color: var(--BACKGROUND-COLOR2);
+  box-shadow: 0.25vh 0.25vh 0.5vh rgba(0, 0, 0, 0.5);
   z-index: 2;
 }
 

@@ -51,12 +51,11 @@ export default class Formatter {
       d = '',
       year = '';
 
-    day = this.dayTerm(prefer_date);
     month = this.monthTerm(prefer_date.getMonth());
     d = prefer_date.getDate();
     year = prefer_date.getFullYear();
 
-    return `${day}, ${month} ${d} ${year}`;
+    return `${month} ${d}, ${year}`;
   }
 
   static getDateDifference(prevDate) {

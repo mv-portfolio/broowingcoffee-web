@@ -11,6 +11,7 @@ import purchasingProducts from './purchasingProducts';
 import transactions from './transactions';
 import inventory from './inventory';
 import reports from './reports';
+import discounts from './discounts';
 
 import {combineReducers} from 'redux';
 import {connectRouter} from 'connected-react-router';
@@ -30,6 +31,7 @@ export default function rootReducer(history) {
     transactions,
     inventory,
     reports,
+    discounts,
     router: connectRouter(history),
   });
 }

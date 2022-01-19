@@ -31,6 +31,8 @@ import {
   statisticsInitState,
   settings,
   settignsInitState,
+  perishable,
+  perishableInitState,
 } from './reducers';
 
 export {
@@ -65,6 +67,8 @@ export {
   statisticsInitState,
   settings,
   settignsInitState,
+  perishable,
+  perishableInitState,
 };
 
 export default function useHook(init, reducer) {

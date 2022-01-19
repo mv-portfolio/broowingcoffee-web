@@ -16,6 +16,7 @@ import searchHistory, {searchHistoryInitState} from './searchHistory';
 import reportBug, {reportBugInitState} from './reportBug';
 import statistics, {statisticsInitState} from './statistics';
 import settings, {settignsInitState} from './settings';
+import perishable, {perishableInitState} from './perishable';
 
 export {
   assessAcc,
@@ -51,4 +52,6 @@ export {
   statisticsInitState,
   settings,
   settignsInitState,
+  perishable,
+  perishableInitState,
 };

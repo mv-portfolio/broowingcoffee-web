@@ -11,13 +11,13 @@ function* resetPasswordWorker(state) {
     const config = yield serverConfig();
     yield call(server.push, '/reset-password-encoder', state, {
       ...config,
-      timeout: timeout(7),
+      timeout: timeout(10),
     });
     yield put(
       SET_LOADING({
         status: false,
         message:
-          'We already sent an email to the email address you provide, Thank you.',
+          'If an account exist with this email address, you will receive an email with instructions on how to reset your password',
       }),
     );
     console.log('RESET-PASSWORD-RESOLVED');
@@ -26,7 +26,7 @@ function* resetPasswordWorker(state) {
     yield put(SET_ERROR({forgotPassword: err}));
     yield put(CLEAR_LOADING());
   } finally {
-    yield delay(4000);
+    yield delay(10000);
     yield put(CLEAR_LOADING());
     yield put(replace('/'));
   }

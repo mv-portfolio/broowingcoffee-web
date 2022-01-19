@@ -10,21 +10,22 @@ import {SET_ERROR, SET_FORGOTPASSWOROD, SET_LOADING} from 'ducks/actions';
 import {Text, Separator, TextInput, View, Button} from 'components';
 import {isEmail} from 'utils/checker';
 import styles from './.module.css';
+import {push} from 'connected-react-router';
 
 function Account({loading, error, dispatch}) {
   const [isSent, setIsSent] = useState(false);
   const [state, setState] = useHook(ASSESSMENT_ACCOUNT({}), assessAcc);
 
-  const onChangeValue = (component, value) => {
-    if (component === 'email') {
+  const onChangeValue = (actionType, value) => {
+    if (actionType === 'email') {
       setState({
         type: 'set-email',
         text: value,
       });
     }
   };
-  const onClick = (component, val) => {
-    if (component === 'on-send') {
+  const onClick = (actionType, val) => {
+    if (actionType === 'on-send') {
       if (!isEmail(val) || val.length === 0) {
         dispatch(SET_ERROR({forgotPassword: 'Please enter a valid email address'}));
         return;
@@ -71,9 +72,8 @@ function Account({loading, error, dispatch}) {
         />
       </View>
       <View style={styles.bottomPane}>
-        {(error.forgotPassword || loading.message) && (
+        {error.forgotPassword || loading.message ? (
           <>
-            <Separator vertical={0.75} />
             {loading.message ? (
               <View style={styles.infoPane}>
                 <Text style={styles.infoTitle}>{loading.message}</Text>
@@ -84,7 +84,17 @@ function Account({loading, error, dispatch}) {
               </View>
             )}
           </>
+        ) : (
+          <View></View>
         )}
+        <Button
+          skin={styles.buttonSkin}
+          body={styles.buttonBody}
+          onPress={() => {
+            console.log(dispatch(push('/')));
+          }}>
+          <Text style={styles.buttonText}>Go back to Sign In</Text>
+        </Button>
       </View>
     </View>
   );

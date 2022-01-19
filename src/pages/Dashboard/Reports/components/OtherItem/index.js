@@ -8,7 +8,7 @@ import {isInteger, isObject} from 'utils/checker';
 
 export default function OtherItem({other}) {
   const history = getSpecificProperty(
-    ['action', 'module', 'date_created', 'reference', 'username'],
+    ['action', 'module', 'date_created', 'reference'],
     other,
   );
 
@@ -18,6 +18,7 @@ export default function OtherItem({other}) {
 
   const references = getPropsValues(history.reference)
     .filter(history => history.property !== 'name')
+    .filter(history => history.property !== 'madeBy')
     .filter(history => history.property !== 'consumables');
 
   const [isDetailShow, setIsDetailShow] = useState(false);
@@ -97,6 +98,14 @@ export default function OtherItem({other}) {
                 {index + 1 !== properties.length && <Separator vertical={0.15} />}
               </View>
             ))}
+            <View style={styles.property}>
+              <View style={styles.propertyPane}>
+                <Text style={styles.propertyName}>made by</Text>
+                <Text style={styles.propertyValue}>
+                  {Formatter.toName(history.reference.madeBy)}
+                </Text>
+              </View>
+            </View>
           </View>
           {history.action !== 'ADD' && history.action !== 'DELETE' && (
             <>
@@ -130,9 +139,7 @@ export default function OtherItem({other}) {
               </View>
               {isObject(history.reference.consumables) && (
                 <>
-                  {isObject(history.reference.consumables) && (
-                    <Separator vertical={0.4} />
-                  )}
+                  <Separator vertical={0.4} />
                   <Text style={styles.propertyName}>consumables</Text>
                   <Separator vertical={0.25} />
                   {getPropsValues(history.reference.consumables).map(

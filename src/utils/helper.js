@@ -1,4 +1,11 @@
 import {CRITICAL_COLOR, GOOD_COLOR, MODERATE_COLOR} from 'constants/colors';
+import {
+  FIFTEEN_DAYS_BEFORE,
+  FIVE_DAYS_BEFORE,
+  ONE_MONTH_BEFORE,
+  TEN_DAYS_BEFORE,
+  TWO_DAYS_BEFORE,
+} from 'constants/strings';
 import {isArray} from './checker';
 import Formatter from './Formatter';
 
@@ -48,14 +55,17 @@ const onComputeTransaction = transactionInfo => {
   return Formatter.toMoney(totalPrice - totalDiscount * totalPrice);
 };
 const onCleanName = value => {
-  if (value.includes('username')) {
-    return 'created by';
+  if (value.includes('email')) {
+    return 'made by';
   }
   if (value.includes('issuedBy')) {
     return 'issued by';
   }
   if (value.includes('receiptTo')) {
     return 'receipt to';
+  }
+  if (value.includes('cost')) {
+    return 'cost per item';
   }
   return value.replace('_', ' ');
 };
@@ -64,13 +74,19 @@ const onFormat = (property, value) => {
     return `${Formatter.toMoney(value)}`;
   }
   if (property.includes('date')) {
+    if (property.includes('expiry')) {
+      return `${Formatter.toLocaleString(value)}`;
+    }
     return `${Formatter.getDateDifference(value)}`;
   }
   if (property.includes('discount')) {
     return `${value}%`;
   }
+  if (property.includes('brand')) {
+    return `${Formatter.toName(value)}`;
+  }
   if (property.includes('quantity')) {
-    return `${value} pcs`;
+    return `${value}`;
   }
   return value;
 };
@@ -111,14 +127,43 @@ const getDate = time => {
   const thisDate = new Date(time);
   return thisDate.getDate();
 };
-const getColorIndication = value => {
-  if (value > 100) {
-    return GOOD_COLOR;
+const getRestockPointStatus = (value, low, mid) => {
+  if (value <= low) {
+    return CRITICAL_COLOR;
   }
-  if (value > 25) {
+  if (value > low && value <= mid) {
     return MODERATE_COLOR;
   }
-  return CRITICAL_COLOR;
+  return GOOD_COLOR;
+};
+const getExpirePoint = (name, value) => {
+  let val = 0;
+  const expirePoints = [
+    TWO_DAYS_BEFORE,
+    FIVE_DAYS_BEFORE,
+    TEN_DAYS_BEFORE,
+    FIFTEEN_DAYS_BEFORE,
+    ONE_MONTH_BEFORE,
+  ];
+  expirePoints.forEach(expirePoint => {
+    if (expirePoint.name === name || expirePoint.value === value) {
+      val = expirePoint;
+    }
+  });
+  return val;
+};
+const getExpirePointStatus = (expiry_date, expire_point) => {
+  const currentDate = new Date().getTime();
+  const criticalStatus = currentDate + expire_point * 0.5;
+  const midStatus = currentDate + expire_point;
+
+  if (criticalStatus > expiry_date) {
+    return CRITICAL_COLOR;
+  }
+  if (midStatus > expiry_date) {
+    return MODERATE_COLOR;
+  }
+  return GOOD_COLOR;
 };
 const manipulateData = (data, filteredDate = [], top3Products = []) => {
   let tempData = [];
@@ -301,6 +346,46 @@ const getPropertyChanges = (target, source) => {
   });
   return tempObject;
 };
+const getItemDifference = (prev, pres) => {
+  let temp_obj = {};
+  getPropsValues(prev).forEach(({property: prevProp, value: prevVal}) => {
+    getPropsValues(pres).forEach(({property: presProp, value: presVal}) => {
+      if (prevProp === presProp && prevVal !== presVal) {
+        temp_obj[prevProp] = [prevVal, presVal];
+      }
+    });
+  });
+
+  if (
+    prev.type !== pres.type &&
+    !(temp_obj.type[0] === 'perishable' && temp_obj.type[1] === 'non-perishable')
+  ) {
+    getPropsValues(pres).forEach(({property: presProp, value: presVal}) => {
+      let isExist = {status: false, obj: [presProp, presVal]};
+      getPropsValues(temp_obj).forEach(({property: tempObjProp, value: tempObjVal}) => {
+        if (presProp === tempObjProp) {
+          isExist = {status: true};
+        }
+      });
+      if (!isExist.status) {
+        temp_obj[isExist.obj[0]] = isExist.obj[1];
+      }
+    });
+
+    getPropsValues(prev).forEach(({property: prevProp, value: prevVal}) => {
+      getPropsValues(temp_obj).forEach(({property: tempObjProp, value: tempObjVal}) => {
+        if (prevProp === tempObjProp && prevVal === tempObjVal) {
+          delete temp_obj[prevProp];
+        }
+      });
+    });
+  }
+  return {
+    name: prev.name,
+    ...temp_obj,
+  };
+};
+
 /* ----- end ---- */
 
 const getPropsValues = obj => {
@@ -465,15 +550,18 @@ export {
   ASC_DATE,
   hp,
   wp,
-  getUsername,
-  getColorIndication,
   toName,
   onCompute,
   onComputeTransaction,
   onCleanName,
   onFormat,
+  getUsername,
+  getRestockPointStatus,
+  getExpirePoint,
+  getExpirePointStatus,
   getPropsValues,
   getPropertyChanges,
+  getItemDifference,
   getSpecificProperty,
   getDateToNumber,
   isConsumableChange,

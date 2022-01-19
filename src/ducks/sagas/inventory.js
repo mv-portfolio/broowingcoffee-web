@@ -1,7 +1,9 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
-import {ACTION_TYPE} from 'constants/strings';
+import {ACTION_TYPE, ITEM_PROPERTIES} from 'constants/strings';
 import {
+  CLEAR_LOADING,
   POP_INVENTORY,
+  PUSH_INVENTORY,
   SET_ERROR,
   SET_INDEX_INVENTORY,
   SET_INVENTORY,
@@ -9,7 +11,12 @@ import {
 } from 'ducks/actions';
 import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
-import {arrayFind, getPropertyChanges} from 'utils/helper';
+import {
+  arrayFind,
+  getPropertyChanges,
+  getItemDifference,
+  getSpecificProperty,
+} from 'utils/helper';
 import {onReport} from './reports';
 
 function* peekWorker() {
@@ -24,18 +31,19 @@ function* peekWorker() {
 }
 function* pushWorker({item}) {
   try {
-    const config = yield serverConfig();
     yield put(SET_LOADING({status: true}));
-    const {res: pushResponse} = yield call(server.push, '/inventory/push', item, config);
-    yield peekWorker();
 
+    const config = yield serverConfig();
+    const {res: pushResponse} = yield call(server.push, '/inventory/push', item, config);
+
+    yield put(PUSH_INVENTORY({item: pushResponse}));
     yield onReport({
       action: 'ADD',
       module: 'inventory',
       reference: pushResponse,
     });
 
-    yield console.log('PUSH-INVENTORY-RESOLVE');
+    yield put(SET_LOADING({status: false, message: 'push-item-resolve'}));
   } catch (err) {
     yield console.log('PUSH-INVENTORY-REJECT');
     if (!err.includes('jwt')) {
@@ -43,13 +51,14 @@ function* pushWorker({item}) {
       yield put(POP_INVENTORY({itemId: item.name}));
     }
   } finally {
-    yield put(SET_LOADING({status: false, message: 'done'}));
+    yield put(CLEAR_LOADING());
   }
 }
 function* setWorker(state) {
   try {
-    const config = yield serverConfig();
     yield put(SET_LOADING({status: true}));
+
+    const config = yield serverConfig();
     let tempItem = state.item;
     let action = 'UPDATE';
 
@@ -67,24 +76,35 @@ function* setWorker(state) {
       },
     });
 
+    const prevObj = getSpecificProperty(ITEM_PROPERTIES, peekResponse[0]);
+
     yield call(server.set, '/inventory/set', {...state.item, ...tempItem}, config);
     yield put(SET_INDEX_INVENTORY({item: tempItem}));
 
-    const reference = getPropertyChanges(peekResponse[0], {...state.item, ...tempItem});
+    /**
+     * error report comes in deep object, suggest to use
+     * @function getSpecificProperty
+     */
+
+    const newObj = getSpecificProperty(ITEM_PROPERTIES, {...state.item, ...tempItem});
+
+    console.log('====>', prevObj, newObj);
+    console.log('---->', getItemDifference(prevObj, newObj));
+
+    const reference = getItemDifference(prevObj, newObj);
     yield onReport({
       action,
       module: 'inventory',
       reference,
     });
-
-    yield console.log('SET-INVENTORY-RESOLVE');
+    yield put(SET_LOADING({status: false, message: 'set-item-resolve'}));
   } catch (err) {
     yield console.log('SET-INVENTORY-REJECT', err);
     if (!err.includes('jwt')) {
       yield put(SET_ERROR({inventory: err}));
     }
   } finally {
-    yield put(SET_LOADING({status: false, message: 'done'}));
+    yield put(CLEAR_LOADING());
   }
 }
 function* popWorker(state) {
@@ -117,7 +137,7 @@ function* popWorker(state) {
 
 export default function* rootInventorSaga() {
   yield takeLatest(ACTION_TYPE('INVENTORY').PEEK, peekWorker);
-  yield takeLatest(ACTION_TYPE('INVENTORY').PUSH, pushWorker);
+  yield takeLatest(ACTION_TYPE('INVENTORY-REQ').PUSH, pushWorker);
   yield takeLatest(
     [
       ACTION_TYPE('INVENTORY-REQ').SET_INDEX,

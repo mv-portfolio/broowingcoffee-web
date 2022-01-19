@@ -1,8 +1,9 @@
 import {createContext} from 'react';
 
 const secondaryDialogInitState = {
-  onShow: () => {},
+  onShow: (component, {disabledTouchOutside}) => {},
   onHide: () => {},
+  setConfig: () => {}
 };
 
 const SecondaryDialog = createContext(secondaryDialogInitState);

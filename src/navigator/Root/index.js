@@ -64,17 +64,19 @@ function RootNavigator({auth, history, error, dispatch}) {
     clearInterval(toastInterval.current);
   };
 
-  const onShowSecondaryDialog = component => {
+  const onShowSecondaryDialog = (component, props) => {
     setSecondaryDialog({
       type: 'set',
       visible: true,
       children: component,
+      ...props,
     });
   };
   const onHideSecondaryDialog = () => {
     setSecondaryDialog({
       type: 'set',
       visible: false,
+      disabledTouchOutside: true,
     });
   };
 
@@ -108,9 +110,17 @@ function RootNavigator({auth, history, error, dispatch}) {
     <HeaderContent.Provider
       value={{title: header.title, isMenuListShow: header.isMenuListShow, onSetHeader}}>
       <SecondaryDialogContext.Provider
-        value={{onShow: onShowSecondaryDialog, onHide: onHideSecondaryDialog}}>
+        value={{
+          onShow: onShowSecondaryDialog,
+          onHide: onHideSecondaryDialog,
+          setConfig: setSecondaryDialog,
+        }}>
         <PrimaryDialogContext.Provider
-          value={{onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog}}>
+          value={{
+            onShow: onShowPrimaryDialog,
+            onHide: onHidePrimaryDialog,
+            setConfig: setPrimaryDialog,
+          }}>
           <ToastContext.Provider value={{onShow: onShowToast, onHide: onHideToast}}>
             <ConnectedRouter history={history}>
               <Switch>
@@ -126,7 +136,10 @@ function RootNavigator({auth, history, error, dispatch}) {
                   <RoutePrivate key={index} auth={auth} error={error} {...page} />
                 ))}
               </Switch>
-              <SecondaryDialog {...secondaryDialog} />
+              <SecondaryDialog
+                {...secondaryDialog}
+                onTouchOutside={onHideSecondaryDialog}
+              />
               <PrimaryDialog {...primaryDialog} onTouchOutside={onHidePrimaryDialog} />
               <Toast {...toast} />
             </ConnectedRouter>

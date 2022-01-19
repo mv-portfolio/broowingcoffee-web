@@ -7,19 +7,21 @@
   background-color: rgba(0, 0, 0, 0.75);
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 3;
 }
 
 .blankPane .mainPane {
-  width: 35vh;
+  width: 40vh;
   height: 20vh;
-  border-radius: 1vh;
+  border-radius: 2vh;
+  box-shadow: 0.25vh 0.25vh 0.5vh rgba(0, 0, 0, 0.5);
   background-color: var(--BACKGROUND-COLOR2);
-  z-index: 2;
+  z-index: 3;
 }
 .mainPane .bodyPane {
   flex: 2;
   justify-content: center;
+  border-radius: 2vh 2vh 0 0;
   background-color: var(--BACKGROUND-COLOR4);
 }
 .bodyPane .titlePane {
@@ -41,19 +43,25 @@
   flex-direction: row;
 }
 .datePane .dropdownMonth {
+  width: 14vh;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  background-color: transparent;
+}
+.datePane .dropdownDay {
+  width: 7.5vh;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  background-color: transparent;
+}
+.datePane .dropdownYear {
   width: 10vh;
   align-items: center;
   justify-content: center;
-}
-.datePane .dropdownDay {
-  width: 4vh;
-  align-items: center;
-  justify-content: center;
-}
-.datePane .dropdownYear {
-  width: 6vh;
-  align-items: center;
-  justify-content: center;
+  box-shadow: none;
+  background-color: transparent;
 }
 .datePane .dropdownText {
   color: var(--WHITE);

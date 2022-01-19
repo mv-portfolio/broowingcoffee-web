@@ -4,9 +4,9 @@
   padding-right: 2vh;
 }
 .mainPane .title {
- color: var(--ACCENT-COLOR);
- font-weight: bold;
- font-size: 1.75vh;
+  color: var(--ACCENT-COLOR);
+  font-weight: bold;
+  font-size: 1.75vh;
 }
 
 .mainPane .topPane {
@@ -27,8 +27,10 @@
   justify-content: space-between;
 }
 .headerBodyPane .buttonClear {
-  height: 5vh;
+  height: 4vh;
   align-items: center;
+  background-color: var(--BACKGROUND-COLOR3);
+  box-shadow: 0 0 0.25vh rgba(0, 0, 0, 0.15);
 }
 .buttonClear .buttonClearText {
   font-size: 1.5vh;

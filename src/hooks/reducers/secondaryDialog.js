@@ -3,6 +3,7 @@ import {isTypeof} from 'utils/checker';
 export const secondaryDialogInitState = {
   visible: false,
   children: null,
+  disabledTouchOutside: true,
 };
 export default function secondaryDialog(state = secondaryDialogInitState, action) {
   switch (action.type) {
@@ -10,6 +11,11 @@ export default function secondaryDialog(state = secondaryDialogInitState, action
       return {
         visible: isTypeof('boolean', action.visible, state.visible),
         children: isTypeof('object', action.children, state.children),
+        disabledTouchOutside: isTypeof(
+          'boolean',
+          action.disabledTouchOutside,
+          state.disabledTouchOutside,
+        ),
       };
 
     default:

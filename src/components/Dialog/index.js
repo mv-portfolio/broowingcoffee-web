@@ -11,6 +11,8 @@ function Dialog({
   onClickPositive,
   negativeText,
   onClickNegative,
+  neutralText,
+  onClickNeutral,
   loading,
 }) {
   return (
@@ -31,13 +33,25 @@ function Dialog({
         />
         {negativeText && (
           <>
-            <Separator horizontal={1} />
+            <Separator horizontal={0.5} />
             <Button
               title={negativeText || 'Cancel'}
               titleStyle={styles.buttonText}
               disabled={loading.status}
               skin={styles.button}
               onPress={onClickNegative}
+            />
+          </>
+        )}
+        {neutralText && (
+          <>
+            <Separator horizontal={0.5} />
+            <Button
+              title={neutralText}
+              titleStyle={styles.buttonText}
+              disabled={loading.status}
+              skin={styles.button}
+              onPress={onClickNeutral}
             />
           </>
         )}

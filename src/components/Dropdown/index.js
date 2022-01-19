@@ -1,15 +1,18 @@
 import {useEffect, useReducer, useRef} from 'react';
 import {Button, Icon, Separator, Text, View} from 'components';
-import styles from './.module.css';
 import dropdown, {dropdownInitState} from './reducer';
+import styles from './.module.css';
 
 export default function Dropdown({
   items = [],
   style,
+  defaultStyle,
   textStyle,
+  textDefaultStyle,
+  disabled,
   placeholder,
   hideIcon = false,
-  ACCENT_COLOR,
+  accentColor,
   selected,
   onSelected,
 }) {
@@ -35,7 +38,7 @@ export default function Dropdown({
         <Icon
           font='AntDesign'
           name='caretup'
-          color={ACCENT_COLOR ? ACCENT_COLOR : '#000'}
+          color={accentColor ? accentColor : '#000'}
           size='2vh'
         />
       );
@@ -44,7 +47,7 @@ export default function Dropdown({
       <Icon
         font='AntDesign'
         name='caretdown'
-        color={ACCENT_COLOR ? ACCENT_COLOR : '#000'}
+        color={accentColor ? accentColor : '#000'}
         size='2vh'
       />
     );
@@ -55,15 +58,12 @@ export default function Dropdown({
       const getPropertyValue = prop => {
         return getComputedStyle(mainPaneRef.current).getPropertyValue(prop);
       };
-      const getPxValue = property => {
-        return parseInt(property.substring(0, property.length - 2)) + 14;
-      };
       const widthParent = getPropertyValue('width');
       setTimeout(() => {
         setState({
           type: 'set',
           styles: {
-            width: `${getPxValue(widthParent)}px`,
+            width: `calc(${widthParent} - 2vh)`,
           },
         });
       }, 100);
@@ -72,11 +72,13 @@ export default function Dropdown({
 
   return (
     <View>
-      <View
+      <button
         ref={mainPaneRef}
-        style={`${styles.mainPane} ${style}`}
+        className={`${styles.mainPane} ${style}`}
+        style={defaultStyle}
+        disabled={disabled}
         onClick={() => onClick('on-show-picker-list')}>
-        <Text style={`${styles.title} ${textStyle}`}>
+        <Text style={`${styles.title} ${textStyle}`} defaultStyle={textDefaultStyle}>
           {selected || state.value || (
             <span className={styles.placeholder}>{placeholder || 'Select...'}</span>
           )}
@@ -87,7 +89,7 @@ export default function Dropdown({
             <Separator horizontal={0.75} />
           </View>
         )}
-      </View>
+      </button>
       {state.isDropdownListShow && unSelectedItems.length !== 0 && (
         <View style={styles.pickerList} defaultStyle={{...state.styles}}>
           {unSelectedItems.map((type, index) => (
@@ -95,7 +97,7 @@ export default function Dropdown({
               <Button
                 title={type}
                 skin={styles.pickerItem}
-                defaultStyle={{color: ACCENT_COLOR ? 'ACCENT_COLOR' : '#000'}}
+                defaultStyle={{color: accentColor ? accentColor : '#000'}}
                 onClick={() => onClick('on-select', type)}
               />
               {index + 1 !== items.filter(type => type !== state.value).length ? (

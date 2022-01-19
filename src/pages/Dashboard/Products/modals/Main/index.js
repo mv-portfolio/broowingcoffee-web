@@ -168,8 +168,8 @@ function Main({
   };
   const requestListener = () => {
     if (!loading.status && loading.message === 'done') {
-      onCancel();
       dispatch(CLEAR_LOADING());
+      onCancel();
     }
   };
   useEffect(changeListener, [name, based, hot_price, cold_price, state]);
@@ -200,7 +200,7 @@ function Main({
           selected={state.based}
           onSelected={item => onClick('on-select-based', item)}
           style={styles.dropdown}
-          ACCENT_COLOR={BACKGROUND_COLOR}
+          accentColor={BACKGROUND_COLOR}
         />
         <Separator vertical={1} />
         <Text style={styles.titleField}>Hot Price</Text>
@@ -253,13 +253,14 @@ function Main({
               isLoading={loading.status}
               disabled={!isChange}
               defaultStyle={{
-                BACKGROUND_COLOR2: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
+                backgroundColor: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
               onPress={() => onClick('on-click-update')}
             />
             <Separator horizontal={1} />
             <Button
               title='Delete'
+              disabled={loading.status}
               skin={styles.buttonDelete}
               onPress={() => onClick('on-click-delete', productInfo.name)}
             />
