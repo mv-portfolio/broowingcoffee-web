@@ -385,7 +385,60 @@ const getItemDifference = (prev, pres) => {
     ...temp_obj,
   };
 };
-
+const getProductConsumed = (size, product_type, consumed = []) => {
+  let tempPayload = {};
+  consumed.forEach((consume, index) => {
+    if (consume.size === size && consume.product_type === product_type) {
+      tempPayload = consume;
+    }
+  });
+  return tempPayload;
+};
+const setProductConsumed = (value, size, product_type, consumed = []) => {
+  return consumed.map((consume, index) => {
+    if (consume.size === size && consume.product_type === product_type) {
+      return {
+        ...consume,
+        ...value,
+      };
+    }
+    return consume;
+  });
+};
+const setInventoryProduct = (inventory = [], value) => {
+  if (!inventory.length) {
+    return [value];
+  }
+  const itemExist = inventory.filter(
+    item => item._id_item.name === value._id_item.name,
+  )[0];
+  if (!itemExist) {
+    return [...inventory, value];
+  }
+  return inventory.map((item, index) => {
+    if (value._id_item.name === item._id_item.name) {
+      return value;
+    }
+    return item;
+  });
+};
+const popInventoryProduct = (inventory = [], value) => {
+  return inventory.filter(item => item._id_item.name !== value._id_item.name);
+};
+const getAbbreviationUnit = value => {
+  if (value === 'milligram') {
+    return 'mg';
+  }
+  if (value === 'gram') {
+    return 'gm';
+  }
+  if (value === 'milliliter') {
+    return 'ml';
+  }
+  if (value === 'liter') {
+    return 'l';
+  }
+};
 /* ----- end ---- */
 
 const getPropsValues = obj => {
@@ -555,6 +608,11 @@ export {
   onComputeTransaction,
   onCleanName,
   onFormat,
+  getProductConsumed,
+  setProductConsumed,
+  setInventoryProduct,
+  popInventoryProduct,
+  getAbbreviationUnit,
   getUsername,
   getRestockPointStatus,
   getExpirePoint,

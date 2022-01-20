@@ -81,11 +81,11 @@ function Item({
         return {status: false, error: 'Please enter all property needed in perishable'};
       }
       if (!state.perishable_properties.expire_point) {
-        return {status: false, error: 'Please set the configuration expire point'};
+        return {status: false, error: 'Please set the configuration for expire point'};
       }
     }
     if (!state.restock_point.low[0] || !state.restock_point.mid[1]) {
-      return {status: false, error: 'Please set the configuration restock point'};
+      return {status: false, error: 'Please set the configuration for restock point'};
     }
 
     let payload = state;

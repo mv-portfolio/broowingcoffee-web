@@ -6,6 +6,7 @@ import {BACKGROUND_COLOR} from 'constants/colors';
 import {perishable, perishableInitState} from 'hooks';
 import styles from './.module.css';
 import {hp} from 'utils/helper';
+import { UNITS } from 'constants/strings';
 
 export default function PerishableProperties({
   type,
@@ -109,7 +110,7 @@ export default function PerishableProperties({
         <Text style={styles.titleField}>Unit Type</Text>
         <Separator vertical={0.25} />
         <Dropdown
-          items={['milliliter', 'liter', 'milligram', 'gram']}
+          items={UNITS}
           selected={state.unit_type}
           onSelected={item => onClick('on-select-unit-type', item)}
           style={styles.dropdown}

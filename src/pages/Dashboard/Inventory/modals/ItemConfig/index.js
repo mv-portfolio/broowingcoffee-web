@@ -144,7 +144,7 @@ export default function ItemConfigure({
             <Text style={styles.titleContent}>Expire Point</Text>
             <Separator vertical={0.25} />
             <Text style={styles.titleField}>
-              when should to highlight the expiring item
+              it highlights the "expiry date" once the item met the time interval
             </Text>
             <Separator vertical={0.5} />
             <Dropdown

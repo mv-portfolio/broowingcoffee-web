@@ -33,6 +33,8 @@ import {
   settignsInitState,
   perishable,
   perishableInitState,
+  dialogProduct,
+  dialogProductInitState
 } from './reducers';
 
 export {
@@ -47,10 +49,6 @@ export {
   purchasingProductInitState,
   toast,
   toastInitState,
-  productAddons,
-  productAddonsInitState,
-  productMain,
-  productMainInitState,
   products,
   productsInitState,
   item,
@@ -69,6 +67,8 @@ export {
   settignsInitState,
   perishable,
   perishableInitState,
+  dialogProduct,
+  dialogProductInitState
 };
 
 export default function useHook(init, reducer) {

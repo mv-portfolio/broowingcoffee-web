@@ -96,6 +96,8 @@ const ITEM_PROPERTIES = [
   'expire_point',
 ];
 
+const UNITS = ['milliliter', 'liter', 'milligram', 'gram'];
+
 export {
   //function
   ACTION_TYPE,
@@ -113,4 +115,5 @@ export {
   ONE_MONTH_BEFORE,
   //item
   ITEM_PROPERTIES,
+  UNITS,
 };

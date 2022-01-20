@@ -120,37 +120,29 @@ const CLEAR_USER = () => ({
 const PEEK_PRODUCTS = () => ({
   type: ACTION_TYPE('PRODUCTS').PEEK,
 });
-const PUSH_PRODUCT = ({mainProduct, addonProduct}) => ({
+const PUSH_PRODUCT = ({product}) => ({
   type: ACTION_TYPE('PRODUCTS').PUSH,
-  mainProduct,
-  addonProduct,
+  product,
 });
-const PUSH_PRODUCT_REQ = ({mainProduct, addonProduct}) => ({
+const PUSH_PRODUCT_REQ = ({product}) => ({
   type: ACTION_TYPE('PRODUCTS-REQ').PUSH,
-  mainProduct,
-  addonProduct,
+  product,
 });
-const SET_PRODUCTS = ({main, addons}) => ({
-  type: ACTION_TYPE('PRODUCTS').SET,
-  main,
-  addons,
-});
-const SET_INDEX_PRODUCTS = ({mainId, addonId, payload}) => ({
+const SET_INDEX_PRODUCTS = ({product}) => ({
   type: ACTION_TYPE('PRODUCTS').SET_INDEX,
-  mainId,
-  addonId,
-  payload,
+  product,
 });
-const SET_INDEX_PRODUCTS_REQ = ({mainId, addonId, payload}) => ({
+const SET_INDEX_PRODUCTS_REQ = ({product}) => ({
   type: ACTION_TYPE('PRODUCTS-REQ').SET_INDEX,
-  mainId,
-  addonId,
-  payload,
+  product,
 });
-const POP_PRODUCT = ({mainId, addonId}) => ({
+const SET_PRODUCTS = ({products}) => ({
+  type: ACTION_TYPE('PRODUCTS').SET,
+  products,
+});
+const POP_PRODUCT = ({product}) => ({
   type: ACTION_TYPE('PRODUCTS').POP,
-  mainId,
-  addonId,
+  product,
 });
 
 //inventory items
