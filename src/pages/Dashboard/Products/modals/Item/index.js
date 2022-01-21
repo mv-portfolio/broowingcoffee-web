@@ -1,10 +1,11 @@
 import {useContext, useState} from 'react';
-import {isInteger} from 'utils/checker';
+import {isDouble, isInteger} from 'utils/checker';
 import {Button, Separator, Text, TextInput, View} from 'components';
 import {Toast} from 'context';
 import styles from './.module.css';
 import List from './components/List';
 import {connect} from 'react-redux';
+import {getAbbreviationUnit} from 'utils/helper';
 
 function Item({inventory: {items}, onAdd, onCancel}) {
   const {onShow: onShowToast} = useContext(Toast);
@@ -25,7 +26,10 @@ function Item({inventory: {items}, onAdd, onCancel}) {
           type: item.type,
           perishable_properties: item.perishable_properties,
         },
-        consumed: parseInt(consume),
+        consume:
+          item.type === 'perishable'
+            ? parseFloat(parseFloat(consume).toFixed(2))
+            : parseInt(consume),
       });
       onCancel();
       return;
@@ -34,6 +38,8 @@ function Item({inventory: {items}, onAdd, onCancel}) {
 
   return (
     <View style={styles.mainPane}>
+      <Text style={styles.title}>Inventory</Text>
+      <Separator vertical={1} />
       <View style={styles.bodyPane}>
         <List items={items} onSelect={selected => setItem(selected)} />
         <Separator vertical={1} />
@@ -42,7 +48,7 @@ function Item({inventory: {items}, onAdd, onCancel}) {
             <Text style={styles.label}>
               {`Numbers of ${
                 item.type === 'perishable'
-                  ? `Unit (${item.perishable_properties.unit_type})`
+                  ? `Unit (${getAbbreviationUnit(item.perishable_properties.unit_type)})`
                   : 'Quantity'
               }`}
             </Text>
@@ -51,7 +57,17 @@ function Item({inventory: {items}, onAdd, onCancel}) {
               placeholder='0'
               skin={styles.input}
               value={consume}
-              onChangeText={text => setConsume(isInteger(text) ? text : '')}
+              onChangeText={text =>
+                setConsume(
+                  item.type === 'perishable'
+                    ? isDouble(text) || !text.length
+                      ? text
+                      : consume
+                    : isInteger(text) || !text.length
+                    ? text
+                    : consume,
+                )
+              }
             />
             <Separator vertical={1} />
           </>

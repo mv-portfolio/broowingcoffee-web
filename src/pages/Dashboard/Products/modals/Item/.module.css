@@ -7,6 +7,10 @@
   box-shadow: 0.25vh 0.25vh 0.5vh rgba(0, 0, 0, 0.5);
   z-index: 2;
 }
+.mainPane .title {
+  font-family: 'Standard-Font2';
+  font-size: 3vh;
+}
 
 .mainPane .bodyPane {
   flex: 1;

@@ -90,36 +90,6 @@ const onFormat = (property, value) => {
   }
   return value;
 };
-const isConsumableChange = (prevArr = [], currArr = []) => {
-  let isChange = false;
-
-  if (prevArr.length !== currArr.length) {
-    return true;
-  }
-  prevArr
-    .sort(function (a, b) {
-      if (a._id_item.name > b._id_item.name) return 1;
-      if (a._id_item.name < b._id_item.name) return -1;
-      return 0;
-    })
-    .forEach((prev, prevIndex) => {
-      currArr
-        .sort(function (a, b) {
-          if (a._id_item.name > b._id_item.name) return 1;
-          if (a._id_item.name < b._id_item.name) return -1;
-          return 0;
-        })
-        .forEach((curr, currIndex) => {
-          if (
-            (prevIndex === currIndex && prev._id_item.name !== curr._id_item.name) ||
-            (prev._id_item.name === curr._id_item.name && prev.consumed !== curr.consumed)
-          ) {
-            isChange = true;
-          }
-        });
-    });
-  return isChange;
-};
 const getDateToNumber = (date, day) => {
   return new Date(date.getFullYear(), date.getMonth(), day).getTime();
 };
@@ -346,45 +316,6 @@ const getPropertyChanges = (target, source) => {
   });
   return tempObject;
 };
-const getItemDifference = (prev, pres) => {
-  let temp_obj = {};
-  getPropsValues(prev).forEach(({property: prevProp, value: prevVal}) => {
-    getPropsValues(pres).forEach(({property: presProp, value: presVal}) => {
-      if (prevProp === presProp && prevVal !== presVal) {
-        temp_obj[prevProp] = [prevVal, presVal];
-      }
-    });
-  });
-
-  if (
-    prev.type !== pres.type &&
-    !(temp_obj.type[0] === 'perishable' && temp_obj.type[1] === 'non-perishable')
-  ) {
-    getPropsValues(pres).forEach(({property: presProp, value: presVal}) => {
-      let isExist = {status: false, obj: [presProp, presVal]};
-      getPropsValues(temp_obj).forEach(({property: tempObjProp, value: tempObjVal}) => {
-        if (presProp === tempObjProp) {
-          isExist = {status: true};
-        }
-      });
-      if (!isExist.status) {
-        temp_obj[isExist.obj[0]] = isExist.obj[1];
-      }
-    });
-
-    getPropsValues(prev).forEach(({property: prevProp, value: prevVal}) => {
-      getPropsValues(temp_obj).forEach(({property: tempObjProp, value: tempObjVal}) => {
-        if (prevProp === tempObjProp && prevVal === tempObjVal) {
-          delete temp_obj[prevProp];
-        }
-      });
-    });
-  }
-  return {
-    name: prev.name,
-    ...temp_obj,
-  };
-};
 const getProductConsumed = (size, product_type, consumed = []) => {
   let tempPayload = {};
   consumed.forEach((consume, index) => {
@@ -426,18 +357,165 @@ const popInventoryProduct = (inventory = [], value) => {
   return inventory.filter(item => item._id_item.name !== value._id_item.name);
 };
 const getAbbreviationUnit = value => {
-  if (value === 'milligram') {
-    return 'mg';
+  // if (value === 'milligram') {
+  //   return 'mg';
+  // }
+  // if (value === 'gram') {
+  //   return 'g';
+  // }
+  // if (value === 'milliliter') {
+  //   return 'ml';
+  // }
+  // if (value === 'liter') {
+  //   return 'l';
+  // }
+  return value;
+};
+const hasMissingProperty = (consumed = []) => {
+  let error = {status: false, error: ''};
+  let notEmpty = false;
+  consumed.forEach(consume => {
+    if (consume.price || consume.inventory.length) {
+      notEmpty = true;
+    }
+  });
+  if (!notEmpty) return {status: true, error: 'Combination Property must not empty'};
+
+  consumed.forEach(consume => {
+    if (error.status) return;
+    if (!consume.price && !consume.inventory.length) return;
+    if (consume.price && consume.inventory.length) return;
+    if (!consume.price) {
+      error = {
+        status: true,
+        error: `Combination ${Formatter.toName(consume.size)} and ${Formatter.toName(
+          consume.product_type,
+        )} has missing property price`,
+      };
+      return;
+    }
+    error = {
+      status: true,
+      error: `Combination ${Formatter.toName(consume.size)} and ${Formatter.toName(
+        consume.product_type,
+      )} has an empty consumables`,
+    };
+  });
+  return error;
+};
+const isConsumedChange = (prevConsumed = [], presConsumed = []) => {
+  let isChange = false;
+  prevConsumed.forEach(prev => {
+    if (isChange) return;
+    presConsumed.forEach(pres => {
+      if (prev.size === pres.size && prev.product_type === pres.product_type) {
+        if (prev.price !== parseFloat(pres.price)) return (isChange = true);
+        if (prev.inventory.length !== pres.inventory.length) return (isChange = true);
+        prev.inventory.forEach(prevItem => {
+          const item = pres.inventory.filter(
+            item => item._id_item.name === prevItem._id_item.name,
+          )[0];
+          if (!item) return (isChange = true);
+          if (item.consume !== prevItem.consume) return (isChange = true);
+        });
+      }
+    });
+  });
+  return isChange;
+};
+const getItemDifferences = (prev, pres) => {
+  let temp_obj = {};
+  getPropsValues(prev).forEach(({property: prevProp, value: prevVal}) => {
+    getPropsValues(pres).forEach(({property: presProp, value: presVal}) => {
+      if (prevProp === presProp && prevVal !== presVal) {
+        temp_obj[prevProp] = [prevVal, presVal];
+      }
+    });
+  });
+
+  if (
+    prev.type !== pres.type &&
+    !(temp_obj.type[0] === 'perishable' && temp_obj.type[1] === 'non-perishable')
+  ) {
+    getPropsValues(pres).forEach(({property: presProp, value: presVal}) => {
+      let isExist = {status: false, obj: [presProp, presVal]};
+      getPropsValues(temp_obj).forEach(({property: tempObjProp, value: tempObjVal}) => {
+        if (presProp === tempObjProp) {
+          isExist = {status: true};
+        }
+      });
+      if (!isExist.status) {
+        temp_obj[isExist.obj[0]] = isExist.obj[1];
+      }
+    });
+
+    getPropsValues(prev).forEach(({property: prevProp, value: prevVal}) => {
+      getPropsValues(temp_obj).forEach(({property: tempObjProp, value: tempObjVal}) => {
+        if (prevProp === tempObjProp && prevVal === tempObjVal) {
+          delete temp_obj[prevProp];
+        }
+      });
+    });
   }
-  if (value === 'gram') {
-    return 'gm';
-  }
-  if (value === 'milliliter') {
-    return 'ml';
-  }
-  if (value === 'liter') {
-    return 'l';
-  }
+  return {
+    name: prev.name,
+    ...temp_obj,
+  };
+};
+const getProductDifferences = (prev, pres) => {
+  let temp_obj = {};
+  let isChange = false;
+  getPropsValues(prev).forEach(({property: prevProp, value: prevVal}) => {
+    getPropsValues(pres).forEach(({property: presProp, value: presVal}) => {
+      if (prevProp === presProp && isArray(prevVal) && isArray(presVal)) {
+        prevVal.forEach(prevV => {
+          if (isChange) return;
+          presVal.forEach(presV => {
+            if (isChange) return;
+            if (
+              prevV.size === presV.size &&
+              prevV.product_type === presV.product_type &&
+              prevV.price !== presV.price
+            ) {
+              return (isChange = true);
+            }
+            if (
+              prevV.size === presV.size &&
+              prevV.product_type === presV.product_type &&
+              prevV.inventory.length !== presV.inventory.length
+            ) {
+              return (isChange = true);
+            }
+
+            prevV.inventory.forEach(prevItem => {
+              if (isChange) return;
+              presV.inventory.forEach(presItem => {
+                if (isChange) return;
+                if (
+                  prevItem._id_item.name === presItem._id_item.name &&
+                  prevItem.consume !== presItem.consume
+                ) {
+                  return (isChange = true);
+                }
+              });
+            });
+          });
+        });
+
+        if (isChange) {
+          temp_obj.remarks = 'Product Combinations was changed';
+        }
+        return;
+      }
+      if (prevProp === presProp && prevVal !== presVal) {
+        temp_obj[prevProp] = [prevVal, presVal];
+      }
+    });
+  });
+  return {
+    ...temp_obj,
+    name: prev.name,
+  };
 };
 /* ----- end ---- */
 
@@ -608,21 +686,23 @@ export {
   onComputeTransaction,
   onCleanName,
   onFormat,
+  isConsumedChange,
   getProductConsumed,
   setProductConsumed,
   setInventoryProduct,
   popInventoryProduct,
   getAbbreviationUnit,
+  hasMissingProperty,
   getUsername,
   getRestockPointStatus,
   getExpirePoint,
   getExpirePointStatus,
   getPropsValues,
   getPropertyChanges,
-  getItemDifference,
+  getItemDifferences,
+  getProductDifferences,
   getSpecificProperty,
   getDateToNumber,
-  isConsumableChange,
   manipulateData,
   getTotalAmountPurchasedProducts,
   getTotalAvailedProducts,

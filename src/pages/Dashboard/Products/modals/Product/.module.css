@@ -7,7 +7,6 @@
   box-shadow: 0.25vh 0.25vh 0.5vh rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
-
 .mainPane .title {
   font-family: 'Standard-Font2';
   font-size: 3vh;
@@ -18,6 +17,10 @@
 }
 .bodyPane .label {
   font-size: 1.75vh;
+}
+.bodyPane .labelBold {
+  font-size: 1.75vh;
+  font-weight: bold;
 }
 .bodyPane .inputsPane {
   flex-direction: row;
@@ -40,7 +43,6 @@
 }
 .titlePane .label {
   font-size: 1.75vh;
-  font-weight: bold;
 }
 .titlePane .buttonAddItem {
   width: 4vh;

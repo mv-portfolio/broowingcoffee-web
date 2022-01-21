@@ -11,12 +11,7 @@ import {
 } from 'ducks/actions';
 import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
-import {
-  arrayFind,
-  getPropertyChanges,
-  getItemDifference,
-  getSpecificProperty,
-} from 'utils/helper';
+import {arrayFind, getItemDifferences, getSpecificProperty} from 'utils/helper';
 import {onReport} from './reports';
 
 function* peekWorker() {
@@ -35,8 +30,8 @@ function* pushWorker({item}) {
 
     const config = yield serverConfig();
     const {res: pushResponse} = yield call(server.push, '/inventory/push', item, config);
-
     yield put(PUSH_INVENTORY({item: pushResponse}));
+
     yield onReport({
       action: 'ADD',
       module: 'inventory',
@@ -59,24 +54,17 @@ function* setWorker(state) {
     yield put(SET_LOADING({status: true}));
 
     const config = yield serverConfig();
+    const items = yield select(state => state.inventory.items);
+    const item = arrayFind(items, {name: state.item.name});
     let tempItem = state.item;
     let action = 'UPDATE';
 
     if (state.type.includes('RESTOCK')) {
-      const items = yield select(state => state.inventory.items);
-      const item = arrayFind(items, {name: state.item.name});
       tempItem.quantity += item.quantity;
       action = 'RESTOCK';
     }
 
-    const {res: peekResponse} = yield call(server.peek, '/inventory', {
-      ...config,
-      params: {
-        name: state.item.name,
-      },
-    });
-
-    const prevObj = getSpecificProperty(ITEM_PROPERTIES, peekResponse[0]);
+    const prevObj = getSpecificProperty(ITEM_PROPERTIES, item);
 
     yield call(server.set, '/inventory/set', {...state.item, ...tempItem}, config);
     yield put(SET_INDEX_INVENTORY({item: tempItem}));
@@ -88,10 +76,7 @@ function* setWorker(state) {
 
     const newObj = getSpecificProperty(ITEM_PROPERTIES, {...state.item, ...tempItem});
 
-    console.log('====>', prevObj, newObj);
-    console.log('---->', getItemDifference(prevObj, newObj));
-
-    const reference = getItemDifference(prevObj, newObj);
+    const reference = getItemDifferences(prevObj, newObj);
     yield onReport({
       action,
       module: 'inventory',
@@ -109,29 +94,27 @@ function* setWorker(state) {
 }
 function* popWorker(state) {
   try {
-    const config = yield serverConfig();
-    const {res: peekResponse} = yield call(server.peek, '/inventory', {
-      ...config,
-      params: {
-        name: state.itemId,
-      },
-    });
+    yield put(SET_LOADING({status: true}));
 
-    yield call(server.pop, '/inventory/pop', {name: state.itemId}, config);
-    yield put(POP_INVENTORY({itemId: state.itemId}));
+    const config = yield serverConfig();
+    yield call(server.pop, '/inventory/pop', {name: state.item.name}, config);
 
     yield onReport({
       action: 'DELETE',
       module: 'inventory',
-      reference: peekResponse[0],
+      reference: {
+        name: state.item.name,
+      },
     });
 
-    yield console.log('POP-INVENTORY-RESOLVE');
+    yield put(SET_LOADING({status: false, message: 'pop-item-resolve'}));
   } catch (err) {
-    yield console.log('POP-INVENTORY-REJECT');
-    if (!err.includes('jwt')) {
-      yield put(SET_ERROR({inventory: err}));
-    }
+    yield console.log('POP-INVENTORY-REJECT', err);
+    // if (!err.includes('jwt')) {
+    //   yield put(SET_ERROR({inventory: err}));
+    // }
+  } finally {
+    yield put(CLEAR_LOADING());
   }
 }
 
@@ -145,5 +128,5 @@ export default function* rootInventorSaga() {
     ],
     setWorker,
   );
-  yield takeLatest(ACTION_TYPE('INVENTORY-REQ').POP, popWorker);
+  yield takeLatest(ACTION_TYPE('INVENTORY').POP, popWorker);
 }

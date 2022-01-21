@@ -34,8 +34,9 @@ export default function inventory(state = itemsInitState, action) {
       };
 
     case ACTION_TYPE('INVENTORY').POP:
+      const items = arrayFilter(state.items, {name: action.item.name});
       return {
-        items: arrayFilter(state.items, {name: action.itemId}),
+        items,
       };
 
     default:

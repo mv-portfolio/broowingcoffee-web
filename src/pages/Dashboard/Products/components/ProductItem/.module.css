@@ -1,48 +1,18 @@
 .mainPane {
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   padding: 1.65vh;
   border-radius: 1vh;
   background-color: var(--BACKGROUND-COLOR3);
   box-shadow: rgba(0, 0, 0, 0.25) 0.25vh 0.25vh 0.25vh;
 }
-
-.mainPane .headerPane {
-  flex-direction: row;
-  justify-content: space-between;
-}
-.headerPane .title {
+.mainPane .title {
   font-size: 1.7vh;
   font-weight: bold;
 }
-
-.headerPane .buttonEdit {
-  width: 3vh;
-  height: 3vh;
+.mainPane .buttonEdit {
+  width: 2.75vh;
+  height: 2.75vh;
   border-radius: 0;
-}
-
-.mainPane .contentPane {
-}
-
-.contentPane .consumablesPane {
-}
-
-.consumablesPane .consumableTitle {
-  font-size: 1.5vh;
-  font-weight: bold;
-}
-
-.contentPane .propertyPane {
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: solid 0.05vh rgba(0, 0, 0, 0.2);
-}
-.propertyPane .propertyName {
-  font-size: 1.5vh;
-}
-.propertyPane .propertyValue {
-  color: var(--ACCENT-COLOR);
-  font-size: 1.5vh;
-  font-weight: bold;
 }

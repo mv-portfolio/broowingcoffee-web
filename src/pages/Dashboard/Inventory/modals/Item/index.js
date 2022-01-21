@@ -121,7 +121,7 @@ function Item({
       return;
     }
     if (actionType === 'on-click-delete') {
-      onDelete(value);
+      onDelete(state);
       return;
     }
     if (actionType === 'on-click-cancel') {
@@ -315,8 +315,8 @@ function Item({
         {type === 'add' && (
           <Button
             title='Add'
+            disabled={loading.status}
             skin={styles.button}
-            isLoading={loading.status}
             onPress={() => onClick('on-click-add')}
           />
         )}
@@ -325,8 +325,7 @@ function Item({
             <Button
               title='Update'
               skin={styles.button}
-              disabled={!isChange}
-              isLoading={loading.status}
+              disabled={loading.status || !isChange}
               defaultStyle={{
                 backgroundColor: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
@@ -335,8 +334,9 @@ function Item({
             <Separator horizontal={1} />
             <Button
               title='Delete'
+              disabled={loading.status}
               skin={styles.buttonDelete}
-              onPress={() => onClick('on-click-delete', productInfo.name)}
+              onPress={() => onClick('on-click-delete')}
             />
           </>
         )}

@@ -2,7 +2,7 @@ import {useContext, useEffect, useState} from 'react';
 import {View, Text, Button, Icon, SearchField, Dialog, Separator} from 'components';
 import {ACCENT_COLOR, ACCENT_COLOR2} from 'constants/colors';
 import {connect} from 'react-redux';
-import {PrimaryDialog, Toast} from 'context';
+import {PrimaryDialog, SecondaryDialog, Toast} from 'context';
 import ItemList from './components/ItemList';
 import DiscountList from './components/DiscountList';
 import styles from './.module.css';
@@ -11,7 +11,7 @@ import Item from './modals/Item';
 import {
   CLEAR_ERROR,
   POP_DISCOUNT,
-  POP_INVENTORY_REQ,
+  POP_INVENTORY,
   PUSH_DISCOUNT_REQ,
   PUSH_INVENTORY_REQ,
   SET_INDEX_DISCOUNTS_REQ,
@@ -19,6 +19,8 @@ import {
   SET_RESTOCK_INVENTORY_REQ,
 } from 'ducks/actions';
 import Discount from './modals/Discount';
+import {ASC_DATE} from 'utils/helper';
+import Formatter from 'utils/Formatter';
 
 function Inventory({
   dispatch,
@@ -29,6 +31,8 @@ function Inventory({
 }) {
   const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
     useContext(PrimaryDialog);
+  const {onShow: onShowSecondaryDialog, onHide: onHideSecondaryDialog} =
+    useContext(SecondaryDialog);
   const {onShow: onShowToast} = useContext(Toast);
 
   const [inventory, setInventory] = useState(reduxInventory.items || []);
@@ -69,16 +73,16 @@ function Inventory({
       />,
     );
   };
-  const onShowConditionalDeleteDialog = ({title, content, value}) => {
-    onShowPrimaryDialog(
+  const onShowConditionalDeleteDialog = ({title, content, onClickPositive}) => {
+    onShowSecondaryDialog(
       <Dialog
         title={title}
         content={content}
-        positiveText='Delete'
         positiveButtonStyle={{BACKGROUND_COLOR2: ACCENT_COLOR2}}
-        onClickPositive={() => onClick('on-click-delete-item-dialog-positive', value)}
+        positiveText='Yes'
+        onClickPositive={onClickPositive}
         negativeText='No'
-        onClickNegative={onHidePrimaryDialog}
+        onClickNegative={onHideSecondaryDialog}
       />,
     );
   };
@@ -89,7 +93,6 @@ function Inventory({
       onShowItemDialog({
         type: 'add',
         onAdd: item => onClick('on-click-add-item', item),
-        onClickPerishableProperty: () => onClick('on-click-add-item-perishable-props'),
       });
       return;
     }
@@ -98,7 +101,7 @@ function Inventory({
         type: 'edit',
         productInfo: value,
         onUpdate: item => onClick('on-click-update-item', item),
-        onDelete: item => onClick('on-click-delete-item-dialog', item),
+        onDelete: item => onClick('on-click-delete-item', item),
       });
       return;
     }
@@ -150,11 +153,27 @@ function Inventory({
     //CRUD
     //item
     if (actionType === 'on-click-add-item') {
-      dispatch(PUSH_INVENTORY_REQ({item: value}));
+      onShowConditionalDeleteDialog({
+        title: 'Add',
+        content: `make sure all inputs and perishable property are double check, do you want to proceed?`,
+        onClickPositive: () => onClick('on-click-add-item-dialog-positive', value),
+      });
       return;
     }
     if (actionType === 'on-click-update-item') {
-      dispatch(SET_INDEX_INVENTORY_REQ({item: value}));
+      onShowConditionalDeleteDialog({
+        title: 'Update',
+        content: `make sure all inputs and perishable property are double check, do you want to proceed?`,
+        onClickPositive: () => onClick('on-click-update-item-dialog-positive', value),
+      });
+      return;
+    }
+    if (actionType === 'on-click-delete-item') {
+      onShowConditionalDeleteDialog({
+        title: 'Delete',
+        content: `Do you want to delete ${Formatter.toName(value.name)}?`,
+        onClickPositive: () => onClick('on-click-delete-item-dialog-positive', value),
+      });
       return;
     }
     if (actionType === 'on-click-restock-item') {
@@ -177,17 +196,16 @@ function Inventory({
     }
 
     //dialog
-    if (actionType === 'on-click-delete-item-dialog') {
-      onShowConditionalDeleteDialog({
-        title: 'Delete',
-        content: `Do you want to delete ${value}?`,
-        value,
-      });
+    if (actionType === 'on-click-add-item-dialog-positive') {
+      dispatch(PUSH_INVENTORY_REQ({item: value}));
+      return;
+    }
+    if (actionType === 'on-click-update-item-dialog-positive') {
+      dispatch(SET_INDEX_INVENTORY_REQ({item: value}));
       return;
     }
     if (actionType === 'on-click-delete-item-dialog-positive') {
-      dispatch(POP_INVENTORY_REQ({itemId: value}));
-      onHidePrimaryDialog();
+      dispatch(POP_INVENTORY({item: value}));
       setSearchItems('');
       return;
     }
@@ -220,9 +238,11 @@ function Inventory({
       (loading.message.includes('push-discounts-resolve') ||
         loading.message.includes('set-discounts-resolve') ||
         loading.message.includes('push-item-resolve') ||
-        loading.message.includes('set-item-resolve'))
+        loading.message.includes('set-item-resolve') ||
+        loading.message.includes('pop-item-resolve'))
     ) {
       onHidePrimaryDialog();
+      onHideSecondaryDialog();
     }
   };
   const errorListener = () => {
@@ -264,7 +284,7 @@ function Inventory({
           </View>
         </View>
         <ItemList
-          items={inventory}
+          items={inventory.sort(ASC_DATE)}
           onEdit={item => onClick('on-click-edit-item-dialog', item)}
           onRestock={item => onClick('on-click-restock-item-dialog', item)}
         />

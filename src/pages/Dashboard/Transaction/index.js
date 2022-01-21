@@ -84,7 +84,8 @@ function Transaction({
           <Button
             title='CLEAR ALL'
             titleStyle={styles.buttonClearText}
-            skin={styles.buttonClear}
+            skin={styles.buttonClearSkin}
+            body={styles.buttonClearBody}
             onPress={() => onClick('on-click-clear-purchasing-products')}
           />
         </View>

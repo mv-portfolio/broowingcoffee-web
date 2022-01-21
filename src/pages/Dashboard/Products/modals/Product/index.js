@@ -1,18 +1,29 @@
 import {useContext, useEffect, useReducer, useState} from 'react';
 import {connect} from 'react-redux';
-import {Button, Dropdown, Separator, Text, TextInput, View, Icon} from 'components';
+import {
+  Button,
+  Dropdown,
+  Separator,
+  Text,
+  TextInput,
+  View,
+  Icon,
+  Dialog,
+} from 'components';
 import {Toast, SecondaryDialog} from 'context';
 import Formatter from 'utils/Formatter';
 import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
 import styles from './.module.css';
 import {dialogProduct as dialogProductReducer, dialogProductInitState} from 'hooks';
-import {isInteger, isName} from 'utils/checker';
+import {isDouble, isInteger, isName} from 'utils/checker';
 import {
-  getProductConsumed,
   hp,
+  getProductConsumed,
+  hasMissingProperty,
   popInventoryProduct,
   setInventoryProduct,
   setProductConsumed,
+  isConsumedChange,
 } from 'utils/helper';
 import ItemList from '../../components/ItemList';
 import Item from '../Item';
@@ -39,18 +50,66 @@ function Product({
   );
   const [isChange, setIsChange] = useState(false);
 
-  const onClean = state => {};
+  const onClean = state => {
+    if (!state.name || !state.based || !state.size || !state.product_type) {
+      return {
+        status: false,
+        error: 'Please fill all the important inputs',
+      };
+    }
+
+    const combProperty = hasMissingProperty(state.consumed);
+    if (combProperty.status) return {status: false, error: combProperty.error};
+
+    let payload = state;
+    payload.consumed = state.consumed.map(consume => {
+      return {
+        ...consume,
+        price: parseFloat(consume.price ? consume.price : '0'),
+      };
+    });
+    payload.date_modified = new Date().getTime();
+
+    return {
+      status: true,
+      payload,
+    };
+  };
   const onClick = (actionType, value) => {
     if (actionType === 'on-click-add') {
       const product = onClean(state);
+      if (!product.status) return onShowToast(product.error);
+
+      onShowSecondaryDialog(
+        <Dialog
+          title='Add Product'
+          content='make sure all inputs and combination property are double check, do you want to proceed?'
+          positiveText='Yes'
+          onClickPositive={() => onAdd(product.payload)}
+          negativeText='No'
+          onClickNegative={onHideSecondaryDialog}
+        />,
+      );
       return;
     }
     if (actionType === 'on-click-update') {
       const product = onClean(state);
+      if (!product.status) return onShowToast(product.error);
+
+      onShowSecondaryDialog(
+        <Dialog
+          title='Update Product'
+          content='make sure all inputs and combination property are double check, do you want to proceed?'
+          positiveText='Yes'
+          onClickPositive={() => onUpdate(product.payload)}
+          negativeText='No'
+          onClickNegative={onHideSecondaryDialog}
+        />,
+      );
       return;
     }
     if (actionType === 'on-click-delete') {
-      onDelete(value);
+      onDelete(state);
       return;
     }
     if (actionType === 'on-select-based') {
@@ -116,7 +175,7 @@ function Product({
       setState({type: 'set', name: value});
       return;
     }
-    if (actionType === 'on-change-price' && isInteger(value)) {
+    if (actionType === 'on-change-price' && isDouble(value ? value : '0')) {
       setState({
         type: 'set',
         consumed: setProductConsumed(
@@ -130,13 +189,21 @@ function Product({
     }
   };
 
-  const changeListener = () => {
-    // console.log(state);
+  const initListener = () => {
+    if (type !== 'add') {
+      setState({type: 'set', size: 'small', product_type: 'hot'});
+    }
   };
-  const requestListener = () => {};
-
+  const changeListener = () => {
+    // console.log(isConsumedChange(consumed, state.consumed));
+    if (based !== state.based || isConsumedChange(consumed, state.consumed)) {
+      setIsChange(true);
+      return;
+    }
+    setIsChange(false);
+  };
+  useEffect(initListener, []);
   useEffect(changeListener, [state]);
-  useEffect(requestListener, [loading]);
 
   return (
     <View style={styles.mainPane}>
@@ -194,6 +261,8 @@ function Product({
         </View>
         {state.size && state.product_type && (
           <>
+            <Separator vertical={2} />
+            <Text style={styles.labelBold}>Combination Property</Text>
             <Separator vertical={0.75} />
             <Text style={styles.label}>Price</Text>
             <Separator vertical={0.25} />
@@ -205,7 +274,7 @@ function Product({
               }
               onChangeText={text => onChange('on-change-price', text)}
             />
-            <Separator vertical={1.5} />
+            <Separator vertical={0.5} />
             <View style={styles.titlePane}>
               <Text style={styles.label}>Consume to Inventory</Text>
               <Button
@@ -231,8 +300,8 @@ function Product({
           <Button
             title='Add'
             skin={styles.button}
-            isLoading={loading.status}
-            // onPress={() => onClick('on-click-add')}
+            disabled={loading.status}
+            onPress={() => onClick('on-click-add')}
           />
         )}
         {type !== 'add' && (
@@ -240,19 +309,18 @@ function Product({
             <Button
               title='Update'
               skin={styles.button}
-              isLoading={loading.status}
-              disabled={!isChange}
+              disabled={loading.status || !isChange}
               defaultStyle={{
                 backgroundColor: isChange ? ACCENT_COLOR : ACCENT_COLOR_DISABLED,
               }}
-              // onPress={() => onClick('on-click-update')}
+              onPress={() => onClick('on-click-update')}
             />
             <Separator horizontal={1} />
             <Button
               title='Delete'
-              disabled={loading.status}
               skin={styles.buttonDelete}
-              // onPress={() => onClick('on-click-delete', product.name)}
+              disabled={loading.status}
+              onPress={() => onClick('on-click-delete')}
             />
           </>
         )}

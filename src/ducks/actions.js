@@ -177,13 +177,9 @@ const SET_RESTOCK_INVENTORY_REQ = ({item}) => ({
   type: ACTION_TYPE('INVENTORY-RESTOCK-REQ').SET_INDEX,
   item,
 });
-const POP_INVENTORY = ({itemId}) => ({
+const POP_INVENTORY = ({item}) => ({
   type: ACTION_TYPE('INVENTORY').POP,
-  itemId,
-});
-const POP_INVENTORY_REQ = ({itemId}) => ({
-  type: ACTION_TYPE('INVENTORY-REQ').POP,
-  itemId,
+  item,
 });
 
 //discounts
@@ -329,7 +325,6 @@ export {
   SET_RESTOCK_INVENTORY,
   SET_RESTOCK_INVENTORY_REQ,
   POP_INVENTORY,
-  POP_INVENTORY_REQ,
   //discounts
   PEEK_DISCOUNTS,
   PUSH_DISCOUNT,

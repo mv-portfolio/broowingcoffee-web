@@ -1,4 +1,5 @@
 .mainPane {
+  display: block;
   height: 30vh;
   overflow-y: auto;
   padding: 1vh;

@@ -26,32 +26,29 @@
   align-items: center;
   justify-content: space-between;
 }
-.headerBodyPane .buttonClear {
+.headerBodyPane .buttonClearSkin {
   height: 4vh;
   align-items: center;
+  padding: 0 1.5vh;
   background-color: var(--BACKGROUND-COLOR3);
   box-shadow: 0 0 0.25vh rgba(0, 0, 0, 0.15);
 }
-.buttonClear .buttonClearText {
-  font-size: 1.5vh;
-  color: var(--ACCENT-COLOR);
-  font-weight: bold;
+.buttonClearSkin .buttonClearBody {
 }
-
-.bodyPane .subtitle {
-  font-size: max(12px, 1.2vw);
+.buttonClearBody .buttonClearText {
+  font-size: 1.5vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
 }
 
 .mainPane .bottomPane {
   flex: 1.25;
   justify-content: center;
 }
-
 .bottomPane .button {
   height: 6vh;
   background-color: var(--ACCENT-COLOR);
 }
-
 .button .buttonText {
   font-size: 1.75vh;
   font-weight: bold;
