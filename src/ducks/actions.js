@@ -71,6 +71,7 @@ const SET_ERROR = ({
   inventory,
   report,
   discount,
+  productBase,
 }) => ({
   type: ACTION_TYPE('ERROR').SET,
   page,
@@ -85,6 +86,7 @@ const SET_ERROR = ({
   inventory,
   report,
   discount,
+  productBase,
 });
 const CLEAR_ERROR = () => ({
   type: ACTION_TYPE('ERROR').CLEAR,
@@ -143,6 +145,27 @@ const SET_PRODUCTS = ({products}) => ({
 const POP_PRODUCT = ({product}) => ({
   type: ACTION_TYPE('PRODUCTS').POP,
   product,
+});
+
+//product base
+const PEEK_PRODUCT_BASE = () => ({
+  type: ACTION_TYPE('PRODUCT-BASE').PEEK,
+});
+const SET_PRODUCT_BASE = ({bases}) => ({
+  type: ACTION_TYPE('PRODUCT-BASE').SET,
+  bases,
+});
+const PUSH_PRODUCT_BASE_REQ = ({base}) => ({
+  type: ACTION_TYPE('PRODUCT-BASE-REQ').PUSH,
+  base,
+});
+const PUSH_PRODUCT_BASE = ({base}) => ({
+  type: ACTION_TYPE('PRODUCT-BASE').PUSH,
+  base,
+});
+const POP_PRODUCT_BASE = ({base}) => ({
+  type: ACTION_TYPE('PRODUCT-BASE').POP,
+  base,
 });
 
 //inventory items
@@ -315,6 +338,12 @@ export {
   POP_PRODUCT,
   SET_INDEX_PRODUCTS_REQ,
   PUSH_PRODUCT_REQ,
+  //product base
+  PEEK_PRODUCT_BASE,
+  SET_PRODUCT_BASE,
+  PUSH_PRODUCT_BASE_REQ,
+  PUSH_PRODUCT_BASE,
+  POP_PRODUCT_BASE,
   //inventory items
   PEEK_INVENTORY,
   PUSH_INVENTORY,

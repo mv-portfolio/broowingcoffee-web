@@ -44,7 +44,11 @@ function Restock({
       setState(prev => ({...prev, name: value}));
       return;
     }
-    if (actionType === 'on-change-value' && isInteger(value)) {
+    if (
+      actionType === 'on-change-value' &&
+      isInteger(value) &&
+      parseInt(value ? value : '0') <= 100
+    ) {
       setState(prev => ({...prev, value}));
       return;
     }

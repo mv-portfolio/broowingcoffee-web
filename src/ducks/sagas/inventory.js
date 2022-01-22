@@ -24,12 +24,17 @@ function* peekWorker() {
     yield console.log('PEEK-INVENTORY-REJECT');
   }
 }
-function* pushWorker({item}) {
+function* pushWorker(state) {
   try {
     yield put(SET_LOADING({status: true}));
 
     const config = yield serverConfig();
-    const {res: pushResponse} = yield call(server.push, '/inventory/push', item, config);
+    const {res: pushResponse} = yield call(
+      server.push,
+      '/inventory/push',
+      state.item,
+      config,
+    );
     yield put(PUSH_INVENTORY({item: pushResponse}));
 
     yield onReport({

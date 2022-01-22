@@ -1,17 +1,20 @@
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
-import {View, Text, Separator, Button} from 'components';
+import {View, Text, Separator, Button, Dropdown} from 'components';
 import {PrimaryDialog, SecondaryDialog, Toast} from 'context';
 import {CLEAR_ERROR, CLEAR_LOADING} from 'ducks/actions';
 import ProductList from './components/ProductList';
 import PurchasingListItem from './components/PurchasingListItem';
 import Purchase from './modals/Purchase';
 import styles from './.module.css';
+import {ACCENT_COLOR} from 'constants/colors';
+import {getBasesName} from 'utils/helper';
 
 function Transaction({
   dispatch,
   purchasingProducts,
-  products: reduxProduct = {products: []},
+  products: {products},
+  productBase: {bases},
   loading,
   error,
 }) {
@@ -20,10 +23,9 @@ function Transaction({
   const {onShow: onShowSecondaryDialog, onHide: onHideSecondaryDialog} =
     useContext(SecondaryDialog);
   const {onShow: onShowToast, onHide: onHideToast} = useContext(Toast);
+  const [type, setType] = useState('');
 
-  const onClick = (actionType, value) => {
-    //INIT DIALOG
-  };
+  const onClick = (actionType, value) => {};
   const showDialog = ({type, productInfo, onAdd, onUpdate, onDelete}) => {
     onShowPrimaryDialog(
       <Purchase
@@ -69,13 +71,24 @@ function Transaction({
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
-        <Text style={styles.title}>Coffee</Text>
-        <Separator vertical={0.5} />
-        <ProductList />
-        <Separator vertical={1} />
-        <Text style={styles.title}>Non-Coffee</Text>
-        <Separator vertical={0.5} />
-        <ProductList />
+        <View style={styles.headerTopPane}>
+          <Text style={styles.title}>Products</Text>
+          <Dropdown
+            style={styles.dropdownBased}
+            textStyle={styles.dropdownBasedText}
+            placeholderStyle={styles.dropdownBasedPlaceholder}
+            listStyle={styles.dropdownBasedList}
+            placeholder='Types...'
+            accentColor={ACCENT_COLOR}
+            items={getBasesName(bases)}
+            selected={type || getBasesName(bases)[0]}
+            onSelected={selected => setType(selected)}
+          />
+        </View>
+        <ProductList
+          products={products.filter(product => product.based === `${type}`.toLowerCase())}
+          onSelectProduct={product => console.log(product)}
+        />
       </View>
       <Separator vertical={1} />
       <View style={styles.bodyPane}>
@@ -104,9 +117,17 @@ function Transaction({
   );
 }
 
-const stateProps = ({user, products, purchasingProducts, error, loading}) => ({
+const stateProps = ({
   user,
   products,
+  productBase,
+  purchasingProducts,
+  error,
+  loading,
+}) => ({
+  user,
+  products,
+  productBase,
   purchasingProducts,
   error,
   loading,

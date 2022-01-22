@@ -1,5 +1,5 @@
 .mainPane {
-  flex: 1;
+  height: 12.5vh;
   flex-direction: row;
   padding: 1.25vh;
   overflow-x: auto;

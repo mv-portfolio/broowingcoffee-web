@@ -22,6 +22,9 @@ function* peekWorker() {
     yield console.log('PEEK-DISCOUNTS-RESOLVE');
   } catch (err) {
     yield console.log('PEEK-DISCOUNTS-REJECT');
+    if (!err.includes('jwt')) {
+      yield put(SET_ERROR({discount: err}));
+    }
   }
 }
 function* pushWorker(state) {
@@ -55,7 +58,9 @@ function* pushWorker(state) {
     yield put(SET_LOADING({status: false, message: 'push-discounts-resolve'}));
   } catch (err) {
     yield console.log('PUSH-DISCOUNTS-REJECT', err);
-    yield put(SET_ERROR({discount: err}));
+    if (!err.includes('jwt')) {
+      yield put(SET_ERROR({discount: err}));
+    }
   } finally {
     yield put(CLEAR_LOADING());
   }
@@ -85,6 +90,9 @@ function* setWorker(state) {
     });
   } catch (err) {
     yield console.log('SET-DISCOUNTS-REJECT', err);
+    if (!err.includes('jwt')) {
+      yield put(SET_ERROR({discount: err}));
+    }
   } finally {
     yield put(CLEAR_LOADING());
   }
@@ -92,6 +100,8 @@ function* setWorker(state) {
 function* popWorker(state) {
   const {discount} = state;
   try {
+    // yield put(SET_LOADING({status: true}));
+
     const configs = yield serverConfig();
     yield call(server.pop, '/discounts/pop', {...discount}, {...configs});
 
@@ -102,8 +112,14 @@ function* popWorker(state) {
         name: `${discount.name} ${discount.value}%`,
       },
     });
+    // yield put(SET_LOADING({status: false, message: 'pop-discounts-resolve'}));
   } catch (err) {
     yield console.log('POP-DISCOUNTS-REJECT', err);
+    if (!err.includes('jwt')) {
+      yield put(SET_ERROR({discount: err}));
+    }
+  } finally {
+    yield put(CLEAR_LOADING());
   }
 }
 

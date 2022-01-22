@@ -5,8 +5,7 @@ import header, {headerInitState} from './header';
 import primaryDialog, {primaryDialogInitState} from './primaryDialog';
 import purchasingProduct, {purchasingProductInitState} from './purchasingProduct';
 import toast, {toastInitState} from './toast';
-import products, {productsInitState} from './products';
-import item, {itemInitState} from './item';
+import dialogItem, {dialogItemInitState} from './dialogItem';
 import secondaryDialog, {secondaryDialogInitState} from './secondaryDialog';
 import restock, {restockInitState} from './restock';
 import reports, {reportsInitState} from './reports';
@@ -29,10 +28,8 @@ export {
   purchasingProduct,
   toastInitState,
   toast,
-  products,
-  productsInitState,
-  item,
-  itemInitState,
+  dialogItem,
+  dialogItemInitState,
   secondaryDialog,
   secondaryDialogInitState,
   restock,

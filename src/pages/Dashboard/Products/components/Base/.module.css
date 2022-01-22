@@ -11,8 +11,10 @@
   font-size: 1.7vh;
   font-weight: bold;
 }
-.mainPane .buttonEdit {
+.mainPane .buttonSkin {
   width: 2.75vh;
   height: 2.75vh;
   border-radius: 0;
+}
+.buttonSkin .buttonBody {
 }

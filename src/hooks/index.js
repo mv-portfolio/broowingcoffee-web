@@ -11,14 +11,8 @@ import {
   purchasingProductInitState,
   toast,
   toastInitState,
-  productAddons,
-  productAddonsInitState,
-  productMain,
-  productMainInitState,
-  products,
-  productsInitState,
-  item,
-  itemInitState,
+  dialogItem,
+  dialogItemInitState,
   secondaryDialog,
   secondaryDialogInitState,
   restock,
@@ -34,7 +28,7 @@ import {
   perishable,
   perishableInitState,
   dialogProduct,
-  dialogProductInitState
+  dialogProductInitState,
 } from './reducers';
 
 export {
@@ -49,10 +43,8 @@ export {
   purchasingProductInitState,
   toast,
   toastInitState,
-  products,
-  productsInitState,
-  item,
-  itemInitState,
+  dialogItem,
+  dialogItemInitState,
   secondaryDialog,
   secondaryDialogInitState,
   restock,
@@ -68,7 +60,7 @@ export {
   perishable,
   perishableInitState,
   dialogProduct,
-  dialogProductInitState
+  dialogProductInitState,
 };
 
 export default function useHook(init, reducer) {

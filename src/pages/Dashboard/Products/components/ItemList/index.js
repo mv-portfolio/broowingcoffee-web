@@ -7,7 +7,13 @@ export default function ItemList({items = [], onRemove}) {
     <View style={styles.mainPane}>
       {items.map((item, index) => (
         <View key={index}>
-          <Item item={item} onRemove={() => onRemove(item)} />
+          <Item
+            item={item}
+            onRemove={() => {
+              // onRemove(item);
+              console.log(items);
+            }}
+          />
           {index + 1 !== items.length ? <Separator vertical={0.5} /> : null}
         </View>
       ))}

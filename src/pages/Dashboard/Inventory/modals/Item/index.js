@@ -19,7 +19,7 @@ import {
   WHITE,
 } from 'constants/colors';
 import {SecondaryDialog, Toast} from 'context';
-import {itemInitState, item as itemReducer, restock} from 'hooks';
+import {dialogItemInitState, dialogItem as dialogItemReducer} from 'hooks';
 import {isName, isInteger, isDouble} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
@@ -27,16 +27,7 @@ import {connect} from 'react-redux';
 import PerishableProperties from '../PerishableProperties';
 import ItemConfig from '../ItemConfig';
 
-function Item({
-  loading,
-  dispatch,
-  type,
-  productInfo = {},
-  onAdd,
-  onUpdate,
-  onDelete,
-  onCancel,
-}) {
+function Item({loading, type, productInfo = {}, onAdd, onUpdate, onDelete, onCancel}) {
   const {
     name,
     brand,
@@ -51,8 +42,8 @@ function Item({
   const {onShow: onShowToast} = useContext(Toast);
 
   const [state, setState] = useReducer(
-    itemReducer,
-    itemInitState({
+    dialogItemReducer,
+    dialogItemInitState({
       name,
       brand,
       quantity,
@@ -88,14 +79,17 @@ function Item({
       return {status: false, error: 'Please set the configuration for restock point'};
     }
 
-    let payload = state;
+    let payload = {};
+    payload.name = state.name;
+    payload.brand = state.brand;
     payload.type = state.itemType;
     payload.quantity = parseInt(state.quantity);
-    payload.date_modified = new Date().getTime();
     payload.cost = parseFloat(state.cost);
+    payload.restock_point = state.restock_point;
     payload.perishable_properties =
       state.itemType === 'non-perishable' ? {} : state.perishable_properties;
-
+    payload.date_modified = new Date().getTime();
+    
     return {
       status: true,
       payload,

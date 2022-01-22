@@ -24,6 +24,7 @@ import {
   setInventoryProduct,
   setProductConsumed,
   isConsumedChange,
+  getBasesName,
 } from 'utils/helper';
 import ItemList from '../../components/ItemList';
 import Item from '../Item';
@@ -31,6 +32,7 @@ import Item from '../Item';
 function Product({
   loading,
   dispatch,
+  productBase: {bases},
   product = {},
   inventory,
   type,
@@ -227,7 +229,7 @@ function Product({
         <Text style={styles.label}>Based</Text>
         <Separator vertical={0.25} />
         <Dropdown
-          items={['coffee', 'non-coffee']}
+          items={getBasesName(bases)}
           style={styles.dropdown}
           accentColor={BACKGROUND_COLOR}
           selected={state.based}
@@ -271,6 +273,9 @@ function Product({
               placeholder='0'
               value={
                 getProductConsumed(state.size, state.product_type, state.consumed).price
+                  ? getProductConsumed(state.size, state.product_type, state.consumed)
+                      .price
+                  : ''
               }
               onChangeText={text => onChange('on-change-price', text)}
             />
@@ -336,8 +341,9 @@ function Product({
   );
 }
 
-const stateProps = ({loading}) => ({
+const stateProps = ({loading, productBase}) => ({
   loading,
+  productBase,
 });
 const dispatchProps = dispatch => ({
   dispatch: action => dispatch(action),

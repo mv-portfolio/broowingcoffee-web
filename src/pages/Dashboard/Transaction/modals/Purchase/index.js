@@ -124,7 +124,6 @@ export default function Purchase({
     });
     return isChange;
   };
-
   const changeListener = () => {
     if (type === 'edit') {
       if (

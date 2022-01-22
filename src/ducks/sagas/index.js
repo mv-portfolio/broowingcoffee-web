@@ -10,6 +10,7 @@ import rootResetSessionSaga from './resetSession';
 import rootReportSaga from './reports';
 import rootReportBugSaga from './reportBug';
 import rootDiscountsSaga from './discounts';
+import rootProductBaseSaga from './productBase';
 
 import {all} from 'redux-saga/effects';
 
@@ -27,5 +28,6 @@ export default function* rootSagas() {
     rootReportSaga(),
     rootReportBugSaga(),
     rootDiscountsSaga(),
+    rootProductBaseSaga(),
   ]);
 }

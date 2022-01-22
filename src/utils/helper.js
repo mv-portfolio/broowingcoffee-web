@@ -409,7 +409,8 @@ const isConsumedChange = (prevConsumed = [], presConsumed = []) => {
     if (isChange) return;
     presConsumed.forEach(pres => {
       if (prev.size === pres.size && prev.product_type === pres.product_type) {
-        if (prev.price !== parseFloat(pres.price)) return (isChange = true);
+        if (prev.price !== parseFloat(pres.price ? pres.price : '0'))
+          return (isChange = true);
         if (prev.inventory.length !== pres.inventory.length) return (isChange = true);
         prev.inventory.forEach(prevItem => {
           const item = pres.inventory.filter(
@@ -516,6 +517,15 @@ const getProductDifferences = (prev, pres) => {
     ...temp_obj,
     name: prev.name,
   };
+};
+const getBasesName = (bases = []) => {
+  let temp_bases = [];
+  bases.forEach(base => temp_bases.push(base.name));
+  return temp_bases.sort(function (a, b) {
+    if (a > b) return 1;
+    if (a < b) return -1;
+    return 0;
+  });
 };
 /* ----- end ---- */
 
@@ -701,6 +711,7 @@ export {
   getPropertyChanges,
   getItemDifferences,
   getProductDifferences,
+  getBasesName,
   getSpecificProperty,
   getDateToNumber,
   manipulateData,

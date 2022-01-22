@@ -1,6 +1,6 @@
 import {isTypeof} from 'utils/checker';
 
-export const itemInitState = ({
+export const dialogItemInitState = ({
   name,
   brand,
   itemType,
@@ -18,7 +18,7 @@ export const itemInitState = ({
   cost: cost ? `${cost}` : '',
 });
 
-export default function item(state = itemInitState({}), action) {
+export default function dialogItem(state = dialogItemInitState({}), action) {
   switch (action.type) {
     case 'set':
       return {

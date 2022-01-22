@@ -237,6 +237,7 @@ function Inventory({
       !loading.status &&
       (loading.message.includes('push-discounts-resolve') ||
         loading.message.includes('set-discounts-resolve') ||
+        loading.message.includes('pop-discounts-resolve') ||
         loading.message.includes('push-item-resolve') ||
         loading.message.includes('set-item-resolve') ||
         loading.message.includes('pop-item-resolve'))

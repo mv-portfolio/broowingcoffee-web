@@ -14,6 +14,7 @@ const errorInitState = {
   inventory: '',
   report: '',
   discount: '',
+  productBase: '',
 };
 
 export default function error(state = errorInitState, action) {
@@ -32,6 +33,7 @@ export default function error(state = errorInitState, action) {
         inventory: isTypeof('string', action.inventory, state.inventory),
         report: isTypeof('string', action.report, state.report),
         discount: isTypeof('string', action.discount, state.discount),
+        productBase: isTypeof('string', action.productBase, state.productBase),
       };
 
     case ACTION_TYPE('ERROR').CLEAR:

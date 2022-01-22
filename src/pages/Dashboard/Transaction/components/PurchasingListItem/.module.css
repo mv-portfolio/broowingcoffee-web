@@ -1,6 +1,6 @@
 .mainPane {
   display: block;
-  height: 30vh;
+  flex: 1;
   padding: 1vh;
   border-radius: 1vh;
   overflow-y: auto;

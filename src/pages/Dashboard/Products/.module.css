@@ -8,13 +8,6 @@
   font-weight: bold;
   font-size: 1.75vh;
 }
-.mainPane .headerPane {
-  height: 6vh;
-  padding: 0.5vh;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
 
 .mainPane .bodyPane {
   height: 85vh;
@@ -22,13 +15,22 @@
 .bodyPane .mainProductList {
   height: 80vh;
 }
-
-.headerPane .actionPane {
+.bodyPane .headerPane {
+  height: 6vh;
+  padding: 0.5vh;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
 }
-
-.actionPane .headerButtons {
+.headerPane .title {
+  font-size: 1.75vh;
+  font-weight: bold;
+  color: var(--ACCENT-COLOR);
+}
+.headerPane .rightPane {
+  flex-direction: row;
+}
+.rightPane .headerButtons {
   width: 3.5vh;
   height: 3.5vh;
 }

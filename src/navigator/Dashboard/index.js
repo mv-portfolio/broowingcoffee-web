@@ -9,6 +9,7 @@ import {
   PEEK_DISCOUNTS,
   PEEK_INVENTORY,
   PEEK_PRODUCTS,
+  PEEK_PRODUCT_BASE,
   RESET_SESSION,
 } from 'ducks/actions';
 import {Header, PrimaryDialog, Toast} from 'context';
@@ -38,6 +39,7 @@ function DashBoardNavigator({dispatch, user, error}) {
     dispatch(PEEK_PRODUCTS());
     dispatch(PEEK_INVENTORY());
     dispatch(PEEK_DISCOUNTS());
+    dispatch(PEEK_PRODUCT_BASE());
 
     // const transaction = peekLocalStorage('tmp');
     // if (transaction) {

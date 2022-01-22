@@ -6,6 +6,8 @@ import styles from './.module.css';
 export default function Dropdown({
   items = [],
   style,
+  listStyle,
+  placeholderStyle,
   defaultStyle,
   textStyle,
   textDefaultStyle,
@@ -80,7 +82,9 @@ export default function Dropdown({
         onClick={() => onClick('on-show-picker-list')}>
         <Text style={`${styles.title} ${textStyle}`} defaultStyle={textDefaultStyle}>
           {selected || state.value || (
-            <span className={styles.placeholder}>{placeholder || 'Select...'}</span>
+            <span className={`${styles.placeholder}  ${placeholderStyle}`}>
+              {placeholder || 'Select...'}
+            </span>
           )}
         </Text>
         {!hideIcon && (
@@ -91,7 +95,9 @@ export default function Dropdown({
         )}
       </button>
       {state.isDropdownListShow && unSelectedItems.length !== 0 && (
-        <View style={styles.pickerList} defaultStyle={{...state.styles}}>
+        <View
+          style={`${styles.pickerList} ${listStyle}`}
+          defaultStyle={{...state.styles}}>
           {unSelectedItems.map((type, index) => (
             <View key={index}>
               <Button
