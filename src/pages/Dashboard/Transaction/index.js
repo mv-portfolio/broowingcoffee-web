@@ -14,7 +14,7 @@ import {
 } from 'ducks/actions';
 import PurchasingListItem from './components/PurchasingListItem';
 import ProductList from './components/ProductList';
-import PrePurchase from './modals/PrePurchase';
+import Product from './modals/Product';
 import styles from './.module.css';
 
 function Transaction({
@@ -35,7 +35,7 @@ function Transaction({
   const onClick = (actionType, value) => {
     if (actionType === 'on-click-add-product-dialog') {
       onShowPrimaryDialog(
-        <PrePurchase
+        <Product
           type='add'
           product={value}
           onAdd={product => onClick('on-add-purchasing-product', product)}
@@ -45,7 +45,7 @@ function Transaction({
     }
     if (actionType === 'on-click-edit-purchasing-product') {
       onShowPrimaryDialog(
-        <PrePurchase
+        <Product
           type='edit'
           product={products.filter(product => product.name === value._id_product.name)[0]}
           purchasingProduct={value}

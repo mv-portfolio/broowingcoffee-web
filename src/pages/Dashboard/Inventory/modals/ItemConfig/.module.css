@@ -22,15 +22,15 @@
   flex-direction: row;
   align-items: center;
 }
+.bodyPane .inputsPane {
+  flex-direction: row;
+  align-items: center;
+}
 .bodyPane .titleField {
   font-size: 1.75vh;
 }
 .bodyPane .titleField2 {
   font-size: 1.75vh;
-}
-.bodyPane .inputsPane {
-  flex-direction: row;
-  align-items: center;
 }
 .inputsPane .indicator {
   font-size: 2vh;

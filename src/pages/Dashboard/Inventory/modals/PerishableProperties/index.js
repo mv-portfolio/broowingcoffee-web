@@ -6,7 +6,7 @@ import {BACKGROUND_COLOR} from 'constants/colors';
 import {perishable, perishableInitState} from 'hooks';
 import styles from './.module.css';
 import {hp} from 'utils/helper';
-import { UNITS } from 'constants/strings';
+import {UNITS} from 'constants/strings';
 
 export default function PerishableProperties({
   type,
@@ -23,18 +23,13 @@ export default function PerishableProperties({
   );
 
   const onClean = state => {
-    if (
-      !parseInt(state.unit) ||
-      !parseInt(state.current_unit) ||
-      !state.unit_type ||
-      !state.expiry_date
-    ) {
+    if (!parseInt(state.unit) || !state.unit_type || !state.expiry_date) {
       return {status: false, error: 'Please fill up all the inputs'};
     }
 
     let payload = state;
     payload.unit = parseInt(state.unit);
-    payload.current_unit = parseInt(state.current_unit);
+    payload.current_unit = parseInt(state.current_unit ? state.current_unit : '0');
     payload.expiry_date = new Date(state.expiry_date).getTime();
 
     return {

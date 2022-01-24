@@ -27,14 +27,12 @@ import {
   getBasesName,
 } from 'utils/helper';
 import ItemList from '../../components/ItemList';
-import Item from '../Item';
+import Items from '../Items';
 
 function Product({
   loading,
-  dispatch,
   productBase: {bases},
   product = {},
-  inventory,
   type,
   onAdd,
   onUpdate,
@@ -79,39 +77,25 @@ function Product({
   };
   const onClick = (actionType, value) => {
     if (actionType === 'on-click-add') {
-      const product = onClean(state);
-      if (!product.status) return onShowToast(product.error);
-
-      onShowSecondaryDialog(
-        <Dialog
-          title='Add Product'
-          content='make sure all inputs and combination property are double check, do you want to proceed?'
-          positiveText='Yes'
-          onClickPositive={() => onAdd(product.payload)}
-          negativeText='No'
-          onClickNegative={onHideSecondaryDialog}
-        />,
-      );
+      const isClean = onClean(state);
+      if (!isClean.status) {
+        onShowToast(isClean.error);
+        return;
+      }
+      onAdd(isClean.payload);
       return;
     }
     if (actionType === 'on-click-update') {
-      const product = onClean(state);
-      if (!product.status) return onShowToast(product.error);
-
-      onShowSecondaryDialog(
-        <Dialog
-          title='Update Product'
-          content='make sure all inputs and combination property are double check, do you want to proceed?'
-          positiveText='Yes'
-          onClickPositive={() => onUpdate(product.payload)}
-          negativeText='No'
-          onClickNegative={onHideSecondaryDialog}
-        />,
-      );
+      const isClean = onClean(state);
+      if (!isClean.status) {
+        onShowToast(isClean.error);
+        return;
+      }
+      onUpdate({...isClean.payload, _id: product._id});
       return;
     }
     if (actionType === 'on-click-delete') {
-      onDelete(state);
+      onDelete({...state, _id: product._id});
       return;
     }
     if (actionType === 'on-select-based') {
@@ -128,7 +112,7 @@ function Product({
     }
     if (actionType === 'on-click-add-cosumed-dialog') {
       onShowSecondaryDialog(
-        <Item
+        <Items
           onAdd={item => onClick('on-click-add-consumed', item)}
           onCancel={onHideSecondaryDialog}
         />,

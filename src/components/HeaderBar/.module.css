@@ -1,7 +1,7 @@
 .mainPane {
   height: 10vh;
   flex-direction: row !important;
-  padding: 0 2vh 0 2vh !important;
+  padding: 0 2vh 0 2.5vh !important;
   align-items: center;
   justify-content: flex-start;
 }

@@ -6,7 +6,7 @@ import * as Progress from 'components/Progress';
 
 import Icon from 'react-web-vector-icons';
 import {ACCENT_COLOR} from 'constants/colors';
-import {useRef} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {ICON_SIZE} from 'constants/sizes';
 
 export default function TextInput({
@@ -25,7 +25,9 @@ export default function TextInput({
   prefixIcon,
   ...props
 }) {
-  const ref = useRef();
+  const mainPaneRef = useRef();
+
+  const [inputStyle, setInputStyle] = useState();
 
   const isEncryptText = status => {
     if (status) {
@@ -35,8 +37,22 @@ export default function TextInput({
     }
   };
 
+  // useEffect(() => {
+  //   const getPropertyValue = (ref, prop) => {
+  //     return getComputedStyle(ref).getPropertyValue(prop);
+  //   };
+  //   if (mainPaneRef.current) {
+  //     const parentWidth = getPropertyValue(mainPaneRef.current, 'width');
+  //     const parentPaddingRight = getPropertyValue(mainPaneRef.current, 'padding-right');
+  //     setInputStyle({
+  //       width: `2vh`,
+  //     });
+  //   console.log(parentWidth)
+  //   }
+  // }, [mainPaneRef.current]);
+
   return (
-    <View style={`${styles.skin} ${skin}`} defaultStyle={defaultStyle}>
+    <View ref={mainPaneRef} style={`${styles.skin} ${skin}`} defaultStyle={defaultStyle}>
       {prefixIcon && (
         <>
           {prefixIcon}
@@ -44,12 +60,12 @@ export default function TextInput({
         </>
       )}
       <input
-        ref={ref}
         type={isTextEncrypt ? 'password' : null}
         placeholder={placeholder}
         value={value}
         onChange={event => onChangeText(event.target.value)}
         className={`${styles.body} ${body}`}
+        style={inputStyle}
         {...props}
       />
       <View style={styles.suffixPane}>

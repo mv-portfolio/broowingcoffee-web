@@ -1,5 +1,5 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {arrayFilter, arrayUpdate} from 'utils/checker';
+import {arrayFilter, arrayUpdate, isObject, isTypeof} from 'utils/checker';
 import {arrayFind} from 'utils/helper';
 
 export const itemsInitState = {
@@ -12,15 +12,13 @@ export default function inventory(state = itemsInitState, action) {
       return state;
 
     case ACTION_TYPE('INVENTORY').PUSH:
-      const item = arrayFind(state.items, {name: action.item.name});
-      if (item || action.item.name.length <= 1) return state;
       return {
-        items: [...state.items, action.item],
+        items: isObject(action.item) ? [...state.items, action.item] : state.items,
       };
 
     case ACTION_TYPE('INVENTORY').SET:
       return {
-        items: action.items,
+        items: isTypeof('array', action.items, state.items),
       };
 
     case ACTION_TYPE('INVENTORY').SET_INDEX:

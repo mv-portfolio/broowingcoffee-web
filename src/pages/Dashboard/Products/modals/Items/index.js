@@ -1,13 +1,13 @@
 import {useContext, useState} from 'react';
-import {isDouble, isInteger} from 'utils/checker';
+import {connect} from 'react-redux';
+import {DESC_DATE_MODIFIED, getAbbreviationUnit} from 'utils/helper';
 import {Button, Separator, Text, TextInput, View} from 'components';
+import {isDouble, isInteger} from 'utils/checker';
 import {Toast} from 'context';
 import styles from './.module.css';
 import List from './components/List';
-import {connect} from 'react-redux';
-import {getAbbreviationUnit} from 'utils/helper';
 
-function Item({inventory: {items}, onAdd, onCancel}) {
+function Item({inventory: {items = []}, onAdd, onCancel}) {
   const {onShow: onShowToast} = useContext(Toast);
 
   const [consume, setConsume] = useState('');
@@ -41,7 +41,10 @@ function Item({inventory: {items}, onAdd, onCancel}) {
       <Text style={styles.title}>Inventory</Text>
       <Separator vertical={1} />
       <View style={styles.bodyPane}>
-        <List items={items} onSelect={selected => setItem(selected)} />
+        <List
+          items={items.sort(DESC_DATE_MODIFIED)}
+          onSelect={selected => setItem(selected)}
+        />
         <Separator vertical={1} />
         {item.name && (
           <>

@@ -89,7 +89,7 @@ function* popWorker(state) {
     yield put(SET_LOADING({status: true}));
 
     const config = yield serverConfig();
-    yield call(server.pop, '/products/pop', {name: state.product.name}, config);
+    yield call(server.pop, '/products/pop', state.product, config);
 
     yield onReport({
       action: 'DELETE',

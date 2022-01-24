@@ -104,6 +104,7 @@ function* popWorker(state) {
     const config = yield serverConfig();
     yield call(server.pop, '/inventory/pop', {name: state.item.name}, config);
 
+    yield put(POP_INVENTORY({item: state.item}));
     yield onReport({
       action: 'DELETE',
       module: 'inventory',
@@ -115,9 +116,9 @@ function* popWorker(state) {
     yield put(SET_LOADING({status: false, message: 'pop-item-resolve'}));
   } catch (err) {
     yield console.log('POP-INVENTORY-REJECT', err);
-    // if (!err.includes('jwt')) {
-    //   yield put(SET_ERROR({inventory: err}));
-    // }
+    if (!err.includes('jwt')) {
+      yield put(SET_ERROR({inventory: err}));
+    }
   } finally {
     yield put(CLEAR_LOADING());
   }
@@ -133,5 +134,5 @@ export default function* rootInventorSaga() {
     ],
     setWorker,
   );
-  yield takeLatest(ACTION_TYPE('INVENTORY').POP, popWorker);
+  yield takeLatest(ACTION_TYPE('INVENTORY-REQ').POP, popWorker);
 }

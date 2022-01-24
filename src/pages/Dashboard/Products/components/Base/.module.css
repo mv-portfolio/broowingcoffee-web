@@ -2,7 +2,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5vh 2.5vh 1.5vh 1.5vh;
+  padding: 1.5vh 2.5vh 1.75vh 2vh;
   border-radius: 1vh;
   background-color: var(--BACKGROUND-COLOR3);
   box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
@@ -12,8 +12,8 @@
   font-weight: bold;
 }
 .mainPane .buttonSkin {
-  width: 2.75vh;
-  height: 2.75vh;
+  width: 2.5vh;
+  height: 2.5vh;
   border-radius: 0;
 }
 .buttonSkin .buttonBody {

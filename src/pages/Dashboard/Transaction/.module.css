@@ -20,7 +20,6 @@
 }
 .headerTopPane .dropdownBased {
   min-height: 4.5vh;
-  width: 20vh;
   padding-right: 0.5vh;
   box-shadow: none;
   background-color: var(--BACKGROUND-COLOR3);
@@ -36,7 +35,6 @@
   color: red;
 }
 .dropdownBasedList {
-  max-height: 10vh !important;
   margin-top: 5vh !important;
   background-color: var(--BACKGROUND-COLOR3) !important;
 }

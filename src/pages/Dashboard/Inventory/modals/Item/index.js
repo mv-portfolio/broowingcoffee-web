@@ -65,7 +65,6 @@ function Item({loading, type, productInfo = {}, onAdd, onUpdate, onDelete, onCan
       }
       if (
         !state.perishable_properties.unit ||
-        !state.perishable_properties.current_unit ||
         !state.perishable_properties.unit_type ||
         !state.perishable_properties.expiry_date
       ) {
@@ -97,21 +96,21 @@ function Item({loading, type, productInfo = {}, onAdd, onUpdate, onDelete, onCan
   };
   const onClick = (actionType, value) => {
     if (actionType === 'on-click-add') {
-      const item = onClean(state);
-      if (!item.status) {
-        onShowToast(item.error);
+      const isClean = onClean(state);
+      if (!isClean.status) {
+        onShowToast(isClean.error);
         return;
       }
-      onAdd(item.payload);
+      onAdd(isClean.payload);
       return;
     }
     if (actionType === 'on-click-update') {
-      const item = onClean(state);
-      if (!item.status) {
-        onShowToast(item.error);
+      const isClean = onClean(state);
+      if (!isClean.status) {
+        onShowToast(isClean.error);
         return;
       }
-      onUpdate(item.payload);
+      onUpdate(isClean.payload);
       return;
     }
     if (actionType === 'on-click-delete') {

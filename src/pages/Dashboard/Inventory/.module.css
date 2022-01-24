@@ -26,6 +26,9 @@
 }
 
 .headerBodyPane .buttonAdd {
-  width: 3.5vh;
-  height: 3.5vh;
+  width: 4vh;
+  height: 4vh;
+  padding-bottom: 0.25vh;
+  background-color: var(--BACKGROUND-COLOR3);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }

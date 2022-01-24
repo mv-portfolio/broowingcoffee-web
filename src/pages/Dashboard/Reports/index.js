@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {push} from 'connected-react-router';
 import {View, Text, Separator, Button, Icon} from 'components';
 import {PEEK_REPORTS} from 'ducks/actions';
-import {ASC_DATE, getDateToNumber, hp} from 'utils/helper';
+import {DESC_DATE_CREATED, getDateToNumber, hp} from 'utils/helper';
 import {Header, PrimaryDialog} from 'context';
 
 import TransactionList from './components/TransactionList';
@@ -26,7 +26,7 @@ function Reports({user, reports, dispatch}) {
           state: {
             path: 'report',
             type: 'transaction',
-            payload: reports.transactionHistories.sort(ASC_DATE),
+            payload: reports.transactionHistories.sort(DESC_DATE_CREATED),
           },
         }),
       );
@@ -40,7 +40,7 @@ function Reports({user, reports, dispatch}) {
           state: {
             path: 'report',
             type: 'other',
-            payload: reports.otherHistories.sort(ASC_DATE),
+            payload: reports.otherHistories.sort(DESC_DATE_CREATED),
           },
         }),
       );
@@ -85,7 +85,7 @@ function Reports({user, reports, dispatch}) {
         </View>
         <Separator vertical={0.75} />
         <TransactionList
-          transactionHistories={reports.transactionHistories.sort(ASC_DATE)}
+          transactionHistories={reports.transactionHistories.sort(DESC_DATE_CREATED)}
           onViewTransaction={transaction =>
             onClick('on-view-transaction-history', transaction)
           }
@@ -102,7 +102,7 @@ function Reports({user, reports, dispatch}) {
           </Button>
         </View>
         <Separator vertical={0.75} />
-        <OtherList otherHistories={reports.otherHistories.sort(ASC_DATE)} />
+        <OtherList otherHistories={reports.otherHistories.sort(DESC_DATE_CREATED)} />
       </View>
       <View style={styles.bottomPane}></View>
     </View>

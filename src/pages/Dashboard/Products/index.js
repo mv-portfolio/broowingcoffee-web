@@ -1,7 +1,7 @@
-import {useContext, useEffect} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Button, Icon, Separator, Text, View, SearchField, Dialog} from 'components';
-import {ACCENT_COLOR} from 'constants/colors';
+import {ACCENT_COLOR, ACCENT_COLOR2} from 'constants/colors';
 import {PrimaryDialog, SecondaryDialog, Toast} from 'context';
 import {
   CLEAR_ERROR,
@@ -9,6 +9,7 @@ import {
   POP_PRODUCT_BASE,
   PUSH_PRODUCT_BASE_REQ,
   PUSH_PRODUCT_REQ,
+  SET_INDEX_PRODUCTS_REQ,
 } from 'ducks/actions';
 import ProductList from './components/ProductList';
 import Product from './modals/Product';
@@ -16,10 +17,11 @@ import styles from './.module.css';
 import Formatter from 'utils/Formatter';
 import BasedList from './components/BaseList';
 import Base from './modals/Base';
+import {ASC_NAME} from 'utils/helper';
 
 function Transaction({
-  products: {products},
-  productBase: {bases},
+  products: {products: reduxProducts},
+  productBase: {bases: reduxProductBases},
   dispatch,
   loading,
   error,
@@ -30,6 +32,53 @@ function Transaction({
     useContext(SecondaryDialog);
   const {onShow: onShowToast} = useContext(Toast);
 
+  const [products, setProducts] = useState(reduxProducts || []);
+  const [productBases, setProductBases] = useState(reduxProductBases || []);
+
+  const [searchProducts, setSearchProducts] = useState('');
+  const [searchProductBase, setSearchProductBase] = useState('');
+
+  const onShowConditionalDialog = ({
+    title,
+    content,
+    positiveText,
+    onClickPositive,
+    positiveButtonStyle,
+  }) => {
+    onShowSecondaryDialog(
+      <Dialog
+        title={title}
+        content={content}
+        positiveButtonStyle={positiveButtonStyle}
+        positiveText={positiveText || 'Yes'}
+        onClickPositive={onClickPositive}
+        negativeText='No'
+        onClickNegative={onHideSecondaryDialog}
+      />,
+    );
+  };
+
+  const onSearch = (array, setArray, value) => {
+    let filtered = [];
+    if (value.length !== 0) {
+      filtered = array.filter(item => item.name.includes(value));
+      setArray(filtered);
+      return;
+    }
+    setArray(array);
+  };
+  const onChange = (actionType, value) => {
+    if (actionType === 'on-change-search-products') {
+      setSearchProducts(value);
+      onSearch(reduxProducts, setProducts, value);
+      return;
+    }
+    if (actionType === 'on-change-search-product-base') {
+      setSearchProductBase(value);
+      onSearch(reduxProductBases, setProductBases, value);
+      return;
+    }
+  };
   const onClick = (actionType, value) => {
     if (actionType === 'on-click-add-product-dialog') {
       onShowPrimaryDialog(
@@ -63,24 +112,27 @@ function Transaction({
 
     //CRUD
     if (actionType === 'on-click-add-product') {
-      dispatch(PUSH_PRODUCT_REQ({product: value}));
+      onShowConditionalDialog({
+        title: 'Add',
+        content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
+        onClickPositive: () => dispatch(PUSH_PRODUCT_REQ({product: value})),
+      });
       return;
     }
     if (actionType === 'on-click-update-product') {
-      console.log('--->', value);
-      // dispatch(SET_INDEX_PRODUCTS_REQ({product: value}));
+      onShowConditionalDialog({
+        title: 'Update',
+        content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
+        onClickPositive: () => dispatch(SET_INDEX_PRODUCTS_REQ({product: value})),
+      });
     }
     if (actionType === 'on-click-delete-product') {
-      onShowSecondaryDialog(
-        <Dialog
-          title='Delete'
-          content={`do you want to delete ${Formatter.toName(value.name)}?`}
-          positiveText='Yes'
-          onClickPositive={() => dispatch(POP_PRODUCT({product: value}))}
-          negativeText='No'
-          onClickNegative={onHideSecondaryDialog}
-        />,
-      );
+      onShowConditionalDialog({
+        title: 'Delete',
+        content: `do you want to delete ${Formatter.toName(value.name)}?`,
+        onClickPositive: () => dispatch(POP_PRODUCT({product: value})),
+        positiveButtonStyle: {backgroundColor: ACCENT_COLOR2},
+      });
     }
     if (actionType === 'on-click-add-base') {
       dispatch(PUSH_PRODUCT_BASE_REQ({base: value}));
@@ -104,7 +156,12 @@ function Transaction({
   const screenInitListener = () => {
     document.title = 'Broowing Coffee | Products';
   };
-  const productListener = () => {};
+  const productListener = () => {
+    setProducts(reduxProducts);
+  };
+  const productBaseListener = () => {
+    setProductBases(reduxProductBases);
+  };
   const successListener = () => {
     if (
       !loading.status &&
@@ -126,7 +183,8 @@ function Transaction({
     }
   };
   useEffect(screenInitListener, []);
-  useEffect(productListener, [products]);
+  useEffect(productListener, [reduxProducts]);
+  useEffect(productBaseListener, [reduxProductBases]);
   useEffect(successListener, [loading]);
   useEffect(errorListener, [error]);
 
@@ -136,34 +194,42 @@ function Transaction({
         <View style={styles.headerPane}>
           <Text style={styles.title}>Products</Text>
           <View style={styles.rightPane}>
-            <SearchField placeholder='name' onChangeText={text => console.log(text)} />
+            <SearchField
+              placeholder='name'
+              value={searchProducts}
+              onChangeText={text => onChange('on-change-search-products', text)}
+            />
             <Button
               skin={styles.headerButtons}
               onPress={() => onClick('on-click-add-product-dialog')}>
-              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='3vh' />
+              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='2.5vh' />
             </Button>
           </View>
         </View>
         <Separator vertical={0.25} />
         <ProductList
-          products={products}
+          products={products.sort(ASC_NAME)}
           onEdit={product => onClick('on-click-edit-product-dialog', product)}
         />
         <Separator vertical={1} />
         <View style={styles.headerPane}>
           <Text style={styles.title}>Product Base</Text>
           <View style={styles.rightPane}>
-            <SearchField placeholder='name' />
+            <SearchField
+              placeholder='name'
+              value={searchProductBase}
+              onChangeText={text => onChange('on-change-search-product-base', text)}
+            />
             <Button
               skin={styles.headerButtons}
               onPress={() => onClick('on-click-add-based')}>
-              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='3vh' />
+              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='2.5vh' />
             </Button>
           </View>
         </View>
         <Separator vertical={0.25} />
         <BasedList
-          items={bases}
+          items={productBases}
           onDelete={item => onClick('on-click-delete-base', item)}
         />
       </View>

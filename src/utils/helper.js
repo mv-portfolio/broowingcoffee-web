@@ -23,11 +23,16 @@ const ASC_NAME = (a, b) => {
   if (firstComparable < secondComparable) return -1;
   return 0;
 };
-const ASC_DATE = (a, b) => {
+const DESC_DATE_CREATED = (a, b) => {
   const firstComparable = a.date_created;
   const secondComparable = b.date_created;
   if (firstComparable > secondComparable) return -1;
   if (firstComparable < secondComparable) return 1;
+  return 0;
+};
+const DESC_DATE_MODIFIED = (a, b) => {
+  if (a.date_modified > b.date_modified) return -1;
+  if (a.date_modified < b.date_modified) return 1;
   return 0;
 };
 const sumOfPrice = (value = []) => {
@@ -521,11 +526,7 @@ const getProductDifferences = (prev, pres) => {
 const getBasesName = (bases = []) => {
   let temp_bases = [];
   bases.forEach(base => temp_bases.push(base.name));
-  return temp_bases.sort(function (a, b) {
-    if (a > b) return 1;
-    if (a < b) return -1;
-    return 0;
-  });
+  return temp_bases;
 };
 const getDiscounts = (discounts = []) => {
   let temp_discounts = ['none'];
@@ -708,7 +709,8 @@ export {
   arrayUpdate,
   sumOfPrice,
   ASC_NAME,
-  ASC_DATE,
+  DESC_DATE_CREATED,
+  DESC_DATE_MODIFIED,
   hp,
   wp,
   toName,

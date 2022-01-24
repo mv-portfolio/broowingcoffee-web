@@ -12,8 +12,6 @@ export default function products(state = productsInitState, action) {
       return state;
 
     case ACTION_TYPE('PRODUCTS').PUSH:
-      const product = arrayFind(state.products, {name: action.product.name});
-      if (product || action.product.name.length <= 1) return state;
       return {
         ...state,
         products: isObject(action.product)
@@ -22,14 +20,15 @@ export default function products(state = productsInitState, action) {
       };
 
     case ACTION_TYPE('PRODUCTS').SET_INDEX:
-      const itemInventory = arrayFind(state.products, {name: action.product.name});
+      const itemInventory = arrayFind(state.products, {_id: action.product._id});
       return {
         products: arrayUpdate(
           state.products,
-          {name: action.product.name},
+          {_id: action.product._id},
           {...itemInventory, ...action.product},
         ),
       };
+      return state;
 
     case ACTION_TYPE('PRODUCTS').SET:
       return {
@@ -37,7 +36,7 @@ export default function products(state = productsInitState, action) {
       };
 
     case ACTION_TYPE('PRODUCTS').POP:
-      const products = arrayFilter(state.products, {name: action.product.name});
+      const products = arrayFilter(state.products, {_id: action.product._id});
       return {
         products,
       };

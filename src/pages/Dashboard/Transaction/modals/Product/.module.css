@@ -9,8 +9,9 @@
 }
 .mainPane .title {
   color: var(--ACCENT-COLOR);
-  font-weight: bold;
   font-size: 3vh;
+  font-family: 'Standard-Font2';
+  line-height: 3.5vh;
 }
 .mainPane .subtitle {
   font-size: 1.75vh;

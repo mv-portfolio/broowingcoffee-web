@@ -5,7 +5,7 @@ import {PEEK_REPORTS} from 'ducks/actions';
 import {useContext, useReducer} from 'react';
 import {connect} from 'react-redux';
 import Formatter from 'utils/Formatter';
-import {ASC_DATE, hp} from 'utils/helper';
+import {DESC_DATE_CREATED, hp} from 'utils/helper';
 import OtherList from '../OtherList';
 import TransactionList from '../TransactionList';
 import styles from './.module.css';
@@ -89,7 +89,7 @@ function SearchHistory({dispatch, loading, reports, type}) {
     ).filter(
       isTransaction ? onSearchTransactionHistories(value) : onSearchOtherHistories(value),
     );
-    return filterTemp.sort(ASC_DATE);
+    return filterTemp.sort(DESC_DATE_CREATED);
   };
 
   return (
@@ -139,7 +139,7 @@ function SearchHistory({dispatch, loading, reports, type}) {
                 transactionHistories={
                   state.search.length > 0
                     ? state.filter
-                    : reports.transactionHistories.sort(ASC_DATE)
+                    : reports.transactionHistories.sort(DESC_DATE_CREATED)
                 }
                 style={styles.list}
                 onViewTransaction={transaction =>
@@ -159,7 +159,7 @@ function SearchHistory({dispatch, loading, reports, type}) {
                 otherHistories={
                   state.search.length > 0
                     ? state.filter
-                    : reports.otherHistories.sort(ASC_DATE)
+                    : reports.otherHistories.sort(DESC_DATE_CREATED)
                 }
                 style={styles.list}
               />

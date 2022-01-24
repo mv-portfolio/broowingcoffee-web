@@ -12,26 +12,25 @@ export default function discounts(state = discountInitState, action) {
       return state;
 
     case ACTION_TYPE('DISCOUNTS').PUSH:
-      const item = arrayFind(state.discounts, {name: action.discount.name});
-      if (item || action.discount.name.length <= 2) return state;
       return {
         discounts: isObject(action.discount)
           ? [...state.discounts, action.discount]
           : state.discounts,
       };
 
-    case ACTION_TYPE('DISCOUNTS').SET:
-      return {
-        discounts: isTypeof('array', action.discounts, state.discounts),
-      };
-
     case ACTION_TYPE('DISCOUNTS').SET_INDEX:
+      const discount = arrayFind(state.discounts, {name: action.discount.name});
       return {
         discounts: arrayUpdate(
           state.discounts,
           {_id: action.discount._id},
-          action.discount,
+          {...discount, ...action.discount},
         ),
+      };
+
+    case ACTION_TYPE('DISCOUNTS').SET:
+      return {
+        discounts: isTypeof('array', action.discounts, state.discounts),
       };
 
     case ACTION_TYPE('DISCOUNTS').POP:

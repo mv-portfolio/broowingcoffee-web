@@ -18,7 +18,7 @@ import {Toast} from 'context';
 import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
 import {isInteger} from 'utils/checker';
 
-function PrePurchase({
+function Product({
   type,
   discounts: {discounts},
   product = {},
@@ -160,11 +160,12 @@ function PrePurchase({
       <View style={styles.topPane}>
         <View style={styles.titlePane}>
           <Text style={styles.title}>{Formatter.toName(name)}</Text>
+          <Separator vertical={0.5} />
           <Text style={styles.subtitle}>{`${String(based).toUpperCase()}`}</Text>
         </View>
         <></>
       </View>
-      <Separator vertical={1} />
+      <Separator vertical={2} />
       <View style={styles.bodyPane}>
         <View style={styles.inputPane}>
           <View style={styles.dropdownPane}>
@@ -200,7 +201,7 @@ function PrePurchase({
           selected={
             type !== 'add'
               ? state.discount.value
-                ? `${state.discount.name} ${state.discount.value}`
+                ? `${state.discount.name} (${state.discount.value}%)`
                 : 'none'
               : state.discount.value
               ? null
@@ -301,4 +302,4 @@ const stateProps = ({purchasingProducts, discounts}) => ({
 const dispatchProps = dispatch => ({
   dispatch: action => dispatch(action),
 });
-export default connect(stateProps, dispatchProps)(PrePurchase);
+export default connect(stateProps, dispatchProps)(Product);

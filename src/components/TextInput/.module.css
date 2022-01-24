@@ -1,5 +1,5 @@
 .skin {
-  min-height: 6vh;
+  min-height: 5.5vh;
   flex-direction: row;
   align-items: center;
   padding: 0 0.5vh 0 2vh;
@@ -17,11 +17,9 @@
   font-family: 'Standard-Font';
   background-color: transparent;
 }
-
 .body:focus {
   outline: none;
 }
-
 .body::placeholder {
   font-family: 'Standard-Font';
   color: #9e9e9e;

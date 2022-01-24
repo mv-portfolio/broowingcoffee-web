@@ -19,6 +19,8 @@ export default function Dropdown({
   onSelected,
 }) {
   const mainPaneRef = useRef();
+  const listRef = useRef();
+
   const [state, setState] = useReducer(dropdown, dropdownInitState({value: selected}));
 
   const unSelectedItems = items.filter(type => type !== (selected || state.value));
@@ -55,22 +57,21 @@ export default function Dropdown({
     );
   };
 
-  useEffect(() => {
+  const stylesListener = () => {
+    const getPropertyValue = (ref, prop) => {
+      return getComputedStyle(ref).getPropertyValue(prop);
+    };
     if (mainPaneRef.current) {
-      const getPropertyValue = prop => {
-        return getComputedStyle(mainPaneRef.current).getPropertyValue(prop);
-      };
-      const widthParent = getPropertyValue('width');
-      setTimeout(() => {
-        setState({
-          type: 'set',
-          styles: {
-            width: `calc(${widthParent} - 2vh)`,
-          },
-        });
-      }, 100);
+      const parentWidth = getPropertyValue(mainPaneRef.current, 'width');
+      setState({
+        type: 'set',
+        styles: {
+          width: `calc(${parentWidth} - 2vh)`,
+        },
+      });
     }
-  }, [mainPaneRef.current]);
+  };
+  useEffect(stylesListener, [mainPaneRef.current, state.isDropdownListShow]);
 
   return (
     <View>
@@ -88,34 +89,35 @@ export default function Dropdown({
           )}
         </Text>
         {!hideIcon && (
-          <View defaultStyle={{flexDirection: 'row', alignItems: 'center'}}>
-            {getIcon(state.isDropdownListShow)}
-            <Separator horizontal={0.75} />
-          </View>
+          <>
+            <Separator horizontal={2} />
+            <View defaultStyle={{flexDirection: 'row', alignItems: 'center'}}>
+              {getIcon(state.isDropdownListShow)}
+              <Separator horizontal={0.75} />
+            </View>
+          </>
         )}
       </button>
       {state.isDropdownListShow && unSelectedItems.length !== 0 && (
         <View
+          ref={listRef}
           style={`${styles.pickerList} ${listStyle}`}
           defaultStyle={{...state.styles}}>
           {unSelectedItems.map((type, index) => (
-            <View key={index}>
-              <Button
-                title={type}
-                skin={styles.pickerItem}
-                defaultStyle={{
-                  color: accentColor ? accentColor : '#000',
-                  borderBottom:
-                    index + 1 !== unSelectedItems.length
-                      ? '0.15vh solid rgba(0, 0, 0, 0.25)'
-                      : '0',
-                }}
-                onClick={() => onClick('on-select', type)}
-              />
-              {index + 1 !== items.filter(type => type !== state.value).length ? (
-                <Separator vertical={0.25} />
-              ) : null}
-            </View>
+            <Button
+              key={index}
+              title={type}
+              skin={styles.pickerItem}
+              defaultStyle={{
+                color: accentColor ? accentColor : '#000',
+                marginBottom: index + 1 !== unSelectedItems.length ? '0.5' : '0',
+                borderBottom:
+                  index + 1 !== unSelectedItems.length
+                    ? '0.15vh solid rgba(0, 0, 0, 0.25)'
+                    : '0',
+              }}
+              onClick={() => onClick('on-select', type)}
+            />
           ))}
         </View>
       )}

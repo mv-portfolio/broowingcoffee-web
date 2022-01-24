@@ -11,7 +11,7 @@ import Item from './modals/Item';
 import {
   CLEAR_ERROR,
   POP_DISCOUNT,
-  POP_INVENTORY,
+  POP_INVENTORY_REQ,
   PUSH_DISCOUNT_REQ,
   PUSH_INVENTORY_REQ,
   SET_INDEX_DISCOUNTS_REQ,
@@ -19,7 +19,7 @@ import {
   SET_RESTOCK_INVENTORY_REQ,
 } from 'ducks/actions';
 import Discount from './modals/Discount';
-import {ASC_DATE} from 'utils/helper';
+import {DESC_DATE_MODIFIED} from 'utils/helper';
 import Formatter from 'utils/Formatter';
 
 function Inventory({
@@ -73,13 +73,19 @@ function Inventory({
       />,
     );
   };
-  const onShowConditionalDeleteDialog = ({title, content, onClickPositive}) => {
+  const onShowConditionalDialog = ({
+    title,
+    content,
+    positiveText,
+    onClickPositive,
+    positiveButtonStyle,
+  }) => {
     onShowSecondaryDialog(
       <Dialog
         title={title}
         content={content}
-        positiveButtonStyle={{BACKGROUND_COLOR2: ACCENT_COLOR2}}
-        positiveText='Yes'
+        positiveButtonStyle={positiveButtonStyle}
+        positiveText={positiveText || 'Yes'}
         onClickPositive={onClickPositive}
         negativeText='No'
         onClickNegative={onHideSecondaryDialog}
@@ -87,6 +93,18 @@ function Inventory({
     );
   };
 
+  const onChange = (actionType, value) => {
+    if (actionType === 'on-change-search-items') {
+      setSearchItems(value);
+      onSearch(reduxInventory.items, setInventory, value);
+      return;
+    }
+    if (actionType === 'on-change-search-discounts') {
+      setSearchDiscount(value);
+      onSearch(reduxDiscounts.discounts, setDiscounts, value);
+      return;
+    }
+  };
   const onClick = (actionType, value) => {
     //show-dialog
     if (actionType === 'on-click-add-item-dialog') {
@@ -153,26 +171,31 @@ function Inventory({
     //CRUD
     //item
     if (actionType === 'on-click-add-item') {
-      onShowConditionalDeleteDialog({
+      onShowConditionalDialog({
         title: 'Add',
-        content: `make sure all inputs and perishable property are double check, do you want to proceed?`,
-        onClickPositive: () => onClick('on-click-add-item-dialog-positive', value),
+        content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
+        onClickPositive: () => dispatch(PUSH_INVENTORY_REQ({item: value})),
       });
       return;
     }
     if (actionType === 'on-click-update-item') {
-      onShowConditionalDeleteDialog({
+      onShowConditionalDialog({
         title: 'Update',
-        content: `make sure all inputs and perishable property are double check, do you want to proceed?`,
-        onClickPositive: () => onClick('on-click-update-item-dialog-positive', value),
+        content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
+        onClickPositive: () => dispatch(SET_INDEX_INVENTORY_REQ({item: value})),
       });
       return;
     }
     if (actionType === 'on-click-delete-item') {
-      onShowConditionalDeleteDialog({
+      onShowConditionalDialog({
         title: 'Delete',
         content: `Do you want to delete ${Formatter.toName(value.name)}?`,
-        onClickPositive: () => onClick('on-click-delete-item-dialog-positive', value),
+        positiveText: 'Delete',
+        onClickPositive: () => {
+          dispatch(POP_INVENTORY_REQ({item: value}));
+          setSearchItems('');
+        },
+        positiveButtonStyle: {backgroundColor: ACCENT_COLOR2},
       });
       return;
     }
@@ -192,33 +215,6 @@ function Inventory({
     if (actionType === 'on-click-delete-discount') {
       dispatch(POP_DISCOUNT({discount: value}));
       onHidePrimaryDialog();
-      return;
-    }
-
-    //dialog
-    if (actionType === 'on-click-add-item-dialog-positive') {
-      dispatch(PUSH_INVENTORY_REQ({item: value}));
-      return;
-    }
-    if (actionType === 'on-click-update-item-dialog-positive') {
-      dispatch(SET_INDEX_INVENTORY_REQ({item: value}));
-      return;
-    }
-    if (actionType === 'on-click-delete-item-dialog-positive') {
-      dispatch(POP_INVENTORY({item: value}));
-      setSearchItems('');
-      return;
-    }
-  };
-  const onChange = (actionType, value) => {
-    if (actionType === 'on-change-search-items') {
-      setSearchItems(value);
-      onSearch(reduxInventory.items, setInventory, value);
-      return;
-    }
-    if (actionType === 'on-change-search-discounts') {
-      setSearchDiscount(value);
-      onSearch(reduxDiscounts.discounts, setDiscounts, value);
       return;
     }
   };
@@ -273,19 +269,19 @@ function Inventory({
           <Text style={styles.label}>Items</Text>
           <View style={styles.headerRightPane}>
             <SearchField
-              placeholder='Name'
+              placeholder='name'
               value={searchItems}
               onChangeText={text => onChange('on-change-search-items', text)}
             />
             <Button
               skin={styles.buttonAdd}
               onPress={() => onClick('on-click-add-item-dialog')}>
-              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='3vh' />
+              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='2.25vh' />
             </Button>
           </View>
         </View>
         <ItemList
-          items={inventory.sort(ASC_DATE)}
+          items={inventory.sort(DESC_DATE_MODIFIED)}
           onEdit={item => onClick('on-click-edit-item-dialog', item)}
           onRestock={item => onClick('on-click-restock-item-dialog', item)}
         />
@@ -294,14 +290,14 @@ function Inventory({
           <Text style={styles.label}>Discounts</Text>
           <View style={styles.headerRightPane}>
             <SearchField
-              placeholder='Name'
+              placeholder='name'
               value={searchDiscount}
               onChangeText={text => onChange('on-change-search-discounts', text)}
             />
             <Button
               skin={styles.buttonAdd}
               onPress={() => onClick('on-click-add-discounts-dialog')}>
-              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='3vh' />
+              <Icon font='Feather' name='plus' color={ACCENT_COLOR} size='2.25vh' />
             </Button>
           </View>
         </View>
