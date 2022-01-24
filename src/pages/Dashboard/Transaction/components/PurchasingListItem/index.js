@@ -1,89 +1,49 @@
-import {Separator, View} from 'components';
 import {useState} from 'react';
-import {arrayFind} from 'utils/checker';
-import {ASC_NAME} from 'utils/helper';
-import {peekLocalStorage} from 'storage';
+import {View} from 'components';
 import PurchasingItem from '../PurchasingItem';
 
 import styles from './.module.css';
+import {arrayUpdate, getPropsValues} from 'utils/helper';
+import {peekLocalStorage} from 'storage';
 
-export default function PurchasingListItem({
-  style,
-  isEditable,
-  purchasingProducts = [],
-  onEditSelectedPurchasingProduct,
-}) {
-  const [focus, setFocus] = useState({
-    index: NaN,
-    isShow: false,
+export default function PurchasingListItem({purchasingProducts = [], onEdit}) {
+  let count = 0;
+  let prevName = '';
+
+  const sortedNamePurchasingProduct = purchasingProducts.sort(function (a, b) {
+    if (a._id_product.name > b._id_product.name) return 1;
+    if (a._id_product.name < b._id_product.name) return -1;
+    return 0;
   });
-
-  let temp_purchasingProducts = [];
-
-  const onSelect = index => {
-    setFocus(prev => {
-      let isShow = prev.isShow;
-      if (prev.index !== index) {
-        isShow = true;
-      } else {
-        isShow = !prev.isShow;
-      }
-      return {index, isShow};
-    });
-  };
-  const getSuffixName = (temp_purchasingProducts = [], filter) => {
-    let redundancy = 0;
-    temp_purchasingProducts.forEach(temp_purchasingProduct => {
-      if (temp_purchasingProduct.name === filter) {
-        redundancy = temp_purchasingProduct.redundancy;
-      }
-    });
-    return redundancy ? ` (${redundancy + 1})` : '';
+  const getSuffixName = (purchasingProduct, index) => {
+    if (index === 0) {
+      prevName = sortedNamePurchasingProduct[0]._id_product.name;
+    }
+    if (prevName === purchasingProduct._id_product.name) {
+      count += 1;
+    } else {
+      prevName = purchasingProduct._id_product.name;
+      count = 1;
+    }
+    return count;
   };
 
   return (
-    <View style={`${styles.mainPane} ${style}`}>
-      {purchasingProducts.sort(ASC_NAME).map((purchasingProduct, index) => {
-        const isExisting = arrayFind(
-          temp_purchasingProducts,
-          temp_purchasingProduct =>
-            temp_purchasingProduct.name === purchasingProduct.name,
-        );
-        if (!isExisting) {
-          temp_purchasingProducts.push({
-            name: purchasingProduct.name,
-            redundancy: 0,
-          });
-        } else {
-          temp_purchasingProducts = temp_purchasingProducts.map(
-            temp_purchasingProduct => {
-              if (temp_purchasingProduct.name === purchasingProduct.name) {
-                temp_purchasingProduct.redundancy += 1;
-                return temp_purchasingProduct;
-              }
-              return temp_purchasingProduct;
-            },
-          );
-        }
-        return (
-          <View key={index}>
-            <PurchasingItem
-              isEditable={isEditable}
-              suffixName={getSuffixName(temp_purchasingProducts, purchasingProduct.name)}
-              isOpen={
-                (focus.index === index && focus.isShow) ||
-                peekLocalStorage('cfg')['always show details product']
-              }
-              purchasingProduct={purchasingProduct}
-              onClick={() => onSelect(index)}
-              onEdit={() => onEditSelectedPurchasingProduct(purchasingProduct)}
-            />
-            {index + 1 !== purchasingProducts.length ? (
-              <Separator vertical={0.5} />
-            ) : null}
-          </View>
-        );
-      })}
+    <View style={styles.mainPane}>
+      {sortedNamePurchasingProduct.map((purchasingProduct, index) => (
+        <View
+          key={index}
+          defaultStyle={{
+            marginBottom: index + 1 !== sortedNamePurchasingProduct.length ? '1vh' : 0,
+          }}>
+          <PurchasingItem
+            purchasingProduct={purchasingProduct}
+            suffixName={getSuffixName(purchasingProduct, index)}
+            isOpen={peekLocalStorage('cfg')['always show details product']}
+            onEdit={() => onEdit(purchasingProduct)}
+          />
+        </View>
+      ))}
     </View>
   );
 }

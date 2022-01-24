@@ -247,9 +247,9 @@ const PUSH_PURCHASING_PRODUCT = ({purchasingProduct}) => ({
   type: ACTION_TYPE('PURCHASING-PRODUCTS').PUSH,
   purchasingProduct,
 });
-const POP_PURCHASING_PRODUCT = ({purchasingProductId}) => ({
+const POP_PURCHASING_PRODUCT = ({purchasingProduct}) => ({
   type: ACTION_TYPE('PURCHASING-PRODUCTS').POP,
-  purchasingProductId,
+  purchasingProduct,
 });
 const CLEAR_PURCHASING_PRODUCTS = () => ({
   type: ACTION_TYPE('PURCHASING-PRODUCTS').CLEAR,

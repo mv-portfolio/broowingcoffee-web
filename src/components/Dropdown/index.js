@@ -103,7 +103,13 @@ export default function Dropdown({
               <Button
                 title={type}
                 skin={styles.pickerItem}
-                defaultStyle={{color: accentColor ? accentColor : '#000'}}
+                defaultStyle={{
+                  color: accentColor ? accentColor : '#000',
+                  borderBottom:
+                    index + 1 !== unSelectedItems.length
+                      ? '0.15vh solid rgba(0, 0, 0, 0.25)'
+                      : '0',
+                }}
                 onClick={() => onClick('on-select', type)}
               />
               {index + 1 !== items.filter(type => type !== state.value).length ? (

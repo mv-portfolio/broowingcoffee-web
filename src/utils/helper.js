@@ -527,6 +527,26 @@ const getBasesName = (bases = []) => {
     return 0;
   });
 };
+const getDiscounts = (discounts = []) => {
+  let temp_discounts = ['none'];
+  discounts.forEach(discount => {
+    temp_discounts.push(`${discount.name} (${discount.value}%)`);
+  });
+  return temp_discounts;
+};
+const getDiscountObj = (discounts = [], value) => {
+  let temp_discount_obj = {};
+  discounts.forEach(discount => {
+    if (value.includes(discount.name)) {
+      temp_discount_obj = discount;
+    }
+  });
+  return temp_discount_obj;
+};
+const getProductPrice = (product, product_type, size) => {
+  const temp_product = getProductConsumed(size, product_type, product.consumed);
+  return temp_product.price ? `${temp_product.price}` : '';
+};
 /* ----- end ---- */
 
 const getPropsValues = obj => {
@@ -717,4 +737,7 @@ export {
   manipulateData,
   getTotalAmountPurchasedProducts,
   getTotalAvailedProducts,
+  getDiscounts,
+  getDiscountObj,
+  getProductPrice,
 };

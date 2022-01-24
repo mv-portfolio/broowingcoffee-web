@@ -89,7 +89,7 @@ function Item({loading, type, productInfo = {}, onAdd, onUpdate, onDelete, onCan
     payload.perishable_properties =
       state.itemType === 'non-perishable' ? {} : state.perishable_properties;
     payload.date_modified = new Date().getTime();
-    
+
     return {
       status: true,
       payload,
@@ -116,10 +116,6 @@ function Item({loading, type, productInfo = {}, onAdd, onUpdate, onDelete, onCan
     }
     if (actionType === 'on-click-delete') {
       onDelete(state);
-      return;
-    }
-    if (actionType === 'on-click-cancel') {
-      onCancel();
       return;
     }
     if (actionType === 'on-select-item-type') {
@@ -339,7 +335,7 @@ function Item({loading, type, productInfo = {}, onAdd, onUpdate, onDelete, onCan
           title='Cancel'
           skin={styles.button}
           disabled={loading.status}
-          onPress={() => onClick('on-click-cancel')}
+          onPress={onCancel}
         />
       </View>
     </View>

@@ -20,17 +20,19 @@
   font-size: 1.75vh;
 }
 .bodyPane .input {
-  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .bodyPane .dropdown {
   width: auto;
   background-color: var(--ACCENT-COLOR);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .bodyPane .datePicker {
   height: 4.5vh;
   align-items: flex-start;
   padding-left: 2vh;
   background-color: var(--ACCENT-COLOR);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .datePicker .datePickerText {
   color: var(--BACKGROUND-COLOR) !important;
@@ -43,4 +45,5 @@
 .bottomPane .button {
   flex: 1;
   background-color: var(--ACCENT-COLOR);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }

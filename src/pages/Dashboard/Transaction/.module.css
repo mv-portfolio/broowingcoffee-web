@@ -12,18 +12,19 @@
 .mainPane .topPane {
 }
 .topPane .headerTopPane {
-  height: 6vh;
+  height: 7vh;
   padding-right: 0.5vh;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
 .headerTopPane .dropdownBased {
-  min-height: 4vh;
+  min-height: 4.5vh;
   width: 20vh;
   padding-right: 0.5vh;
   box-shadow: none;
-  background-color: transparent;
+  background-color: var(--BACKGROUND-COLOR3);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .dropdownBased .dropdownBasedText {
   color: var(--ACCENT-COLOR) !important;
@@ -37,7 +38,7 @@
 .dropdownBasedList {
   max-height: 10vh !important;
   margin-top: 5vh !important;
-  background-color: var(--BACKGROUND-COLOR4) !important;
+  background-color: var(--BACKGROUND-COLOR3) !important;
 }
 
 .mainPane .bodyPane {
@@ -54,7 +55,7 @@
   align-items: center;
   padding: 0 1.5vh;
   background-color: var(--BACKGROUND-COLOR3);
-  box-shadow: 0 0 0.25vh rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .buttonClearSkin .buttonClearBody {
 }
@@ -71,6 +72,7 @@
 .bottomPane .button {
   height: 6vh;
   background-color: var(--ACCENT-COLOR);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .button .buttonText {
   font-size: 1.75vh;

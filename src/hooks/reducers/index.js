@@ -3,7 +3,7 @@ import assessInfo from './assessInfo';
 import login from './login';
 import header, {headerInitState} from './header';
 import primaryDialog, {primaryDialogInitState} from './primaryDialog';
-import purchasingProduct, {purchasingProductInitState} from './purchasingProduct';
+import dialogPurchasing, {dialogPurchasingInitState} from './dialogPurchasing';
 import toast, {toastInitState} from './toast';
 import dialogItem, {dialogItemInitState} from './dialogItem';
 import secondaryDialog, {secondaryDialogInitState} from './secondaryDialog';
@@ -24,8 +24,8 @@ export {
   headerInitState,
   primaryDialogInitState,
   primaryDialog,
-  purchasingProductInitState,
-  purchasingProduct,
+  dialogPurchasingInitState,
+  dialogPurchasing,
   toastInitState,
   toast,
   dialogItem,

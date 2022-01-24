@@ -4,7 +4,7 @@
   padding: 1.5vh 2.5vh 1.75vh 2vh;
   border-radius: 1vh;
   background-color: var(--BACKGROUND-COLOR3);
-  box-shadow: rgba(0, 0, 0, 0.25) 0.25vh 0.25vh 0.25vh;
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 
 .mainPane .headerPane {

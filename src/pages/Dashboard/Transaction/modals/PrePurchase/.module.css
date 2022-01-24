@@ -1,0 +1,89 @@
+.mainPane {
+  width: 40vh;
+  min-height: 35vh;
+  border-radius: 2vh;
+  padding: 4vh 3vh 4vh 3vh;
+  background-color: var(--BACKGROUND-COLOR2);
+  box-shadow: 0.25vh 0.25vh 0.5vh rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+.mainPane .title {
+  color: var(--ACCENT-COLOR);
+  font-weight: bold;
+  font-size: 3vh;
+}
+.mainPane .subtitle {
+  font-size: 1.75vh;
+}
+
+.mainPane .topPane {
+  flex-direction: row;
+}
+.topPane .titlePane {
+}
+
+.mainPane .bodyPane {
+  flex: 4;
+}
+.bodyPane .label {
+  font-size: 1.65vh;
+}
+.bodyPane .input {
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
+}
+.bodyPane .inputPane {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.inputPane .dropdown {
+  width: 19vh;
+  background-color: var(--ACCENT-COLOR);
+}
+.bodyPane .dropdownDiscount {
+  width: 100%;
+  background-color: var(--ACCENT-COLOR);
+}
+.bodyPane .counterPane {
+  height: 5vh;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5vh 1vh 0.5vh 1vh;
+  border-radius: 1vh;
+  background-color: var(--BACKGROUND-COLOR);
+}
+.counterPane .counterText {
+  color: var(--WHITE);
+  font-family: 'Standard-Font';
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  background-color: transparent;
+}
+.counterPane .counterText:focus {
+  outline: none;
+}
+.counterPane .buttonCounter {
+  width: 4vh;
+  height: 4vh;
+  background-color: var(--ACCENT-COLOR);
+}
+.buttonCounter .buttonCounterText {
+  font-family: 'Standard-Font2';
+  color: var(--BACKGROUND-COLOR);
+}
+
+.mainPane .bottomPane {
+  flex-direction: row;
+}
+.bottomPane .button {
+  flex: 1;
+  background-color: var(--ACCENT-COLOR);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
+}
+.bottomPane .buttonDelete {
+  flex: 1;
+  background-color: var(--ACCENT-COLOR2);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
+}

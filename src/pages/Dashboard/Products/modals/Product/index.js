@@ -197,7 +197,6 @@ function Product({
     }
   };
   const changeListener = () => {
-    // console.log(isConsumedChange(consumed, state.consumed));
     if (based !== state.based || isConsumedChange(consumed, state.consumed)) {
       setIsChange(true);
       return;
@@ -238,18 +237,6 @@ function Product({
         <Separator vertical={0.75} />
         <View style={styles.inputsPane}>
           <View style={styles.inputPane}>
-            <Text style={styles.label}>Size</Text>
-            <Separator vertical={0.25} />
-            <Dropdown
-              items={['small', 'medium', 'large']}
-              style={styles.dropdown}
-              accentColor={BACKGROUND_COLOR}
-              selected={state.size}
-              onSelected={item => onClick('on-select-size', item)}
-            />
-          </View>
-          <Separator horizontal={1} />
-          <View style={styles.inputPane}>
             <Text style={styles.label}>Type</Text>
             <Separator vertical={0.25} />
             <Dropdown
@@ -258,6 +245,18 @@ function Product({
               accentColor={BACKGROUND_COLOR}
               selected={state.product_type}
               onSelected={item => onClick('on-select-product-type', item)}
+            />
+          </View>
+          <Separator horizontal={1} />
+          <View style={styles.inputPane}>
+            <Text style={styles.label}>Size</Text>
+            <Separator vertical={0.25} />
+            <Dropdown
+              items={['small', 'medium', 'large']}
+              style={styles.dropdown}
+              accentColor={BACKGROUND_COLOR}
+              selected={state.size}
+              onSelected={item => onClick('on-select-size', item)}
             />
           </View>
         </View>

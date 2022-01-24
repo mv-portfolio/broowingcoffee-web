@@ -21,7 +21,7 @@
   height: 4vh;
   padding: 1vh 2vh;
   background-color: var(--BACKGROUND-COLOR3);
-  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .topPane .buttonConfigBody {
 }
@@ -37,7 +37,7 @@
   font-size: 1.75vh;
 }
 .bodyPane .input {
-  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .bodyPane .dropdown {
   width: auto;
@@ -46,6 +46,7 @@
 .bodyPane .buttonPropertySkin {
   height: 5.5vh;
   background-color: var(--ACCENT-COLOR);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .buttonPropertySkin .buttonPropertyBody {
   flex: 1;
@@ -64,10 +65,10 @@
 .bottomPane .button {
   flex: 1;
   background-color: var(--ACCENT-COLOR);
-  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .bottomPane .buttonDelete {
   flex: 1;
   background-color: var(--ACCENT-COLOR2);
-  box-shadow: 0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }

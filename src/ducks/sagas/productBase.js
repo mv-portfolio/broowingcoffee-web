@@ -16,7 +16,7 @@ function* peekWorker(state) {
     const {res: bases} = yield call(server.peek, '/product-base', config);
 
     yield put(SET_PRODUCT_BASE({bases}));
-    console.log('PEEK-PRODUCT-BASE-RESOLVE', bases);
+    console.log('PEEK-PRODUCT-BASE-RESOLVE');
   } catch (err) {
     console.log('PEEK-PRODUCT-BASE-REJECT');
     if (!err.includes('jwt')) {
