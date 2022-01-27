@@ -1,6 +1,6 @@
 import {replace} from 'connected-react-router';
 import {ACTION_TYPE} from 'constants/strings';
-import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_USER} from 'ducks/actions';
+import {CLEAR_LOADING, SET_AUTH, SET_ERROR, SET_LOADING, SET_USER} from 'ducks/actions';
 import {userInitState} from 'ducks/reducers/user';
 import serverConfig from 'ducks/serverConfig';
 import {server} from 'network/service';
@@ -10,6 +10,8 @@ import {getSpecificProperty} from 'utils/helper';
 
 function* signInWorker(payload) {
   try {
+    yield put(SET_LOADING({status: true}));
+
     const config = yield serverConfig();
     const {res} = yield call(
       server.push,
@@ -30,7 +32,7 @@ function* signInWorker(payload) {
         _id: res.user._id,
       }),
     );
-    yield put(CLEAR_LOADING());
+    yield put(SET_LOADING({status: false, status: 'sign-in-resolve'}));
 
     const userInfo = getSpecificProperty(userInitState, res.user);
     if (!userInfo.isAssessed) {
@@ -48,6 +50,8 @@ function* signInWorker(payload) {
   } catch (err) {
     console.log('SIGN-IN-REJECT:', err);
     yield put(SET_ERROR({signin: err}));
+    yield put(CLEAR_LOADING());
+  } finally {
     yield put(CLEAR_LOADING());
   }
 }

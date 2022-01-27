@@ -23,12 +23,15 @@ function SignIn({error, loading, dispatch}) {
         type: 'set-username',
         text: value,
       });
-    } else if (actionType === 'password') {
+      return;
+    }
+    if (actionType === 'password') {
       setState({
         ...state.password,
         type: 'set-password',
         text: value,
       });
+      return;
     }
   };
   const onClick = actionType => {
@@ -44,14 +47,19 @@ function SignIn({error, loading, dispatch}) {
           status: true,
         }),
       );
-    } else if (actionType === 'on-encrypt-text') {
+      return;
+    }
+    if (actionType === 'on-encrypt-text') {
       setState({
         ...state.password,
         type: 'set-password',
         isEncrypted: !state.password.isEncrypted,
       });
-    } else if (actionType === 'on-forgot-password') {
+      return;
+    }
+    if (actionType === 'on-forgot-password') {
       dispatch(push('/forgot-password'));
+      return;
     }
   };
 
@@ -64,6 +72,13 @@ function SignIn({error, loading, dispatch}) {
       dispatch(SET_ERROR({signin: ''}));
     };
   };
+  const errorListener = () => {
+    console.log('Hello');
+    if (error.signin) {
+      setState({type: 'clear'});
+    }
+  };
+  useEffect(errorListener, [error]);
   useEffect(screenInitListener, [dispatch]);
 
   return (
