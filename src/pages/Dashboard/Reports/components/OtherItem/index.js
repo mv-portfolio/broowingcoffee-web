@@ -4,7 +4,7 @@ import {ADDED_COLOR, UPDATED_COLOR, DELETED_COLOR, RESTOCK_COLOR} from 'constant
 import Formatter from 'utils/Formatter';
 import {getPropsValues, getSpecificProperty, onCleanName, onFormat} from 'utils/helper';
 import styles from './.module.css';
-import {isInteger, isObject} from 'utils/checker';
+import {isArray, isInteger, isObject, isString} from 'utils/checker';
 
 export default function OtherItem({other}) {
   const history = getSpecificProperty(
@@ -12,14 +12,13 @@ export default function OtherItem({other}) {
     other,
   );
 
-  const properties = getPropsValues(history)
+  const upperProperties = getPropsValues(history)
     .filter(history => history.property !== 'reference')
     .filter(history => history.property !== 'action');
 
-  const references = getPropsValues(history.reference)
+  const lowerProperties = getPropsValues(history.reference)
     .filter(history => history.property !== 'name')
-    .filter(history => history.property !== 'madeBy')
-    .filter(history => history.property !== 'consumables');
+    .filter(history => history.property !== 'made_by');
 
   const [isDetailShow, setIsDetailShow] = useState(false);
 
@@ -87,24 +86,25 @@ export default function OtherItem({other}) {
           </View>
           <Separator vertical={0.5} />
           <View style={styles.bodyPane}>
-            {properties.map(({property, value}, index) => (
-              <View key={index} style={styles.property}>
-                <View style={styles.propertyPane}>
-                  <Text style={styles.propertyName}>{onCleanName(property)}</Text>
-                  <Text style={styles.propertyValue}>
-                    {onFixedProperty(property, onFormat(property, value))}
-                  </Text>
-                </View>
-                {index + 1 !== properties.length && <Separator vertical={0.15} />}
-              </View>
-            ))}
-            <View style={styles.property}>
-              <View style={styles.propertyPane}>
-                <Text style={styles.propertyName}>made by</Text>
+            {upperProperties.map(({property, value}, index) => (
+              <View
+                key={index}
+                style={styles.propertyPane}
+                defaultStyle={{
+                  marginBottom: index + 1 !== upperProperties.length ? '0.4vh' : '0',
+                }}>
+                <Text style={styles.propertyName}>{onCleanName(property)}</Text>
                 <Text style={styles.propertyValue}>
-                  {Formatter.toName(history.reference.madeBy)}
+                  {onFixedProperty(property, onFormat(property, value))}
                 </Text>
               </View>
+            ))}
+            <Separator vertical={0.3} />
+            <View style={styles.propertyPane}>
+              <Text style={styles.propertyName}>made by</Text>
+              <Text style={styles.propertyValue}>
+                {Formatter.toName(history.reference.made_by)}
+              </Text>
             </View>
           </View>
           {history.action !== 'ADD' && history.action !== 'DELETE' && (
@@ -112,55 +112,31 @@ export default function OtherItem({other}) {
               <Separator vertical={1} />
               <View style={styles.updatesPane}>
                 <Text style={styles.updatesLabel}>Updates</Text>
-                {references.length > 0 && (
-                  <>
-                    <Separator vertical={0.15} />
-                    {references.map(({property, value}, index) => (
-                      <View key={index} style={styles.property}>
-                        <View style={styles.propertyPane}>
-                          <Text style={styles.propertyName}>{onCleanName(property)}</Text>
-                          {property === 'cost' && history.action === 'RESTOCK' ? (
-                            <Text style={styles.propertyValue}>{`${onFormat(
-                              property,
-                              value[1],
-                            )}`}</Text>
-                          ) : (
-                            <Text style={styles.propertyValue}>{`${onFormat(
-                              property,
-                              value[0],
-                            )} -> ${onFormat(property, value[1])}`}</Text>
-                          )}
-                        </View>
-                        {index + 1 !== properties.length && <Separator vertical={0.15} />}
-                      </View>
-                    ))}
-                  </>
-                )}
+                <Separator vertical={0.35} />
+                {lowerProperties.map(({property, value}, index) => (
+                  <View
+                    key={index}
+                    style={styles.propertyPane}
+                    defaultStyle={{
+                      marginBottom: index + 1 !== lowerProperties.length ? '0.4vh' : '0',
+                    }}>
+                    <Text style={styles.propertyName}>{onCleanName(property)}</Text>
+                    {isString(value) ? (
+                      <Text style={styles.propertyValue}>{value}</Text>
+                    ) : isArray(value) ? (
+                      <Text style={styles.propertyValue}>{`${onFormat(
+                        property,
+                        value[0],
+                      )} -> ${onFormat(property, value[1])}`}</Text>
+                    ) : (
+                      <Text style={styles.propertyValue}>{`${onFormat(
+                        property,
+                        value[1],
+                      )}`}</Text>
+                    )}
+                  </View>
+                ))}
               </View>
-              {isObject(history.reference.consumables) && (
-                <>
-                  <Separator vertical={0.4} />
-                  <Text style={styles.propertyName}>consumables</Text>
-                  <Separator vertical={0.25} />
-                  {getPropsValues(history.reference.consumables).map(
-                    ({property, value}, index) => (
-                      <View style={styles.property} key={index}>
-                        <View style={styles.propertyPane}>
-                          <Text style={styles.propertyName}>{property}</Text>
-                          <Text style={styles.propertyValue}>{`${
-                            isInteger(value.substring(value.length - 1))
-                              ? value.substring(value.length - 1) === '1'
-                                ? `${value} pc`
-                                : `${value} pcs`
-                              : `${value}`
-                          }`}</Text>
-                        </View>
-                        {index + 1 !== properties.length && <Separator vertical={0.2} />}
-                      </View>
-                    ),
-                  )}
-                </>
-              )}
             </>
           )}
         </>

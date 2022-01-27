@@ -6,7 +6,12 @@ import styles from './.module.css';
 import {arrayUpdate, getPropsValues} from 'utils/helper';
 import {peekLocalStorage} from 'storage';
 
-export default function PurchasingListItem({purchasingProducts = [], onEdit}) {
+export default function PurchasingListItem({
+  purchasingProducts = [],
+  editable,
+  onEdit,
+  style,
+}) {
   let count = 0;
   let prevName = '';
 
@@ -29,7 +34,7 @@ export default function PurchasingListItem({purchasingProducts = [], onEdit}) {
   };
 
   return (
-    <View style={styles.mainPane}>
+    <View style={`${styles.mainPane} ${style}`}>
       {sortedNamePurchasingProduct.map((purchasingProduct, index) => (
         <View
           key={index}
@@ -39,6 +44,7 @@ export default function PurchasingListItem({purchasingProducts = [], onEdit}) {
           <PurchasingItem
             purchasingProduct={purchasingProduct}
             suffixName={getSuffixName(purchasingProduct, index)}
+            editable={editable}
             isOpen={peekLocalStorage('cfg')['always show details product']}
             onEdit={() => onEdit(purchasingProduct)}
           />

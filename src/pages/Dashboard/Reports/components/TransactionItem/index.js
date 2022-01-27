@@ -5,33 +5,29 @@ import {isArray} from 'utils/checker';
 import Formatter from 'utils/Formatter';
 import {
   hp,
-  getPropsValues,
   getSpecificProperty,
   onCleanName,
-  onComputeTransaction,
   onFormat,
+  onComputePurchasingProducts,
+  getPropsValues,
 } from 'utils/helper';
 import styles from './.module.css';
 
 export default function TransactionItem({transaction, onViewTransaction}) {
   const reference = getSpecificProperty(
-    ['_id', 'discount', 'receiptTo', 'products', 'date_created'],
+    ['_id', '_id_discount', 'receipt_to', 'products', 'date_created'],
     transaction.reference,
   );
 
-  const properties = getPropsValues(reference)
+  const lowerProperties = getPropsValues(reference)
     .filter(ref => ref.property !== '_id')
-    .filter(ref => ref.value !== null);
+    .filter(ref => ref.value !== '');
 
   const [isDetailsShow, setIsDetailsShow] = useState(false);
 
   const onClick = action => {
     if (action === 'on-show-details') {
       setIsDetailsShow(prev => !prev);
-      return;
-    }
-    if (action === 'on-view-details') {
-      onViewTransaction(transaction.reference);
       return;
     }
   };
@@ -53,25 +49,32 @@ export default function TransactionItem({transaction, onViewTransaction}) {
               skin={styles.buttonView}
               onPress={e => {
                 e.stopPropagation();
-                onClick('on-view-details');
+                onViewTransaction();
               }}>
-              <Icon font='Feather' name='eye' size={hp(2.5)} color={ACCENT_COLOR} />
+              <Icon font='Feather' name='eye' size={hp(2)} color={ACCENT_COLOR} />
             </Button>
           </View>
           <Separator vertical={0.5} />
           <View style={styles.bodyPane}>
-            {properties.map(({property, value}, index) => (
-              <View key={index} style={styles.property}>
-                {!isArray(value) && (
-                  <View style={styles.propertyPane}>
-                    <Text style={styles.propertyName}>{onCleanName(property)}</Text>
-                    <Text style={styles.propertyValue}>{onFormat(property, value)}</Text>
+            {lowerProperties.map(
+              ({property, value}, index) =>
+                !isArray(value) && (
+                  <View
+                    key={index}
+                    style={styles.propertyPane}
+                    defaultStyle={{
+                      marginBottom: index + 1 !== lowerProperties.length ? '0.6vh' : '0',
+                    }}>
+                    <Text style={styles.propertyName}>
+                      {onCleanName(property, 'transactions')}
+                    </Text>
+                    <Text style={styles.propertyValue}>
+                      {onFormat(property, value, 'transactions')}
+                    </Text>
                   </View>
-                )}
-                {index + 1 !== properties.length && <Separator vertical={0.15} />}
-              </View>
-            ))}
-            <Separator vertical={0.15} />
+                ),
+            )}
+            <Separator vertical={0.3} />
             <View style={styles.propertyPane}>
               <Text style={styles.propertyName}>purchased</Text>
               <Text style={styles.propertyValue}>
@@ -81,11 +84,11 @@ export default function TransactionItem({transaction, onViewTransaction}) {
                 )}`}
               </Text>
             </View>
-            <Separator vertical={0.15} />
+            <Separator vertical={0.4} />
             <View style={styles.propertyPane}>
               <Text style={styles.propertyName}>total price</Text>
               <Text style={styles.propertyValue}>
-                {onComputeTransaction(transaction.reference)}
+                {Formatter.toMoney(onComputePurchasingProducts(reference.products))}
               </Text>
             </View>
           </View>

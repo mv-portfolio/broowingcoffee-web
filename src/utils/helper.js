@@ -59,7 +59,21 @@ const onComputeTransaction = transactionInfo => {
   });
   return Formatter.toMoney(totalPrice - totalDiscount * totalPrice);
 };
-const onCleanName = value => {
+const onComputePurchasingProduct = ({price, _id_discount = {}}) => {
+  let temp_price = price;
+  let totalPrice =
+    temp_price -
+    (parseFloat(_id_discount.value ? _id_discount.value : '0') / 100) * temp_price;
+  return totalPrice;
+};
+const onComputePurchasingProducts = (products = []) => {
+  let totalPrice = 0;
+  products.forEach(product => {
+    totalPrice += onComputePurchasingProduct(product);
+  });
+  return totalPrice;
+};
+const onCleanName = (value, module) => {
   if (value.includes('email')) {
     return 'made by';
   }
@@ -72,11 +86,21 @@ const onCleanName = value => {
   if (value.includes('cost')) {
     return 'cost per item';
   }
+  if (value.includes('date') && module === 'transactions') {
+    return 'date issued';
+  }
   return value.replace('_', ' ');
 };
-const onFormat = (property, value) => {
-  if (property.includes('price') || property.includes('cost')) {
+const onFormat = (property, value, module) => {
+  if (
+    property.includes('price') ||
+    property.includes('cost') ||
+    property.includes('cash')
+  ) {
     return `${Formatter.toMoney(value)}`;
+  }
+  if (property.includes('date') && module === 'transactions') {
+    return `${new Date(value).toLocaleString()}`;
   }
   if (property.includes('date')) {
     if (property.includes('expiry')) {
@@ -84,11 +108,8 @@ const onFormat = (property, value) => {
     }
     return `${Formatter.getDateDifference(value)}`;
   }
-  if (property.includes('discount')) {
+  if (property.includes('value')) {
     return `${value}%`;
-  }
-  if (property.includes('brand')) {
-    return `${Formatter.toName(value)}`;
   }
   if (property.includes('quantity')) {
     return `${value}`;
@@ -228,11 +249,16 @@ const getTotalAmountPurchasedProducts = (transactions = []) => {
   );
   return Formatter.toMoney(totalAmountPurchased);
 };
-const getTotalAvailedProducts = transactions => {
-  let totalNumberProducts = 0;
-  const purchasedProducts = getPurchasedProducts(transactions);
-  purchasedProducts.forEach(({availed}) => (totalNumberProducts += availed));
-  return totalNumberProducts;
+const getTotalPurchased = (topList = []) => {
+  let object = {
+    totalNumberPurchased: 0,
+    totalAmountPurchased: 0,
+  };
+  topList.forEach(({availed, total_price}) => {
+    object.totalNumberPurchased += availed;
+    object.totalAmountPurchased += total_price;
+  });
+  return object;
 };
 const getPurchasedProducts = data => {
   let tempData = [];
@@ -320,6 +346,28 @@ const getPropertyChanges = (target, source) => {
     });
   });
   return tempObject;
+};
+const getDefaultObjectProducts = (products = []) => {
+  let temp_products = [];
+  products.forEach(product => {
+    temp_products.push({
+      ...product,
+      _id_discount: product._id_discount ? product._id_discount : {},
+    });
+  });
+  return temp_products;
+};
+const getInitialProductCombination = (consumed = []) => {
+  let exist = false;
+  let object = {};
+  consumed.forEach(item => {
+    if (exist) return;
+    if (item.price) {
+      object = item;
+      exist = true;
+    }
+  });
+  return object;
 };
 const getProductConsumed = (size, product_type, consumed = []) => {
   let tempPayload = {};
@@ -530,9 +578,15 @@ const getBasesName = (bases = []) => {
 };
 const getDiscounts = (discounts = []) => {
   let temp_discounts = ['none'];
-  discounts.forEach(discount => {
-    temp_discounts.push(`${discount.name} (${discount.value}%)`);
-  });
+  discounts
+    .sort(function (a, b) {
+      if (a.value > b.value) return 1;
+      if (a.value < b.value) return -1;
+      return 0;
+    })
+    .forEach(discount => {
+      temp_discounts.push(`${discount.name} (${discount.value}%)`);
+    });
   return temp_discounts;
 };
 const getDiscountObj = (discounts = [], value) => {
@@ -716,9 +770,13 @@ export {
   toName,
   onCompute,
   onComputeTransaction,
+  onComputePurchasingProduct,
+  onComputePurchasingProducts,
   onCleanName,
   onFormat,
   isConsumedChange,
+  getDefaultObjectProducts,
+  getInitialProductCombination,
   getProductConsumed,
   setProductConsumed,
   setInventoryProduct,
@@ -738,7 +796,7 @@ export {
   getDateToNumber,
   manipulateData,
   getTotalAmountPurchasedProducts,
-  getTotalAvailedProducts,
+  getTotalPurchased,
   getDiscounts,
   getDiscountObj,
   getProductPrice,

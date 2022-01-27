@@ -11,12 +11,43 @@
   justify-content: center;
 }
 
-.mainPane .graph {
+.mainPane .graphPane {
+}
+.graphPane .upperPane {
+  flex-direction: row;
+}
+.upperPane .yPane {
+  flex: 1;
+  width: 4vh;
+  align-items: center;
+  justify-content: center;
+}
+.yPane .yLabel {
+  min-width: 25vh;
+  text-align: center;
+  padding-left: 4vh;
+  font-size: 1.5vh;
+  color: var(--WHITE);
+  transform: rotate(-90deg);
+}
+.upperPane .graph {
   height: 60vh;
   font-size: 1.75vh;
   font-family: 'Standard-Font';
   font-weight: bold;
   z-index: 1;
+}
+.graphPane .lowerPane {
+  height: 3vh;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.lowerPane .xLabel {
+  padding-left: 1vh;
+  color: var(--WHITE);
+  font-size: 1.5vh;
+  min-width: 27.5vh;
+  text-align: center;
 }
 
 @media screen and (min-width: 1095px) {

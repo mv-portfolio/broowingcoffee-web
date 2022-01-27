@@ -58,7 +58,9 @@ function SearchHistory({dispatch, loading, reports, type}) {
       return;
     }
     if (action === 'on-view-transaction') {
-      onShowPrimaryDialog(<Transaction data={value} />, {disabledTouchOutside: false});
+      onShowPrimaryDialog(<Transaction transaction={value} />, {
+        disabledTouchOutside: false,
+      });
     }
   };
   const onChange = (action, value) => {
@@ -124,6 +126,7 @@ function SearchHistory({dispatch, loading, reports, type}) {
             </View>
           </View>
           <SearchField
+          placeholder={type === 'transaction' ? 'id' : 'name'}
             value={state.search}
             onChangeText={value => onChange('on-search', value)}
           />

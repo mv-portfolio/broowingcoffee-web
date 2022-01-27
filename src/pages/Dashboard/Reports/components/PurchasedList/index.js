@@ -8,7 +8,7 @@ export default function PurchasedList({purchasedList}) {
     <View style={styles.mainPane}>
       {purchasedList.map((purchasedItem, index) => (
         <View key={index}>
-          <PurchasedItem data={purchasedItem} />
+          <PurchasedItem product={purchasedItem} />
           {index + 1 !== purchasedList.length && <Separator vertical={0.4} />}
         </View>
       ))}

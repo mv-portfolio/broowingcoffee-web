@@ -34,7 +34,7 @@ export function* onReport({action, module, reference}) {
         module,
         reference: {
           ...reference,
-          madeBy: `${firstname} ${lastname}`,
+          made_by: `${firstname} ${lastname}`,
         },
         date_created: new Date().getTime(),
       },
@@ -57,8 +57,6 @@ function* peekWorker(state) {
       params: {date},
     });
 
-    yield put(CLEAR_LOADING());
-
     if (type) {
       if (type === 'transaction') {
         const transactionHistories = res.filter(
@@ -76,14 +74,15 @@ function* peekWorker(state) {
       const otherHistories = res.filter(response => response.module !== 'transactions');
       yield put(SET_REPORTS({transactionHistories, otherHistories}));
     }
-
-    console.log('PEEK-REPORT-RESOLVE');
   } catch (err) {
-    console.log('PEEK-REPORT-REJECT', err);
-    yield put(SET_ERROR({report: err}));
+    if (!err.includes('jwt')) {
+      console.log('PEEK-REPORT-REJECT', err);
+      yield put(SET_ERROR({report: err}));
+    }
+  } finally {
+    yield put(CLEAR_LOADING());
   }
 }
-
 function* pushWorker(state) {
   try {
     const config = yield serverConfig();
@@ -92,10 +91,11 @@ function* pushWorker(state) {
     } else {
       yield call(server.push, '/reports/push', state.otherHistory, config);
     }
-    console.log('PUSH-REPORT-RESOLVE');
   } catch (err) {
-    console.log('PUSH-REPORT-REJECT', err);
-    yield put(SET_ERROR({report: err}));
+    if (!err.includes('jwt')) {
+      console.log('PEEK-REPORT-REJECT', err);
+      yield put(SET_ERROR({report: err}));
+    }
   }
 }
 

@@ -274,10 +274,15 @@ function Product({
             <Separator vertical={0.25} />
             <ItemList
               onRemove={item => onClick('on-click-delete-consumed', item)}
-              items={
-                getProductConsumed(state.size, state.product_type, state.consumed)
-                  .inventory
-              }
+              items={getProductConsumed(
+                state.size,
+                state.product_type,
+                state.consumed,
+              ).inventory.sort(function (a, b) {
+                if (a._id_item.name > b._id_item.name) return 1;
+                if (a._id_item.name < b._id_item.name) return -1;
+                return 0;
+              })}
             />
           </>
         )}

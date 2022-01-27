@@ -1,13 +1,22 @@
 import {useState} from 'react';
 import {View, Text, Separator} from 'components';
-import {getPropsValues, hp, onCleanName, onComputeTransaction, onFormat} from 'utils/helper';
+import {
+  getDefaultObjectProducts,
+  getPropsValues,
+  hp,
+  onCleanName,
+  onComputePurchasingProducts,
+  onComputeTransaction,
+  onFormat,
+} from 'utils/helper';
 import PurchasedList from '../../components/PurchasedList';
 import styles from './.module.css';
+import Formatter from 'utils/Formatter';
 
-export default function Transaction({data}) {
-  const {_id, products} = data;
+export default function Transaction({transaction}) {
+  const {_id, cash, products} = transaction;
 
-  const bottomProps = getPropsValues(data)
+  const bottomProps = getPropsValues(transaction)
     .filter(data => data.property !== 'products')
     .filter(data => data.property !== '_id')
     .filter(data => data.property !== '__v');
@@ -22,28 +31,41 @@ export default function Transaction({data}) {
         <Text style={styles.title}>{_id}</Text>
       </View>
       <View style={styles.bodyPane}>
-        <Text style={styles.label}>{`Purchased Product${
-          products.length > 1 ? 's' : ''
-        }`}</Text>
+        <Text style={styles.label}>{`Product${products.length > 1 ? 's' : ''}`}</Text>
         <Separator vertical={0.65} />
-        <PurchasedList purchasedList={products} />
+        <PurchasedList purchasedList={getDefaultObjectProducts(products)} />
       </View>
       <View style={styles.bottomPane}>
         {bottomProps.map(({property, value}, index) => (
-          <View key={index}>
-            <View style={styles.propertyPane}>
-              <Text style={styles.propertyName}>{onCleanName(property)}</Text>
-              <Text style={styles.propertyValue}>
-                {onFormat(property, value) ? onFormat(property, value) : 'none'}
-              </Text>
-            </View>
-            {index + 1 !== bottomProps.length && <Separator vertical={0.4} />}
+          <View
+            key={index}
+            style={styles.propertyPane}
+            defaultStyle={{
+              marginBottom: index + 1 !== bottomProps.length ? '0.6vh' : '0',
+            }}>
+            <Text style={styles.propertyName}>
+              {onCleanName(property, 'transactions')}
+            </Text>
+            <Text style={styles.propertyValue}>
+              {onFormat(property, value)
+                ? onFormat(property, value, 'transactions')
+                : 'none'}
+            </Text>
           </View>
         ))}
-        <Separator vertical={0.4} />
+        <Separator vertical={0.2} />
         <View style={styles.propertyPane}>
-          <Text style={styles.propertyName}>TOTAL PRICE</Text>
-          <Text style={styles.propertyValue} defaultStyle={{fontSize: hp(2)}}>{onComputeTransaction(data)}</Text>
+          <Text style={styles.propertyName}>change</Text>
+          <Text style={styles.propertyValue}>
+            {Formatter.toMoney(parseFloat(cash - onComputePurchasingProducts(products)))}
+          </Text>
+        </View>
+        <Separator vertical={0.2} />
+        <View style={styles.propertyPane}>
+          <Text style={styles.propertyName}>total price</Text>
+          <Text style={styles.propertyValue} defaultStyle={{fontSize: hp(1.8)}}>
+            {Formatter.toMoney(onComputePurchasingProducts(products))}
+          </Text>
         </View>
       </View>
     </View>

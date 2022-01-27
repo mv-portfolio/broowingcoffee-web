@@ -24,13 +24,20 @@ function Restock({loading, dispatch, item = {}, onRestock, onCancel}) {
       return {status: false, error: 'Please enter all the inputs'};
     }
 
-    let payload = {...item, state};
+    let payload = {...item};
     payload.name = name;
     payload.type = type;
     payload.quantity = parseInt(state.quantity);
     payload.cost = parseFloat(state.cost);
-    payload.expiry_date = new Date(state.expiry_date).getTime();
     payload.date_modified = new Date().getTime();
+    payload.perishable_properties = {};
+
+    if (type === 'perishable') {
+      payload.perishable_properties = {
+        ...item.perishable_properties,
+        expiry_date: new Date(state.expiry_date).getTime(),
+      };
+    }
 
     return {status: true, payload};
   };

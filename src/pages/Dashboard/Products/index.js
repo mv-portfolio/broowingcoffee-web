@@ -5,6 +5,7 @@ import {ACCENT_COLOR, ACCENT_COLOR2} from 'constants/colors';
 import {PrimaryDialog, SecondaryDialog, Toast} from 'context';
 import {
   CLEAR_ERROR,
+  CLEAR_PURCHASING_PRODUCTS,
   POP_PRODUCT,
   POP_PRODUCT_BASE,
   PUSH_PRODUCT_BASE_REQ,
@@ -20,6 +21,7 @@ import Base from './modals/Base';
 import {ASC_NAME} from 'utils/helper';
 
 function Transaction({
+  purchasingProducts,
   products: {products: reduxProducts},
   productBase: {bases: reduxProductBases},
   dispatch,
@@ -79,6 +81,23 @@ function Transaction({
       return;
     }
   };
+  const showPreventClearPurchasing = ({
+    onClickPostive,
+    positiveText,
+    positiveButtonStyle,
+  }) => {
+    onShowSecondaryDialog(
+      <Dialog
+        title='Clear Invoice'
+        content='invoice has selected products, once you perform this action we will clear the invoice, do you want to proceed?'
+        positiveText={positiveText || 'Yes'}
+        onClickPositive={onClickPostive}
+        negativeText={'No'}
+        positiveButtonStyle={positiveButtonStyle}
+        onClickNegative={onHideSecondaryDialog}
+      />,
+    );
+  };
   const onClick = (actionType, value) => {
     if (actionType === 'on-click-add-product-dialog') {
       onShowPrimaryDialog(
@@ -113,20 +132,38 @@ function Transaction({
     //CRUD
     if (actionType === 'on-click-add-product') {
       onShowConditionalDialog({
-        title: 'Add',
+        title: `Add Product`,
         content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
         onClickPositive: () => dispatch(PUSH_PRODUCT_REQ({product: value})),
       });
       return;
     }
     if (actionType === 'on-click-update-product') {
+      if (purchasingProducts.length) {
+        showPreventClearPurchasing({
+          onClickPostive: () => {
+            dispatch(CLEAR_PURCHASING_PRODUCTS());
+            dispatch(SET_INDEX_PRODUCTS_REQ({product: value}));
+          },
+        });
+        return;
+      }
       onShowConditionalDialog({
-        title: 'Update',
+        title: `Update Product`,
         content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
         onClickPositive: () => dispatch(SET_INDEX_PRODUCTS_REQ({product: value})),
       });
     }
     if (actionType === 'on-click-delete-product') {
+      if (purchasingProducts.length) {
+        showPreventClearPurchasing({
+          onClickPostive: () => {
+            dispatch(CLEAR_PURCHASING_PRODUCTS());
+            dispatch(SET_INDEX_PRODUCTS_REQ({product: value}));
+          },
+        });
+        return;
+      }
       onShowConditionalDialog({
         title: 'Delete',
         content: `do you want to delete ${Formatter.toName(value.name)}?`,
@@ -144,12 +181,26 @@ function Transaction({
           title='Delete'
           content={`are you sure you want to delete ${value.name}`}
           positiveText='Yes'
-          onClickPositive={() => dispatch(POP_PRODUCT_BASE({base: value}))}
+          onClickPositive={() => onClick('on-click-yes-dialog-delete-base', value)}
           negativeText='No'
           onClickNegative={onHidePrimaryDialog}
         />,
       );
       return;
+    }
+
+    //dialogx
+    if (actionType === 'on-click-yes-dialog-delete-base') {
+      if (purchasingProducts.length) {
+        showPreventClearPurchasing({
+          onClickPostive: () => {
+            dispatch(CLEAR_PURCHASING_PRODUCTS());
+            dispatch(POP_PRODUCT_BASE({base: value}));
+          },
+        });
+        return;
+      }
+      dispatch(POP_PRODUCT_BASE({base: value}));
     }
   };
 
@@ -238,7 +289,8 @@ function Transaction({
   );
 }
 
-const stateProps = ({products, productBase, loading, error}) => ({
+const stateProps = ({purchasingProducts, products, productBase, loading, error}) => ({
+  purchasingProducts,
   products,
   productBase,
   loading,

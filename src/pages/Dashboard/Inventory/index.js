@@ -126,7 +126,7 @@ function Inventory({
     if (actionType === 'on-click-restock-item-dialog') {
       onShowPrimaryDialog(
         <Dialog
-          title={`${value.name} (${value.brand})`}
+          title={`Restock`}
           content='are you sure this is the same item?'
           positiveText='Yes'
           onClickPositive={() => {
@@ -172,7 +172,7 @@ function Inventory({
     //item
     if (actionType === 'on-click-add-item') {
       onShowConditionalDialog({
-        title: 'Add',
+        title: 'Add Item',
         content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
         onClickPositive: () => dispatch(PUSH_INVENTORY_REQ({item: value})),
       });
@@ -180,7 +180,7 @@ function Inventory({
     }
     if (actionType === 'on-click-update-item') {
       onShowConditionalDialog({
-        title: 'Update',
+        title: 'Update Item',
         content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
         onClickPositive: () => dispatch(SET_INDEX_INVENTORY_REQ({item: value})),
       });
@@ -200,7 +200,11 @@ function Inventory({
       return;
     }
     if (actionType === 'on-click-restock-item') {
-      dispatch(SET_RESTOCK_INVENTORY_REQ({item: value}));
+      onShowConditionalDialog({
+        title: 'Restock Item',
+        content: `do you want proceed?`,
+        onClickPositive: () => dispatch(SET_RESTOCK_INVENTORY_REQ({item: value})),
+      });
       return;
     }
     //discount
@@ -213,8 +217,16 @@ function Inventory({
       return;
     }
     if (actionType === 'on-click-delete-discount') {
-      dispatch(POP_DISCOUNT({discount: value}));
-      onHidePrimaryDialog();
+      onShowConditionalDialog({
+        title: 'Delete',
+        content: `Do you want to delete this discount`,
+        positiveText: 'Delete',
+        onClickPositive: () => {
+          dispatch(POP_DISCOUNT({discount: value}));
+          onHidePrimaryDialog();
+        },
+        positiveButtonStyle: {backgroundColor: ACCENT_COLOR2},
+      });
       return;
     }
   };
@@ -302,7 +314,11 @@ function Inventory({
           </View>
         </View>
         <DiscountList
-          discounts={discounts}
+          discounts={discounts.sort(function (a, b) {
+            if (a.value > b.value) return 1;
+            if (a.value < b.value) return -1;
+            return 0;
+          })}
           onEdit={discount => onClick('on-click-edit-discounts-dialog', discount)}
         />
       </View>

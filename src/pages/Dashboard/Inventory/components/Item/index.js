@@ -22,6 +22,7 @@ export default function Item({item, isOpen, onEdit, onRestock}) {
   const upperPart = getPropsValues(
     getSpecificProperty(['brand', 'type', 'date_modified', 'expiry_date'], item),
   ).filter(({value}) => value.length !== 0);
+
   const lowerPart = getPropsValues(
     getSpecificProperty(['quantity', 'current_unit', 'unit_type', 'cost'], item),
   );
@@ -61,7 +62,7 @@ export default function Item({item, isOpen, onEdit, onRestock}) {
                   key={index}
                   style={styles.propertyPane}
                   defaultStyle={{
-                    marginBottom: index + 1 !== upperPart.length ? '0.5vh' : '0',
+                    marginBottom: index + 1 !== upperPart.length ? '0.4vh' : '0',
                   }}>
                   <Text style={styles.propertyName}>{onCleanName(property)}</Text>
                   <Text
@@ -82,7 +83,7 @@ export default function Item({item, isOpen, onEdit, onRestock}) {
                 key={index}
                 style={styles.propertyPane}
                 defaultStyle={{
-                  marginBottom: index + 1 !== upperPart.length ? '0.5vh' : '0',
+                  marginBottom: index + 1 !== upperPart.length ? '0.4vh' : '0',
                 }}>
                 <Text style={styles.propertyName}>{onCleanName(property)}</Text>
                 <Text style={styles.propertyValue}>{onFormat(property, value)}</Text>
@@ -97,7 +98,7 @@ export default function Item({item, isOpen, onEdit, onRestock}) {
                   key={index}
                   style={styles.propertyPane}
                   defaultStyle={{
-                    marginBottom: index + 1 !== lowerPart.length ? '0.5vh' : '0',
+                    marginBottom: index + 1 !== lowerPart.length ? '0.4vh' : '0',
                   }}>
                   <Text style={styles.propertyName}>{onCleanName(property)}</Text>
                   <Text
@@ -119,7 +120,7 @@ export default function Item({item, isOpen, onEdit, onRestock}) {
                 key={index}
                 style={styles.propertyPane}
                 defaultStyle={{
-                  marginBottom: index + 1 !== lowerPart.length ? '0.5vh' : '0',
+                  marginBottom: index + 1 !== lowerPart.length ? '0.4vh' : '0',
                 }}>
                 <Text style={styles.propertyName}>{onCleanName(property)}</Text>
                 <Text style={styles.propertyValue}>{onFormat(property, value)}</Text>

@@ -1,25 +1,31 @@
 import {ACTION_TYPE} from 'constants/strings';
 import {isTypeof} from 'utils/checker';
 
-export const transactionsInitState = {
-  data: [],
-  topList: [],
-  manipulatedData: [],
+export const transactionInitState = {
+  transactions: [],
+  top_list: [],
+  manipulated_data: [],
 };
 
-export default function transactions(state = transactionsInitState, action) {
+export default function transactions(state = transactionInitState, action) {
   switch (action.type) {
     case ACTION_TYPE('TRANSACTIONS').SET:
       return {
-        data: isTypeof('array', action.data, state.data),
-        topList: isTypeof('array', action.topList, state.topList),
-        manipulatedData: isTypeof('array', action.manipulatedData, state.manipulatedData),
+        transactions: isTypeof('array', action.transactions, state.transactions),
+        top_list: isTypeof('array', action.top_list, state.top_list),
+        manipulated_data: isTypeof(
+          'array',
+          action.manipulated_data,
+          state.manipulated_data,
+        ),
       };
 
     case ACTION_TYPE('TRANSACTIONS').PUSH:
       return {
         ...state,
-        data: [...state.data, action.transaction],
+        transactions: isTypeof('object')
+          ? [...state.transactions, action.transaction]
+          : state.transactions,
       };
 
     default:

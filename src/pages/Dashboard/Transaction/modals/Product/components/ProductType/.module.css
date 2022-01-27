@@ -1,0 +1,18 @@
+.mainPane {
+  height: 15vh;
+  flex-direction: row;
+}
+
+.mainPane .buttonSkin {
+  width: 14vh;
+  height: 14vh;
+  background-color: var(--BACKGROUND-COLOR4);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.2);
+}
+.mainPane .buttonBody {
+}
+
+.buttonBody .icon {
+  height: 11vh;
+  object-fit: contain;
+}

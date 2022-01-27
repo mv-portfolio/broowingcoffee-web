@@ -10,15 +10,22 @@ import {
   hp,
   getSpecificProperty,
   onCleanName,
+  onComputePurchasingProduct,
 } from 'utils/helper';
 
 import styles from './.module.css';
 import {useState} from 'react';
 
-export default function PurchasingItem({suffixName, purchasingProduct, isOpen, onEdit}) {
+export default function PurchasingItem({
+  suffixName,
+  purchasingProduct,
+  isOpen,
+  onEdit,
+  editable,
+}) {
   const {
     _id_product: {name},
-    discount: {name: discountName, value: discountValue},
+    _id_discount: {name: discountName, value: discountValue},
     price,
   } = purchasingProduct;
 
@@ -34,7 +41,7 @@ export default function PurchasingItem({suffixName, purchasingProduct, isOpen, o
         <Text style={styles.title}>{`${Formatter.toName(name)} ${
           suffixName <= 1 ? '' : `(${suffixName})`
         }`}</Text>
-        {(isOpen || isShow) && (
+        {(isOpen || isShow) && editable && (
           <Button
             skin={styles.buttonEdit}
             onPress={e => {
@@ -49,42 +56,44 @@ export default function PurchasingItem({suffixName, purchasingProduct, isOpen, o
         {(isOpen || isShow) && (
           <>
             <Separator vertical={0.75} />
-            {discountName && discountValue && (
-              <>
-                <View style={styles.propertyPane}>
-                  <Text style={styles.propertyName}>discount</Text>
-                  <Text style={styles.propertyValue}>
-                    {discountName} ({discountValue}%)
-                  </Text>
-                </View>
-                <Separator vertical={0.25} />
-              </>
-            )}
             {properties.map(({property, value}, index) => {
               return (
                 <View
                   key={index}
                   style={styles.propertyPane}
                   defaultStyle={{
-                    marginBottom: index + 1 !== properties.length ? '0.5vh' : '0',
+                    marginBottom: index + 1 !== properties.length ? '0.3vh' : '0',
                   }}>
                   <Text style={styles.propertyName}>{onCleanName(property)}</Text>
                   <Text style={styles.propertyValue}>{onFormat(property, value)}</Text>
                 </View>
               );
             })}
-          </>
-        )}
-        {isShow && discountName && discountValue && (
-          <>
-            <Separator vertical={0.25} />
+            <Separator vertical={0.3} />
             <View style={styles.propertyPane}>
-              <Text style={styles.propertyName}>discounted price</Text>
+              <Text style={styles.propertyName}>discount</Text>
               <Text style={styles.propertyValue}>
-                {Formatter.toMoney(price - (discountValue / 100) * price)}
+                {discountName && discountValue
+                  ? `${discountName} (${discountValue}%)`
+                  : 'none'}
               </Text>
             </View>
-            <Separator vertical={0.25} />
+            <Separator vertical={0.3} />
+            <View style={styles.propertyPane}>
+              <Text style={styles.propertyName}>discount price</Text>
+              <Text style={styles.propertyValue}>
+                {discountName && discountValue
+                  ? Formatter.toMoney((discountValue / 100) * price)
+                  : '0.00'}
+              </Text>
+            </View>
+            <Separator vertical={0.3} />
+            <View style={styles.propertyPane}>
+              <Text style={styles.propertyName}>total price</Text>
+              <Text style={styles.propertyValue}>
+                {Formatter.toMoney(onComputePurchasingProduct(purchasingProduct))}
+              </Text>
+            </View>
           </>
         )}
       </View>

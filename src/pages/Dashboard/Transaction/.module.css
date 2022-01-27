@@ -26,7 +26,7 @@
   box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .dropdownBased .dropdownBasedText {
-  color: var(--ACCENT-COLOR) !important;
+  color: var(--WHITE) !important;
 }
 .dropdownBasedText .dropdownBasedPlaceholder {
   color: rgba(247, 163, 91, 0.5) !important;
@@ -60,7 +60,7 @@
 .buttonClearBody .buttonClearText {
   font-size: 1.5vh;
   font-weight: bold;
-  color: var(--ACCENT-COLOR);
+  color: var(--WHITE);
 }
 
 .mainPane .bottomPane {

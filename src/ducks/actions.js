@@ -259,18 +259,22 @@ const CLEAR_PURCHASING_PRODUCTS = () => ({
 });
 
 //transactions
-const PEEK_TRANSACTIONS = ({date}) => ({
+const PEEK_TRANSACTIONS = ({filtered_date}) => ({
   type: ACTION_TYPE('TRANSACTIONS').PEEK,
-  date,
+  filtered_date,
 });
-const SET_TRANSACTIONS = ({data, topList, manipulatedData}) => ({
+const SET_TRANSACTIONS = ({transactions, top_list, manipulated_data}) => ({
   type: ACTION_TYPE('TRANSACTIONS').SET,
-  data,
-  topList,
-  manipulatedData,
+  transactions,
+  top_list,
+  manipulated_data,
 });
 const PUSH_TRANSACTIONS = ({transaction}) => ({
   type: ACTION_TYPE('TRANSACTIONS').PUSH,
+  transaction,
+});
+const PUSH_TRANSACTIONS_REQ = ({transaction}) => ({
+  type: ACTION_TYPE('TRANSACTIONS-REQ').PUSH,
   transaction,
 });
 
@@ -376,6 +380,7 @@ export {
   PEEK_TRANSACTIONS,
   SET_TRANSACTIONS,
   PUSH_TRANSACTIONS,
+  PUSH_TRANSACTIONS_REQ,
   //reports
   PEEK_REPORTS,
   PUSH_REPORT,

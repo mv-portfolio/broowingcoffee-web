@@ -1,7 +1,7 @@
 import {useContext, useReducer} from 'react';
 import {Separator, Text, TextInput, Dropdown, View, DatePicker, Button} from 'components';
 import {Toast} from 'context';
-import {isInteger, isString, isName} from 'utils/checker';
+import {isInteger, isString, isName, isDouble} from 'utils/checker';
 import {BACKGROUND_COLOR} from 'constants/colors';
 import {perishable, perishableInitState} from 'hooks';
 import styles from './.module.css';
@@ -29,7 +29,7 @@ export default function PerishableProperties({
 
     let payload = state;
     payload.unit = parseInt(state.unit);
-    payload.current_unit = parseInt(state.current_unit ? state.current_unit : '0');
+    payload.current_unit = parseFloat(state.current_unit ? state.current_unit : '0');
     payload.expiry_date = new Date(state.expiry_date).getTime();
 
     return {
@@ -43,11 +43,7 @@ export default function PerishableProperties({
       setState({type: 'set', unit: value});
       return;
     }
-    if (
-      actionType === 'on-change-current-unit' &&
-      isInteger(value) &&
-      !(parseInt(value) > state.unit)
-    ) {
+    if (actionType === 'on-change-current-unit' && isDouble(value ? value : '0')) {
       setState({type: 'set', current_unit: value});
       return;
     }

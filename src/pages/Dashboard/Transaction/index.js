@@ -10,12 +10,14 @@ import {
   CLEAR_PURCHASING_PRODUCTS,
   POP_PURCHASING_PRODUCT,
   PUSH_PURCHASING_PRODUCT,
+  PUSH_TRANSACTIONS_REQ,
   SET_INDEX_PURCHASING_PRODUCT,
 } from 'ducks/actions';
 import PurchasingListItem from './components/PurchasingListItem';
 import ProductList from './components/ProductList';
 import Product from './modals/Product';
 import styles from './.module.css';
+import PrePurchasing from './modals/PrePurchasing';
 
 function Transaction({
   dispatch,
@@ -61,7 +63,7 @@ function Transaction({
         <Dialog
           title='CLEAR ALL'
           content='Do you want to clear all purchasing product?'
-          positiveText='Y es'
+          positiveText='Yes'
           onClickPositive={() => {
             dispatch(CLEAR_PURCHASING_PRODUCTS());
             onHidePrimaryDialog();
@@ -77,8 +79,10 @@ function Transaction({
       onHidePrimaryDialog();
       if (value.numAvail > 1) {
         let temp_purchasingProducts = [];
+        let nextId = purchasingProducts.length;
         for (let num = 0; num < value.numAvail; num++) {
-          temp_purchasingProducts.push({...value, id: num + 1});
+          nextId += 1;
+          temp_purchasingProducts.push({...value, id: nextId});
         }
         dispatch(PUSH_PURCHASING_PRODUCT({purchasingProduct: temp_purchasingProducts}));
         return;
@@ -93,6 +97,35 @@ function Transaction({
       dispatch(POP_PURCHASING_PRODUCT({purchasingProduct: value}));
       onHidePrimaryDialog();
     }
+
+    //other
+    if (actionType === 'on-click-pre-purchase') {
+      if (!purchasingProducts.length) {
+        onShowToast('Invoice is empty');
+        return;
+      }
+      onShowPrimaryDialog(
+        <PrePurchasing
+          purchasingProducts={purchasingProducts}
+          onPurchase={transaction => onClick('on-click-purchase', transaction)}
+          onCancel={onHidePrimaryDialog}
+        />,
+      );
+      return;
+    }
+    if (actionType === 'on-click-purchase') {
+      onShowSecondaryDialog(
+        <Dialog
+          title='Transaction'
+          content='do you want to proceed?'
+          positiveText='Yes'
+          onClickPositive={() => dispatch(PUSH_TRANSACTIONS_REQ({transaction: value}))}
+          negativeText='No'
+          onClickNegative={onHideSecondaryDialog}
+        />,
+      );
+      return;
+    }
   };
 
   const screenInitListener = () => {
@@ -101,10 +134,17 @@ function Transaction({
   const baseListener = () => {
     setType(getBasesName(bases)[0]);
   };
-  const errorListener = () => {
-    if (error.transaction && error.transaction !== 'jwt expired') {
+  const successListener = () => {
+    if (!loading.status && loading.message.includes('push-transaction-resolve')) {
       onHidePrimaryDialog();
-      onShowToast(error.transaction, undefined, () => {
+      onHideSecondaryDialog();
+    }
+  };
+  const errorListener = () => {
+    if (error.transaction) {
+      onHidePrimaryDialog();
+      onHideSecondaryDialog();
+      onShowToast(error.transaction, null, () => {
         dispatch(CLEAR_ERROR());
       });
     }
@@ -121,6 +161,7 @@ function Transaction({
   };
   useEffect(screenInitListener, [purchasingProducts]);
   useEffect(baseListener, [bases]);
+  useEffect(successListener, [loading]);
   useEffect(errorListener, [error]);
   useEffect(dialogListener, [loading]);
 
@@ -167,6 +208,7 @@ function Transaction({
         </View>
         <Separator vertical={0.5} />
         <PurchasingListItem
+          editable={true}
           purchasingProducts={purchasingProducts}
           onEdit={purchasingProduct =>
             onClick('on-click-edit-purchasing-product', purchasingProduct)
@@ -178,7 +220,7 @@ function Transaction({
           title='PURCHASE'
           titleStyle={styles.buttonText}
           skin={styles.button}
-          onPress={() => onClick('on-click-purchase')}
+          onPress={() => onClick('on-click-pre-purchase')}
         />
       </View>
     </View>

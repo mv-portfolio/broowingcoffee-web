@@ -1,24 +1,27 @@
 import {isTypeof} from 'utils/checker';
 
-export const dialogPurchasingInitState = ({
-  discount = {},
+export const dialogPurchasingProductInitState = ({
+  _id_discount = {},
   product_type,
   size,
   numAvail,
   price,
 }) => ({
-  discount: discount,
+  _id_discount: _id_discount ? _id_discount : {},
   product_type: product_type ? `${product_type}` : '',
   size: size ? `${size}` : '',
   numAvail: '1',
   price: price ? `${price}` : '',
 });
 
-export default function dialogPurchasing(state = dialogPurchasingInitState({}), action) {
+export default function dialogPurchasingProduct(
+  state = dialogPurchasingProductInitState({}),
+  action,
+) {
   switch (action.type) {
     case 'set':
       return {
-        discount: isTypeof('object', action.discount, state.discount),
+        _id_discount: isTypeof('object', action._id_discount, state._id_discount),
         product_type: isTypeof('string', action.product_type, state.product_type),
         size: isTypeof('string', action.size, state.size),
         numAvail: isTypeof('string', action.numAvail, state.numAvail),
@@ -26,7 +29,7 @@ export default function dialogPurchasing(state = dialogPurchasingInitState({}), 
       };
 
     case 'clear':
-      return dialogPurchasingInitState({});
+      return dialogPurchasingProductInitState({});
 
     default:
       return state;

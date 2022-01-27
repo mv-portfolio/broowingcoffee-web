@@ -7,6 +7,7 @@
 .mainPane .bodyPane {
 }
 .bodyPane .labelPane {
+  height: 6vh;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -19,10 +20,12 @@
 
 .labelPane .buttonSearch {
   height: 4.5vh;
+  width: 15vh;
   align-items: center;
   justify-content: center;
   padding: 0 2vh 0 1.5vh;
-  background-origin: red;
+  background-color: var(--BACKGROUND-COLOR3);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 
 .buttonSearch .textSearch {

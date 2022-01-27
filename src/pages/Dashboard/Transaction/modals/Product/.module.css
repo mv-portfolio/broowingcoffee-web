@@ -1,5 +1,5 @@
 .mainPane {
-  width: 40vh;
+  width: 37.5vh;
   min-height: 35vh;
   border-radius: 2vh;
   padding: 4vh 3vh 4vh 3vh;
@@ -26,24 +26,26 @@
 .mainPane .bodyPane {
   flex: 4;
 }
+.bodyPane .combinationPane {
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
 .bodyPane .label {
-  font-size: 1.65vh;
+  font-size: 1.75vh;
 }
 .bodyPane .input {
   box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
-.bodyPane .inputPane {
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-.inputPane .dropdown {
-  width: 19vh;
-  background-color: var(--ACCENT-COLOR);
-}
-.bodyPane .dropdownDiscount {
+.bodyPane .dropdown {
   width: 100%;
   background-color: var(--ACCENT-COLOR);
+}
+.bodyPane .dropdownList {
+  z-index: 3;
+}
+.bodyPane .dropdownList2 {
+  z-index: 2;
 }
 .bodyPane .counterPane {
   height: 5vh;

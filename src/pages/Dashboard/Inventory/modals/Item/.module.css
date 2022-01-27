@@ -45,6 +45,7 @@
 }
 .bodyPane .buttonPropertySkin {
   height: 5.5vh;
+  padding-left: 1vh;
   background-color: var(--ACCENT-COLOR);
   box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }

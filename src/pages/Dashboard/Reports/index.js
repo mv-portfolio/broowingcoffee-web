@@ -8,7 +8,7 @@ import {Header, PrimaryDialog} from 'context';
 
 import TransactionList from './components/TransactionList';
 import OtherList from './components/OtherList';
-import {WHITE} from 'constants/colors';
+import {ACCENT_COLOR, WHITE} from 'constants/colors';
 
 import styles from './.module.css';
 import Transaction from './modals/Transaction';
@@ -48,7 +48,7 @@ function Reports({user, reports, dispatch}) {
       return;
     }
     if (action === 'on-view-transaction-history') {
-      onShowPrimaryDialog(<Transaction data={value} />, {disabledTouchOutside: false});
+      onShowPrimaryDialog(<Transaction transaction={value} />, {disabledTouchOutside: false});
       return;
     }
   };
@@ -80,7 +80,7 @@ function Reports({user, reports, dispatch}) {
             onPress={() => onClick('on-search-transactions-history')}>
             <Text style={styles.textSearch}>Search</Text>
             <Separator horizontal={1} />
-            <Icon font='Feather' name='search' color={WHITE} size={hp(2)} />
+            <Icon font='Feather' name='search' color={ACCENT_COLOR} size={hp(2)} />
           </Button>
         </View>
         <Separator vertical={0.75} />
@@ -98,7 +98,7 @@ function Reports({user, reports, dispatch}) {
             onPress={() => onClick('on-search-action-history')}>
             <Text style={styles.textSearch}>Search</Text>
             <Separator horizontal={1} />
-            <Icon font='Feather' name='search' color={WHITE} size={hp(2)} />
+            <Icon font='Feather' name='search' color={ACCENT_COLOR} size={hp(2)} />
           </Button>
         </View>
         <Separator vertical={0.75} />

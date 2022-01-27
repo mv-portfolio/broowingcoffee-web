@@ -7,8 +7,8 @@ import {
   headerInitState,
   primaryDialog,
   primaryDialogInitState,
-  dialogPurchasing,
-  dialogPurchasingInitState,
+  dialogPurchasingProduct,
+  dialogPurchasingProductInitState,
   toast,
   toastInitState,
   dialogItem,
@@ -29,6 +29,8 @@ import {
   perishableInitState,
   dialogProduct,
   dialogProductInitState,
+  dialogPrePurchasing,
+  dialogPrePurchasingInitState,
 } from './reducers';
 
 export {
@@ -39,8 +41,8 @@ export {
   headerInitState,
   primaryDialog,
   primaryDialogInitState,
-  dialogPurchasing,
-  dialogPurchasingInitState,
+  dialogPurchasingProduct,
+  dialogPurchasingProductInitState,
   toast,
   toastInitState,
   dialogItem,
@@ -61,6 +63,8 @@ export {
   perishableInitState,
   dialogProduct,
   dialogProductInitState,
+  dialogPrePurchasing,
+  dialogPrePurchasingInitState,
 };
 
 export default function useHook(init, reducer) {

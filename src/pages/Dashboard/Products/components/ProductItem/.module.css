@@ -8,6 +8,7 @@
   box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
 .mainPane .title {
+  max-width: 41vh;
   font-size: 1.7vh;
   font-weight: bold;
 }

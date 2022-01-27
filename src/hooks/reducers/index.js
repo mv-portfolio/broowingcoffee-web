@@ -3,7 +3,9 @@ import assessInfo from './assessInfo';
 import login from './login';
 import header, {headerInitState} from './header';
 import primaryDialog, {primaryDialogInitState} from './primaryDialog';
-import dialogPurchasing, {dialogPurchasingInitState} from './dialogPurchasing';
+import dialogPurchasingProduct, {
+  dialogPurchasingProductInitState,
+} from './dialogPurchasingProduct';
 import toast, {toastInitState} from './toast';
 import dialogItem, {dialogItemInitState} from './dialogItem';
 import secondaryDialog, {secondaryDialogInitState} from './secondaryDialog';
@@ -15,6 +17,7 @@ import statistics, {statisticsInitState} from './statistics';
 import settings, {settignsInitState} from './settings';
 import perishable, {perishableInitState} from './perishable';
 import dialogProduct, {dialogProductInitState} from './dialogProduct';
+import dialogPrePurchasing, {dialogPrePurchasingInitState} from './dialogPrePurchasing';
 
 export {
   assessAcc,
@@ -24,8 +27,8 @@ export {
   headerInitState,
   primaryDialogInitState,
   primaryDialog,
-  dialogPurchasingInitState,
-  dialogPurchasing,
+  dialogPurchasingProductInitState,
+  dialogPurchasingProduct,
   toastInitState,
   toast,
   dialogItem,
@@ -48,4 +51,6 @@ export {
   perishableInitState,
   dialogProduct,
   dialogProductInitState,
+  dialogPrePurchasing,
+  dialogPrePurchasingInitState,
 };

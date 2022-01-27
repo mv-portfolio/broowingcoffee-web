@@ -1,8 +1,8 @@
 import {useContext, useEffect, useReducer, useRef, useState} from 'react';
 import {Button, Dropdown, Separator, Text, TextInput, View} from 'components';
 import {
-  dialogPurchasing as reducerDialogPurchasing,
-  dialogPurchasingInitState,
+  dialogPurchasingProduct as reducerDialogPurchasingProduct,
+  dialogPurchasingProductInitState,
 } from 'hooks';
 import Formatter from 'utils/Formatter';
 import styles from './.module.css';
@@ -10,6 +10,7 @@ import {connect} from 'react-redux';
 import {
   getDiscountObj,
   getDiscounts,
+  getInitialProductCombination,
   getProductConsumed,
   getProductPrice,
   getSpecificProperty,
@@ -17,6 +18,8 @@ import {
 import {Toast} from 'context';
 import {ACCENT_COLOR, ACCENT_COLOR_DISABLED, BACKGROUND_COLOR} from 'constants/colors';
 import {isInteger} from 'utils/checker';
+import ProductType from './components/ProductType';
+import Size from './components/Size';
 
 function Product({
   type,
@@ -29,13 +32,13 @@ function Product({
   onDelete,
   onCancel,
 }) {
-  const {name, based} = product;
+  const {name, based, consumed} = product;
 
   const {onShow: onShowToast} = useContext(Toast);
 
   const [state, setState] = useReducer(
-    reducerDialogPurchasing,
-    dialogPurchasingInitState(purchasingProduct),
+    reducerDialogPurchasingProduct,
+    dialogPurchasingProductInitState(purchasingProduct),
   );
   const [isChange, setChange] = useState(false);
   const spinner = useRef(null);
@@ -101,19 +104,19 @@ function Product({
       });
       return;
     }
+    if (actionType === 'on-select-product-type') {
+      const price = getProductPrice(product, value, state.size);
+      setState({type: 'set', product_type: value, price});
+      return;
+    }
     if (actionType === 'on-select-size') {
       const price = getProductPrice(product, state.product_type, value);
       setState({type: 'set', size: value, price});
       return;
     }
-    if (actionType === 'on-select-type') {
-      const price = getProductPrice(product, value, state.size);
-      setState({type: 'set', product_type: value, price});
-      return;
-    }
     if (actionType === 'on-select-discount') {
-      const discount = getDiscountObj(discounts, value);
-      setState({type: 'set', discount});
+      const _id_discount = getDiscountObj(discounts, value);
+      setState({type: 'set', _id_discount});
       return;
     }
     if (actionType === 'on-click-deduct-numbers-of-purchase') {
@@ -135,8 +138,8 @@ function Product({
 
   const changeListener = () => {
     if (type !== 'add') {
-      const {discount, product_type, size} = purchasingProduct;
-      if (discount.name !== state.discount.name) {
+      const {_id_discount, product_type, size} = purchasingProduct;
+      if (_id_discount.name !== state._id_discount.name) {
         setChange(true);
         return;
       }
@@ -165,69 +168,66 @@ function Product({
         </View>
         <></>
       </View>
-      <Separator vertical={2} />
+      <Separator vertical={1.5} />
       <View style={styles.bodyPane}>
-        <View style={styles.inputPane}>
-          <View style={styles.dropdownPane}>
-            <Text style={styles.label}>Type</Text>
-            <Separator vertical={0.25} />
-            <Dropdown
-              style={styles.dropdown}
-              accentColor={BACKGROUND_COLOR}
-              items={['hot', 'cold']}
-              selected={state.product_type}
-              onSelected={type => onClick('on-select-type', type)}
-            />
-          </View>
-          <View style={styles.dropdownPane}>
-            <Text style={styles.label}>Size</Text>
-            <Separator vertical={0.25} />
-            <Dropdown
-              style={styles.dropdown}
-              accentColor={BACKGROUND_COLOR}
-              items={['small', 'medium', 'large']}
-              selected={state.size}
-              onSelected={size => onClick('on-select-size', size)}
-            />
-          </View>
+        <Text style={styles.label}>Product Combination</Text>
+        <Separator vertical={0.5} />
+        <View style={styles.combinationPane}>
+          <ProductType
+            product={product}
+            size={state.size ? state.size : getInitialProductCombination(consumed).size}
+            selected={state.product_type}
+            onSelect={productType => onClick('on-select-product-type', productType)}
+          />
+          <Separator horizontal={1} />
+          <Size
+            product={product}
+            productType={
+              state.product_type
+                ? state.product_type
+                : getInitialProductCombination(consumed).product_type
+            }
+            selected={state.size}
+            onSelect={size => onClick('on-select-size', size)}
+          />
         </View>
-        <Separator vertical={0.75} />
+        <Separator vertical={1} />
         <Text style={styles.label}>Discounts</Text>
-        <Separator vertical={0.25} />
+        <Separator vertical={0.5} />
         <Dropdown
-          style={styles.dropdownDiscount}
+          style={styles.dropdown}
           accentColor={BACKGROUND_COLOR}
           items={getDiscounts(discounts)}
           selected={
             type !== 'add'
-              ? state.discount.value
-                ? `${state.discount.name} (${state.discount.value}%)`
+              ? state._id_discount.value
+                ? `${state._id_discount.name} (${state._id_discount.value}%)`
                 : 'none'
-              : state.discount.value
+              : state._id_discount.value
               ? null
               : 'none'
           }
           onSelected={discount => onClick('on-select-discount', discount)}
         />
-        <Separator vertical={0.75} />
+        <Separator vertical={1} />
         <Text style={styles.label}>Price</Text>
-        <Separator vertical={0.25} />
+        <Separator vertical={0.5} />
         <TextInput
           skin={styles.input}
           disabled={true}
           defaultStyle={{boxShadow: 'none'}}
           placeholder='0'
           value={
-            state.discount.value
-              ? state.price - (state.discount.value / 100) * state.price
+            state._id_discount.value
+              ? state.price - (state._id_discount.value / 100) * state.price
               : state.price
           }
         />
         {type === 'add' && (
           <>
-            <Separator vertical={0.75} />
+            <Separator vertical={1} />
             <Text style={styles.label}>Numbers of purchase</Text>
-            <Separator vertical={0.25} />
+            <Separator vertical={0.5} />
             <View style={styles.counterPane}>
               <Button
                 skin={styles.buttonCounter}
