@@ -1,6 +1,7 @@
+import {useState, useEffect} from 'react';
 import {CircleSnail, Text, View} from 'components';
 import {ACCENT_COLOR, BACKGROUND_COLOR4, LINEGRAPH_COLORS, WHITE} from 'constants/colors';
-import {Area, AreaChart, CartesianGrid, Label, Tooltip, XAxis, YAxis} from 'recharts';
+import {Area, AreaChart, CartesianGrid, Tooltip, XAxis, YAxis} from 'recharts';
 import {hp} from 'utils/helper';
 import styles from './.module.css';
 
@@ -10,6 +11,18 @@ export default function LineGraph({
   top3Products = [],
   manipulateData = [],
 }) {
+  const [graphStyle, setGraphStyle] = useState({});
+
+  const initListener = () => {
+    const graphId = document.getElementById('graph');
+    if (graphId) {
+      setGraphStyle({
+        width: `${graphId.getAttribute('width')}px`,
+      });
+    }
+  };
+  useEffect(initListener, []);
+
   return (
     <View style={styles.mainPane}>
       {isLoading ? (
@@ -20,9 +33,10 @@ export default function LineGraph({
         <View style={styles.graphPane}>
           <View style={styles.upperPane}>
             <View style={styles.yPane}>
-              <Text style={styles.yLabel}>NUMS OF PURCHASED</Text>
+              <Text style={styles.yLabel}>NOS. OF PURCHASED</Text>
             </View>
             <AreaChart
+              id='graph'
               className={styles.graph}
               width={width}
               height={height}
@@ -62,7 +76,7 @@ export default function LineGraph({
               ))}
             </AreaChart>
           </View>
-          <View style={styles.lowerPane}>
+          <View style={styles.lowerPane} defaultStyle={{width: graphStyle.width}}>
             <Text style={styles.xLabel}>DAYS OF MONTH</Text>
           </View>
         </View>

@@ -159,7 +159,7 @@ function Transaction({
         showPreventClearPurchasing({
           onClickPostive: () => {
             dispatch(CLEAR_PURCHASING_PRODUCTS());
-            dispatch(SET_INDEX_PRODUCTS_REQ({product: value}));
+            dispatch(POP_PRODUCT({product: value}));
           },
         });
         return;

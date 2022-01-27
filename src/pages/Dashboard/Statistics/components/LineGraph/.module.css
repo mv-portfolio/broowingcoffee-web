@@ -1,8 +1,7 @@
 .mainPane {
-  flex: 1;
+  height: 35vh;
   overflow-x: auto;
   overflow-y: hidden;
-  justify-content: center;
 }
 
 .mainPane .loadingPane {
@@ -39,8 +38,7 @@
 }
 .graphPane .lowerPane {
   height: 3vh;
-  align-items: flex-start;
-  justify-content: flex-end;
+  align-items: center;
 }
 .lowerPane .xLabel {
   padding-left: 1vh;
