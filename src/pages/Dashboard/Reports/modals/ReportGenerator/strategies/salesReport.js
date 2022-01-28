@@ -15,7 +15,7 @@ const getDataSet = (data, footer = []) => {
           },
         },
         {
-          title: 'NUMBER OF SALES',
+          title: 'NUMBER OF TRANSACTIONS',
           width: {wpx: 250},
           style: {
             font: {sz: '12', bold: true},
