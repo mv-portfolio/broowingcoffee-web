@@ -557,7 +557,7 @@ const getProductDifferences = (prev, pres) => {
         });
 
         if (isChange) {
-          temp_obj.remarks = 'Product Combinations was changed';
+          temp_obj.remarks = 'product combinations was changed';
         }
         return;
       }
