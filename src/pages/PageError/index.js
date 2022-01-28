@@ -8,7 +8,6 @@ function PageError({error}) {
     return <Icon font={type} name={name} size='7.5vh' color={ACCENT_COLOR} />;
   };
   const errorHandler = error => {
-    console.log(error);
     if (error.auth) {
       return {
         title: 'Session Expired',
