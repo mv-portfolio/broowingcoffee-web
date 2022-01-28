@@ -12,8 +12,6 @@ export default function productBase(state = productBaseInitState, action) {
       return state;
 
     case ACTION_TYPE('PRODUCT-BASE').PUSH:
-      const base = arrayFind(state.bases, {name: action.base.name});
-      if (base || action.base.name.length <= 1) return state;
       return {
         ...state,
         bases: isObject(action.base) ? [...state.bases, action.base] : state.bases,

@@ -1,7 +1,12 @@
 import {useEffect, useReducer} from 'react';
 import {connect} from 'react-redux';
 import {View, Text, Separator, DatePicker} from 'components';
-import {getTotalAmountPurchasedProducts, getTotalPurchased, hp, wp} from 'utils/helper';
+import {
+  getManipulatedData,
+  getNumPurchasedProducts,
+  getTotalPurchased,
+  hp,
+} from 'utils/helper';
 import {PEEK_TRANSACTIONS} from 'ducks/actions';
 import {statistics, statisticsInitState} from 'hooks';
 import LineGraph from './components/LineGraph';
@@ -9,7 +14,7 @@ import List from './components/List';
 import styles from './.module.css';
 import Formatter from 'utils/Formatter';
 
-function Statistics({user, loading, transactions, dispatch}) {
+function Statistics({loading, transactions, dispatch}) {
   const [state, setState] = useReducer(statistics, statisticsInitState);
 
   const onClick = (action, value) => {
@@ -23,9 +28,21 @@ function Statistics({user, loading, transactions, dispatch}) {
     }
   };
 
+  const topList = getNumPurchasedProducts(transactions.transactions).sort(function (
+    a,
+    b,
+  ) {
+    if (a.availed > b.availed) return -1;
+    if (a.availed < b.availed) return 1;
+    return 0;
+  });
+
   const screenInitListener = () => {
     document.title = 'Broowing Coffee | Statistics';
-    onClick('on-select-most-purchasable');
+
+    return () => {
+      onClick('on-select-most-purchasable');
+    };
   };
   const onSetViewport = width => {
     setState({type: 'set', graphStyle: {width: (97.5 / 100) * width, height: hp(30)}});
@@ -48,10 +65,11 @@ function Statistics({user, loading, transactions, dispatch}) {
 
   return (
     <View style={styles.mainPane}>
-      <View style={styles.topPane}>
+      <View style={styles.bodyPane}>
         <View style={styles.header}>
           <Text style={styles.label}>Top 3 Most Purchasable</Text>
           <DatePicker
+            style={styles.dateFiltered}
             date={new Date()}
             hideDateSelection={true}
             formatType='standard'
@@ -61,31 +79,32 @@ function Statistics({user, loading, transactions, dispatch}) {
         <LineGraph
           isLoading={loading.status}
           style={state.graphStyle}
-          manipulateData={transactions.manipulated_data}
-          top3Products={transactions.top_list.slice(0, 3)}
+          manipulateData={getManipulatedData(
+            transactions.transactions,
+            state.filteredDate,
+            topList.slice(0, 3),
+          )}
+          top3Products={topList.slice(0, 3)}
         />
-      </View>
-      <View style={styles.bodyPane}>
+        <Separator vertical={1} />
         <Text style={styles.label}>
-          Purchased Product{`${transactions.top_list.length > 1 ? 's' : ''}`} (per month)
+          Purchased Product{`${topList.length > 1 ? 's' : ''}`} (per month)
         </Text>
         <Separator vertical={1} />
-        <List items={loading.status ? [] : transactions.top_list} />
+        <List items={loading.status ? [] : topList} />
       </View>
       <View style={styles.bottomPane}>
         <View style={styles.propertyPane}>
           <Text style={styles.property}>Total Purchased Products</Text>
           <Text style={styles.value}>
-            {getTotalPurchased(transactions.top_list).totalNumberPurchased}
+            {getTotalPurchased(topList).totalNumberPurchased}
           </Text>
         </View>
         <Separator vertical={0.4} />
         <View style={styles.propertyPane}>
           <Text style={styles.property}>Total Purchased Amount</Text>
           <Text style={styles.value}>
-            {Formatter.toMoney(
-              getTotalPurchased(transactions.top_list).totalAmountPurchased,
-            )}
+            {Formatter.toMoney(getTotalPurchased(topList).totalAmountPurchased)}
           </Text>
         </View>
       </View>
@@ -93,8 +112,7 @@ function Statistics({user, loading, transactions, dispatch}) {
   );
 }
 
-const stateProps = ({user, loading, transactions}) => ({
-  user,
+const stateProps = ({loading, transactions}) => ({
   loading,
   transactions,
 });

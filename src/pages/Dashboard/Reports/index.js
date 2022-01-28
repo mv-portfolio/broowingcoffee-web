@@ -2,24 +2,27 @@ import {useContext, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {push} from 'connected-react-router';
 import {View, Text, Separator, Button, Icon} from 'components';
-import {PEEK_REPORTS} from 'ducks/actions';
-import {DESC_DATE_CREATED, getDateToNumber, hp} from 'utils/helper';
-import {Header, PrimaryDialog} from 'context';
+import {DESC_DATE_CREATED, hp} from 'utils/helper';
+import {Header, PrimaryDialog, Toast} from 'context';
+import {ACCENT_COLOR} from 'constants/colors';
 
 import TransactionList from './components/TransactionList';
 import OtherList from './components/OtherList';
-import {ACCENT_COLOR, WHITE} from 'constants/colors';
 
 import styles from './.module.css';
 import Transaction from './modals/Transaction';
+import ReportGenerator from './modals/ReportGenerator';
+import {CLEAR_ERROR} from 'ducks/actions';
 
-function Reports({user, reports, dispatch}) {
+function Reports({error, reports, dispatch}) {
   const {title, onSetHeader} = useContext(Header);
 
-  const {onShow: onShowPrimaryDialog} = useContext(PrimaryDialog);
+  const {onShow: onShowToast} = useContext(Toast);
+  const {onShow: onShowPrimaryDialog, onHide: onHidePrimaryDialog} =
+    useContext(PrimaryDialog);
 
-  const onClick = (action, value) => {
-    if (action === 'on-search-transactions-history') {
+  const onClick = (actionType, value) => {
+    if (actionType === 'on-search-transactions-history') {
       dispatch(
         push({
           pathname: '/search',
@@ -33,7 +36,7 @@ function Reports({user, reports, dispatch}) {
       onSetHeader({title: `Search Transactions`});
       return;
     }
-    if (action === 'on-search-action-history') {
+    if (actionType === 'on-search-action-history') {
       dispatch(
         push({
           pathname: '/search',
@@ -47,28 +50,31 @@ function Reports({user, reports, dispatch}) {
       onSetHeader({title: `Search Actions`});
       return;
     }
-    if (action === 'on-view-transaction-history') {
-      onShowPrimaryDialog(<Transaction transaction={value} />, {disabledTouchOutside: false});
+    if (actionType === 'on-view-transaction-history') {
+      onShowPrimaryDialog(
+        <Transaction transaction={value} onCancel={onHidePrimaryDialog} />,
+        {disabledTouchOutside: false},
+      );
+      return;
+    }
+    if (actionType === 'on-click-generate-report') {
+      onShowPrimaryDialog(<ReportGenerator onGenerate={onHidePrimaryDialog} />, {
+        disabledTouchOutside: false,
+      });
       return;
     }
   };
 
-  const screenInitListener = () => {
-    document.title = 'Broowing Coffee | Reports';
-    const date = new Date();
-    dispatch(
-      PEEK_REPORTS({
-        filter: {
-          date: {
-            min: getDateToNumber(date, date.getDate()),
-            max: getDateToNumber(date, date.getDate() + 1),
-          },
-          type: '',
-        },
-      }),
-    );
+  const errorListener = () => {
+    if (error.report) {
+      onHidePrimaryDialog();
+      onShowToast(error.report, 4000, () => {
+        dispatch(CLEAR_ERROR());
+      });
+      return;
+    }
   };
-  useEffect(screenInitListener, []);
+  useEffect(errorListener, [error]);
 
   return (
     <View style={styles.mainPane}>
@@ -104,13 +110,19 @@ function Reports({user, reports, dispatch}) {
         <Separator vertical={0.75} />
         <OtherList otherHistories={reports.otherHistories.sort(DESC_DATE_CREATED)} />
       </View>
-      <View style={styles.bottomPane}></View>
+      <View style={styles.bottomPane}>
+        <Button
+          title='GENERATE REPORTS'
+          skin={styles.buttonGenerateReports}
+          onPress={() => onClick('on-click-generate-report')}
+        />
+      </View>
     </View>
   );
 }
 
-const stateProps = ({user, reports}) => ({
-  user,
+const stateProps = ({error, reports}) => ({
+  error,
   reports,
 });
 

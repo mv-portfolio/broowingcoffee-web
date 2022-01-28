@@ -1,0 +1,59 @@
+.mainPane {
+  width: 40vh;
+  min-height: 20vh;
+  border-radius: 2vh;
+  padding: 4vh 3vh 4vh 3vh;
+  background-color: var(--BACKGROUND-COLOR2);
+  z-index: 1;
+}
+.mainPane .title {
+  letter-spacing: 0.1vh;
+  font-size: 3vh;
+  font-family: 'Standard-Font2';
+}
+.mainPane .bodyPane {
+}
+.bodyPane .label {
+  font-size: 1.75vh;
+}
+.bodyPane .datepickersPane {
+  flex-direction: row;
+  justify-content: space-between;
+}
+.datepickersPane .datepickerPane {
+}
+.datepickerPane .datepicker {
+  height: 5vh;
+  align-items: center;
+  justify-content: center;
+  padding-left: 2vh;
+  background-color: var(--BACKGROUND-COLOR3);
+  box-shadow: 0 0.5vh 0.5vh rgba(0, 0, 0, 0.25);
+}
+.bodyPane .dropdown {
+  background-color: var(--ACCENT-COLOR);
+  box-shadow: 0 0.5vh 0.5vh rgba(0, 0, 0, 0.25);
+}
+
+.mainPane .bottomPane {
+}
+.bottomPane .button {
+  display: flex;
+  width: 100%;
+  height: 6vh;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 1vh;
+  font-family: 'Standard-Font';
+  font-weight: bold;
+  font-size: 1.8vh;
+  box-shadow: 0 0.5vh 0.5vh rgba(0, 0, 0, 0.25);
+  background-color: var(--ACCENT-COLOR);
+}
+.bottomPane .button:focus {
+  outline: none;
+}
+.bottomPane .button:active {
+  opacity: 0.8;
+}

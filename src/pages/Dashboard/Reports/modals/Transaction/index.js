@@ -1,19 +1,19 @@
 import {useState} from 'react';
-import {View, Text, Separator} from 'components';
+import {View, Button, Icon, Text, Separator} from 'components';
 import {
+  hp,
   getDefaultObjectProducts,
   getPropsValues,
-  hp,
   onCleanName,
   onComputePurchasingProducts,
-  onComputeTransaction,
   onFormat,
 } from 'utils/helper';
 import PurchasedList from '../../components/PurchasedList';
+import {BACKGROUND_COLOR4} from 'constants/colors';
 import styles from './.module.css';
 import Formatter from 'utils/Formatter';
 
-export default function Transaction({transaction}) {
+export default function Transaction({transaction, onCancel}) {
   const {_id, cash, products} = transaction;
 
   const bottomProps = getPropsValues(transaction)
@@ -26,7 +26,12 @@ export default function Transaction({transaction}) {
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
-        <Text style={styles.label}>Transaction ID</Text>
+        <View style={styles.upperTopPane}>
+          <Text style={styles.label}>Transaction ID</Text>
+          <Button skin={styles.closeButton} onPress={onCancel}>
+            <Icon font='Feather' name='x' size={hp(2.75)} color={BACKGROUND_COLOR4} />
+          </Button>
+        </View>
         <Separator vertical={0.15} />
         <Text style={styles.title}>{_id}</Text>
       </View>

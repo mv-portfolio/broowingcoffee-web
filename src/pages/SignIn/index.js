@@ -73,7 +73,6 @@ function SignIn({error, loading, dispatch}) {
     };
   };
   const errorListener = () => {
-    console.log('Hello');
     if (error.signin) {
       setState({type: 'clear'});
     }

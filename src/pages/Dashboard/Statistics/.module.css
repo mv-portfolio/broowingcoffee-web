@@ -14,27 +14,29 @@
   font-weight: bold;
   color: var(--ACCENT-COLOR);
 }
+.header .dateFiltered {
+  align-items: center;
+  justify-content: center;
+}
 
 .mainPane .topPane {
   flex: 2.5;
 }
 
 .mainPane .bodyPane {
-  flex: 2.25;
+  flex: 2;
   justify-content: center;
 }
 
 .mainPane .bottomPane {
-  flex: 0.75;
-  padding: 0 1.5vh;
+  flex: 1;
+  justify-content: center;
 }
-
 .bottomPane .propertyPane {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
-
 .propertyPane .property {
   font-size: 1.75vh;
   font-weight: bold;

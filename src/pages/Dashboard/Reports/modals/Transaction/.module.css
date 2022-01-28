@@ -14,10 +14,18 @@
 .mainPane .topPane {
   flex: 0.75;
 }
-.topPane .label {
+.topPane .upperTopPane {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.upperTopPane .label {
   font-size: 1.5vh;
   font-weight: bold;
   color: var(--ACCENT-COLOR);
+}
+.upperTopPane .closeButton {
+  /* box-shadow: 0 0 0.5vh rgba(0, 0, 0, 0.5); */
 }
 .topPane .title {
   font-size: 2vh;
@@ -41,11 +49,11 @@
 }
 .propertyPane .propertyName {
   color: var(--WHITE);
-  font-size: 1.5vh;
+  font-size: 1.75vh;
 }
 .propertyPane .propertyValue {
   color: var(--ACCENT-COLOR);
-  font-size: 1.5vh;
+  font-size: 1.65vh;
   font-weight: bold;
   max-width: 25vh;
   overflow-x: auto;

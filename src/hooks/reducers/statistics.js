@@ -1,7 +1,9 @@
 import {isTypeof} from 'utils/checker';
 
+const date = new Date();
+
 export const statisticsInitState = {
-  filteredDate: [],
+  filteredDate: [date.getFullYear(), date.getMonth() + 1],
   graphStyle: {},
 };
 

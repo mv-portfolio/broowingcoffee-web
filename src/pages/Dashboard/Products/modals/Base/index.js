@@ -1,10 +1,11 @@
 import {Button, Separator, Text, TextInput, View} from 'components';
 import {Toast} from 'context';
 import {useContext, useState} from 'react';
+import {connect} from 'react-redux';
 import {isName} from 'utils/checker';
 import styles from './.module.css';
 
-export default function Base({onAdd}) {
+function Base({loading, dispatch, onAdd}) {
   const {onShow: onShowToast} = useContext(Toast);
   const [name, setName] = useState('');
 
@@ -50,8 +51,19 @@ export default function Base({onAdd}) {
       </View>
       <Separator vertical={2} />
       <View style={styles.bottomPane}>
-        <Button title='Add' skin={styles.buttonAdd} onPress={() => onClickAdd()} />
+        <Button
+          isLoading={loading.status}
+          title='Add'
+          skin={styles.buttonAdd}
+          onPress={() => onClickAdd()}
+        />
       </View>
     </View>
   );
 }
+
+const stateProps = ({loading}) => ({
+  loading,
+});
+const dispatchProps = dispatch => ({dispatch: action => dispatch(action)});
+export default connect(stateProps, dispatchProps)(Base);

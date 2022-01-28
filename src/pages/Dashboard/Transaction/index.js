@@ -20,6 +20,7 @@ import styles from './.module.css';
 import PrePurchasing from './modals/PrePurchasing';
 
 function Transaction({
+  transactions,
   dispatch,
   purchasingProducts,
   products: {products},
@@ -164,7 +165,7 @@ function Transaction({
   useEffect(successListener, [loading]);
   useEffect(errorListener, [error]);
   useEffect(dialogListener, [loading]);
-
+  
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
@@ -228,6 +229,7 @@ function Transaction({
 }
 
 const stateProps = ({
+  transactions,
   user,
   products,
   productBase,
@@ -235,6 +237,7 @@ const stateProps = ({
   error,
   loading,
 }) => ({
+  transactions,
   user,
   products,
   productBase,

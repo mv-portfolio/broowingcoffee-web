@@ -602,6 +602,120 @@ const getProductPrice = (product, product_type, size) => {
   const temp_product = getProductConsumed(size, product_type, product.consumed);
   return temp_product.price ? `${temp_product.price}` : '';
 };
+const getManipulatedData = (data, filteredDate = [], top3Products = []) => {
+  let tempData = [];
+  let partialData = [];
+  let finalData = [];
+
+  data
+    .sort(function (a, b) {
+      if (a.date_created > b.date_created) return 1;
+      if (a.date_created < b.date_created) return -1;
+      return -1;
+    })
+    .forEach((d, i) => {
+      let tempObj = {};
+      d.products.forEach(({_id_product}) => {
+        if (_id_product) {
+          const isPartialDatePropExist = arrayFind(getPropsValues(tempObj), {
+            property: Formatter.toName(_id_product.name),
+          });
+          if (!isPartialDatePropExist) {
+            tempObj[Formatter.toName(_id_product.name)] = 1;
+            return;
+          }
+          tempObj[Formatter.toName(_id_product.name)] = isPartialDatePropExist.value += 1;
+        }
+      });
+      partialData.push({date: getDate(d.date_created), ...tempObj});
+    });
+
+  partialData.forEach(partialD => {
+    const isFinalDateExist = arrayFind(tempData, {date: partialD.date});
+    if (!isFinalDateExist) {
+      tempData.push({...partialD});
+      return;
+    }
+    tempData = tempData.map((tempD, i) => {
+      if (tempD.date === partialD.date) {
+        let tempObj = {};
+        const partialDProps = getPropsValues(partialD).filter(
+          ({property}) => property !== 'date',
+        );
+        const tempDProps = getPropsValues(tempD).filter(
+          ({property}) => property !== 'date',
+        );
+        partialDProps.forEach(({property, value}) => {
+          const isPropsExist = arrayFind(tempDProps, {property});
+          if (!isPropsExist) {
+            tempObj[property] = value;
+            return;
+          }
+          tempObj[property] = value + isPropsExist.value;
+        });
+        return {...tempD, ...tempObj};
+      }
+      return tempD;
+    });
+  });
+
+  if (tempData.length) {
+    const date = new Date(filteredDate[0], filteredDate[1] - 1);
+
+    const numberOfDays = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+    for (let i = 0; i < numberOfDays; i++) {
+      let tempObj = {};
+      const isDateExist = arrayFind(tempData, {
+        date: i + 1,
+      });
+
+      top3Products.forEach(({name}) => {
+        tempObj[name] = 0;
+      });
+
+      if (!isDateExist) {
+        finalData.push({date: i + 1, ...tempObj});
+        continue;
+      }
+      finalData.push({...tempObj, ...isDateExist});
+    }
+  }
+  return finalData;
+};
+const getNumPurchasedProducts = (purchasedProducts = []) => {
+  let numPurchasedProducts = [];
+
+  purchasedProducts.forEach(({products}) => {
+    products.forEach(product => {
+      const isExist = arrayFind(numPurchasedProducts, {
+        _id: product._id_product._id,
+      });
+
+      if (!isExist) {
+        numPurchasedProducts.push({
+          _id: product._id_product._id,
+          name: Formatter.toName(product._id_product.name),
+          total_price: onComputePurchasingProduct(product),
+          availed: 1,
+        });
+        return;
+      }
+      numPurchasedProducts = numPurchasedProducts.map(numPurchasedProd => {
+        if (numPurchasedProd._id === product._id_product._id) {
+          return {
+            ...numPurchasedProd,
+            total_price:
+              numPurchasedProd.total_price + onComputePurchasingProduct(product),
+            availed: numPurchasedProd.availed + 1,
+          };
+        }
+        return numPurchasedProd;
+      });
+    });
+  });
+  return numPurchasedProducts;
+};
 /* ----- end ---- */
 
 const getPropsValues = obj => {
@@ -800,4 +914,6 @@ export {
   getDiscounts,
   getDiscountObj,
   getProductPrice,
+  getManipulatedData,
+  getNumPurchasedProducts,
 };

@@ -1,5 +1,5 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {isTypeof} from 'utils/checker';
+import {isObject, isTypeof} from 'utils/checker';
 
 export const transactionInitState = {
   transactions: [],
@@ -23,7 +23,7 @@ export default function transactions(state = transactionInitState, action) {
     case ACTION_TYPE('TRANSACTIONS').PUSH:
       return {
         ...state,
-        transactions: isTypeof('object')
+        transactions: isObject(action.transaction)
           ? [...state.transactions, action.transaction]
           : state.transactions,
       };

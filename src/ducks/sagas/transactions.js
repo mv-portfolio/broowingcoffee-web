@@ -38,6 +38,7 @@ function* peekWorker(state) {
     });
 
     yield put(SET_TRANSACTIONS({manipulated_data, transactions, top_list}));
+    yield console.log('PEEK-TRANSACTIONs-RESOLVE');
   } catch (err) {
     if (!err.includes('jwt')) {
       yield console.log('PEEK-TRANSACTIONs-REJECT', err);
@@ -67,6 +68,7 @@ function* pushWorker(state) {
       action: 'ADD',
       module: 'transactions',
       reference: res,
+      date_created: state.transaction.date_created,
     });
 
     yield put(SET_LOADING({status: false, message: 'push-transaction-resolve'}));

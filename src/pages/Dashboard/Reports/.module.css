@@ -5,6 +5,7 @@
 }
 
 .mainPane .bodyPane {
+  flex: 9;
 }
 .bodyPane .labelPane {
   height: 6vh;
@@ -17,7 +18,6 @@
   font-weight: bold;
   color: var(--ACCENT-COLOR);
 }
-
 .labelPane .buttonSearch {
   height: 4.5vh;
   width: 15vh;
@@ -27,8 +27,16 @@
   background-color: var(--BACKGROUND-COLOR3);
   box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }
-
 .buttonSearch .textSearch {
   font-size: 1.8vh;
   color: var(--WHITE);
+}
+
+.mainPane .bottomPane {
+  flex: 1.25;
+  justify-content: center;
+}
+.bottomPane .buttonGenerateReports {
+  background-color: var(--ACCENT-COLOR);
+  box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
 }

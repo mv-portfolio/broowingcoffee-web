@@ -10,11 +10,14 @@ import {
   PEEK_INVENTORY,
   PEEK_PRODUCTS,
   PEEK_PRODUCT_BASE,
+  PEEK_REPORTS,
+  PEEK_TRANSACTIONS,
   RESET_SESSION,
 } from 'ducks/actions';
 import {Header, PrimaryDialog, Toast} from 'context';
 import {pages} from './pages';
 import styles from './.module.css';
+import {getDateToNumber} from 'utils/helper';
 
 const HeaderBar = lazy(() => import('components/HeaderBar'));
 
@@ -41,13 +44,28 @@ function DashBoardNavigator({dispatch, user, error}) {
     dispatch(PEEK_DISCOUNTS());
     dispatch(PEEK_PRODUCT_BASE());
 
+    //for statistics and reports
+    const date = new Date();
+    dispatch(PEEK_TRANSACTIONS({filtered_date: date}));
+    dispatch(
+      PEEK_REPORTS({
+        filter: {
+          date: {
+            min: getDateToNumber(date, date.getDate()),
+            max: getDateToNumber(date, date.getDate() + 1),
+          },
+          type: '',
+        },
+      }),
+    );
+
     // const transaction = peekLocalStorage('tmp');
     // if (transaction) {
     //   dispatch(PUSH_TRANSACTIONS({transaction}));
     // }
   };
   const errorListener = () => {
-    if (error.auth === 'jwt expired') {
+    if (error.auth.includes('jwt')) {
       onShowPrimaryDialog(
         <Dialog
           title='Session Expired'
@@ -59,17 +77,6 @@ function DashBoardNavigator({dispatch, user, error}) {
           }}
         />,
       );
-    } else {
-      let errorMessage = '';
-      Object.values(error).map(value => {
-        if (value.includes('Connection Lost')) {
-          errorMessage = value;
-        }
-      });
-      if (errorMessage) {
-        onShowToast(errorMessage);
-        return;
-      }
     }
   };
 

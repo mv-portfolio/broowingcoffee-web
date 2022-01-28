@@ -1,5 +1,5 @@
 import {ACTION_TYPE} from 'constants/strings';
-import {isTypeof, isArray} from 'utils/checker';
+import {isTypeof, isArray, isObject} from 'utils/checker';
 
 export const reportsInitState = {
   transactionHistories: [],
@@ -24,10 +24,10 @@ export default function reports(state = reportsInitState, action) {
     case ACTION_TYPE('REPORTS').PUSH:
       return {
         ...state,
-        transactionHistories: isArray(action.transactionHistory)
+        transactionHistories: isObject(action.transactionHistory)
           ? [...state.transactionHistories, action.transactionHistory]
           : state.transactionHistories,
-        otherHistories: isArray(action.otherHistory)
+        otherHistories: isObject(action.otherHistory)
           ? [...state.otherHistories, action.otherHistory]
           : state.otherHistories,
       };

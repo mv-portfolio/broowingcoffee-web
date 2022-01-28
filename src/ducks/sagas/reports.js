@@ -12,7 +12,7 @@ import serverConfig from 'ducks/serverConfig';
 import {timeout} from 'network/api/server';
 import {server} from 'network/service';
 
-export function* onReport({action, module, reference}) {
+export function* onReport({action, module, reference, date_created}) {
   const {firstname, lastname} = yield select(state => state.user);
   if (module === 'transactions') {
     yield put(
@@ -21,7 +21,7 @@ export function* onReport({action, module, reference}) {
           action,
           module,
           reference,
-          date_created: new Date().getTime(),
+          date_created: date_created || new Date().getTime(),
         },
       }),
     );
@@ -76,7 +76,7 @@ function* peekWorker(state) {
     }
   } catch (err) {
     if (!err.includes('jwt')) {
-      console.log('PEEK-REPORT-REJECT', err);
+      console.log('PEEK-REPORTS-REJECT', err);
       yield put(SET_ERROR({report: err}));
     }
   } finally {
@@ -93,7 +93,7 @@ function* pushWorker(state) {
     }
   } catch (err) {
     if (!err.includes('jwt')) {
-      console.log('PEEK-REPORT-REJECT', err);
+      console.log('PEEK-REPORTS-REJECT', err);
       yield put(SET_ERROR({report: err}));
     }
   }

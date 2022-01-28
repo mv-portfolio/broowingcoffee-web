@@ -1,4 +1,5 @@
 import {Button, Separator, View} from 'components';
+import {BACKGROUND_COLOR2, BACKGROUND_COLOR3, BACKGROUND_COLOR4} from 'constants/colors';
 import {useState} from 'react';
 import {getProductConsumed} from 'utils/helper';
 import styles from './.module.css';
@@ -22,6 +23,9 @@ export default function Size({product, productType, selected, onSelect}) {
           : '0 0.5vh 0.25vh rgba(0, 0, 0, 0.2)'
         : 'none',
       border: select === size ? 'solid 0.3vh var(--ACCENT-COLOR)' : '',
+      backgroundColor: getProductConsumed(size, product_type, consumed).price
+        ? BACKGROUND_COLOR4
+        : BACKGROUND_COLOR3,
     },
   });
 

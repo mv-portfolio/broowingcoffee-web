@@ -31,6 +31,8 @@ import {
   dialogProductInitState,
   dialogPrePurchasing,
   dialogPrePurchasingInitState,
+  generateReports,
+  generateReportsInitState,
 } from './reducers';
 
 export {
@@ -65,6 +67,8 @@ export {
   dialogProductInitState,
   dialogPrePurchasing,
   dialogPrePurchasingInitState,
+  generateReports,
+  generateReportsInitState,
 };
 
 export default function useHook(init, reducer) {

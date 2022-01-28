@@ -18,6 +18,7 @@ import settings, {settignsInitState} from './settings';
 import perishable, {perishableInitState} from './perishable';
 import dialogProduct, {dialogProductInitState} from './dialogProduct';
 import dialogPrePurchasing, {dialogPrePurchasingInitState} from './dialogPrePurchasing';
+import generateReports, {generateReportsInitState} from './generateReports';
 
 export {
   assessAcc,
@@ -53,4 +54,6 @@ export {
   dialogProductInitState,
   dialogPrePurchasing,
   dialogPrePurchasingInitState,
+  generateReports,
+  generateReportsInitState,
 };

@@ -30,7 +30,7 @@
   transform: rotate(-90deg);
 }
 .upperPane .graph {
-  height: 60vh;
+  height: 50vh;
   font-size: 1.75vh;
   font-family: 'Standard-Font';
   font-weight: bold;

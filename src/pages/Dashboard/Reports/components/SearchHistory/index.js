@@ -2,10 +2,10 @@ import {View, Text, DatePicker, SearchField, CircleSnail} from 'components';
 import {searchHistory, searchHistoryInitState} from 'hooks';
 import {PrimaryDialog} from 'context';
 import {PEEK_REPORTS} from 'ducks/actions';
-import {useContext, useReducer} from 'react';
+import {useContext, useEffect, useReducer} from 'react';
 import {connect} from 'react-redux';
 import Formatter from 'utils/Formatter';
-import {DESC_DATE_CREATED, hp} from 'utils/helper';
+import {DESC_DATE_CREATED, getDateToNumber, hp} from 'utils/helper';
 import OtherList from '../OtherList';
 import TransactionList from '../TransactionList';
 import styles from './.module.css';
@@ -94,6 +94,26 @@ function SearchHistory({dispatch, loading, reports, type}) {
     return filterTemp.sort(DESC_DATE_CREATED);
   };
 
+  const screenInitListener = () => {
+    document.title = 'Broowing Coffee | Search Reports';
+
+    return () => {
+      const date = new Date();
+      dispatch(
+        PEEK_REPORTS({
+          filter: {
+            date: {
+              min: getDateToNumber(date, date.getDate()),
+              max: getDateToNumber(date, date.getDate() + 1),
+            },
+            type: '',
+          },
+        }),
+      );
+    };
+  };
+  useEffect(screenInitListener, []);
+
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>
@@ -126,7 +146,7 @@ function SearchHistory({dispatch, loading, reports, type}) {
             </View>
           </View>
           <SearchField
-          placeholder={type === 'transaction' ? 'id' : 'name'}
+            placeholder={type === 'transaction' ? 'id' : 'name'}
             value={state.search}
             onChangeText={value => onChange('on-search', value)}
           />
