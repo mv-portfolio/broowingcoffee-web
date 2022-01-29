@@ -1,6 +1,6 @@
 {
   "name": "capstone-web",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "homepage": ".",
   "author": {
     "name": "Marvin Petate",
@@ -8,9 +8,6 @@
     "url": "https://petatemarvin26.github.io/"
   },
   "private": true,
-  "engines": {
-    "node": "14.18.1"
-  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
