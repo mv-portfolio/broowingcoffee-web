@@ -95,7 +95,7 @@ function Statistics({loading, transactions, dispatch}) {
       </View>
       <View style={styles.bottomPane}>
         <View style={styles.propertyPane}>
-          <Text style={styles.property}>Total Purchased Products</Text>
+          <Text style={styles.property}>Total Number of Purchased</Text>
           <Text style={styles.value}>
             {getTotalPurchased(topList).totalNumberPurchased}
           </Text>

@@ -64,7 +64,7 @@ function Restock({loading, dispatch, item = {}, onRestock, onCancel}) {
     if (actionType === 'on-click-restock') {
       const isClean = onClean(state);
       if (!isClean.status) {
-        onShowToast('Enter Missing Field');
+        onShowToast(isClean.error);
         return;
       }
       onRestock(isClean.payload);

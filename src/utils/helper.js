@@ -685,7 +685,6 @@ const getManipulatedData = (data, filteredDate = [], top3Products = []) => {
 };
 const getNumPurchasedProducts = (purchasedProducts = []) => {
   let numPurchasedProducts = [];
-
   purchasedProducts.forEach(({products}) => {
     products.forEach(product => {
       const isExist = arrayFind(numPurchasedProducts, {

@@ -5,6 +5,7 @@ import {server} from 'network/service';
 
 import restockReport from './strategies/restockReport';
 import salesReport from './strategies/salesReport';
+import productsReport from './strategies/productReport';
 import styles from './.module.css';
 import {connect} from 'react-redux';
 import ButtonGenerate from '../../components/ButtonGenerate';
@@ -34,6 +35,12 @@ function ReportGenerator({auth, dispatch, onGenerate}) {
     const {filter_date, type_report} = state;
     if (type_report === 'Sales Report') {
       return salesReport(filter_date, data);
+    }
+    if (type_report === 'Products Report') {
+      return productsReport(filter_date, data);
+    }
+    if (type_report === 'Restock Report') {
+      return restockReport(filter_date, data);
     }
   };
 

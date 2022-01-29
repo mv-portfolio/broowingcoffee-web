@@ -1,6 +1,6 @@
 .mainPane {
   height: 15vh;
-  flex-direction: row;
+  flex-direction: row !important;
 }
 
 .mainPane .buttonSkin {

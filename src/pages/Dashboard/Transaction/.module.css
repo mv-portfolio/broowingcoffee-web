@@ -19,6 +19,7 @@
   justify-content: space-between;
 }
 .headerTopPane .dropdownBased {
+  min-width: 24vh;
   min-height: 4.5vh;
   padding-right: 0.5vh;
   box-shadow: none;
@@ -32,7 +33,6 @@
   color: rgba(247, 163, 91, 0.5) !important;
 }
 .dropdownBased .dropdownBasedText::placeholder {
-  color: red;
 }
 .dropdownBasedList {
   margin-top: 5vh !important;

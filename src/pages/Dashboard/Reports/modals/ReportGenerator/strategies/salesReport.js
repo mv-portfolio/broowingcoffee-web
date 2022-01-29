@@ -12,6 +12,7 @@ const getDataSet = (data, footer = []) => {
           style: {
             font: {sz: '12', bold: true, family: 'consolas'},
             alignment: {wrapText: true, horizontal: 'center', vertical: 'top'},
+            fill: {fgColor: {rgb: 'FFF7A35B'}},
           },
         },
         {
@@ -20,6 +21,7 @@ const getDataSet = (data, footer = []) => {
           style: {
             font: {sz: '12', bold: true},
             alignment: {wrapText: true, horizontal: 'center', vertical: 'top'},
+            fill: {fgColor: {rgb: 'FFF7A35B'}},
           },
         },
         {
@@ -28,26 +30,62 @@ const getDataSet = (data, footer = []) => {
           style: {
             font: {sz: '12', bold: true},
             alignment: {wrapText: true, horizontal: 'center', vertical: 'top'},
+            fill: {fgColor: {rgb: 'FFF7A35B'}},
           },
         },
       ],
-      data: [...data, [], [], footer],
+      data: [
+        ...data,
+        [
+          {
+            value: '',
+            style: {
+              fill: {fgColor: {rgb: 'FF282627'}},
+            },
+          },
+          {
+            value: '',
+            style: {
+              fill: {fgColor: {rgb: 'FF282627'}},
+            },
+          },
+          {
+            value: '',
+            style: {
+              fill: {fgColor: {rgb: 'FF282627'}},
+            },
+          },
+        ],
+        [
+          {
+            value: '',
+            style: {
+              fill: {fgColor: {rgb: 'FF282627'}},
+            },
+          },
+          {
+            value: '',
+            style: {
+              fill: {fgColor: {rgb: 'FF282627'}},
+            },
+          },
+          {
+            value: '',
+            style: {
+              fill: {fgColor: {rgb: 'FF282627'}},
+            },
+          },
+        ],
+        footer,
+      ],
     },
   ];
 };
 
 const manipulateData = (filter_date, transactions = []) => {
   let temp_data = [];
-  let temp_transactions = [];
 
-  temp_transactions = transactions.filter(txn => {
-    const time = new Date(txn.date_created).getTime();
-    if (time >= filter_date.min.getTime() && time < filter_date.max.getTime()) {
-      return txn;
-    }
-  });
-
-  temp_transactions.forEach(transaction => {
+  transactions.forEach(transaction => {
     const date = new Date(transaction.date_created);
     const _date = `${Formatter.monthTerm(
       date.getMonth(),
@@ -104,6 +142,8 @@ export default function salesReport(filter_date, data = []) {
           numFmt: property === 'nos_sales' ? '0' : '0.00',
           font: {sz: '11'},
           alignment: {wrapText: true, horizontal: 'center', vertical: 'center'},
+          fill: {fgColor: {rgb: 'FF282627'}},
+          font: {color: {rgb: 'FFFFFFFF'}},
         },
       };
     });
@@ -116,15 +156,24 @@ export default function salesReport(filter_date, data = []) {
       style: {
         font: {sz: '11', bold: true},
         alignment: {wrapText: true, horizontal: 'center', vertical: 'center'},
+        fill: {fgColor: {rgb: 'FF282627'}},
+        font: {color: {rgb: 'FFFFFFFF'}},
       },
     },
-    {value: ''},
+    {
+      value: '',
+      style: {
+        fill: {fgColor: {rgb: 'FF282627'}},
+      },
+    },
     {
       value: total_sales,
       style: {
         numFmt: '0.00',
         font: {sz: '11'},
         alignment: {wrapText: true, horizontal: 'center', vertical: 'center'},
+        fill: {fgColor: {rgb: 'FF282627'}},
+        font: {color: {rgb: 'FFFFFFFF'}},
       },
     },
   ]);

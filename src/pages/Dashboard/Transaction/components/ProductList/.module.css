@@ -1,6 +1,6 @@
 .mainPane {
   height: 12.5vh;
-  flex-direction: row;
+  flex-direction: row !important;
   padding: 1.25vh;
   overflow-x: auto;
   border-radius: 1vh;

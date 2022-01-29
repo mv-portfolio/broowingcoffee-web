@@ -18,6 +18,7 @@ import ProductList from './components/ProductList';
 import Product from './modals/Product';
 import styles from './.module.css';
 import PrePurchasing from './modals/PrePurchasing';
+import Formatter from 'utils/Formatter';
 
 function Transaction({
   transactions,
@@ -97,8 +98,22 @@ function Transaction({
       onHidePrimaryDialog();
     }
     if (actionType === 'on-delete-purchasing-product') {
-      dispatch(POP_PURCHASING_PRODUCT({purchasingProduct: value}));
-      onHidePrimaryDialog();
+      onShowSecondaryDialog(
+        <Dialog
+          title='Delete'
+          content={`Do you want to delete ${Formatter.toName(value._id_product.name)} ${
+            value.id <= 1 ? '' : `(${value.id})`
+          }`}
+          positiveText='Yes'
+          onClickPositive={() => {
+            dispatch(POP_PURCHASING_PRODUCT({purchasingProduct: value}));
+            onHidePrimaryDialog();
+            onHideSecondaryDialog();
+          }}
+          negativeText='No'
+          onClickNegative={onHideSecondaryDialog}
+        />,
+      );
     }
 
     //other

@@ -69,7 +69,7 @@ function* setWorker(state) {
       tempItem.quantity += item.quantity;
       action = 'RESTOCK';
 
-      if (!item.perishable_properties.current_unit) {
+      if (item.type === 'perishable' && !item.perishable_properties.current_unit) {
         tempItem.quantity -= 1;
         tempItem.perishable_properties.current_unit = item.perishable_properties.unit;
       }

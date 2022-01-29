@@ -16,7 +16,7 @@ export default function ButtonGenerate({
   reportType,
   element,
 }) {
-  if (reportType === 'Sales Report') {
+  const getComponent = () => {
     if (isLoading) {
       return (
         <button className={styles.button} disabled={true}>
@@ -33,6 +33,16 @@ export default function ButtonGenerate({
         <ExcelSheet dataSet={dataSet} name='sheet 1' />
       </ExcelFile>
     );
+  };
+
+  if (reportType === 'Sales Report') {
+    return getComponent(isLoading, dataSet);
+  }
+  if (reportType === 'Products Report') {
+    return getComponent(isLoading, dataSet);
+  }
+  if (reportType === 'Restock Report') {
+    return getComponent(isLoading, dataSet);
   }
   return <></>;
 }
