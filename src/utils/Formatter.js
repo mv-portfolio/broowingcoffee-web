@@ -17,6 +17,11 @@ export default class Formatter {
   static toNumber(value) {
     return parseInt(value);
   }
+  static toStandardNumber(numb) {
+    var str = numb.toString().split('.');
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return str.join('.');
+  }
   static toTime(date) {
     let prefer_date = new Date(date);
     let hr = '',

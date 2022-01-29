@@ -1,7 +1,6 @@
 import {Button, Icon, Separator, Text, View} from 'components';
 import {ACCENT_COLOR2} from 'constants/colors';
 import Formatter from 'utils/Formatter';
-import {getAbbreviationUnit} from 'utils/helper';
 import styles from './.module.css';
 
 export default function Item({
@@ -17,9 +16,9 @@ export default function Item({
         <Text style={styles.name}>{Formatter.toName(name)}</Text>
         <Separator horizontal={0.5} />
         <Text style={styles.consume}>
-          {consume}{' '}
+          {Formatter.toStandardNumber(consume)}{' '}
           {type === 'perishable'
-            ? `${getAbbreviationUnit(perishable_properties.unit_type)}`
+            ? `${perishable_properties.unit_type}${consume > 1 ? 's' : ''}`
             : 'quantity'}
         </Text>
       </View>

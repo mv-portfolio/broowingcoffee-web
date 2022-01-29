@@ -43,7 +43,11 @@ export default function PerishableProperties({
       setState({type: 'set', unit: value});
       return;
     }
-    if (actionType === 'on-change-current-unit' && isDouble(value ? value : '0')) {
+    if (
+      actionType === 'on-change-current-unit' &&
+      isDouble(value ? value : '0') &&
+      parseFloat(value ? value : '0') <= state.unit
+    ) {
       setState({type: 'set', current_unit: value});
       return;
     }

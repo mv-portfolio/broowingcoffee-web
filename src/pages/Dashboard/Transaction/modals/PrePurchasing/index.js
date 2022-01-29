@@ -28,6 +28,12 @@ function PrePurchasing({user, purchasingProducts = [], onPurchase, onCancel}) {
         error: 'Please enter the cash of customer',
       };
     }
+    if (state.cash < onComputePurchasingProducts(purchasingProducts)) {
+      return {
+        status: false,
+        error: 'Cash received must be higher or equal to total price',
+      };
+    }
 
     let payload = {};
     payload.receipt_to = state.receiptTo;
@@ -86,13 +92,23 @@ function PrePurchasing({user, purchasingProducts = [], onPurchase, onCancel}) {
           />
         </View>
         <View style={styles.inputPane}>
-          <Text style={styles.inputLabel}>Cash</Text>
+          <Text style={styles.inputLabel}>Cash received</Text>
           <input
             className={styles.input}
             style={{letterSpacing: '0.2vh'}}
             placeholder='0.00'
             value={state.cash}
             onChange={({target: {value}}) => onChange('on-change-cash', value)}
+          />
+        </View>
+        <View style={styles.inputPane}>
+          <Text style={styles.inputLabel}>Total price</Text>
+          <input
+            className={styles.input}
+            disabled={true}
+            style={{letterSpacing: '0.2vh'}}
+            placeholder='0'
+            value={Formatter.toMoney(onComputePurchasingProducts(purchasingProducts))}
           />
         </View>
         <View style={styles.inputPane}>
@@ -103,16 +119,6 @@ function PrePurchasing({user, purchasingProducts = [], onPurchase, onCancel}) {
             style={{letterSpacing: '0.2vh'}}
             placeholder='0'
             value={Formatter.toMoney(state.change)}
-          />
-        </View>
-        <View style={styles.inputPane}>
-          <Text style={styles.inputLabel}>Total price</Text>
-          <input
-            className={styles.input}
-            disabled={true}
-            style={{fontWeight: 'bold', letterSpacing: '0.2vh'}}
-            placeholder='0'
-            value={Formatter.toMoney(onComputePurchasingProducts(purchasingProducts))}
           />
         </View>
       </View>

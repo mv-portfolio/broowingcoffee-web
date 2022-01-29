@@ -127,7 +127,7 @@ function Inventory({
       onShowPrimaryDialog(
         <Dialog
           title={`Restock`}
-          content='are you sure this is the same item?'
+          content='Are you sure this is the same item?'
           positiveText='Yes'
           onClickPositive={() => {
             onShowPrimaryDialog(
@@ -173,7 +173,7 @@ function Inventory({
     if (actionType === 'on-click-add-item') {
       onShowConditionalDialog({
         title: 'Add Item',
-        content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
+        content: `Make sure all inputs and perishable properties are double checked. Do you want to proceed?`,
         onClickPositive: () => dispatch(PUSH_INVENTORY_REQ({item: value})),
       });
       return;
@@ -181,7 +181,7 @@ function Inventory({
     if (actionType === 'on-click-update-item') {
       onShowConditionalDialog({
         title: 'Update Item',
-        content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
+        content: `Make sure all inputs and perishable properties are double checked. Do you want to proceed?`,
         onClickPositive: () => dispatch(SET_INDEX_INVENTORY_REQ({item: value})),
       });
       return;
@@ -256,12 +256,14 @@ function Inventory({
   };
   const errorListener = () => {
     if (error.inventory) {
+      onHideSecondaryDialog();
       onShowToast(error.inventory, 4000, () => {
         dispatch(CLEAR_ERROR());
       });
       return;
     }
     if (error.discount) {
+      onHideSecondaryDialog();
       onShowToast(error.discount, 4000, () => {
         dispatch(CLEAR_ERROR());
       });

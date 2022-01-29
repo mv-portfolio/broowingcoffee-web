@@ -17,7 +17,7 @@ export default function LineGraph({
     const graphId = document.getElementById('graph');
     if (graphId) {
       setGraphStyle({
-        width: `calc(${graphId.getAttribute('width')}px)`,
+        width: `calc(${graphId.getAttribute('width')}px + 2vh)`,
       });
     }
   };
@@ -43,7 +43,7 @@ export default function LineGraph({
               data={manipulateData}
               margin={{
                 top: hp(2),
-                right: hp(10),
+                right: hp(2),
                 left: -hp(4),
               }}>
               <CartesianGrid strokeDasharray='5' opacity={0.5} />

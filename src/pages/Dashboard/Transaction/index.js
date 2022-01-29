@@ -40,11 +40,13 @@ function Transaction({
       onShowPrimaryDialog(
         <Product
           type='add'
+          remains={Math.abs(purchasingProducts.length - 99)}
           product={value}
           onAdd={product => onClick('on-add-purchasing-product', product)}
           onCancel={onHidePrimaryDialog}
         />,
       );
+      return;
     }
     if (actionType === 'on-click-edit-purchasing-product') {
       onShowPrimaryDialog(
@@ -118,7 +120,7 @@ function Transaction({
       onShowSecondaryDialog(
         <Dialog
           title='Transaction'
-          content='do you want to proceed?'
+          content='Do you want to proceed?'
           positiveText='Yes'
           onClickPositive={() => dispatch(PUSH_TRANSACTIONS_REQ({transaction: value}))}
           negativeText='No'
@@ -165,7 +167,7 @@ function Transaction({
   useEffect(successListener, [loading]);
   useEffect(errorListener, [error]);
   useEffect(dialogListener, [loading]);
-  
+
   return (
     <View style={styles.mainPane}>
       <View style={styles.topPane}>

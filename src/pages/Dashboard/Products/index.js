@@ -89,7 +89,7 @@ function Transaction({
     onShowSecondaryDialog(
       <Dialog
         title='Clear Invoice'
-        content='invoice has selected products, once you perform this action we will clear the invoice, do you want to proceed?'
+        content='Invoice has selected products, once you perform this action we will clear the invoice. Do you want to proceed?'
         positiveText={positiveText || 'Yes'}
         onClickPositive={onClickPostive}
         negativeText={'No'}
@@ -133,7 +133,7 @@ function Transaction({
     if (actionType === 'on-click-add-product') {
       onShowConditionalDialog({
         title: `Add Product`,
-        content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
+        content: `Make sure all inputs and perishable properties are double checked. Do you want to proceed?`,
         onClickPositive: () => dispatch(PUSH_PRODUCT_REQ({product: value})),
       });
       return;
@@ -150,7 +150,7 @@ function Transaction({
       }
       onShowConditionalDialog({
         title: `Update Product`,
-        content: `make sure all inputs and perishable property are double checked, do you want to proceed?`,
+        content: `Make sure all inputs and perishable properties are double checked. Do you want to proceed?`,
         onClickPositive: () => dispatch(SET_INDEX_PRODUCTS_REQ({product: value})),
       });
     }
@@ -166,7 +166,7 @@ function Transaction({
       }
       onShowConditionalDialog({
         title: 'Delete',
-        content: `do you want to delete ${Formatter.toName(value.name)}?`,
+        content: `Do you want to delete ${Formatter.toName(value.name)}?`,
         onClickPositive: () => dispatch(POP_PRODUCT({product: value})),
         positiveButtonStyle: {backgroundColor: ACCENT_COLOR2},
       });
@@ -179,7 +179,7 @@ function Transaction({
       onShowPrimaryDialog(
         <Dialog
           title='Delete'
-          content={`are you sure you want to delete ${value.name}`}
+          content={`Are you sure you want to delete ${value.name}`}
           positiveText='Yes'
           onClickPositive={() => onClick('on-click-yes-dialog-delete-base', value)}
           negativeText='No'

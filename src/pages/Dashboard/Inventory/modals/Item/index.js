@@ -248,7 +248,7 @@ function Item({loading, type, productInfo = {}, onAdd, onUpdate, onDelete, onCan
         <Separator vertical={0.25} />
         <TextInput
           skin={styles.input}
-          placeholder='0 pcs'
+          placeholder='0'
           value={state.quantity}
           onChangeText={text => onChange('on-change-quantity', text)}
         />

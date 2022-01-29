@@ -2,6 +2,7 @@ import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {ACTION_TYPE, ITEM_PROPERTIES} from 'constants/strings';
 import {
   CLEAR_LOADING,
+  PEEK_PRODUCTS,
   POP_INVENTORY,
   PUSH_INVENTORY,
   SET_ERROR,
@@ -67,12 +68,17 @@ function* setWorker(state) {
     if (state.type.includes('RESTOCK')) {
       tempItem.quantity += item.quantity;
       action = 'RESTOCK';
-    }
 
+      if (!item.perishable_properties.current_unit) {
+        tempItem.quantity -= 1;
+        tempItem.perishable_properties.current_unit = item.perishable_properties.unit;
+      }
+    }
     const prevObj = getSpecificProperty(ITEM_PROPERTIES, item);
 
     yield call(server.set, '/inventory/set', {...state.item, ...tempItem}, config);
     yield put(SET_INDEX_INVENTORY({item: tempItem}));
+    yield put(PEEK_PRODUCTS());
 
     /**
      * error report comes in deep object, suggest to use

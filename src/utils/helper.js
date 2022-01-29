@@ -443,7 +443,7 @@ const hasMissingProperty = (consumed = []) => {
         status: true,
         error: `Combination ${Formatter.toName(consume.size)} and ${Formatter.toName(
           consume.product_type,
-        )} has missing property price`,
+        )} has missing price`,
       };
       return;
     }

@@ -23,6 +23,7 @@ import Size from './components/Size';
 
 function Product({
   type,
+  remains,
   discounts: {discounts},
   product = {},
   purchasingProducts = [],
@@ -53,6 +54,12 @@ function Product({
       return {
         status: false,
         error: 'Please fill all the inputs',
+      };
+    }
+    if (purchasingProducts.length >= 99) {
+      return {
+        status: false,
+        error: 'You have been exceeding to limit size of invoice',
       };
     }
     if (!isProductExist) {
@@ -120,18 +127,18 @@ function Product({
       return;
     }
     if (actionType === 'on-click-deduct-numbers-of-purchase') {
-      if (parseInt(state.numAvail) > 1) {
-        setState({type: 'set', numAvail: `${parseInt(state.numAvail) - 1}`});
+      const numAvail = parseInt(state.numAvail);
+      if (numAvail > 1) {
+        setState({type: 'set', numAvail: `${numAvail - 1}`});
       }
       return;
     }
     if (actionType === 'on-click-add-numbers-of-purchase') {
-      if (parseInt(state.numAvail) < 99) {
-        setState({
-          type: 'set',
-          numAvail: `${parseInt(state.numAvail) ? parseInt(state.numAvail) + 1 : '1'}`,
-        });
-      }
+      const numAvail = parseInt(state.numAvail);
+      setState({
+        type: 'set',
+        numAvail: `${numAvail ? (numAvail < remains ? numAvail + 1 : numAvail) : '1'}`,
+      });
       return;
     }
   };
@@ -242,7 +249,7 @@ function Product({
                 value={state.numAvail}
                 onChange={({target: {value}}) => {
                   if (
-                    parseInt(value ? value : '0') < 100 &&
+                    parseInt(value ? value : '0') <= remains &&
                     isInteger(value ? value : '0') &&
                     value !== '0'
                   ) {
