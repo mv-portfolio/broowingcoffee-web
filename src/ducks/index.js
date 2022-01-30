@@ -6,7 +6,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {routerMiddleware} from 'connected-react-router';
 import {createBrowserHistory} from 'history';
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({basename: '/'});
 
 export default function configStore() {
   const sagaMiddleware = createSagaMiddleware();

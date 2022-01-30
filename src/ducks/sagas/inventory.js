@@ -62,6 +62,7 @@ function* setWorker(state) {
     const config = yield serverConfig();
     const items = yield select(state => state.inventory.items);
     const item = arrayFind(items, {name: state.item.name});
+
     let tempItem = state.item;
     let action = 'UPDATE';
 

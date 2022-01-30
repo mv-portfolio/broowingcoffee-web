@@ -7,7 +7,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
     />
-    <meta name="description" content="This web application written by Marvin Petate" />
+    <meta
+      name="description"
+      content="This web application was written by Marvin Petate and designed by Author, Melberte Abesamis, Hanz Alvarez and John brian Capate"
+    />
     <link rel="preload" href="%PUBLIC_URL%/index.css" as="style" />
     <link rel="stylesheet" href="%PUBLIC_URL%/index.css" />
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/assets/icons/logo.png" />
@@ -19,7 +22,7 @@
     <link
       crossorigin="use-credentials"
       rel="manifest"
-      href="%PUBLIC_URL%/manifest.webmanifest"
+      href="%PUBLIC_URL%/manifest.json"
     />
     <title>Broowing Coffee</title>
   </head>
@@ -27,12 +30,12 @@
     <div id="root"></div>
     <script>
       //service worker check if in navigator and loading using listener of window
-      window.addEventListener('load', () => {
-        navigator.serviceWorker
-          .register('./service-worker.js')
-          .then(res => console.log('SW-Success:', res.scope))
-          .catch(err => console.log('SW-Failed:', err));
-      });
+      // window.addEventListener('load', () => {
+      //   navigator.serviceWorker
+      //     .register('./service-worker.js')
+      //     .then(res => console.log('SW-Success:', res.scope))
+      //     .catch(err => console.log('SW-Failed:', err));
+      // });
     </script>
   </body>
 </html>

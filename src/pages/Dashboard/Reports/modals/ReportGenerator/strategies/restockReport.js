@@ -88,7 +88,6 @@ const manipulateData = (filter_date, restocks = []) => {
 
   restocks.forEach(item => {
     const isExist = arrayFind(temp_data, {name: Formatter.toName(item.name)});
-
     if (!isExist) {
       temp_data.push({
         name: Formatter.toName(item.name),

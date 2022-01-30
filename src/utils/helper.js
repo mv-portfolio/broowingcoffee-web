@@ -108,6 +108,9 @@ const onFormat = (property, value, module) => {
     }
     return `${Formatter.getDateDifference(value)}`;
   }
+  if (property.includes('issued_by')) {
+    return `${Formatter.toName(value)}`;
+  }
   if (property.includes('value')) {
     return `${value}%`;
   }
@@ -481,7 +484,10 @@ const getItemDifferences = (prev, pres) => {
   let temp_obj = {};
   getPropsValues(prev).forEach(({property: prevProp, value: prevVal}) => {
     getPropsValues(pres).forEach(({property: presProp, value: presVal}) => {
-      if (prevProp === presProp && prevVal !== presVal) {
+      if (
+        (prevProp === presProp && prevVal !== presVal) ||
+        (prevProp === presProp && prevProp === 'cost')
+      ) {
         temp_obj[prevProp] = [prevVal, presVal];
       }
     });
