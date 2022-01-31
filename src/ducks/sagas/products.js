@@ -40,7 +40,7 @@ function* pushWorker(state) {
     yield put(PUSH_PRODUCT({product}));
     yield onReport({
       action: 'ADD',
-      module: 'inventory',
+      module: 'products',
       reference: product,
     });
 

@@ -228,14 +228,13 @@ function Item({loading, type, productInfo = {}, onAdd, onUpdate, onDelete, onCan
           placeholder='name'
           disabled={type !== 'add'}
           defaultStyle={{
-            boxShadow:
-              type === 'add' ? '0.25vh 0.25vh 0.25vh rgba(0, 0, 0, 0.25)' : 'none',
+            boxShadow: type === 'add' ? '0 0.5vh 0.25vh rgba(0, 0, 0, 0.15)' : 'none',
           }}
           value={state.name}
           onChangeText={text => onChange('on-change-name', text)}
         />
         <Separator vertical={0.75} />
-        <Text style={styles.titleField}>Brand</Text>
+        <Text style={styles.titleField}>Brand (optional)</Text>
         <Separator vertical={0.25} />
         <TextInput
           skin={styles.input}

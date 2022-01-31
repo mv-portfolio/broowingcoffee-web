@@ -12,7 +12,7 @@ import styles from './.module.css';
 import Transaction from '../../modals/Transaction';
 import {ACCENT_COLOR} from 'constants/colors';
 
-function SearchHistory({dispatch, loading, reports, type}) {
+function SearchHistory({error, dispatch, loading, reports, type}) {
   const date = new Date();
 
   const {onShow: onShowPrimaryDialog} = useContext(PrimaryDialog);
@@ -98,18 +98,22 @@ function SearchHistory({dispatch, loading, reports, type}) {
     document.title = 'Broowing Coffee | Search Reports';
 
     return () => {
-      const date = new Date();
-      dispatch(
-        PEEK_REPORTS({
-          filter: {
-            date: {
-              min: getDateToNumber(date, date.getDate()),
-              max: getDateToNumber(date, date.getDate() + 1),
+      console.log('pre-rendering-unmount');
+      if (!error.auth) {
+        console.log('pre-rendering-unmount-fetch');
+        const date = new Date();
+        dispatch(
+          PEEK_REPORTS({
+            filter: {
+              date: {
+                min: getDateToNumber(date, date.getDate()),
+                max: getDateToNumber(date, date.getDate() + 1),
+              },
+              type: '',
             },
-            type: '',
-          },
-        }),
-      );
+          }),
+        );
+      }
     };
   };
   useEffect(screenInitListener, []);
@@ -194,7 +198,8 @@ function SearchHistory({dispatch, loading, reports, type}) {
   );
 }
 
-const stateProps = ({loading, reports}) => ({
+const stateProps = ({error, loading, reports}) => ({
+  error,
   loading,
   reports,
 });

@@ -14,7 +14,7 @@ import List from './components/List';
 import styles from './.module.css';
 import Formatter from 'utils/Formatter';
 
-function Statistics({loading, transactions, dispatch}) {
+function Statistics({error, loading, transactions, dispatch}) {
   const [state, setState] = useReducer(statistics, statisticsInitState);
 
   const onClick = (action, value) => {
@@ -41,7 +41,9 @@ function Statistics({loading, transactions, dispatch}) {
     document.title = 'Broowing Coffee | Statistics';
 
     return () => {
-      onClick('on-select-most-purchasable');
+      if (!error.auth) {
+        onClick('on-select-most-purchasable');
+      }
     };
   };
   const onSetViewport = width => {
@@ -112,7 +114,8 @@ function Statistics({loading, transactions, dispatch}) {
   );
 }
 
-const stateProps = ({loading, transactions}) => ({
+const stateProps = ({error, loading, transactions}) => ({
+  error,
   loading,
   transactions,
 });

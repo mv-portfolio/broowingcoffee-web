@@ -15,7 +15,7 @@ import {
 import styles from './.module.css';
 
 export default function Item({item, isOpen, onEdit, onRestock}) {
-  const {name, restock_point = {}, perishable_properties = {}} = item;
+  const {name, restock_point = {}, quantity, cost, perishable_properties = {}} = item;
 
   const [isShow, setShow] = useState(false);
 
@@ -127,6 +127,11 @@ export default function Item({item, isOpen, onEdit, onRestock}) {
               </View>
             );
           })}
+          <Separator vertical={0.25} />
+          <View style={styles.propertyPane}>
+            <Text style={styles.propertyName}>total cost</Text>
+            <Text style={styles.propertyValue}>{Formatter.toMoney(cost * quantity)}</Text>
+          </View>
         </View>
       )}
     </View>
