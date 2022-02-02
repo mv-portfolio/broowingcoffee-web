@@ -6,7 +6,7 @@ import {hp} from 'utils/helper';
 import styles from './.module.css';
 
 export default function LineGraph({
-  style: {width = hp(150), height = hp(30)},
+  style: {width = hp(100), height = hp(30)},
   isLoading = true,
   top3Products = [],
   manipulateData = [],
