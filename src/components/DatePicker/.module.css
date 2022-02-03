@@ -1,7 +1,7 @@
 .mainPane {
   padding: 0.5vh 2.5vh 0.5vh 0;
   border-radius: 1vh;
-  flex-direction: row;
+  flex-direction: row !important;
   align-items: center !important;
   justify-content: space-between;
   cursor: pointer;
