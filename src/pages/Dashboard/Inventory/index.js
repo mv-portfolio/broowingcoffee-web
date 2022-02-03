@@ -287,6 +287,7 @@ function Inventory({
               value={searchItems}
               onChangeText={text => onChange('on-change-search-items', text)}
             />
+            <Separator horizontal={0.75} />
             <Button
               skin={styles.buttonAdd}
               onPress={() => onClick('on-click-add-item-dialog')}>
@@ -308,6 +309,7 @@ function Inventory({
               value={searchDiscount}
               onChangeText={text => onChange('on-change-search-discounts', text)}
             />
+            <Separator horizontal={0.75} />
             <Button
               skin={styles.buttonAdd}
               onPress={() => onClick('on-click-add-discounts-dialog')}>

@@ -250,6 +250,7 @@ function Transaction({
               value={searchProducts}
               onChangeText={text => onChange('on-change-search-products', text)}
             />
+            <Separator horizontal={0.75} />
             <Button
               skin={styles.headerButtons}
               onPress={() => onClick('on-click-add-product-dialog')}>
@@ -271,6 +272,7 @@ function Transaction({
               value={searchProductBase}
               onChangeText={text => onChange('on-change-search-product-base', text)}
             />
+            <Separator horizontal={0.75} />
             <Button
               skin={styles.headerButtons}
               onPress={() => onClick('on-click-add-based')}>

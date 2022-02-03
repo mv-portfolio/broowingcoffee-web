@@ -12,8 +12,6 @@ export default function SearchField({skin, placeholder, value, onChangeText}) {
         value={value}
         onChange={({target: {value: text}}) => onChangeText(text)}
       />
-      <Separator horizontal='0.5' />
-
       <View style={styles.icon}>
         <Icon font='Feather' name='search' color={ACCENT_COLOR} size='2vh' />
       </View>

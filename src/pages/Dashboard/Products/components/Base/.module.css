@@ -1,11 +1,12 @@
 .mainPane {
-  flex-direction: row;
+  flex-direction: row !important;
   align-items: center;
   justify-content: space-between;
   padding: 1.5vh 2.5vh 1.75vh 2vh;
   border-radius: 1vh;
   background-color: var(--BACKGROUND-COLOR3);
   box-shadow: 0 0.5vh 0.25vh rgba(0, 0, 0, 0.15);
+  background-color: red;
 }
 .mainPane .title {
   font-size: 1.7vh;

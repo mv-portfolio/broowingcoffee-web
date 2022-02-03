@@ -52,7 +52,7 @@
 .buttonPropertySkin .buttonPropertyBody {
   flex: 1;
   padding: 0 1.75vh 0 1vh;
-  justify-content: space-between;
+  justify-content: space-between !important;
 }
 .buttonPropertyBody .buttonPropertyText {
   color: var(--BACKGROUND-COLOR);
