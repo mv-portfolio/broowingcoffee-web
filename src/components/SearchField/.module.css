@@ -1,5 +1,5 @@
 .mainPane {
-  flex-direction: row;
+  flex-direction: row !important;
   padding-right: 1vh;
   align-items: center !important;
   justify-content: space-between !important;
