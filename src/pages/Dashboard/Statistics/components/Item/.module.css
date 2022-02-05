@@ -1,6 +1,6 @@
 .mainPane {
   min-height: 5vh;
-  flex-direction: row;
+  flex-direction: row !important;
   align-items: center;
   justify-content: space-between;
   border-radius: 1vh;

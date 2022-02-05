@@ -47,7 +47,7 @@ function Statistics({error, loading, transactions, dispatch}) {
     };
   };
   const onSetViewport = width => {
-    setState({type: 'set', graphStyle: {width: (91 / 100) * width, height: hp(30)}});
+    setState({type: 'set', graphStyle: {width: (94 / 100) * width, height: hp(30)}});
   };
   const onChangeViewport = () => {
     const {innerWidth: width} = window;
@@ -55,13 +55,12 @@ function Statistics({error, loading, transactions, dispatch}) {
     const onResize = () => {
       const currentWidth = window.innerWidth;
       if (currentWidth > 950) {
-        console.log(currentWidth);
         onSetViewport(currentWidth);
         return;
       }
       setState({
         type: 'set',
-        graphStyle: {width: hp(100), height: hp(30)},
+        graphStyle: {width: hp(150), height: hp(30)},
       });
     };
     window.addEventListener('resize', onResize);
