@@ -17,6 +17,8 @@ function SignIn({error, loading, dispatch}) {
   const {onHide: onHidePrimaryDialog} = useContext(PrimaryDialog);
   const {onHide: onHideSecondaryDialog} = useContext(SecondaryDialog);
 
+  console.log(process.env.PUBLIC_URL, '<<<<<<');
+
   const onChangeValue = (actionType, value) => {
     if (actionType === 'username') {
       setState({
@@ -140,6 +142,9 @@ function SignIn({error, loading, dispatch}) {
           <Text style={styles.buttonText}>Forgot Password?</Text>
         </Button>
       </View>
+      <Text defaultStyle={{fontSize: '1.5vh', padding: '1vh 1.5vh', color: '#fff'}}>
+        {process.env.REACT_APP_ENV} - v{process.env.REACT_APP_VERSION}
+      </Text>
     </View>
   );
 }

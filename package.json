@@ -1,7 +1,7 @@
 {
   "name": "capstone-web",
   "version": "1.2.1",
-  "homepage": "https://broowing-coffee.web.app",
+  "homepage": "https://localhost:5432",
   "author": {
     "name": "Marvin Petate",
     "email": "petatemarvin26@gmail.com",
